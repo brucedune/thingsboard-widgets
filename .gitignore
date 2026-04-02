@@ -1,0 +1,21 @@
+# IDE / OS
+.vscode/
+.idea/
+*.swp
+Thumbs.db
+.DS_Store
+
+# Claude session data
+.claude/
+
+# Firmware projects (separate repos)
+BaselinePwr/
+BootL5/
+CoreL5/
+DuneFW_L5_2/
+Dune_FW_TI/
+IOC/
+L5_Core/
+
+# Other non-widget files
+*.ely

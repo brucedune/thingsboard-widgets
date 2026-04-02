@@ -1,0 +1,292 @@
+<div class="w4-wrap">
+    <div class="w4-title">Meter Value Correction</div>
+
+    <!-- Row 1: Select device -->
+    <div class="w4-input-row">
+        <div class="w4-field">
+            <label>Owner Type</label>
+            <select id="w4-ownerTypeSelect">
+                <option value="TENANT">Tenant</option>
+                <option value="CUSTOMER">Customer</option>
+            </select>
+        </div>
+
+        <div class="w4-field" id="w4-customerField" style="display:none">
+            <label>Customer</label>
+            <select id="w4-customerSelect">
+                <option value="">— Select Customer —</option>
+            </select>
+        </div>
+
+        <div class="w4-field">
+            <label>Device Group</label>
+            <select id="w4-groupSelect" disabled>
+                <option value="">— Select Group —</option>
+            </select>
+        </div>
+
+        <div class="w4-field">
+            <label>Device</label>
+            <select id="w4-deviceSelect" disabled>
+                <option value="">— Select Device —</option>
+            </select>
+        </div>
+
+        <div class="w4-field">
+            <label>Start Date</label>
+            <input type="date" id="w4-startDate" class="w4-input">
+        </div>
+
+        <div class="w4-field">
+            <label>End Date</label>
+            <input type="date" id="w4-endDate" class="w4-input">
+        </div>
+
+        <div class="w4-field w4-btn-field">
+            <label>&nbsp;</label>
+            <button id="w4-fetchBtn" class="w4-btn" disabled>Fetch</button>
+        </div>
+    </div>
+
+    <!-- Status -->
+    <div id="w4-statusMsg" class="w4-message" style="display:none"></div>
+
+    <!-- Current readings summary -->
+    <div id="w4-readingsPanel" style="display:none">
+        <div class="w4-readings-row">
+            <div class="w4-reading-box">
+                <span class="w4-reading-label">Start Value</span>
+                <span class="w4-reading-value" id="w4-startVal">—</span>
+                <span class="w4-reading-date" id="w4-startDate2">—</span>
+            </div>
+            <div class="w4-reading-box">
+                <span class="w4-reading-label">End Value</span>
+                <span class="w4-reading-value" id="w4-endVal">—</span>
+                <span class="w4-reading-date" id="w4-endDate2">—</span>
+            </div>
+            <div class="w4-reading-box">
+                <span class="w4-reading-label">Current Difference</span>
+                <span class="w4-reading-value" id="w4-currentDiff">—</span>
+            </div>
+            <div class="w4-reading-box">
+                <span class="w4-reading-label">Data Points</span>
+                <span class="w4-reading-value" id="w4-pointCount">—</span>
+            </div>
+        </div>
+
+        <!-- Correction input -->
+        <div class="w4-correction-row">
+            <div class="w4-field">
+                <label>Corrected Difference</label>
+                <input type="number" id="w4-correctionVal" class="w4-input" placeholder="Enter corrected usage value">
+            </div>
+            <div class="w4-field w4-btn-field">
+                <label>&nbsp;</label>
+                <button id="w4-previewBtn" class="w4-btn w4-btn-preview" disabled>Preview</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preview table -->
+    <div id="w4-previewPanel" style="display:none">
+        <div class="w4-preview-header">
+            <div class="w4-preview-summary" id="w4-previewSummary"></div>
+            <button id="w4-applyBtn" class="w4-btn w4-btn-apply">Apply Correction</button>
+        </div>
+        <div class="w4-table-wrap">
+            <table class="w4-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Timestamp</th>
+                        <th>Old Value</th>
+                        <th>New Value</th>
+                        <th>Change</th>
+                    </tr>
+                </thead>
+                <tbody id="w4-previewBody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+.w4-wrap {
+    font-family: Roboto, sans-serif;
+    font-size: 13px;
+    color: #333;
+    padding: 16px;
+    height: 100%;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+.w4-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: #305680;
+    border-bottom: 2px solid #305680;
+    padding-bottom: 6px;
+    margin-bottom: 16px;
+}
+.w4-input-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+.w4-field {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 140px;
+}
+.w4-field label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: #666;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+}
+.w4-field select,
+.w4-input {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 7px 10px;
+    font-size: 13px;
+    background: #fafafa;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+.w4-field select:focus,
+.w4-input:focus { border-color: #305680; background: #fff; }
+.w4-field select:disabled { background: #f0f0f0; color: #999; }
+
+.w4-btn-field {
+    flex: 0 0 auto;
+    min-width: auto;
+}
+.w4-btn {
+    padding: 8px 20px;
+    background: #305680;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s;
+    white-space: nowrap;
+}
+.w4-btn:hover:not([disabled]) { background: #264a6e; }
+.w4-btn[disabled] { background: #ccc; cursor: not-allowed; }
+.w4-btn-preview { background: #f57c00; }
+.w4-btn-preview:hover:not([disabled]) { background: #e65100; }
+.w4-btn-apply { background: #c0392b; }
+.w4-btn-apply:hover:not([disabled]) { background: #96281b; }
+
+.w4-message {
+    margin-bottom: 12px;
+    padding: 9px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+.w4-msg-success { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+.w4-msg-error   { background: #fdecea; color: #c0392b; border: 1px solid #f5c6c2; }
+.w4-msg-info    { background: #e3f2fd; color: #1565c0; border: 1px solid #90caf9; }
+
+/* Readings summary boxes */
+.w4-readings-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+}
+.w4-reading-box {
+    flex: 1;
+    min-width: 140px;
+    background: #f5f7fa;
+    border: 1px solid #dde3eb;
+    border-radius: 6px;
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+.w4-reading-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #888;
+    letter-spacing: 0.5px;
+}
+.w4-reading-value {
+    font-size: 20px;
+    font-weight: 700;
+    color: #305680;
+}
+.w4-reading-date {
+    font-size: 11px;
+    color: #999;
+}
+
+/* Correction input row */
+.w4-correction-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    margin-bottom: 14px;
+    max-width: 500px;
+}
+
+/* Preview */
+.w4-preview-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+.w4-preview-summary {
+    flex: 1;
+    background: #fff3e0;
+    border: 1px solid #ffcc80;
+    border-radius: 4px;
+    padding: 8px 12px;
+    color: #e65100;
+    font-weight: 500;
+    text-align: center;
+}
+
+.w4-table-wrap {
+    overflow: auto;
+    max-height: 50vh;
+}
+.w4-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+.w4-table th {
+    background: #305680;
+    color: #fff;
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 500;
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+.w4-table td {
+    padding: 7px 10px;
+    border-bottom: 1px solid #e0e0e0;
+    white-space: nowrap;
+}
+.w4-table tr:nth-child(even) { background: #f8f9fb; }
+.w4-table tr:hover { background: #e8f0f7; }
+.w4-val-changed { color: #e65100; font-weight: 500; }
+.w4-val-same { color: #888; }
+</style>

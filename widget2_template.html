@@ -1,0 +1,155 @@
+<div class="grp-widget">
+    <div class="grp-title">Manage Device Attributes</div>
+
+    <!-- Owner Type -->
+    <div class="grp-field">
+        <label>Owner Type</label>
+        <select id="w2-ownerTypeSelect">
+            <option value="TENANT">Tenant</option>
+            <option value="CUSTOMER">Customer</option>
+        </select>
+    </div>
+
+    <!-- Customer -->
+    <div class="grp-field" id="w2-customerField" style="display:none">
+        <label>Customer</label>
+        <select id="w2-customerSelect">
+            <option value="">— Select Customer —</option>
+        </select>
+    </div>
+
+    <!-- Group -->
+    <div class="grp-field">
+        <label>Device Group</label>
+        <select id="w2-groupSelect" disabled>
+            <option value="">— Select Group —</option>
+        </select>
+    </div>
+
+    <!-- Controls -->
+    <div id="w2-controlSection" style="display:none">
+
+        <div class="grp-count" id="w2-deviceCount"></div>
+
+        <div class="grp-field">
+            <label>Attribute</label>
+            <select id="w2-attrSelect">
+                <option value="">— Select Attribute —</option>
+            </select>
+        </div>
+
+        <div class="grp-field">
+            <label>Action</label>
+            <select id="w2-actionSelect">
+                <option value="">— Select Action —</option>
+                <option value="change">Change Value</option>
+                <option value="delete">Delete Attribute</option>
+            </select>
+        </div>
+
+        <div class="grp-field" id="w2-valueField" style="display:none">
+            <label>New Value</label>
+            <input  type="text" id="w2-valueInput" class="grp-input" placeholder="Enter value…">
+            <select            id="w2-valueBool"  class="grp-input" style="display:none">
+                <option value="true">True</option>
+                <option value="false">False</option>
+            </select>
+        </div>
+
+        <button id="w2-applyBtn" class="grp-btn" disabled>Apply to All Devices</button>
+
+    </div>
+
+    <!-- Status -->
+    <div id="w2-statusMsg" class="grp-message" style="display:none"></div>
+</div>
+
+<style>
+.grp-widget {
+    padding: 16px;
+    font-family: Roboto, sans-serif;
+    font-size: 13px;
+    color: #333;
+    height: 100%;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.grp-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: #305680;
+    border-bottom: 2px solid #305680;
+    padding-bottom: 6px;
+    margin-bottom: 16px;
+}
+
+.grp-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 14px;
+}
+
+.grp-field label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: #666;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+}
+
+.grp-field select,
+.grp-input {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 7px 10px;
+    font-size: 13px;
+    background: #fafafa;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.grp-field select:focus,
+.grp-input:focus { border-color: #305680; background: #fff; }
+.grp-field select:disabled { background: #f0f0f0; color: #999; }
+
+.grp-count {
+    background: #e8f0f7;
+    border: 1px solid #c5d5e8;
+    border-radius: 4px;
+    padding: 8px 12px;
+    color: #305680;
+    font-weight: 500;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.grp-btn {
+    width: 100%;
+    padding: 9px;
+    background: #305680;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 4px;
+}
+
+.grp-btn:hover:not([disabled]) { background: #264a6e; }
+.grp-btn[disabled] { background: #ccc; cursor: not-allowed; }
+
+.grp-message {
+    margin-top: 12px;
+    padding: 9px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.msg-success { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+.msg-error   { background: #fdecea; color: #c0392b; border: 1px solid #f5c6c2; }
+</style>

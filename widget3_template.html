@@ -1,0 +1,234 @@
+<div class="w3-wrap">
+    <div class="w3-title">Meter Reading Difference</div>
+
+    <!-- All inputs on one row -->
+    <div class="w3-input-row">
+        <div class="w3-field">
+            <label>Owner Type</label>
+            <select id="w3-ownerTypeSelect">
+                <option value="TENANT">Tenant</option>
+                <option value="CUSTOMER">Customer</option>
+            </select>
+        </div>
+
+        <div class="w3-field" id="w3-customerField" style="display:none">
+            <label>Customer</label>
+            <select id="w3-customerSelect">
+                <option value="">— Select Customer —</option>
+            </select>
+        </div>
+
+        <div class="w3-field">
+            <label>Device Group</label>
+            <select id="w3-groupSelect" disabled>
+                <option value="">— Select Group —</option>
+            </select>
+        </div>
+
+        <div class="w3-field">
+            <label>Start Date</label>
+            <input type="date" id="w3-startDate" class="w3-input">
+        </div>
+
+        <div class="w3-field">
+            <label>End Date</label>
+            <input type="date" id="w3-endDate" class="w3-input">
+        </div>
+
+        <div class="w3-field w3-btn-field">
+            <label>&nbsp;</label>
+            <button id="w3-calcBtn" class="w3-btn" disabled>Calculate</button>
+        </div>
+    </div>
+
+    <!-- Status -->
+    <div id="w3-statusMsg" class="w3-message" style="display:none"></div>
+
+    <!-- Results -->
+    <div id="w3-results" style="display:none">
+        <div class="w3-results-header">
+            <div class="w3-summary" id="w3-summary"></div>
+            <button id="w3-exportBtn" class="w3-export-btn">Export CSV</button>
+        </div>
+        <div class="w3-table-wrap">
+            <table class="w3-table">
+                <thead>
+                    <tr>
+                        <th data-sort="name">Device Name<span class="w3-sort-arrow"> ⇅</span></th>
+                        <th data-sort="property">Property<span class="w3-sort-arrow"> ⇅</span></th>
+                        <th data-sort="apartment">Apartment<span class="w3-sort-arrow"> ▲</span></th>
+                        <th data-sort="deviceState">Device State<span class="w3-sort-arrow"> ⇅</span></th>
+                        <th data-sort="replace">Replace<span class="w3-sort-arrow"> ⇅</span></th>
+                        <th data-sort="billable">Billable<span class="w3-sort-arrow"> ⇅</span></th>
+                        <th data-sort="leak">Leak<span class="w3-sort-arrow"> ⇅</span></th>
+                        <th data-sort="billingReview">Billing Review<span class="w3-sort-arrow"> ⇅</span></th>
+                        <th data-sort="startTime">Start Read Date<span class="w3-sort-arrow"> ⇅</span></th>
+                        <th data-sort="startVal">Start Read Value<span class="w3-sort-arrow"> ⇅</span></th>
+                        <th data-sort="endTime">End Read Date<span class="w3-sort-arrow"> ⇅</span></th>
+                        <th data-sort="endVal">End Read Value<span class="w3-sort-arrow"> ⇅</span></th>
+                        <th data-sort="diff">Difference<span class="w3-sort-arrow"> ⇅</span></th>
+                        <th data-sort="prevDiff">Prev Period Diff<span class="w3-sort-arrow"> ⇅</span></th>
+                        <th data-sort="change">% Change<span class="w3-sort-arrow"> ⇅</span></th>
+                        <th>Trend</th>
+                    </tr>
+                </thead>
+                <tbody id="w3-tableBody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+.w3-wrap {
+    font-family: Roboto, sans-serif;
+    font-size: 13px;
+    color: #333;
+    padding: 16px;
+    height: 100%;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+.w3-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: #305680;
+    border-bottom: 2px solid #305680;
+    padding-bottom: 6px;
+    margin-bottom: 16px;
+}
+.w3-input-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+.w3-field {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 140px;
+}
+.w3-field label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: #666;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+}
+.w3-field select,
+.w3-input {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 7px 10px;
+    font-size: 13px;
+    background: #fafafa;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+.w3-field select:focus,
+.w3-input:focus { border-color: #305680; background: #fff; }
+.w3-field select:disabled { background: #f0f0f0; color: #999; }
+
+.w3-btn-field {
+    flex: 0 0 auto;
+    min-width: auto;
+}
+.w3-btn {
+    padding: 8px 20px;
+    background: #305680;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s;
+    white-space: nowrap;
+}
+.w3-btn:hover:not([disabled]) { background: #264a6e; }
+.w3-btn[disabled] { background: #ccc; cursor: not-allowed; }
+
+.w3-message {
+    margin-bottom: 12px;
+    padding: 9px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+.w3-msg-success { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+.w3-msg-error   { background: #fdecea; color: #c0392b; border: 1px solid #f5c6c2; }
+
+.w3-results-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+.w3-summary {
+    flex: 1;
+    background: #e8f0f7;
+    border: 1px solid #c5d5e8;
+    border-radius: 4px;
+    padding: 8px 12px;
+    color: #305680;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 0;
+}
+.w3-export-btn {
+    padding: 8px 16px;
+    background: #2e7d32;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.3s;
+}
+.w3-export-btn:hover { background: #1b5e20; }
+
+.w3-table-wrap {
+    overflow: auto;
+    max-height: 60vh;
+}
+.w3-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+.w3-table th {
+    background: #305680;
+    color: #fff;
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+.w3-table th:hover { background: #264a6e; }
+.w3-sort-arrow {
+    font-size: 10px;
+    opacity: 0.7;
+}
+.w3-table td {
+    padding: 7px 10px;
+    border-bottom: 1px solid #e0e0e0;
+    white-space: nowrap;
+}
+.w3-table tr:nth-child(even) { background: #f8f9fb; }
+.w3-table tr:hover { background: #e8f0f7; }
+.w3-table .w3-diff-pos { color: #2e7d32; font-weight: 500; }
+.w3-table .w3-diff-neg { color: #c0392b; font-weight: 500; }
+.w3-table .w3-diff-zero { color: #888; }
+.w3-table .w3-no-data { color: #999; font-style: italic; }
+.w3-table .w3-trend-up { color: #c0392b; font-size: 14px; font-weight: 700; text-align: center; }
+.w3-table .w3-trend-down { color: #2e7d32; font-size: 14px; font-weight: 700; text-align: center; }
+</style>
