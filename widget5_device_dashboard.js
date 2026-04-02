@@ -1,6 +1,6 @@
 self.onInit = function () {
 
-    // ── Load Chart.js from CDN ─────────────────────────────────────
+    // -- Load Chart.js from CDN -------------------------------------
     var chartReady = new Promise(function (resolve, reject) {
         if (window.Chart) { resolve(); return; }
         var script = document.createElement('script');
@@ -10,7 +10,7 @@ self.onInit = function () {
         document.head.appendChild(script);
     });
 
-    // ── Load Chart.js Zoom plugin ─────────────────────────────────
+    // -- Load Chart.js Zoom plugin ---------------------------------
     var zoomReady = chartReady.then(function () {
         if (window.ChartZoom) return;
         return new Promise(function (resolve, reject) {
@@ -28,7 +28,7 @@ self.onInit = function () {
         });
     });
 
-    // ── DOM refs (w5- prefix) ──────────────────────────────────────
+    // -- DOM refs (w5- prefix) --------------------------------------
     var ownerTypeSel  = document.getElementById('w5-ownerTypeSelect');
     var customerField = document.getElementById('w5-customerField');
     var customerSel   = document.getElementById('w5-customerSelect');
@@ -66,14 +66,14 @@ self.onInit = function () {
     var selectedDevice   = null;
     var chartLabels      = [];
 
-    // ── Get JWT token ──────────────────────────────────────────────
+    // -- Get JWT token ----------------------------------------------
     function getToken() {
         try { var t = self.ctx.authService.getCurrentJWTToken(); if (t) return t; } catch (e) {}
         try { var t = localStorage.getItem('jwt_token'); if (t) return t; } catch (e) {}
         return '';
     }
 
-    // ── API fetch ──────────────────────────────────────────────────
+    // -- API fetch --------------------------------------------------
     function apiFetch(path, options) {
         var jwt  = getToken();
         options  = options || {};
@@ -85,12 +85,12 @@ self.onInit = function () {
             .then(function (r) {
                 var ct = r.headers.get('content-type') || '';
                 if (ct.indexOf('html') !== -1) {
-                    throw new Error('Session expired — please refresh the page.');
+                    throw new Error('Session expired -- please refresh the page.');
                 }
                 if (!r.ok) {
                     return r.text().then(function (errText) {
                         console.error('API Error ' + r.status + ' on ' + path + ':', errText);
-                        throw new Error('HTTP ' + r.status + ' — ' + path);
+                        throw new Error('HTTP ' + r.status + ' -- ' + path);
                     });
                 }
                 if (r.status === 204) return null;
@@ -101,7 +101,7 @@ self.onInit = function () {
             });
     }
 
-    // ── Helpers ────────────────────────────────────────────────────
+    // -- Helpers ----------------------------------------------------
     function extractId(val) {
         if (!val) return null;
         if (typeof val === 'string') return val;
@@ -128,12 +128,12 @@ self.onInit = function () {
     }
 
     function formatDateShort(ts) {
-        if (!ts) return '—';
+        if (!ts) return '--';
         return new Date(ts).toLocaleDateString();
     }
 
     function formatNumber(val) {
-        if (val === null || val === undefined) return '—';
+        if (val === null || val === undefined) return '--';
         return Math.round(parseFloat(val)).toLocaleString();
     }
 
@@ -168,7 +168,7 @@ self.onInit = function () {
         if (detailInstance) { detailInstance.destroy(); detailInstance = null; }
     }
 
-    // ── Searchable dropdown ────────────────────────────────────────
+    // -- Searchable dropdown ----------------------------------------
     function makeSearchable(selectEl) {
         selectEl.style.display = 'none';
 
@@ -180,8 +180,8 @@ self.onInit = function () {
             'padding:7px 10px;border:1px solid #ccc;border-radius:4px;font-size:13px;' +
             'background:#fafafa;cursor:pointer;user-select:none;display:flex;' +
             'justify-content:space-between;align-items:center;min-height:32px;';
-        face.innerHTML = '<span class="sd-text" style="color:#999;">— Select —</span>' +
-                         '<span style="font-size:10px;color:#888;">▼</span>';
+        face.innerHTML = '<span class="sd-text" style="color:#999;">-- Select --</span>' +
+                         '<span style="font-size:10px;color:#888;">&#9660;</span>';
 
         var panel = document.createElement('div');
         panel.style.cssText =
@@ -191,7 +191,7 @@ self.onInit = function () {
 
         var searchInput = document.createElement('input');
         searchInput.type         = 'text';
-        searchInput.placeholder  = 'Search…';
+        searchInput.placeholder  = 'Search...';
         searchInput.autocomplete = 'off';
         searchInput.setAttribute('autocomplete', 'off');
         searchInput.setAttribute('autocorrect', 'off');
@@ -217,7 +217,7 @@ self.onInit = function () {
                 faceText.textContent = sel.text;
                 faceText.style.color = '#333';
             } else {
-                faceText.textContent = sel ? sel.text : '— Select —';
+                faceText.textContent = sel ? sel.text : '-- Select --';
                 faceText.style.color = '#999';
             }
         }
@@ -299,7 +299,7 @@ self.onInit = function () {
     makeSearchable(customerSel);
     makeSearchable(groupSel);
 
-    // ── Load current user ──────────────────────────────────────────
+    // -- Load current user ------------------------------------------
     apiFetch('/api/auth/user').then(function (user) {
         currentUser = user;
         loadGroups();
@@ -307,10 +307,10 @@ self.onInit = function () {
         showMessage('Could not load user: ' + e.message, 'error');
     });
 
-    // ── Load customers ─────────────────────────────────────────────
+    // -- Load customers ---------------------------------------------
     function loadCustomers() {
-        customerSel.innerHTML   = '<option value="">Loading…</option>';
-        groupSel.innerHTML      = '<option value="">— Select Group —</option>';
+        customerSel.innerHTML   = '<option value="">Loading...</option>';
+        groupSel.innerHTML      = '<option value="">-- Select Group --</option>';
         groupSel.disabled       = true;
         resetAll();
         hideMessage();
@@ -320,18 +320,18 @@ self.onInit = function () {
             var items = list.map(function (c) {
                 return { id: extractId(c.id), name: c.title || c.name || '' };
             });
-            populateSelect(customerSel, items, '— Select Customer —');
+            populateSelect(customerSel, items, '-- Select Customer --');
         }).catch(function (e) {
             showMessage('Could not load customers: ' + e.message, 'error');
         });
     }
 
-    // ── Load groups ────────────────────────────────────────────────
+    // -- Load groups ------------------------------------------------
     function loadGroups() {
         if (!currentUser) return;
 
         groupSel.disabled  = true;
-        groupSel.innerHTML = '<option value="">Loading…</option>';
+        groupSel.innerHTML = '<option value="">Loading...</option>';
         resetAll();
         hideMessage();
 
@@ -341,7 +341,7 @@ self.onInit = function () {
             : customerSel.value;
 
         if (!ownerId) {
-            groupSel.innerHTML = '<option value="">— Select Group —</option>';
+            groupSel.innerHTML = '<option value="">-- Select Group --</option>';
             return;
         }
 
@@ -351,17 +351,17 @@ self.onInit = function () {
                 var items = list.map(function (g) {
                     return { id: extractId(g.id), name: g.name || g.label || '' };
                 });
-                populateSelect(groupSel, items, '— Select Group —');
+                populateSelect(groupSel, items, '-- Select Group --');
                 groupSel.disabled = false;
                 updateFetchBtn();
             })
             .catch(function (e) {
-                groupSel.innerHTML = '<option value="">— Select Group —</option>';
+                groupSel.innerHTML = '<option value="">-- Select Group --</option>';
                 showMessage('Could not load groups: ' + e.message, 'error');
             });
     }
 
-    // ── Events ─────────────────────────────────────────────────────
+    // -- Events -----------------------------------------------------
     ownerTypeSel.addEventListener('change', function () {
         resetAll();
         hideMessage();
@@ -380,7 +380,7 @@ self.onInit = function () {
     startDateEl.addEventListener('change', function () { resetAll(); updateFetchBtn(); });
     endDateEl.addEventListener('change', function () { resetAll(); updateFetchBtn(); });
 
-    // ── Device list search filter ──────────────────────────────────
+    // -- Device list search filter ----------------------------------
     deviceSearch.addEventListener('input', function () {
         var term = deviceSearch.value.toLowerCase();
         var items = deviceList.querySelectorAll('.w5-device-item');
@@ -394,7 +394,7 @@ self.onInit = function () {
         deviceCount.textContent = visible + ' of ' + allDevices.length + ' devices';
     });
 
-    // ── Render device list ─────────────────────────────────────────
+    // -- Render device list -----------------------------------------
     function renderDeviceList() {
         deviceList.innerHTML = '';
         deviceSearch.value   = '';
@@ -406,8 +406,8 @@ self.onInit = function () {
             item.dataset.uuid = dev.uuid;
 
             var parts = [];
-            if (dev.property && dev.property !== '—') parts.push(dev.property);
-            if (dev.apartment && dev.apartment !== '—') parts.push('Unit ' + dev.apartment);
+            if (dev.property && dev.property !== '--') parts.push(dev.property);
+            if (dev.apartment && dev.apartment !== '--') parts.push('Unit ' + dev.apartment);
             parts.push(dev.name);
 
             var nameSpan = document.createElement('div');
@@ -427,7 +427,7 @@ self.onInit = function () {
         deviceCount.textContent = allDevices.length + ' devices';
     }
 
-    // ── Select device & load chart ─────────────────────────────────
+    // -- Select device & load chart ---------------------------------
     function selectDevice(dev, itemEl) {
         // Highlight active
         var items = deviceList.querySelectorAll('.w5-device-item');
@@ -449,7 +449,7 @@ self.onInit = function () {
         parent.replaceChild(newCanvas, chartCanvas);
         chartCanvas = newCanvas;
 
-        showMessage('Loading ' + dev.name + '…', 'info');
+        showMessage('Loading ' + dev.name + '...', 'info');
 
         var startTs = new Date(startDateEl.value).getTime();
         var endTs   = new Date(endDateEl.value).getTime() + 86400000 - 1;
@@ -478,7 +478,7 @@ self.onInit = function () {
             var dailyRaw = (data && data.dailyConsumption) ? data.dailyConsumption : [];
 
             if (points.length === 0) {
-                showMessage(dev.name + ' — no meterVal data in this date range.', 'error');
+                showMessage(dev.name + ' -- no meterVal data in this date range.', 'error');
                 return;
             }
 
@@ -519,7 +519,7 @@ self.onInit = function () {
         });
     }
 
-    // ── Render chart ───────────────────────────────────────────────
+    // -- Render chart -----------------------------------------------
     function renderChart(points, dailyPoints, deviceName) {
         if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
 
@@ -677,13 +677,13 @@ self.onInit = function () {
         });
     }
 
-    // ── Detail chart: flowrate + eventMeterDelta ────────────────────
+    // -- Detail chart: flowrate + eventMeterDelta --------------------
     function loadDetailChart(uuid, dateKey, deviceName) {
         // Date range: start of day to end of day
         var dayStart = new Date(dateKey + 'T00:00:00').getTime();
         var dayEnd   = dayStart + 86400000 - 1;
 
-        detailTitle.textContent = deviceName + ' — ' + dateKey;
+        detailTitle.textContent = deviceName + ' -- ' + dateKey;
         detailPlaceholder.style.display = 'none';
         detailPanel.style.display = 'flex';
 
@@ -713,7 +713,7 @@ self.onInit = function () {
             var deltaRaw = (data && data.eventMeterDelta) ? data.eventMeterDelta : [];
 
             if (flowRaw.length === 0 && deltaRaw.length === 0) {
-                detailTitle.textContent = deviceName + ' — ' + dateKey + ' (no detail data)';
+                detailTitle.textContent = deviceName + ' -- ' + dateKey + ' (no detail data)';
                 return;
             }
 
@@ -776,7 +776,7 @@ self.onInit = function () {
                                 },
                                 label: function (item) {
                                     var val = item.parsed.y;
-                                    return item.dataset.label + ': ' + (val !== null ? val.toFixed(2) : '—');
+                                    return item.dataset.label + ': ' + (val !== null ? val.toFixed(2) : '--');
                                 }
                             }
                         },
@@ -829,7 +829,7 @@ self.onInit = function () {
             });
 
         }).catch(function (e) {
-            detailTitle.textContent = deviceName + ' — ' + dateKey + ' (error: ' + e.message + ')';
+            detailTitle.textContent = deviceName + ' -- ' + dateKey + ' (error: ' + e.message + ')';
         });
     }
 
@@ -848,7 +848,7 @@ self.onInit = function () {
         if (detailInstance) detailInstance.resetZoom();
     });
 
-    // ── Load button: fetch devices + attributes ────────────────────
+    // -- Load button: fetch devices + attributes --------------------
     fetchBtn.addEventListener('click', function () {
         var groupId = groupSel.value;
         if (!groupId || !startDateEl.value || !endDateEl.value) return;
@@ -862,7 +862,7 @@ self.onInit = function () {
         }
 
         fetchBtn.disabled    = true;
-        fetchBtn.textContent = 'Loading…';
+        fetchBtn.textContent = 'Loading...';
         resetAll();
         hideMessage();
 
@@ -882,11 +882,11 @@ self.onInit = function () {
                 var devices = list.map(function (d) {
                     return {
                         uuid: extractId(d.id) || extractId(d),
-                        name: d.name || d.label || '—'
+                        name: d.name || d.label || '--'
                     };
                 });
 
-                showMessage('Loading attributes for ' + devices.length + ' devices…', 'info');
+                showMessage('Loading attributes for ' + devices.length + ' devices...', 'info');
 
                 // Fetch Property + Apartment for each device
                 var promises = devices.map(function (dev) {
@@ -903,8 +903,8 @@ self.onInit = function () {
                     return Promise.all([propP, aptP]).then(function (res) {
                         var propArr  = res[0] || [];
                         var aptArr   = res[1] || [];
-                        dev.property  = propArr.length ? propArr[0].value : '—';
-                        dev.apartment = aptArr.length  ? aptArr[0].value  : '—';
+                        dev.property  = propArr.length ? propArr[0].value : '--';
+                        dev.apartment = aptArr.length  ? aptArr[0].value  : '--';
                         return dev;
                     });
                 });
