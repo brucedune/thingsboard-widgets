@@ -55,23 +55,12 @@ self.onInit = function () {
     var previewBtn    = document.getElementById('w7-previewBtn');
     var applyBtn      = document.getElementById('w7-applyBtn');
     var placeholder   = document.getElementById('w7-placeholder');
-    var anchorHint    = document.getElementById('w7-anchorHint');
-    var anchorInfo    = document.getElementById('w7-anchorInfo');
-    var anchorText    = document.getElementById('w7-anchorText');
-    var anchorClearBtn = document.getElementById('w7-anchorClear');
-    var modeCorrBtn    = document.getElementById('w7-modeCorrBtn');
-    var modeForeBtn    = document.getElementById('w7-modeForeBtn');
-    var correctionControls = document.getElementById('w7-correctionControls');
-    var forecastControls   = document.getElementById('w7-forecastControls');
-    var forecastHint       = document.getElementById('w7-forecastHint');
-    var forecastInfo       = document.getElementById('w7-forecastInfo');
-    var forecastTextEl     = document.getElementById('w7-forecastText');
-    var forecastClearBtn   = document.getElementById('w7-forecastClear');
-    var forecastDaysEl     = document.getElementById('w7-forecastDays');
-    var forecastRateEl     = document.getElementById('w7-forecastRate');
-    var forecastProjectedEl = document.getElementById('w7-forecastProjected');
-    var forecastBtn        = document.getElementById('w7-forecastBtn');
-
+    var prevBar        = document.getElementById('w7-prevBar');
+    var prevDeltaEl    = document.getElementById('w7-prevDelta');
+    var currDeltaEl    = document.getElementById('w7-currDelta');
+    var deltaCompareEl = document.getElementById('w7-deltaCompare');
+    var matchPrevBtn   = document.getElementById('w7-matchPrevBtn');
+    var showPrevToggle = document.getElementById('w7-showPrevToggle');
     var currentUser    = null;
     var chartInstance  = null;
     var allDevices     = [];
@@ -80,12 +69,10 @@ self.onInit = function () {
     var fetchedFlow    = [];   // { ts, value } -- flowRate data
     var correctedData  = [];   // { ts, value } -- corrected trace for chart
     var previewActive  = false;
-    var anchorStart    = null;  // { ts, value, index }
-    var anchorEnd      = null;  // { ts, value, index }
-    var clickMode      = 'correction'; // 'correction' or 'forecast'
-    var forecastStart  = null;  // { ts, value, index }
-    var forecastData   = [];    // { ts, value } -- forecast projection points
-    var forecastActive = false;
+    var prevPeriodRaw  = [];    // { ts, value } -- previous 30d raw data
+    var prevPeriodNorm = [];    // { ts, value } -- normalized to current period
+    var prevPeriodDelta = null; // previous period total usage
+    var showPrevOverlay = true;
 
     // -- Get JWT token --
     function getToken() {
@@ -178,18 +165,11 @@ self.onInit = function () {
         fetchedFlow    = [];
         correctedData  = [];
         previewActive  = false;
-        anchorStart    = null;
-        anchorEnd      = null;
-        forecastStart  = null;
-        forecastData   = [];
-        forecastActive = false;
-        anchorHint.style.display     = 'block';
-        anchorInfo.style.display     = 'none';
-        forecastHint.style.display   = 'block';
-        forecastInfo.style.display   = 'none';
-        forecastRateEl.textContent   = '--';
-        forecastProjectedEl.textContent = '--';
-        forecastBtn.disabled         = true;
+        prevPeriodRaw    = [];
+        prevPeriodNorm   = [];
+        prevPeriodDelta  = null;
+        prevBar.style.display = 'none';
+        matchPrevBtn.disabled = true;
         if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
     }
 
@@ -206,18 +186,11 @@ self.onInit = function () {
         fetchedFlow    = [];
         correctedData  = [];
         previewActive  = false;
-        anchorStart    = null;
-        anchorEnd      = null;
-        forecastStart  = null;
-        forecastData   = [];
-        forecastActive = false;
-        anchorHint.style.display     = 'block';
-        anchorInfo.style.display     = 'none';
-        forecastHint.style.display   = 'block';
-        forecastInfo.style.display   = 'none';
-        forecastRateEl.textContent   = '--';
-        forecastProjectedEl.textContent = '--';
-        forecastBtn.disabled         = true;
+        prevPeriodRaw    = [];
+        prevPeriodNorm   = [];
+        prevPeriodDelta  = null;
+        prevBar.style.display = 'none';
+        matchPrevBtn.disabled = true;
         if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
     }
 
@@ -480,6 +453,40 @@ self.onInit = function () {
         deviceCount.textContent = allDevices.length + ' devices';
     }
 
+    // -- Device navigation buttons --
+    function navigateDevice(direction) {
+        var items = Array.from(deviceList.querySelectorAll('.w7-device-item'));
+        var visible = items.filter(function (el) { return el.style.display !== 'none'; });
+        if (visible.length === 0) return;
+
+        var currentIdx = -1;
+        if (lastSelectedItem) {
+            currentIdx = visible.indexOf(lastSelectedItem);
+        }
+
+        var nextIdx;
+        if (direction === 'down') {
+            nextIdx = currentIdx < visible.length - 1 ? currentIdx + 1 : 0;
+        } else {
+            nextIdx = currentIdx > 0 ? currentIdx - 1 : visible.length - 1;
+        }
+
+        var nextItem = visible[nextIdx];
+        var uuid = nextItem.dataset.uuid;
+        var dev = allDevices.find(function (d) { return d.uuid === uuid; });
+        if (dev) {
+            nextItem.scrollIntoView({ block: 'nearest' });
+            selectDevice(dev, nextItem);
+        }
+    }
+
+    document.getElementById('w7-prevDevBtn').addEventListener('click', function () {
+        navigateDevice('up');
+    });
+    document.getElementById('w7-nextDevBtn').addEventListener('click', function () {
+        navigateDevice('down');
+    });
+
     // -- Select device & load chart --
     var lastSelectedItem = null;
 
@@ -509,18 +516,11 @@ self.onInit = function () {
         previewActive                 = false;
         fetchedPoints                 = [];
         correctedData                 = [];
-        anchorStart                   = null;
-        anchorEnd                     = null;
-        forecastStart                 = null;
-        forecastData                  = [];
-        forecastActive                = false;
-        anchorHint.style.display      = 'block';
-        anchorInfo.style.display      = 'none';
-        forecastHint.style.display    = 'block';
-        forecastInfo.style.display    = 'none';
-        forecastRateEl.textContent    = '--';
-        forecastProjectedEl.textContent = '--';
-        forecastBtn.disabled          = true;
+        prevPeriodRaw     = [];
+        prevPeriodNorm    = [];
+        prevPeriodDelta   = null;
+        prevBar.style.display = 'none';
+        matchPrevBtn.disabled = true;
         if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
 
         // Reset canvas
@@ -554,18 +554,49 @@ self.onInit = function () {
                 '&endTs=' + endTs +
                 '&limit=10000&agg=NONE&orderBy=ASC'
             );
-            // FlowRate: fetch raw with high limit, graceful fallback if it fails
-            var flowP = apiFetch(
+            // FlowRate: fetch in weekly chunks to cover full range
+            var weekMs = 7 * 86400000;
+            var flowChunks = [];
+            for (var cs = startTs; cs < endTs; cs += weekMs) {
+                var ce = Math.min(cs + weekMs - 1, endTs);
+                flowChunks.push({ s: cs, e: ce });
+            }
+            var flowP = Promise.all(flowChunks.map(function (chunk) {
+                return apiFetch(
+                    '/api/plugins/telemetry/DEVICE/' + dev.uuid +
+                    '/values/timeseries?keys=flowRate' +
+                    '&startTs=' + chunk.s +
+                    '&endTs=' + chunk.e +
+                    '&limit=100000&agg=NONE&orderBy=ASC'
+                ).catch(function () { return { flowRate: [] }; });
+            }));
+            // Fetch previous 30 days for comparison
+            var prev30Start = startTs - (30 * 86400000);
+            var prev30End   = startTs - 1;
+            console.log('Fetching prev 30d: ' + new Date(prev30Start).toISOString() + ' to ' + new Date(prev30End).toISOString());
+            var prevP = apiFetch(
                 '/api/plugins/telemetry/DEVICE/' + dev.uuid +
-                '/values/timeseries?keys=flowRate' +
-                '&startTs=' + startTs +
-                '&endTs=' + endTs +
-                '&limit=100000&agg=NONE&orderBy=ASC'
-            ).catch(function () { return { flowRate: [] }; });
-            return Promise.all([meterP, flowP]);
+                '/values/timeseries?keys=meterValFlash' +
+                '&startTs=' + prev30Start +
+                '&endTs=' + prev30End +
+                '&limit=10000&agg=NONE&orderBy=ASC'
+            ).then(function (resp) {
+                console.log('Prev 30d response:', resp);
+                return resp;
+            }).catch(function (err) {
+                console.error('Prev 30d fetch FAILED:', err);
+                return null;
+            });
+            return Promise.all([meterP, flowP, prevP]);
         }).then(function (results) {
             var data = results[0];
-            var flowData = results[1];
+            // Merge all flowRate chunks
+            var allFlow = [];
+            results[1].forEach(function (chunk) {
+                var arr = (chunk && chunk.flowRate) ? chunk.flowRate : [];
+                allFlow = allFlow.concat(arr);
+            });
+            var flowData = { flowRate: allFlow };
             var baselineRaw  = (data && data.meterValFlash) ? data.meterValFlash : [];
             var correctedRaw = (data && data.meterValCorrected) ? data.meterValCorrected : [];
 
@@ -589,9 +620,70 @@ self.onInit = function () {
                 return { ts: p.ts, value: v < 0.25 ? 0 : v };
             }).sort(function (a, b) { return a.ts - b.ts; });
 
+            // Process previous 30-day data
+            var prevResult = results[2];
+            var prevRaw = (prevResult && prevResult.meterValFlash) ? prevResult.meterValFlash : [];
+            console.log('Previous 30d points found:', prevRaw.length);
+            prevPeriodRaw = prevRaw.map(function (p) {
+                return { ts: p.ts, value: parseFloat(p.value) };
+            }).sort(function (a, b) { return a.ts - b.ts; });
+
             var first = fetchedPoints[0];
             var last  = fetchedPoints[fetchedPoints.length - 1];
             var diff  = last.value - first.value;
+
+            // Normalize previous period to daily intervals aligned with current
+            prevPeriodNorm = [];
+            prevPeriodDelta = null;
+            if (prevPeriodRaw.length < 2) {
+                console.log('Not enough previous data (' + prevPeriodRaw.length + ' points)');
+                prevBar.style.display = 'flex';
+                prevDeltaEl.textContent    = 'N/A';
+                currDeltaEl.textContent    = formatNumber(diff);
+                deltaCompareEl.textContent = 'No previous data';
+                deltaCompareEl.style.color = '#888';
+                matchPrevBtn.disabled      = true;
+            }
+            if (prevPeriodRaw.length >= 2) {
+                var prevFirst = prevPeriodRaw[0];
+                var prevLast  = prevPeriodRaw[prevPeriodRaw.length - 1];
+                prevPeriodDelta = prevLast.value - prevFirst.value;
+
+                // Bucket previous data by day, take last reading per day
+                var dayMs = 86400000;
+                var prevStartDay = Math.floor(prevFirst.ts / dayMs) * dayMs;
+                var dailyBuckets = {};
+                prevPeriodRaw.forEach(function (p) {
+                    var dayKey = Math.floor((p.ts - prevStartDay) / dayMs);
+                    dailyBuckets[dayKey] = p; // last value wins
+                });
+
+                // Map each day to current period start + day offset
+                var currentStartDay = Math.floor(first.ts / dayMs) * dayMs;
+                var valOffset = first.value - prevFirst.value;
+                var dayKeys = Object.keys(dailyBuckets).map(Number).sort(function (a, b) { return a - b; });
+                prevPeriodNorm = dayKeys.map(function (dayNum) {
+                    var p = dailyBuckets[dayNum];
+                    return {
+                        ts: currentStartDay + (dayNum * dayMs),
+                        value: p.value + valOffset
+                    };
+                });
+
+                console.log('Prev normalized points:', prevPeriodNorm.length,
+                    'First:', prevPeriodNorm[0],
+                    'Last:', prevPeriodNorm[prevPeriodNorm.length - 1]);
+                console.log('showPrevOverlay:', showPrevOverlay);
+
+                // Show comparison bar
+                prevDeltaEl.textContent    = formatNumber(prevPeriodDelta);
+                currDeltaEl.textContent    = formatNumber(diff);
+                var deltaChange = diff - prevPeriodDelta;
+                deltaCompareEl.textContent = (deltaChange >= 0 ? '+' : '') + formatNumber(deltaChange);
+                deltaCompareEl.style.color = Math.abs(deltaChange) > prevPeriodDelta * 0.2 ? '#c0392b' : '#2e7d32';
+                prevBar.style.display      = 'flex';
+                matchPrevBtn.disabled      = false;
+            }
 
             // Corrected diff (if corrected data exists)
             var corrDiff = '--';
@@ -638,30 +730,78 @@ self.onInit = function () {
         return result;
     }
 
-    // -- Reload flowRate for visible range --
+    // -- Reload flowRate for visible range (debounced) --
+    var flowReloadTimer = null;
+    function reloadFlowForRangeDebounced(visMinTs, visMaxTs) {
+        if (flowReloadTimer) clearTimeout(flowReloadTimer);
+        flowReloadTimer = setTimeout(function () {
+            reloadFlowForRange(visMinTs, visMaxTs);
+        }, 300);
+    }
+
     function reloadFlowForRange(visMinTs, visMaxTs) {
         if (!selectedDevice) return;
-        apiFetch(
-            '/api/plugins/telemetry/DEVICE/' + selectedDevice.uuid +
-            '/values/timeseries?keys=flowRate' +
-            '&startTs=' + Math.round(visMinTs) +
-            '&endTs=' + Math.round(visMaxTs) +
-            '&limit=100000&agg=NONE&orderBy=ASC'
-        ).catch(function () { return { flowRate: [] }; })
-        .then(function (data) {
-            var flowRaw = (data && data.flowRate) ? data.flowRate : [];
-            var newFlow = flowRaw.map(function (p) {
+        var sTs = Math.round(visMinTs);
+        var eTs = Math.round(visMaxTs);
+        var rangeDays = (eTs - sTs) / 86400000;
+
+        // If zoomed out to near full range, use cached fetchedFlow
+        var fullStart = new Date(startDateEl.value).getTime();
+        var fullEnd = new Date(endDateEl.value).getTime() + 86400000 - 1;
+        var fullRange = fullEnd - fullStart;
+        var visRange = eTs - sTs;
+
+        if (visRange >= fullRange * 0.9) {
+            // Near full zoom -- use original cached data
+            var thinned = thinData(fetchedFlow, 10000);
+            var flowDataset = thinned.map(function (p) {
+                return { x: p.ts, y: p.value };
+            });
+            if (chartInstance) {
+                var flowIdx = -1;
+                chartInstance.data.datasets.forEach(function (ds, i) {
+                    if (ds.label === 'Flow Rate') flowIdx = i;
+                });
+                if (flowIdx >= 0) {
+                    chartInstance.data.datasets[flowIdx].data = flowDataset;
+                    chartInstance.update('none');
+                }
+            }
+            return;
+        }
+
+        // For zoomed ranges, fetch in weekly chunks to cover full visible range
+        var weekMs = 7 * 86400000;
+        var chunks = [];
+        for (var cs = sTs; cs < eTs; cs += weekMs) {
+            chunks.push({ s: cs, e: Math.min(cs + weekMs - 1, eTs) });
+        }
+
+        Promise.all(chunks.map(function (chunk) {
+            return apiFetch(
+                '/api/plugins/telemetry/DEVICE/' + selectedDevice.uuid +
+                '/values/timeseries?keys=flowRate' +
+                '&startTs=' + chunk.s +
+                '&endTs=' + chunk.e +
+                '&limit=100000&agg=NONE&orderBy=ASC'
+            ).catch(function () { return { flowRate: [] }; });
+        })).then(function (results) {
+            var allFlow = [];
+            results.forEach(function (r) {
+                var arr = (r && r.flowRate) ? r.flowRate : [];
+                allFlow = allFlow.concat(arr);
+            });
+
+            var newFlow = allFlow.map(function (p) {
                 var v = parseFloat(p.value);
                 return { ts: p.ts, value: v < 0.25 ? 0 : v };
             }).sort(function (a, b) { return a.ts - b.ts; });
 
-            // Thin to max 500 points for display
-            var thinned = thinData(newFlow, 500);
+            var thinned = thinData(newFlow, 10000);
             var flowDataset = thinned.map(function (p) {
                 return { x: p.ts, y: p.value };
             });
 
-            // Find and update the Flow Rate dataset
             if (chartInstance) {
                 var flowIdx = -1;
                 chartInstance.data.datasets.forEach(function (ds, i) {
@@ -694,7 +834,7 @@ self.onInit = function () {
                 borderColor: '#305680',
                 backgroundColor: 'rgba(48, 86, 128, 0.1)',
                 borderWidth: 2,
-                pointRadius: 3,
+                pointRadius: 0,
                 pointHoverRadius: 8,
                 pointHitRadius: 15,
                 fill: false,
@@ -709,7 +849,7 @@ self.onInit = function () {
                 borderColor: '#e65100',
                 backgroundColor: 'rgba(230, 81, 0, 0.1)',
                 borderWidth: 2,
-                pointRadius: 3,
+                pointRadius: 0,
                 pointHoverRadius: 6,
                 fill: false,
                 tension: 0.1,
@@ -728,7 +868,7 @@ self.onInit = function () {
                 borderColor: '#f57c00',
                 backgroundColor: 'rgba(245, 124, 0, 0.1)',
                 borderWidth: 2.5,
-                pointRadius: 2,
+                pointRadius: 0,
                 pointHoverRadius: 5,
                 fill: false,
                 tension: 0,
@@ -736,9 +876,29 @@ self.onInit = function () {
             });
         }
 
+        // Previous period overlay (normalized)
+        console.log('renderChart: showPrevOverlay=' + showPrevOverlay + ', prevPeriodNorm.length=' + prevPeriodNorm.length);
+        if (showPrevOverlay && prevPeriodNorm.length > 0) {
+            var prevData = prevPeriodNorm.map(function (p) {
+                return { x: p.ts, y: p.value };
+            });
+            datasets.push({
+                label: 'Previous 30d',
+                data: prevData,
+                borderColor: 'rgba(156, 39, 176, 0.6)',
+                backgroundColor: 'rgba(156, 39, 176, 0.05)',
+                borderWidth: 2,
+                pointRadius: 0,
+                pointHoverRadius: 4,
+                fill: false,
+                tension: 0.1,
+                borderDash: [6, 3]
+            });
+        }
+
         // Add flowRate on secondary axis (thinned to 500 points max)
         if (flowRate && flowRate.length > 0) {
-            var thinnedFlow = thinData(flowRate, 500);
+            var thinnedFlow = thinData(flowRate, 10000);
             var flowData = thinnedFlow.map(function (p) {
                 return { x: p.ts, y: p.value };
             });
@@ -756,69 +916,8 @@ self.onInit = function () {
             });
         }
 
-        // Add anchor marker datasets
-        if (anchorStart) {
-            datasets.push({
-                label: 'Start Anchor',
-                data: [{ x: anchorStart.ts, y: anchorStart.value }],
-                borderColor: '#2e7d32',
-                backgroundColor: '#2e7d32',
-                pointRadius: 10,
-                pointHoverRadius: 12,
-                pointStyle: 'circle',
-                showLine: false
-            });
-        }
-        if (anchorEnd) {
-            datasets.push({
-                label: 'End Anchor',
-                data: [{ x: anchorEnd.ts, y: anchorEnd.value }],
-                borderColor: '#c0392b',
-                backgroundColor: '#c0392b',
-                pointRadius: 10,
-                pointHoverRadius: 12,
-                pointStyle: 'circle',
-                showLine: false
-            });
-        }
-
-        // Forecast start marker
-        if (forecastStart) {
-            datasets.push({
-                label: 'Forecast Start',
-                data: [{ x: forecastStart.ts, y: forecastStart.value }],
-                borderColor: '#1565c0',
-                backgroundColor: '#1565c0',
-                pointRadius: 10,
-                pointHoverRadius: 12,
-                pointStyle: 'triangle',
-                showLine: false
-            });
-        }
-
-        // Forecast projection line
-        if (forecastActive && forecastData.length > 0) {
-            var forecastDataset = forecastData.map(function (p) {
-                return { x: p.ts, y: p.value };
-            });
-            datasets.push({
-                label: 'Forecast',
-                data: forecastDataset,
-                borderColor: '#1565c0',
-                backgroundColor: 'rgba(21, 101, 192, 0.08)',
-                borderWidth: 2.5,
-                pointRadius: 0,
-                pointHoverRadius: 4,
-                fill: true,
-                tension: 0,
-                borderDash: [8, 4]
-            });
-        }
-
         var minTs = baseline[0].ts;
-        var maxTs = forecastActive && forecastData.length > 0
-            ? forecastData[forecastData.length - 1].ts
-            : baseline[baseline.length - 1].ts;
+        var maxTs = baseline[baseline.length - 1].ts;
 
         var ctx = chartCanvas.getContext('2d');
         chartInstance = new Chart(ctx, {
@@ -828,89 +927,7 @@ self.onInit = function () {
                 responsive: true,
                 maintainAspectRatio: false,
                 interaction: { mode: 'nearest', intersect: true },
-                onClick: function (evt, elements) {
-                    if (!elements || elements.length === 0) return;
-                    // Only respond to clicks on the baseline dataset (index 0)
-                    var baseEl = elements.find(function (el) { return el.datasetIndex === 0; });
-                    if (!baseEl) return;
-                    var idx = baseEl.index;
-                    var pt = fetchedPoints[idx];
-                    if (!pt) return;
-
-                    if (clickMode === 'forecast') {
-                        // Forecast mode: single click sets forecast start
-                        forecastStart = { ts: pt.ts, value: pt.value, index: idx };
-                        forecastHint.style.display = 'none';
-                        forecastInfo.style.display = 'flex';
-
-                        var last = fetchedPoints[fetchedPoints.length - 1];
-                        var daysBetween = (last.ts - pt.ts) / 86400000;
-                        var dailyRate = daysBetween > 0 ? (last.value - pt.value) / daysBetween : 0;
-
-                        forecastTextEl.textContent = 'From: ' + formatNumber(pt.value) +
-                            ' (' + formatDateShort(pt.ts) + ')  -->  Last: ' +
-                            formatNumber(last.value) + ' (' + formatDateShort(last.ts) +
-                            ')  |  ' + daysBetween.toFixed(1) + ' days';
-                        forecastRateEl.textContent = dailyRate.toFixed(2) + ' /day';
-
-                        var daysAhead = parseInt(forecastDaysEl.value) || 30;
-                        var projected = last.value + (dailyRate * daysAhead);
-                        forecastProjectedEl.textContent = formatNumber(projected);
-
-                        forecastBtn.disabled = false;
-
-                        // Redraw with forecast start marker
-                        var parent = chartCanvas.parentNode;
-                        var newCanvas = document.createElement('canvas');
-                        newCanvas.id = 'w7-chart';
-                        parent.replaceChild(newCanvas, chartCanvas);
-                        chartCanvas = newCanvas;
-                        renderChart(baseline, corrected, flowRate, deviceName);
-                        return;
-                    }
-
-                    // Correction mode
-                    if (!anchorStart || (anchorStart && anchorEnd)) {
-                        // First click or restart: set start anchor
-                        anchorStart = { ts: pt.ts, value: pt.value, index: idx };
-                        anchorEnd   = null;
-                        anchorHint.style.display = 'none';
-                        anchorInfo.style.display = 'flex';
-                        anchorText.textContent = 'Start: ' + formatNumber(pt.value) +
-                            ' (' + formatDateShort(pt.ts) + ') -- click second point to set end';
-                        correctionVal.value = '';
-                        previewBtn.disabled = true;
-                        applyBtn.disabled   = true;
-                    } else {
-                        // Second click: set end anchor
-                        anchorEnd = { ts: pt.ts, value: pt.value, index: idx };
-
-                        // Ensure start is before end
-                        if (anchorEnd.ts < anchorStart.ts) {
-                            var tmp = anchorStart;
-                            anchorStart = anchorEnd;
-                            anchorEnd = tmp;
-                        }
-
-                        var delta = anchorEnd.value - anchorStart.value;
-                        anchorText.textContent = 'Start: ' + formatNumber(anchorStart.value) +
-                            ' (' + formatDateShort(anchorStart.ts) + ')  -->  End: ' +
-                            formatNumber(anchorEnd.value) + ' (' + formatDateShort(anchorEnd.ts) +
-                            ')  |  Delta: ' + formatNumber(delta);
-
-                        // Auto-populate correction value
-                        correctionVal.value = Math.round(delta);
-                        previewBtn.disabled = false;
-                    }
-
-                    // Redraw chart with anchor markers
-                    var parent = chartCanvas.parentNode;
-                    var newCanvas = document.createElement('canvas');
-                    newCanvas.id = 'w7-chart';
-                    parent.replaceChild(newCanvas, chartCanvas);
-                    chartCanvas = newCanvas;
-                    renderChart(baseline, corrected, flowRate, deviceName);
-                },
+                onClick: function () {},
                 plugins: {
                     title: {
                         display: true,
@@ -943,7 +960,7 @@ self.onInit = function () {
                             mode: 'x',
                             onPanComplete: function (ctx) {
                                 var xScale = ctx.chart.scales.x;
-                                reloadFlowForRange(xScale.min, xScale.max);
+                                reloadFlowForRangeDebounced(xScale.min, xScale.max);
                             }
                         },
                         zoom: {
@@ -952,7 +969,7 @@ self.onInit = function () {
                             mode: 'x',
                             onZoomComplete: function (ctx) {
                                 var xScale = ctx.chart.scales.x;
-                                reloadFlowForRange(xScale.min, xScale.max);
+                                reloadFlowForRangeDebounced(xScale.min, xScale.max);
                             }
                         },
                         limits: {
@@ -1005,118 +1022,52 @@ self.onInit = function () {
         }
     });
 
-    // -- Clear anchor selection --
-    anchorClearBtn.addEventListener('click', function () {
-        anchorStart = null;
-        anchorEnd   = null;
-        anchorHint.style.display = 'block';
-        anchorInfo.style.display = 'none';
-        correctionVal.value = '';
-        previewBtn.disabled = true;
-        applyBtn.disabled   = true;
-        previewActive = false;
-        if (selectedDevice && fetchedPoints.length > 0) {
-            reloadCurrentDevice();
-        }
-    });
+    // -- Match Previous button --
+    matchPrevBtn.addEventListener('click', function () {
+        if (prevPeriodDelta === null || fetchedPoints.length === 0 || prevPeriodRaw.length < 2) return;
 
-    // -- Mode toggle --
-    modeCorrBtn.addEventListener('click', function () {
-        if (clickMode === 'correction') return;
-        clickMode = 'correction';
-        modeCorrBtn.classList.add('w7-mode-active');
-        modeForeBtn.classList.remove('w7-mode-active');
-        correctionControls.style.display = 'block';
-        forecastControls.style.display   = 'none';
-    });
+        // Calculate daily rate from previous period
+        var prevFirst = prevPeriodRaw[0];
+        var prevLast  = prevPeriodRaw[prevPeriodRaw.length - 1];
+        var prevDays  = (prevLast.ts - prevFirst.ts) / 86400000;
+        var dailyRate = prevDays > 0 ? (prevLast.value - prevFirst.value) / prevDays : 0;
 
-    modeForeBtn.addEventListener('click', function () {
-        if (clickMode === 'forecast') return;
-        clickMode = 'forecast';
-        modeForeBtn.classList.add('w7-mode-active');
-        modeCorrBtn.classList.remove('w7-mode-active');
-        forecastControls.style.display   = 'block';
-        correctionControls.style.display = 'none';
-    });
+        // Build one corrected point per day using previous period slope
+        var first = fetchedPoints[0];
+        var dayMs = 86400000;
+        var startDay = Math.floor(first.ts / dayMs) * dayMs;
+        var endDay   = new Date(endDateEl.value).getTime();
+        var totalDays = Math.round((endDay - startDay) / dayMs);
+        var correctedDiff = Math.round(dailyRate * totalDays);
 
-    // -- Forecast clear --
-    forecastClearBtn.addEventListener('click', function () {
-        forecastStart  = null;
-        forecastData   = [];
-        forecastActive = false;
-        forecastHint.style.display      = 'block';
-        forecastInfo.style.display      = 'none';
-        forecastRateEl.textContent      = '--';
-        forecastProjectedEl.textContent = '--';
-        forecastBtn.disabled            = true;
-        if (selectedDevice && fetchedPoints.length > 0) {
-            reloadCurrentDevice();
-        }
-    });
+        correctionVal.value = correctedDiff;
+        previewBtn.disabled = false;
 
-    // -- Forecast days change updates projected value --
-    forecastDaysEl.addEventListener('input', function () {
-        if (!forecastStart || fetchedPoints.length === 0) return;
-        var last = fetchedPoints[fetchedPoints.length - 1];
-        var daysBetween = (last.ts - forecastStart.ts) / 86400000;
-        var dailyRate = daysBetween > 0 ? (last.value - forecastStart.value) / daysBetween : 0;
-        var daysAhead = parseInt(forecastDaysEl.value) || 30;
-        var projected = last.value + (dailyRate * daysAhead);
-        forecastProjectedEl.textContent = formatNumber(projected);
-    });
-
-    // -- Show Forecast button --
-    forecastBtn.addEventListener('click', function () {
-        if (!forecastStart || fetchedPoints.length === 0) return;
-
-        var last = fetchedPoints[fetchedPoints.length - 1];
-        var daysBetween = (last.ts - forecastStart.ts) / 86400000;
-        var dailyRate = daysBetween > 0 ? (last.value - forecastStart.value) / daysBetween : 0;
-        var daysAhead = parseInt(forecastDaysEl.value) || 30;
-
-        // Build forecast points: one per day from last data point forward
-        forecastData = [];
-        // Start from last actual point
-        forecastData.push({ ts: last.ts, value: last.value });
-        for (var d = 1; d <= daysAhead; d++) {
-            forecastData.push({
-                ts: last.ts + (d * 86400000),
-                value: Math.round(last.value + (dailyRate * d))
+        correctedData = [];
+        for (var d = 0; d <= totalDays; d++) {
+            correctedData.push({
+                ts: startDay + (d * dayMs),
+                value: Math.round(first.value + (dailyRate * d))
             });
         }
 
-        forecastActive = true;
+        previewActive = true;
+        applyBtn.disabled = false;
+        cardCorrDiff.textContent = formatNumber(correctedDiff);
+        cardPoints.textContent   = correctedData.length + ' (daily)';
 
-        // Redraw chart with forecast
-        var startTs = new Date(startDateEl.value).getTime();
-        var endTs   = new Date(endDateEl.value).getTime() + 86400000 - 1;
+        // Redraw
+        reloadCurrentDevice();
+        showMessage('Preview: ' + correctedData.length + ' daily points at ' +
+            dailyRate.toFixed(2) + '/day (from previous 30d rate). Click Apply to write.', 'info');
+    });
 
-        apiFetch(
-            '/api/plugins/telemetry/DEVICE/' + selectedDevice.uuid +
-            '/values/timeseries?keys=meterValCorrected' +
-            '&startTs=' + startTs +
-            '&endTs=' + endTs +
-            '&limit=10000&agg=NONE&orderBy=ASC'
-        ).then(function (data) {
-            var correctedRaw = (data && data.meterValCorrected) ? data.meterValCorrected : [];
-            var correctedParsed = correctedRaw.map(function (p) {
-                return { ts: p.ts, value: parseFloat(p.value) };
-            }).sort(function (a, b) { return a.ts - b.ts; });
-
-            var parent = chartCanvas.parentNode;
-            var newCanvas = document.createElement('canvas');
-            newCanvas.id = 'w7-chart';
-            parent.replaceChild(newCanvas, chartCanvas);
-            chartCanvas = newCanvas;
-
-            renderChart(fetchedPoints, correctedParsed, fetchedFlow, selectedDevice.name);
-
-            var endDate = new Date(forecastData[forecastData.length - 1].ts);
-            showMessage('Forecast: ' + daysAhead + ' days ahead at ' +
-                dailyRate.toFixed(2) + '/day. Projected end: ' +
-                formatNumber(forecastData[forecastData.length - 1].value) +
-                ' on ' + endDate.toLocaleDateString(), 'info');
-        });
+    // -- Show/hide previous period overlay --
+    showPrevToggle.addEventListener('change', function () {
+        showPrevOverlay = showPrevToggle.checked;
+        if (selectedDevice && fetchedPoints.length > 0) {
+            reloadCurrentDevice();
+        }
     });
 
     function reloadCurrentDevice() {
@@ -1159,23 +1110,24 @@ self.onInit = function () {
         }
 
         var first   = fetchedPoints[0];
-        var last    = fetchedPoints[fetchedPoints.length - 1];
-        var totalTs = last.ts - first.ts;
+        var dayMs   = 86400000;
+        var startDay = Math.floor(first.ts / dayMs) * dayMs;
+        var endDay   = new Date(endDateEl.value).getTime();
+        var totalDays = Math.round((endDay - startDay) / dayMs);
+        var dailyRate = totalDays > 0 ? correctedDiff / totalDays : 0;
 
-        // Build corrected trace via linear interpolation
-        correctedData = fetchedPoints.map(function (p) {
-            var newVal;
-            if (totalTs === 0) {
-                newVal = first.value;
-            } else {
-                var fraction = (p.ts - first.ts) / totalTs;
-                newVal = first.value + (correctedDiff * fraction);
-            }
-            return { ts: p.ts, value: Math.round(newVal) };
-        });
+        // Build one corrected point per day via linear interpolation
+        correctedData = [];
+        for (var d = 0; d <= totalDays; d++) {
+            correctedData.push({
+                ts: startDay + (d * dayMs),
+                value: Math.round(first.value + (dailyRate * d))
+            });
+        }
 
         previewActive = true;
         applyBtn.disabled = false;
+        cardPoints.textContent = correctedData.length + ' (daily)';
 
         // Update corrected diff card
         cardCorrDiff.textContent = formatNumber(correctedDiff);
@@ -1285,6 +1237,51 @@ self.onInit = function () {
         }
 
         processBatch(0);
+    });
+
+    // -- Clear Corrected button --
+    var clearCorrBtn = document.getElementById('w7-clearCorrBtn');
+    clearCorrBtn.addEventListener('click', function () {
+        if (!selectedDevice) return;
+
+        var deviceName = selectedDevice.name;
+        var confirmed = confirm(
+            'Clear ALL meterValCorrected data for ' + deviceName + '?\n\n' +
+            'This will permanently delete all corrected telemetry for this device.\n\n' +
+            'This action cannot be undone.'
+        );
+        if (!confirmed) return;
+
+        clearCorrBtn.disabled    = true;
+        clearCorrBtn.textContent = 'Clearing...';
+        hideMessage();
+
+        var startTs = new Date(startDateEl.value).getTime();
+        var endTs   = new Date(endDateEl.value).getTime() + 86400000 - 1;
+
+        apiFetch(
+            '/api/plugins/telemetry/DEVICE/' + selectedDevice.uuid +
+            '/timeseries/delete?keys=meterValCorrected' +
+            '&startTs=' + startTs +
+            '&endTs=' + endTs +
+            '&deleteAllDataForKeys=false',
+            { method: 'DELETE' }
+        ).then(function () {
+            clearCorrBtn.disabled    = false;
+            clearCorrBtn.textContent = 'Clear Corrected';
+            showMessage('Corrected data cleared for ' + deviceName + '.', 'success');
+            correctedData = [];
+            previewActive = false;
+            applyBtn.disabled   = true;
+            previewBtn.disabled = !correctionVal.value;
+            correctionVal.value = '';
+            cardCorrDiff.textContent = '--';
+            reloadCurrentDevice();
+        }).catch(function (e) {
+            clearCorrBtn.disabled    = false;
+            clearCorrBtn.textContent = 'Clear Corrected';
+            showMessage('Error clearing corrected data: ' + e.message, 'error');
+        });
     });
 
     // -- Load button: fetch devices + attributes --

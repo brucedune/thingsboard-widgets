@@ -48,12 +48,18 @@
     <div id="w7-contentPanel">
         <div class="w7-content-row">
             <!-- Device list -->
-            <div class="w7-device-panel">
+            <div class="w7-device-panel" id="w7-devicePanel">
                 <div class="w7-device-search-wrap">
                     <input type="text" id="w7-deviceSearch" class="w7-input" placeholder="Search devices..."
                         autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                 </div>
-                <div class="w7-device-count" id="w7-deviceCount">0 devices</div>
+                <div class="w7-device-nav">
+                    <span class="w7-device-count" id="w7-deviceCount">0 devices</span>
+                    <div class="w7-nav-btns">
+                        <button id="w7-prevDevBtn" class="w7-nav-btn" title="Previous device">&#9650;</button>
+                        <button id="w7-nextDevBtn" class="w7-nav-btn" title="Next device">&#9660;</button>
+                    </div>
+                </div>
                 <div class="w7-device-list" id="w7-deviceList"></div>
             </div>
 
@@ -96,63 +102,39 @@
 
                 <!-- Controls panel -->
                 <div id="w7-correctionPanel" style="display:none">
-                    <!-- Mode toggle -->
-                    <div class="w7-mode-row">
-                        <button id="w7-modeCorrBtn" class="w7-mode-btn w7-mode-active">Correction</button>
-                        <button id="w7-modeForeBtn" class="w7-mode-btn">Forecast</button>
-                    </div>
-
-                    <!-- Correction mode controls -->
-                    <div id="w7-correctionControls">
-                        <div class="w7-anchor-hint" id="w7-anchorHint">
-                            Click two points on the baseline to set correction range, or enter manually below
+                    <!-- Previous period comparison bar -->
+                    <div class="w7-prev-bar" id="w7-prevBar" style="display:none">
+                        <div class="w7-prev-stats">
+                            <span class="w7-prev-label">Previous 30d:</span>
+                            <span id="w7-prevDelta" class="w7-prev-value">--</span>
+                            <span class="w7-prev-label">vs Current:</span>
+                            <span id="w7-currDelta" class="w7-prev-value">--</span>
+                            <span class="w7-prev-label">Diff:</span>
+                            <span id="w7-deltaCompare" class="w7-prev-value">--</span>
                         </div>
-                        <div class="w7-anchor-info" id="w7-anchorInfo" style="display:none">
-                            <span id="w7-anchorText"></span>
-                            <button id="w7-anchorClear" class="w7-btn-small">Clear</button>
-                        </div>
-                        <div class="w7-correction-row">
-                            <div class="w7-field" style="flex:1;min-width:180px;">
-                                <label>Corrected Difference</label>
-                                <input type="number" id="w7-correctionVal" class="w7-input" placeholder="Enter corrected usage value">
-                            </div>
-                            <div class="w7-field w7-btn-field">
-                                <label>&nbsp;</label>
-                                <button id="w7-previewBtn" class="w7-btn w7-btn-preview" disabled>Preview</button>
-                            </div>
-                            <div class="w7-field w7-btn-field">
-                                <label>&nbsp;</label>
-                                <button id="w7-applyBtn" class="w7-btn w7-btn-apply" disabled>Apply Correction</button>
-                            </div>
+                        <div class="w7-prev-actions">
+                            <button id="w7-matchPrevBtn" class="w7-btn w7-btn-match" disabled>Match Previous</button>
+                            <label class="w7-toggle-label">
+                                <input type="checkbox" id="w7-showPrevToggle" checked> Show overlay
+                            </label>
                         </div>
                     </div>
-
-                    <!-- Forecast mode controls -->
-                    <div id="w7-forecastControls" style="display:none">
-                        <div class="w7-anchor-hint" id="w7-forecastHint">
-                            Click a point on the baseline to set where forecast rate calculation begins
+                    <div class="w7-correction-row">
+                        <div class="w7-field" style="flex:1;min-width:180px;">
+                            <label>Expected Period Usage</label>
+                            <input type="number" id="w7-correctionVal" class="w7-input" placeholder="Enter total usage for period">
                         </div>
-                        <div class="w7-anchor-info" id="w7-forecastInfo" style="display:none">
-                            <span id="w7-forecastText"></span>
-                            <button id="w7-forecastClear" class="w7-btn-small">Clear</button>
+                        <div class="w7-field w7-btn-field">
+                            <label>&nbsp;</label>
+                            <button id="w7-previewBtn" class="w7-btn w7-btn-preview" disabled>Preview</button>
                         </div>
-                        <div class="w7-correction-row">
-                            <div class="w7-field" style="flex:0 0 120px;">
-                                <label>Days Ahead</label>
-                                <input type="number" id="w7-forecastDays" class="w7-input" value="30" min="1" max="365">
-                            </div>
-                            <div class="w7-field" style="flex:1;min-width:140px;">
-                                <label>Daily Rate</label>
-                                <span id="w7-forecastRate" class="w7-rate-display">--</span>
-                            </div>
-                            <div class="w7-field" style="flex:1;min-width:140px;">
-                                <label>Projected Value</label>
-                                <span id="w7-forecastProjected" class="w7-rate-display">--</span>
-                            </div>
-                            <div class="w7-field w7-btn-field">
-                                <label>&nbsp;</label>
-                                <button id="w7-forecastBtn" class="w7-btn w7-btn-forecast" disabled>Show Forecast</button>
-                            </div>
+                        <div class="w7-field w7-btn-field">
+                            <label>&nbsp;</label>
+                            <button id="w7-applyBtn" class="w7-btn w7-btn-apply" disabled>Apply Correction</button>
+                        </div>
+                        <div class="w7-field w7-btn-field">
+                            <label>&nbsp;</label>
+                            <button id="w7-clearCorrBtn" class="w7-btn w7-btn-clear">Clear Corrected</button>
                         </div>
                     </div>
                 </div>
@@ -239,6 +221,8 @@
 .w7-btn-preview:hover:not([disabled]) { background: #e65100; }
 .w7-btn-apply { background: #c0392b; }
 .w7-btn-apply:hover:not([disabled]) { background: #96281b; }
+.w7-btn-clear { background: #757575; }
+.w7-btn-clear:hover:not([disabled]) { background: #616161; }
 
 .w7-message {
     position: fixed;
@@ -284,16 +268,38 @@
     font-size: 12px;
     padding: 6px 8px;
 }
-.w7-device-count {
+.w7-device-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding: 4px 10px;
+    border-bottom: 1px solid #eee;
+    background: #f0f2f5;
+}
+.w7-device-count {
     font-size: 10px;
     font-weight: 600;
     text-transform: uppercase;
     color: #888;
     letter-spacing: 0.5px;
-    border-bottom: 1px solid #eee;
-    background: #f0f2f5;
 }
+.w7-nav-btns { display: flex; gap: 2px; }
+.w7-nav-btn {
+    width: 24px;
+    height: 20px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background: #fff;
+    color: #555;
+    font-size: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    line-height: 1;
+}
+.w7-nav-btn:hover { background: #e0e0e0; }
 .w7-device-list {
     flex: 1;
     overflow-y: auto;
@@ -397,78 +403,49 @@
     box-sizing: border-box;
 }
 
-/* Mode toggle */
-.w7-mode-row {
-    display: flex;
-    gap: 4px;
-    margin-top: 8px;
-    margin-bottom: 4px;
-}
-.w7-mode-btn {
-    padding: 6px 16px;
-    background: #e0e0e0;
-    color: #666;
-    border: none;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
-}
-.w7-mode-btn:hover { background: #ccc; }
-.w7-mode-active {
-    background: #305680;
-    color: #fff;
-}
-.w7-mode-active:hover { background: #264a6e; }
-
-/* Correction / Forecast controls */
+/* Correction controls */
 #w7-correctionPanel {
     flex-shrink: 0;
 }
-.w7-rate-display {
-    display: block;
-    padding: 7px 0;
-    font-size: 14px;
-    font-weight: 600;
-    color: #305680;
-}
-.w7-btn-forecast { background: #1565c0; }
-.w7-btn-forecast:hover:not([disabled]) { background: #0d47a1; }
-.w7-anchor-hint {
+/* Previous period comparison bar */
+.w7-prev-bar {
     margin-top: 8px;
-    padding: 6px 10px;
-    font-size: 11px;
-    color: #666;
-    font-style: italic;
-    background: #f5f7fa;
+    padding: 8px 12px;
+    background: #f3e5f5;
+    border: 1px solid #ce93d8;
     border-radius: 4px;
-    border: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
 }
-.w7-anchor-info {
-    margin-top: 8px;
-    padding: 6px 10px;
+.w7-prev-stats {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
     font-size: 12px;
-    color: #305680;
-    font-weight: 500;
-    background: #e3f2fd;
-    border-radius: 4px;
-    border: 1px solid #90caf9;
+}
+.w7-prev-label { color: #6a1b9a; font-weight: 500; }
+.w7-prev-value { color: #4a148c; font-weight: 600; font-size: 13px; }
+.w7-prev-actions {
     display: flex;
     align-items: center;
     gap: 10px;
 }
-.w7-anchor-info span { flex: 1; }
-.w7-btn-small {
-    padding: 3px 10px;
-    background: #999;
-    color: #fff;
-    border: none;
-    border-radius: 3px;
-    font-size: 10px;
+.w7-btn-match { background: #7b1fa2; }
+.w7-btn-match:hover:not([disabled]) { background: #6a1b9a; }
+.w7-toggle-label {
+    font-size: 11px;
+    color: #666;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
 }
-.w7-btn-small:hover { background: #666; }
+
 .w7-correction-row {
     display: flex;
     gap: 12px;

@@ -25,7 +25,7 @@ self.onInit = function () {
     var applyBtn      = document.getElementById('w4-applyBtn');
 
     var currentUser   = null;
-    var fetchedPoints = [];   // { ts, value } — all meterVal points in range
+    var fetchedPoints = [];   // { ts, value } — all meterValFlash points in range
     var correctedPoints = []; // { ts, oldVal, newVal } — preview data
 
     // ── Get JWT token ──────────────────────────────────────────────
@@ -406,18 +406,18 @@ self.onInit = function () {
         resetPanels();
         hideMessage();
 
-        // Fetch ALL meterVal points in the range (paginated up to 10000)
+        // Fetch ALL meterValFlash points in the range (paginated up to 10000)
         apiFetch(
             '/api/plugins/telemetry/DEVICE/' + deviceId +
-            '/values/timeseries?keys=meterVal' +
+            '/values/timeseries?keys=meterValFlash' +
             '&startTs=' + startTs +
             '&endTs=' + endTs +
             '&limit=10000&agg=NONE&orderBy=ASC'
         ).then(function (data) {
-            var points = (data && data.meterVal) ? data.meterVal : [];
+            var points = (data && data.meterValFlash) ? data.meterValFlash : [];
 
             if (points.length === 0) {
-                showMessage('No meterVal data found in this date range.', 'error');
+                showMessage('No meterValFlash data found in this date range.', 'error');
                 fetchBtn.disabled    = false;
                 fetchBtn.textContent = 'Fetch';
                 return;
@@ -541,7 +541,7 @@ self.onInit = function () {
 
         var confirmed = confirm(
             'Apply correction to ' + deviceName + '?\n\n' +
-            'This will write ' + correctedPoints.length + ' meterValCorrected data points.\n\n' +
+            'This will write ' + correctedPoints.length + ' meterValFlash data points.\n\n' +
             'This action cannot be undone.'
         );
         if (!confirmed) return;
@@ -588,7 +588,7 @@ self.onInit = function () {
                         method: 'POST',
                         body: JSON.stringify({
                             ts: p.ts,
-                            values: { meterValCorrected: p.newVal }
+                            values: { meterValFlash: p.newVal }
                         })
                     }
                 ).then(function () {
