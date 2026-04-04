@@ -481,10 +481,22 @@ self.onInit = function () {
     }
 
     // -- Select device & load chart --
+    var lastSelectedItem = null;
+
     function selectDevice(dev, itemEl) {
-        var items = deviceList.querySelectorAll('.w7-device-item');
-        items.forEach(function (el) { el.classList.remove('w7-active'); });
-        itemEl.classList.add('w7-active');
+        // Clear previous selection
+        if (lastSelectedItem) {
+            lastSelectedItem.style.backgroundColor = '';
+            lastSelectedItem.style.color = '';
+            var prevName = lastSelectedItem.querySelector('.w7-device-item-name');
+            if (prevName) prevName.style.color = '';
+        }
+        // Highlight new selection -- only change colors, not layout
+        itemEl.style.backgroundColor = '#305680';
+        itemEl.style.color = '#fff';
+        var activeName = itemEl.querySelector('.w7-device-item-name');
+        if (activeName) activeName.style.color = '#fff';
+        lastSelectedItem = itemEl;
 
         selectedDevice = dev;
         placeholder.style.display     = 'none';
@@ -534,15 +546,26 @@ self.onInit = function () {
                 });
             }
         }).then(function () {
-            // Fetch meterValFlash + meterValCorrected in one call
-            return apiFetch(
+            // Fetch meter data and flowRate in parallel
+            var meterP = apiFetch(
                 '/api/plugins/telemetry/DEVICE/' + dev.uuid +
-                '/values/timeseries?keys=meterValFlash,meterValCorrected,flowRate' +
+                '/values/timeseries?keys=meterValFlash,meterValCorrected' +
                 '&startTs=' + startTs +
                 '&endTs=' + endTs +
                 '&limit=10000&agg=NONE&orderBy=ASC'
             );
-        }).then(function (data) {
+            // FlowRate: fetch raw with high limit, graceful fallback if it fails
+            var flowP = apiFetch(
+                '/api/plugins/telemetry/DEVICE/' + dev.uuid +
+                '/values/timeseries?keys=flowRate' +
+                '&startTs=' + startTs +
+                '&endTs=' + endTs +
+                '&limit=100000&agg=NONE&orderBy=ASC'
+            ).catch(function () { return { flowRate: [] }; });
+            return Promise.all([meterP, flowP]);
+        }).then(function (results) {
+            var data = results[0];
+            var flowData = results[1];
             var baselineRaw  = (data && data.meterValFlash) ? data.meterValFlash : [];
             var correctedRaw = (data && data.meterValCorrected) ? data.meterValCorrected : [];
 
@@ -560,7 +583,7 @@ self.onInit = function () {
                 return { ts: p.ts, value: parseFloat(p.value) };
             }).sort(function (a, b) { return a.ts - b.ts; });
 
-            var flowRateRaw = (data && data.flowRate) ? data.flowRate : [];
+            var flowRateRaw = (flowData && flowData.flowRate) ? flowData.flowRate : [];
             fetchedFlow = flowRateRaw.map(function (p) {
                 var v = parseFloat(p.value);
                 return { ts: p.ts, value: v < 0.25 ? 0 : v };
@@ -597,6 +620,58 @@ self.onInit = function () {
 
         }).catch(function (e) {
             showMessage('Error loading ' + dev.name + ': ' + e.message, 'error');
+        });
+    }
+
+    // -- Thin data to max N points by sampling every Nth --
+    function thinData(arr, maxPoints) {
+        if (!arr || arr.length <= maxPoints) return arr;
+        var step = Math.ceil(arr.length / maxPoints);
+        var result = [];
+        for (var i = 0; i < arr.length; i += step) {
+            result.push(arr[i]);
+        }
+        // Always include last point
+        if (result[result.length - 1] !== arr[arr.length - 1]) {
+            result.push(arr[arr.length - 1]);
+        }
+        return result;
+    }
+
+    // -- Reload flowRate for visible range --
+    function reloadFlowForRange(visMinTs, visMaxTs) {
+        if (!selectedDevice) return;
+        apiFetch(
+            '/api/plugins/telemetry/DEVICE/' + selectedDevice.uuid +
+            '/values/timeseries?keys=flowRate' +
+            '&startTs=' + Math.round(visMinTs) +
+            '&endTs=' + Math.round(visMaxTs) +
+            '&limit=100000&agg=NONE&orderBy=ASC'
+        ).catch(function () { return { flowRate: [] }; })
+        .then(function (data) {
+            var flowRaw = (data && data.flowRate) ? data.flowRate : [];
+            var newFlow = flowRaw.map(function (p) {
+                var v = parseFloat(p.value);
+                return { ts: p.ts, value: v < 0.25 ? 0 : v };
+            }).sort(function (a, b) { return a.ts - b.ts; });
+
+            // Thin to max 500 points for display
+            var thinned = thinData(newFlow, 500);
+            var flowDataset = thinned.map(function (p) {
+                return { x: p.ts, y: p.value };
+            });
+
+            // Find and update the Flow Rate dataset
+            if (chartInstance) {
+                var flowIdx = -1;
+                chartInstance.data.datasets.forEach(function (ds, i) {
+                    if (ds.label === 'Flow Rate') flowIdx = i;
+                });
+                if (flowIdx >= 0) {
+                    chartInstance.data.datasets[flowIdx].data = flowDataset;
+                    chartInstance.update('none');
+                }
+            }
         });
     }
 
@@ -661,9 +736,10 @@ self.onInit = function () {
             });
         }
 
-        // Add flowRate on secondary axis
+        // Add flowRate on secondary axis (thinned to 500 points max)
         if (flowRate && flowRate.length > 0) {
-            var flowData = flowRate.map(function (p) {
+            var thinnedFlow = thinData(flowRate, 500);
+            var flowData = thinnedFlow.map(function (p) {
                 return { x: p.ts, y: p.value };
             });
             datasets.push({
@@ -864,12 +940,20 @@ self.onInit = function () {
                     zoom: {
                         pan: {
                             enabled: true,
-                            mode: 'x'
+                            mode: 'x',
+                            onPanComplete: function (ctx) {
+                                var xScale = ctx.chart.scales.x;
+                                reloadFlowForRange(xScale.min, xScale.max);
+                            }
                         },
                         zoom: {
                             wheel: { enabled: true },
                             pinch: { enabled: true },
-                            mode: 'x'
+                            mode: 'x',
+                            onZoomComplete: function (ctx) {
+                                var xScale = ctx.chart.scales.x;
+                                reloadFlowForRange(xScale.min, xScale.max);
+                            }
                         },
                         limits: {
                             x: { min: minTs, max: maxTs + 86400000 }

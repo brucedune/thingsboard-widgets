@@ -241,10 +241,16 @@
 .w7-btn-apply:hover:not([disabled]) { background: #96281b; }
 
 .w7-message {
-    margin-bottom: 12px;
-    padding: 9px 12px;
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 9px 20px;
     border-radius: 4px;
     font-size: 12px;
+    z-index: 9999;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    max-width: 600px;
 }
 .w7-msg-success { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
 .w7-msg-error   { background: #fdecea; color: #c0392b; border: 1px solid #f5c6c2; }
@@ -254,8 +260,8 @@
 .w7-content-row {
     display: flex;
     gap: 16px;
-    height: calc(100vh - 200px);
-    min-height: 500px;
+    height: calc(100vh - 296px);
+    min-height: 400px;
 }
 
 /* Device list panel */
@@ -307,8 +313,11 @@
 }
 .w7-device-item:hover { background: #e8f0f7; }
 .w7-device-item.w7-active {
-    background: #305680;
-    color: #fff;
+    background: #305680 !important;
+    color: #fff !important;
+}
+.w7-device-item.w7-active .w7-device-item-name {
+    color: #fff !important;
 }
 .w7-device-item-name {
     font-size: 12px;
