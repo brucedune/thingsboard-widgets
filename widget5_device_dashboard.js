@@ -465,20 +465,20 @@ self.onInit = function () {
                 });
             }
         }).then(function () {
-            // Fetch meterVal + dailyConsumption in one call
+            // Fetch meterValFlash + dailyConsumption in one call
             return apiFetch(
                 '/api/plugins/telemetry/DEVICE/' + dev.uuid +
-                '/values/timeseries?keys=meterVal,dailyConsumption' +
+                '/values/timeseries?keys=meterValFlash,dailyConsumption' +
                 '&startTs=' + startTs +
                 '&endTs=' + endTs +
                 '&limit=10000&agg=NONE&orderBy=ASC'
             );
         }).then(function (data) {
-            var points = (data && data.meterVal) ? data.meterVal : [];
+            var points = (data && data.meterValFlash) ? data.meterValFlash : [];
             var dailyRaw = (data && data.dailyConsumption) ? data.dailyConsumption : [];
 
             if (points.length === 0) {
-                showMessage(dev.name + ' -- no meterVal data in this date range.', 'error');
+                showMessage(dev.name + ' -- no meterValFlash data in this date range.', 'error');
                 return;
             }
 
@@ -547,7 +547,7 @@ self.onInit = function () {
         Object.keys(dayConsumption).forEach(function (k) { allKeys[k] = true; });
         var sortedKeys = Object.keys(allKeys).sort();
 
-        // Find baseVal from the first day that has meterVal data
+        // Find baseVal from the first day that has meterValFlash data
         var meterKeys = Object.keys(dayMeter).sort();
         var baseVal = meterKeys.length > 0 ? dayMeter[meterKeys[0]] : 0;
 
@@ -718,7 +718,8 @@ self.onInit = function () {
             }
 
             var flowParsed = flowRaw.map(function (p) {
-                return { x: p.ts, y: parseFloat(p.value) };
+                var v = parseFloat(p.value);
+                return { x: p.ts, y: v < 0.25 ? 0 : v };
             }).sort(function (a, b) { return a.x - b.x; });
 
             var deltaParsed = deltaRaw.map(function (p) {

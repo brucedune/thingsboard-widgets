@@ -1,0 +1,412 @@
+<div class="w7-wrap">
+    <div class="w7-title">Meter Correction Dashboard</div>
+
+    <!-- Inputs row -->
+    <div class="w7-input-row">
+        <div class="w7-field">
+            <label>Owner Type</label>
+            <select id="w7-ownerTypeSelect">
+                <option value="TENANT">Tenant</option>
+                <option value="CUSTOMER">Customer</option>
+            </select>
+        </div>
+
+        <div class="w7-field" id="w7-customerField" style="display:none">
+            <label>Customer</label>
+            <select id="w7-customerSelect">
+                <option value="">-- Select Customer --</option>
+            </select>
+        </div>
+
+        <div class="w7-field">
+            <label>Device Group</label>
+            <select id="w7-groupSelect" disabled>
+                <option value="">-- Select Group --</option>
+            </select>
+        </div>
+
+        <div class="w7-field">
+            <label>Start Date</label>
+            <input type="date" id="w7-startDate" class="w7-input">
+        </div>
+
+        <div class="w7-field">
+            <label>End Date</label>
+            <input type="date" id="w7-endDate" class="w7-input">
+        </div>
+
+        <div class="w7-field w7-btn-field">
+            <label>&nbsp;</label>
+            <button id="w7-fetchBtn" class="w7-btn" disabled>Load</button>
+        </div>
+    </div>
+
+    <!-- Status -->
+    <div id="w7-statusMsg" class="w7-message" style="display:none"></div>
+
+    <!-- Main content: device list + chart -->
+    <div id="w7-contentPanel">
+        <div class="w7-content-row">
+            <!-- Device list -->
+            <div class="w7-device-panel">
+                <div class="w7-device-search-wrap">
+                    <input type="text" id="w7-deviceSearch" class="w7-input" placeholder="Search devices..."
+                        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                </div>
+                <div class="w7-device-count" id="w7-deviceCount">0 devices</div>
+                <div class="w7-device-list" id="w7-deviceList"></div>
+            </div>
+
+            <!-- Right side: cards + chart + correction controls -->
+            <div class="w7-chart-side">
+                <!-- Summary cards -->
+                <div id="w7-summaryPanel" style="display:none">
+                    <div class="w7-cards-row">
+                        <div class="w7-card">
+                            <span class="w7-card-label">Start Value</span>
+                            <span class="w7-card-value" id="w7-cardStart">--</span>
+                            <span class="w7-card-sub" id="w7-cardStartDate">--</span>
+                        </div>
+                        <div class="w7-card">
+                            <span class="w7-card-label">End Value</span>
+                            <span class="w7-card-value" id="w7-cardEnd">--</span>
+                            <span class="w7-card-sub" id="w7-cardEndDate">--</span>
+                        </div>
+                        <div class="w7-card">
+                            <span class="w7-card-label">Current Diff</span>
+                            <span class="w7-card-value w7-card-highlight" id="w7-cardDiff">--</span>
+                        </div>
+                        <div class="w7-card">
+                            <span class="w7-card-label">Corrected Diff</span>
+                            <span class="w7-card-value w7-card-corrected" id="w7-cardCorrDiff">--</span>
+                        </div>
+                        <div class="w7-card">
+                            <span class="w7-card-label">Data Points</span>
+                            <span class="w7-card-value" id="w7-cardPoints">--</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart -->
+                <div id="w7-chartPanel" style="display:none">
+                    <div class="w7-chart-container">
+                        <canvas id="w7-chart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Correction controls -->
+                <div id="w7-correctionPanel" style="display:none">
+                    <div class="w7-anchor-hint" id="w7-anchorHint">
+                        Click two points on the baseline to set correction range, or enter manually below
+                    </div>
+                    <div class="w7-anchor-info" id="w7-anchorInfo" style="display:none">
+                        <span id="w7-anchorText"></span>
+                        <button id="w7-anchorClear" class="w7-btn-small">Clear</button>
+                    </div>
+                    <div class="w7-correction-row">
+                        <div class="w7-field" style="flex:1;min-width:180px;">
+                            <label>Corrected Difference</label>
+                            <input type="number" id="w7-correctionVal" class="w7-input" placeholder="Enter corrected usage value">
+                        </div>
+                        <div class="w7-field w7-btn-field">
+                            <label>&nbsp;</label>
+                            <button id="w7-previewBtn" class="w7-btn w7-btn-preview" disabled>Preview</button>
+                        </div>
+                        <div class="w7-field w7-btn-field">
+                            <label>&nbsp;</label>
+                            <button id="w7-applyBtn" class="w7-btn w7-btn-apply" disabled>Apply Correction</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Placeholder -->
+                <div id="w7-placeholder" class="w7-placeholder">
+                    Select a device from the list to view baseline vs corrected trace
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.w7-wrap {
+    font-family: Roboto, sans-serif;
+    font-size: 13px;
+    color: #333;
+    padding: 16px;
+    height: 100%;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+.w7-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: #305680;
+    border-bottom: 2px solid #305680;
+    padding-bottom: 6px;
+    margin-bottom: 16px;
+}
+.w7-input-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+.w7-field {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 140px;
+}
+.w7-field label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: #666;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+}
+.w7-field select,
+.w7-input {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 7px 10px;
+    font-size: 13px;
+    background: #fafafa;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+.w7-field select:focus,
+.w7-input:focus { border-color: #305680; background: #fff; }
+.w7-field select:disabled { background: #f0f0f0; color: #999; }
+
+.w7-btn-field { flex: 0 0 auto; min-width: auto; }
+.w7-btn {
+    padding: 8px 20px;
+    background: #305680;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s;
+    white-space: nowrap;
+}
+.w7-btn:hover:not([disabled]) { background: #264a6e; }
+.w7-btn[disabled] { background: #ccc; cursor: not-allowed; }
+.w7-btn-preview { background: #f57c00; }
+.w7-btn-preview:hover:not([disabled]) { background: #e65100; }
+.w7-btn-apply { background: #c0392b; }
+.w7-btn-apply:hover:not([disabled]) { background: #96281b; }
+
+.w7-message {
+    margin-bottom: 12px;
+    padding: 9px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+.w7-msg-success { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+.w7-msg-error   { background: #fdecea; color: #c0392b; border: 1px solid #f5c6c2; }
+.w7-msg-info    { background: #e3f2fd; color: #1565c0; border: 1px solid #90caf9; }
+
+/* Content layout */
+.w7-content-row {
+    display: flex;
+    gap: 16px;
+    height: calc(100vh - 200px);
+    min-height: 500px;
+}
+
+/* Device list panel */
+.w7-device-panel {
+    width: 340px;
+    min-width: 300px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #dde3eb;
+    border-radius: 6px;
+    background: #f9fafb;
+    overflow: hidden;
+}
+.w7-device-search-wrap {
+    padding: 8px;
+    border-bottom: 1px solid #e0e0e0;
+}
+.w7-device-search-wrap .w7-input {
+    font-size: 12px;
+    padding: 6px 8px;
+}
+.w7-device-count {
+    padding: 4px 10px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #888;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #eee;
+    background: #f0f2f5;
+}
+.w7-device-list {
+    flex: 1;
+    overflow-y: auto;
+}
+.w7-device-item {
+    padding: 8px 12px;
+    cursor: pointer !important;
+    border-bottom: 1px solid #eee;
+    transition: background 0.15s;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.w7-device-item * {
+    cursor: pointer !important;
+    pointer-events: none;
+}
+.w7-device-item:hover { background: #e8f0f7; }
+.w7-device-item.w7-active {
+    background: #305680;
+    color: #fff;
+}
+.w7-device-item-name {
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+}
+
+/* Chart side */
+.w7-chart-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+}
+
+/* Summary cards */
+#w7-summaryPanel {
+    flex-shrink: 0;
+}
+.w7-cards-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+.w7-card {
+    flex: 1;
+    min-width: 100px;
+    background: #f5f7fa;
+    border: 1px solid #dde3eb;
+    border-radius: 6px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+}
+.w7-card-label {
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #888;
+    letter-spacing: 0.5px;
+}
+.w7-card-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #305680;
+}
+.w7-card-highlight { color: #2e7d32; }
+.w7-card-corrected { color: #e65100; }
+.w7-card-sub {
+    font-size: 10px;
+    color: #999;
+}
+
+/* Chart */
+#w7-chartPanel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+.w7-chart-container {
+    flex: 1;
+    position: relative;
+    width: 100%;
+    min-height: 0;
+    background: #fafbfc;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+/* Correction controls */
+#w7-correctionPanel {
+    flex-shrink: 0;
+}
+.w7-anchor-hint {
+    margin-top: 8px;
+    padding: 6px 10px;
+    font-size: 11px;
+    color: #666;
+    font-style: italic;
+    background: #f5f7fa;
+    border-radius: 4px;
+    border: 1px solid #e0e0e0;
+}
+.w7-anchor-info {
+    margin-top: 8px;
+    padding: 6px 10px;
+    font-size: 12px;
+    color: #305680;
+    font-weight: 500;
+    background: #e3f2fd;
+    border-radius: 4px;
+    border: 1px solid #90caf9;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.w7-anchor-info span { flex: 1; }
+.w7-btn-small {
+    padding: 3px 10px;
+    background: #999;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    font-size: 10px;
+    cursor: pointer;
+}
+.w7-btn-small:hover { background: #666; }
+.w7-correction-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    margin-top: 8px;
+    flex-wrap: wrap;
+}
+
+/* Placeholder */
+.w7-placeholder {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
+    font-size: 14px;
+    font-style: italic;
+    border: 2px dashed #ddd;
+    border-radius: 6px;
+    min-height: 100px;
+}
+</style>
