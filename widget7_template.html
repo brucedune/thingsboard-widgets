@@ -94,27 +94,65 @@
                     </div>
                 </div>
 
-                <!-- Correction controls -->
+                <!-- Controls panel -->
                 <div id="w7-correctionPanel" style="display:none">
-                    <div class="w7-anchor-hint" id="w7-anchorHint">
-                        Click two points on the baseline to set correction range, or enter manually below
+                    <!-- Mode toggle -->
+                    <div class="w7-mode-row">
+                        <button id="w7-modeCorrBtn" class="w7-mode-btn w7-mode-active">Correction</button>
+                        <button id="w7-modeForeBtn" class="w7-mode-btn">Forecast</button>
                     </div>
-                    <div class="w7-anchor-info" id="w7-anchorInfo" style="display:none">
-                        <span id="w7-anchorText"></span>
-                        <button id="w7-anchorClear" class="w7-btn-small">Clear</button>
+
+                    <!-- Correction mode controls -->
+                    <div id="w7-correctionControls">
+                        <div class="w7-anchor-hint" id="w7-anchorHint">
+                            Click two points on the baseline to set correction range, or enter manually below
+                        </div>
+                        <div class="w7-anchor-info" id="w7-anchorInfo" style="display:none">
+                            <span id="w7-anchorText"></span>
+                            <button id="w7-anchorClear" class="w7-btn-small">Clear</button>
+                        </div>
+                        <div class="w7-correction-row">
+                            <div class="w7-field" style="flex:1;min-width:180px;">
+                                <label>Corrected Difference</label>
+                                <input type="number" id="w7-correctionVal" class="w7-input" placeholder="Enter corrected usage value">
+                            </div>
+                            <div class="w7-field w7-btn-field">
+                                <label>&nbsp;</label>
+                                <button id="w7-previewBtn" class="w7-btn w7-btn-preview" disabled>Preview</button>
+                            </div>
+                            <div class="w7-field w7-btn-field">
+                                <label>&nbsp;</label>
+                                <button id="w7-applyBtn" class="w7-btn w7-btn-apply" disabled>Apply Correction</button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="w7-correction-row">
-                        <div class="w7-field" style="flex:1;min-width:180px;">
-                            <label>Corrected Difference</label>
-                            <input type="number" id="w7-correctionVal" class="w7-input" placeholder="Enter corrected usage value">
+
+                    <!-- Forecast mode controls -->
+                    <div id="w7-forecastControls" style="display:none">
+                        <div class="w7-anchor-hint" id="w7-forecastHint">
+                            Click a point on the baseline to set where forecast rate calculation begins
                         </div>
-                        <div class="w7-field w7-btn-field">
-                            <label>&nbsp;</label>
-                            <button id="w7-previewBtn" class="w7-btn w7-btn-preview" disabled>Preview</button>
+                        <div class="w7-anchor-info" id="w7-forecastInfo" style="display:none">
+                            <span id="w7-forecastText"></span>
+                            <button id="w7-forecastClear" class="w7-btn-small">Clear</button>
                         </div>
-                        <div class="w7-field w7-btn-field">
-                            <label>&nbsp;</label>
-                            <button id="w7-applyBtn" class="w7-btn w7-btn-apply" disabled>Apply Correction</button>
+                        <div class="w7-correction-row">
+                            <div class="w7-field" style="flex:0 0 120px;">
+                                <label>Days Ahead</label>
+                                <input type="number" id="w7-forecastDays" class="w7-input" value="30" min="1" max="365">
+                            </div>
+                            <div class="w7-field" style="flex:1;min-width:140px;">
+                                <label>Daily Rate</label>
+                                <span id="w7-forecastRate" class="w7-rate-display">--</span>
+                            </div>
+                            <div class="w7-field" style="flex:1;min-width:140px;">
+                                <label>Projected Value</label>
+                                <span id="w7-forecastProjected" class="w7-rate-display">--</span>
+                            </div>
+                            <div class="w7-field w7-btn-field">
+                                <label>&nbsp;</label>
+                                <button id="w7-forecastBtn" class="w7-btn w7-btn-forecast" disabled>Show Forecast</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -350,10 +388,44 @@
     box-sizing: border-box;
 }
 
-/* Correction controls */
+/* Mode toggle */
+.w7-mode-row {
+    display: flex;
+    gap: 4px;
+    margin-top: 8px;
+    margin-bottom: 4px;
+}
+.w7-mode-btn {
+    padding: 6px 16px;
+    background: #e0e0e0;
+    color: #666;
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+.w7-mode-btn:hover { background: #ccc; }
+.w7-mode-active {
+    background: #305680;
+    color: #fff;
+}
+.w7-mode-active:hover { background: #264a6e; }
+
+/* Correction / Forecast controls */
 #w7-correctionPanel {
     flex-shrink: 0;
 }
+.w7-rate-display {
+    display: block;
+    padding: 7px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #305680;
+}
+.w7-btn-forecast { background: #1565c0; }
+.w7-btn-forecast:hover:not([disabled]) { background: #0d47a1; }
 .w7-anchor-hint {
     margin-top: 8px;
     padding: 6px 10px;

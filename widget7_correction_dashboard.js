@@ -59,6 +59,18 @@ self.onInit = function () {
     var anchorInfo    = document.getElementById('w7-anchorInfo');
     var anchorText    = document.getElementById('w7-anchorText');
     var anchorClearBtn = document.getElementById('w7-anchorClear');
+    var modeCorrBtn    = document.getElementById('w7-modeCorrBtn');
+    var modeForeBtn    = document.getElementById('w7-modeForeBtn');
+    var correctionControls = document.getElementById('w7-correctionControls');
+    var forecastControls   = document.getElementById('w7-forecastControls');
+    var forecastHint       = document.getElementById('w7-forecastHint');
+    var forecastInfo       = document.getElementById('w7-forecastInfo');
+    var forecastTextEl     = document.getElementById('w7-forecastText');
+    var forecastClearBtn   = document.getElementById('w7-forecastClear');
+    var forecastDaysEl     = document.getElementById('w7-forecastDays');
+    var forecastRateEl     = document.getElementById('w7-forecastRate');
+    var forecastProjectedEl = document.getElementById('w7-forecastProjected');
+    var forecastBtn        = document.getElementById('w7-forecastBtn');
 
     var currentUser    = null;
     var chartInstance  = null;
@@ -70,6 +82,10 @@ self.onInit = function () {
     var previewActive  = false;
     var anchorStart    = null;  // { ts, value, index }
     var anchorEnd      = null;  // { ts, value, index }
+    var clickMode      = 'correction'; // 'correction' or 'forecast'
+    var forecastStart  = null;  // { ts, value, index }
+    var forecastData   = [];    // { ts, value } -- forecast projection points
+    var forecastActive = false;
 
     // -- Get JWT token --
     function getToken() {
@@ -164,8 +180,16 @@ self.onInit = function () {
         previewActive  = false;
         anchorStart    = null;
         anchorEnd      = null;
-        anchorHint.style.display = 'block';
-        anchorInfo.style.display = 'none';
+        forecastStart  = null;
+        forecastData   = [];
+        forecastActive = false;
+        anchorHint.style.display     = 'block';
+        anchorInfo.style.display     = 'none';
+        forecastHint.style.display   = 'block';
+        forecastInfo.style.display   = 'none';
+        forecastRateEl.textContent   = '--';
+        forecastProjectedEl.textContent = '--';
+        forecastBtn.disabled         = true;
         if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
     }
 
@@ -184,8 +208,16 @@ self.onInit = function () {
         previewActive  = false;
         anchorStart    = null;
         anchorEnd      = null;
-        anchorHint.style.display = 'block';
-        anchorInfo.style.display = 'none';
+        forecastStart  = null;
+        forecastData   = [];
+        forecastActive = false;
+        anchorHint.style.display     = 'block';
+        anchorInfo.style.display     = 'none';
+        forecastHint.style.display   = 'block';
+        forecastInfo.style.display   = 'none';
+        forecastRateEl.textContent   = '--';
+        forecastProjectedEl.textContent = '--';
+        forecastBtn.disabled         = true;
         if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
     }
 
@@ -467,8 +499,16 @@ self.onInit = function () {
         correctedData                 = [];
         anchorStart                   = null;
         anchorEnd                     = null;
+        forecastStart                 = null;
+        forecastData                  = [];
+        forecastActive                = false;
         anchorHint.style.display      = 'block';
         anchorInfo.style.display      = 'none';
+        forecastHint.style.display    = 'block';
+        forecastInfo.style.display    = 'none';
+        forecastRateEl.textContent    = '--';
+        forecastProjectedEl.textContent = '--';
+        forecastBtn.disabled          = true;
         if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
 
         // Reset canvas
@@ -666,8 +706,43 @@ self.onInit = function () {
             });
         }
 
+        // Forecast start marker
+        if (forecastStart) {
+            datasets.push({
+                label: 'Forecast Start',
+                data: [{ x: forecastStart.ts, y: forecastStart.value }],
+                borderColor: '#1565c0',
+                backgroundColor: '#1565c0',
+                pointRadius: 10,
+                pointHoverRadius: 12,
+                pointStyle: 'triangle',
+                showLine: false
+            });
+        }
+
+        // Forecast projection line
+        if (forecastActive && forecastData.length > 0) {
+            var forecastDataset = forecastData.map(function (p) {
+                return { x: p.ts, y: p.value };
+            });
+            datasets.push({
+                label: 'Forecast',
+                data: forecastDataset,
+                borderColor: '#1565c0',
+                backgroundColor: 'rgba(21, 101, 192, 0.08)',
+                borderWidth: 2.5,
+                pointRadius: 0,
+                pointHoverRadius: 4,
+                fill: true,
+                tension: 0,
+                borderDash: [8, 4]
+            });
+        }
+
         var minTs = baseline[0].ts;
-        var maxTs = baseline[baseline.length - 1].ts;
+        var maxTs = forecastActive && forecastData.length > 0
+            ? forecastData[forecastData.length - 1].ts
+            : baseline[baseline.length - 1].ts;
 
         var ctx = chartCanvas.getContext('2d');
         chartInstance = new Chart(ctx, {
@@ -686,6 +761,39 @@ self.onInit = function () {
                     var pt = fetchedPoints[idx];
                     if (!pt) return;
 
+                    if (clickMode === 'forecast') {
+                        // Forecast mode: single click sets forecast start
+                        forecastStart = { ts: pt.ts, value: pt.value, index: idx };
+                        forecastHint.style.display = 'none';
+                        forecastInfo.style.display = 'flex';
+
+                        var last = fetchedPoints[fetchedPoints.length - 1];
+                        var daysBetween = (last.ts - pt.ts) / 86400000;
+                        var dailyRate = daysBetween > 0 ? (last.value - pt.value) / daysBetween : 0;
+
+                        forecastTextEl.textContent = 'From: ' + formatNumber(pt.value) +
+                            ' (' + formatDateShort(pt.ts) + ')  -->  Last: ' +
+                            formatNumber(last.value) + ' (' + formatDateShort(last.ts) +
+                            ')  |  ' + daysBetween.toFixed(1) + ' days';
+                        forecastRateEl.textContent = dailyRate.toFixed(2) + ' /day';
+
+                        var daysAhead = parseInt(forecastDaysEl.value) || 30;
+                        var projected = last.value + (dailyRate * daysAhead);
+                        forecastProjectedEl.textContent = formatNumber(projected);
+
+                        forecastBtn.disabled = false;
+
+                        // Redraw with forecast start marker
+                        var parent = chartCanvas.parentNode;
+                        var newCanvas = document.createElement('canvas');
+                        newCanvas.id = 'w7-chart';
+                        parent.replaceChild(newCanvas, chartCanvas);
+                        chartCanvas = newCanvas;
+                        renderChart(baseline, corrected, flowRate, deviceName);
+                        return;
+                    }
+
+                    // Correction mode
                     if (!anchorStart || (anchorStart && anchorEnd)) {
                         // First click or restart: set start anchor
                         anchorStart = { ts: pt.ts, value: pt.value, index: idx };
@@ -764,7 +872,7 @@ self.onInit = function () {
                             mode: 'x'
                         },
                         limits: {
-                            x: { min: minTs, max: maxTs }
+                            x: { min: minTs, max: maxTs + 86400000 }
                         }
                     }
                 },
@@ -826,6 +934,105 @@ self.onInit = function () {
         if (selectedDevice && fetchedPoints.length > 0) {
             reloadCurrentDevice();
         }
+    });
+
+    // -- Mode toggle --
+    modeCorrBtn.addEventListener('click', function () {
+        if (clickMode === 'correction') return;
+        clickMode = 'correction';
+        modeCorrBtn.classList.add('w7-mode-active');
+        modeForeBtn.classList.remove('w7-mode-active');
+        correctionControls.style.display = 'block';
+        forecastControls.style.display   = 'none';
+    });
+
+    modeForeBtn.addEventListener('click', function () {
+        if (clickMode === 'forecast') return;
+        clickMode = 'forecast';
+        modeForeBtn.classList.add('w7-mode-active');
+        modeCorrBtn.classList.remove('w7-mode-active');
+        forecastControls.style.display   = 'block';
+        correctionControls.style.display = 'none';
+    });
+
+    // -- Forecast clear --
+    forecastClearBtn.addEventListener('click', function () {
+        forecastStart  = null;
+        forecastData   = [];
+        forecastActive = false;
+        forecastHint.style.display      = 'block';
+        forecastInfo.style.display      = 'none';
+        forecastRateEl.textContent      = '--';
+        forecastProjectedEl.textContent = '--';
+        forecastBtn.disabled            = true;
+        if (selectedDevice && fetchedPoints.length > 0) {
+            reloadCurrentDevice();
+        }
+    });
+
+    // -- Forecast days change updates projected value --
+    forecastDaysEl.addEventListener('input', function () {
+        if (!forecastStart || fetchedPoints.length === 0) return;
+        var last = fetchedPoints[fetchedPoints.length - 1];
+        var daysBetween = (last.ts - forecastStart.ts) / 86400000;
+        var dailyRate = daysBetween > 0 ? (last.value - forecastStart.value) / daysBetween : 0;
+        var daysAhead = parseInt(forecastDaysEl.value) || 30;
+        var projected = last.value + (dailyRate * daysAhead);
+        forecastProjectedEl.textContent = formatNumber(projected);
+    });
+
+    // -- Show Forecast button --
+    forecastBtn.addEventListener('click', function () {
+        if (!forecastStart || fetchedPoints.length === 0) return;
+
+        var last = fetchedPoints[fetchedPoints.length - 1];
+        var daysBetween = (last.ts - forecastStart.ts) / 86400000;
+        var dailyRate = daysBetween > 0 ? (last.value - forecastStart.value) / daysBetween : 0;
+        var daysAhead = parseInt(forecastDaysEl.value) || 30;
+
+        // Build forecast points: one per day from last data point forward
+        forecastData = [];
+        // Start from last actual point
+        forecastData.push({ ts: last.ts, value: last.value });
+        for (var d = 1; d <= daysAhead; d++) {
+            forecastData.push({
+                ts: last.ts + (d * 86400000),
+                value: Math.round(last.value + (dailyRate * d))
+            });
+        }
+
+        forecastActive = true;
+
+        // Redraw chart with forecast
+        var startTs = new Date(startDateEl.value).getTime();
+        var endTs   = new Date(endDateEl.value).getTime() + 86400000 - 1;
+
+        apiFetch(
+            '/api/plugins/telemetry/DEVICE/' + selectedDevice.uuid +
+            '/values/timeseries?keys=meterValCorrected' +
+            '&startTs=' + startTs +
+            '&endTs=' + endTs +
+            '&limit=10000&agg=NONE&orderBy=ASC'
+        ).then(function (data) {
+            var correctedRaw = (data && data.meterValCorrected) ? data.meterValCorrected : [];
+            var correctedParsed = correctedRaw.map(function (p) {
+                return { ts: p.ts, value: parseFloat(p.value) };
+            }).sort(function (a, b) { return a.ts - b.ts; });
+
+            var parent = chartCanvas.parentNode;
+            var newCanvas = document.createElement('canvas');
+            newCanvas.id = 'w7-chart';
+            parent.replaceChild(newCanvas, chartCanvas);
+            chartCanvas = newCanvas;
+
+            renderChart(fetchedPoints, correctedParsed, fetchedFlow, selectedDevice.name);
+
+            var endDate = new Date(forecastData[forecastData.length - 1].ts);
+            showMessage('Forecast: ' + daysAhead + ' days ahead at ' +
+                dailyRate.toFixed(2) + '/day. Projected end: ' +
+                formatNumber(forecastData[forecastData.length - 1].value) +
+                ' on ' + endDate.toLocaleDateString(), 'info');
+        });
     });
 
     function reloadCurrentDevice() {
