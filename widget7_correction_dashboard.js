@@ -61,6 +61,10 @@ self.onInit = function () {
     var deltaCompareEl = document.getElementById('w7-deltaCompare');
     var matchPrevBtn   = document.getElementById('w7-matchPrevBtn');
     var showPrevToggle = document.getElementById('w7-showPrevToggle');
+    var attrToggles    = document.getElementById('w7-attrToggles');
+    var toggleBillable = document.getElementById('w7-toggleBillable');
+    var toggleReview   = document.getElementById('w7-toggleMeterReview');
+    var toggleLeak     = document.getElementById('w7-toggleLeak');
     var currentUser    = null;
     var chartInstance  = null;
     var allDevices     = [];
@@ -73,6 +77,8 @@ self.onInit = function () {
     var prevPeriodNorm = [];    // { ts, value } -- normalized to current period
     var prevPeriodDelta = null; // previous period total usage
     var showPrevOverlay = true;
+    var fetchedNotMetering = []; // { ts } -- timestamps where deviceState = "Not Metering"
+    var fetchedOffset = [];      // { ts, value } -- offset telemetry
 
     // -- Get JWT token --
     function getToken() {
@@ -420,6 +426,67 @@ self.onInit = function () {
         deviceCount.textContent = visible + ' of ' + allDevices.length + ' devices';
     });
 
+    // -- Attribute toggle helpers --
+    function updateToggleBtn(btn, label, isOn) {
+        btn.textContent = label + ': ' + (isOn ? 'TRUE' : 'FALSE');
+        btn.className = 'w7-toggle-btn ' + (isOn ? 'w7-toggle-on' : 'w7-toggle-off');
+    }
+
+    function toggleAttribute(attrKey, scope, btn, label, devProp) {
+        if (!selectedDevice) return;
+        var current = selectedDevice[devProp];
+        var newVal = !current;
+        var body = JSON.stringify({ [attrKey]: newVal });
+        apiFetch(
+            '/api/plugins/telemetry/DEVICE/' + selectedDevice.uuid + '/attributes/' + scope,
+            { method: 'POST', body: body }
+        ).then(function () {
+            selectedDevice[devProp] = newVal;
+            updateToggleBtn(btn, label, newVal);
+            // Re-render device list to update text color / icons
+            refreshDeviceItem(selectedDevice);
+        }).catch(function (e) {
+            showMessage('Failed to update ' + attrKey + ': ' + e.message, 'error');
+        });
+    }
+
+    function refreshDeviceItem(dev) {
+        var items = deviceList.querySelectorAll('.w7-device-item');
+        items.forEach(function (item) {
+            if (item.dataset.uuid === dev.uuid) {
+                var nameSpan = item.querySelector('.w7-device-item-name');
+                if (!nameSpan) return;
+                // Rebuild name text color
+                var nameText = nameSpan.querySelector('span');
+                if (nameText) {
+                    var nameColor = dev.meterReview ? '#b8860b' : (dev.billable === true) ? '#2e7d32' : '#c0392b';
+                    nameText.style.color = nameColor;
+                }
+                // Update leak icon
+                var existingLeak = nameSpan.querySelector('[title="Leak detected"]');
+                if (dev.leak && !existingLeak) {
+                    var leakIcon = document.createElement('span');
+                    leakIcon.style.cssText = 'flex-shrink:0;display:flex;align-items:center;';
+                    leakIcon.title = 'Leak detected';
+                    leakIcon.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="#42a5f5" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C12 2 5 11.2 5 16a7 7 0 0 0 14 0C19 11.2 12 2 12 2z"/></svg>';
+                    nameSpan.appendChild(leakIcon);
+                } else if (!dev.leak && existingLeak) {
+                    existingLeak.remove();
+                }
+            }
+        });
+    }
+
+    toggleBillable.addEventListener('click', function () {
+        toggleAttribute('Billable', 'SERVER_SCOPE', toggleBillable, 'Billable', 'billable');
+    });
+    toggleReview.addEventListener('click', function () {
+        toggleAttribute('Meter Review', 'SERVER_SCOPE', toggleReview, 'Meter Review', 'meterReview');
+    });
+    toggleLeak.addEventListener('click', function () {
+        toggleAttribute('Leak', 'SERVER_SCOPE', toggleLeak, 'Leak', 'leak');
+    });
+
     // -- Render device list --
     function renderDeviceList() {
         deviceList.innerHTML = '';
@@ -438,8 +505,22 @@ self.onInit = function () {
 
             var nameSpan = document.createElement('div');
             nameSpan.className   = 'w7-device-item-name';
-            nameSpan.style.cssText = 'pointer-events:none;cursor:pointer;';
-            nameSpan.textContent = parts.join(' - ');
+            nameSpan.style.cssText = 'pointer-events:none;cursor:pointer;display:flex;align-items:center;gap:6px;';
+
+            var nameText = document.createElement('span');
+            var nameColor = dev.meterReview ? '#b8860b' : (dev.billable === true) ? '#2e7d32' : '#c0392b';
+            nameText.style.cssText = 'overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;color:' + nameColor + ';';
+            nameText.textContent = parts.join(' - ');
+            nameSpan.appendChild(nameText);
+
+            // Leak raindrop -- right side
+            if (dev.leak) {
+                var leakIcon = document.createElement('span');
+                leakIcon.style.cssText = 'flex-shrink:0;display:flex;align-items:center;';
+                leakIcon.title = 'Leak detected';
+                leakIcon.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="#42a5f5" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C12 2 5 11.2 5 16a7 7 0 0 0 14 0C19 11.2 12 2 12 2z"/></svg>';
+                nameSpan.appendChild(leakIcon);
+            }
 
             item.appendChild(nameSpan);
 
@@ -494,15 +575,9 @@ self.onInit = function () {
         // Clear previous selection
         if (lastSelectedItem) {
             lastSelectedItem.style.backgroundColor = '';
-            lastSelectedItem.style.color = '';
-            var prevName = lastSelectedItem.querySelector('.w7-device-item-name');
-            if (prevName) prevName.style.color = '';
         }
-        // Highlight new selection -- only change colors, not layout
-        itemEl.style.backgroundColor = '#305680';
-        itemEl.style.color = '#fff';
-        var activeName = itemEl.querySelector('.w7-device-item-name');
-        if (activeName) activeName.style.color = '#fff';
+        // Highlight new selection -- light background preserves red/green text
+        itemEl.style.backgroundColor = '#e0e0e0';
         lastSelectedItem = itemEl;
 
         selectedDevice = dev;
@@ -510,6 +585,10 @@ self.onInit = function () {
         summaryPanel.style.display    = 'none';
         chartPanel.style.display      = 'none';
         correctionPanel.style.display = 'none';
+        attrToggles.style.display     = 'flex';
+        updateToggleBtn(toggleBillable, 'Billable', dev.billable === true);
+        updateToggleBtn(toggleReview, 'Meter Review', dev.meterReview === true);
+        updateToggleBtn(toggleLeak, 'Leak', dev.leak === true);
         correctionVal.value           = '';
         previewBtn.disabled           = true;
         applyBtn.disabled             = true;
@@ -549,7 +628,7 @@ self.onInit = function () {
             // Fetch meter data and flowRate in parallel
             var meterP = apiFetch(
                 '/api/plugins/telemetry/DEVICE/' + dev.uuid +
-                '/values/timeseries?keys=meterValFlash,meterValCorrected' +
+                '/values/timeseries?keys=meterValFlash,meterValCorrected,deviceState,offset' +
                 '&startTs=' + startTs +
                 '&endTs=' + endTs +
                 '&limit=10000&agg=NONE&orderBy=ASC'
@@ -624,6 +703,19 @@ self.onInit = function () {
             fetchedFlow = flowRateRaw.map(function (p) {
                 var v = parseFloat(p.value);
                 return { ts: p.ts, value: v < 0.25 ? 0 : v };
+            }).sort(function (a, b) { return a.ts - b.ts; });
+
+            // Parse deviceState -- keep timestamps where value is "Not Metering"
+            var deviceStateRaw = (data && data.deviceState) ? data.deviceState : [];
+            fetchedNotMetering = deviceStateRaw
+                .filter(function (p) { return String(p.value).trim() === 'Not Metering'; })
+                .map(function (p) { return { ts: p.ts }; })
+                .sort(function (a, b) { return a.ts - b.ts; });
+
+            // Parse offset telemetry
+            var offsetRaw = (data && data.offset) ? data.offset : [];
+            fetchedOffset = offsetRaw.map(function (p) {
+                return { ts: p.ts, value: parseFloat(p.value) };
             }).sort(function (a, b) { return a.ts - b.ts; });
 
             // Process previous 30-day mid-period slope
@@ -705,7 +797,7 @@ self.onInit = function () {
             summaryPanel.style.display = 'block';
 
             // Render chart
-            renderChart(fetchedPoints, correctedParsed, fetchedFlow, dev.name);
+            renderChart(fetchedPoints, correctedParsed, fetchedFlow, dev.name, fetchedNotMetering, fetchedOffset);
             chartPanel.style.display      = 'flex';
             correctionPanel.style.display = 'block';
 
@@ -817,7 +909,7 @@ self.onInit = function () {
     }
 
     // -- Render chart: baseline vs corrected --
-    function renderChart(baseline, corrected, flowRate, deviceName) {
+    function renderChart(baseline, corrected, flowRate, deviceName, notMetering, offsetData) {
         if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
 
         var baseZero = baseline.length > 0 ? baseline[0].value : 0;
@@ -918,6 +1010,48 @@ self.onInit = function () {
             });
         }
 
+        // Add "Not Metering" trace -- red points at y=0
+        var nmData = notMetering || fetchedNotMetering || [];
+        if (nmData.length > 0) {
+            var nmDataset = nmData.map(function (p) {
+                return { x: p.ts, y: 0 };
+            });
+            datasets.push({
+                label: 'Not Metering',
+                data: nmDataset,
+                borderColor: 'rgba(211, 47, 47, 0.8)',
+                backgroundColor: 'rgba(211, 47, 47, 0.8)',
+                borderWidth: 2,
+                pointRadius: 3,
+                pointHoverRadius: 5,
+                fill: false,
+                showLine: true,
+                tension: 0,
+                stepped: true
+            });
+        }
+
+        // Add offset trace on secondary axis
+        var oData = offsetData || fetchedOffset || [];
+        if (oData.length > 0) {
+            var thinnedOffset = thinData(oData, 10000);
+            var offsetDs = thinnedOffset.map(function (p) {
+                return { x: p.ts, y: Math.abs(p.value) };
+            });
+            datasets.push({
+                label: 'Offset',
+                data: offsetDs,
+                borderColor: 'rgba(56, 142, 60, 0.7)',
+                backgroundColor: 'rgba(56, 142, 60, 0.05)',
+                borderWidth: 1.5,
+                pointRadius: 0,
+                pointHoverRadius: 3,
+                fill: false,
+                tension: 0,
+                yAxisID: 'yOffset'
+            });
+        }
+
         var minTs = baseline[0].ts;
         var maxTs = baseline[baseline.length - 1].ts;
         // Extend x-axis to include corrected/preview data and end date
@@ -990,6 +1124,8 @@ self.onInit = function () {
                     x: {
                         type: 'time',
                         time: {
+                            unit: 'day',
+                            displayFormats: { day: 'MMM d' },
                             tooltipFormat: 'MMM d, yyyy HH:mm'
                         },
                         ticks: { font: { size: 10 }, maxTicksLimit: 15 },
@@ -1013,6 +1149,15 @@ self.onInit = function () {
                         ticks: { font: { size: 10 }, color: '#1565c0' },
                         grid: { drawOnChartArea: false },
                         beginAtZero: true
+                    },
+                    yOffset: {
+                        position: 'right',
+                        display: oData.length > 0,
+                        title: { display: true, text: 'Offset', font: { size: 11 }, color: '#388e3c' },
+                        ticks: { font: { size: 10 }, color: '#388e3c' },
+                        grid: { drawOnChartArea: false },
+                        min: 0,
+                        max: 15000
                     }
                 }
             }
@@ -1104,7 +1249,7 @@ self.onInit = function () {
             parent.replaceChild(newCanvas, chartCanvas);
             chartCanvas = newCanvas;
 
-            renderChart(fetchedPoints, correctedParsed, fetchedFlow, selectedDevice.name);
+            renderChart(fetchedPoints, correctedParsed, fetchedFlow, selectedDevice.name, fetchedNotMetering, fetchedOffset);
         });
     }
 
@@ -1164,7 +1309,7 @@ self.onInit = function () {
             parent.replaceChild(newCanvas, chartCanvas);
             chartCanvas = newCanvas;
 
-            renderChart(fetchedPoints, correctedParsed, fetchedFlow, selectedDevice.name);
+            renderChart(fetchedPoints, correctedParsed, fetchedFlow, selectedDevice.name, fetchedNotMetering, fetchedOffset);
             showMessage('Preview: orange dashed line shows proposed correction. Click Apply to write.', 'info');
         });
     });
@@ -1177,26 +1322,42 @@ self.onInit = function () {
 
         var confirmed = confirm(
             'Apply correction to ' + deviceName + '?\n\n' +
-            'This will write ' + correctedData.length + ' meterValCorrected data points.\n\n' +
+            'This will write ' + correctedData.length + ' meterValFlash data points.\n\n' +
             'This action cannot be undone.'
         );
         if (!confirmed) return;
 
         applyBtn.disabled    = true;
-        applyBtn.textContent = 'Applying...';
+        applyBtn.textContent = 'Deleting old data...';
         hideMessage();
 
         var deviceId  = selectedDevice.uuid;
-        var batchSize = 50;
-        var batches   = [];
-        for (var i = 0; i < correctedData.length; i += batchSize) {
-            batches.push(correctedData.slice(i, i + batchSize));
-        }
+        var startTs = new Date(startDateEl.value).getTime();
+        var endTs   = new Date(endDateEl.value).getTime() + 86400000 - 1;
 
-        var successCount = 0;
-        var errorCount   = 0;
+        // Step 1: Delete existing meterValFlash in date range
+        apiFetch(
+            '/api/plugins/telemetry/DEVICE/' + deviceId +
+            '/timeseries/delete?keys=meterValFlash' +
+            '&startTs=' + startTs +
+            '&endTs=' + endTs +
+            '&deleteAllDataForKeys=false',
+            { method: 'DELETE' }
+        ).then(function () {
+            // Step 2: Write corrected daily points
+            applyBtn.textContent = 'Applying...';
 
-        function processBatch(batchIndex) {
+            var batchSize = 50;
+            var batches   = [];
+            for (var i = 0; i < correctedData.length; i += batchSize) {
+                batches.push(correctedData.slice(i, i + batchSize));
+            }
+
+            var successCount = 0;
+            var errorCount   = 0;
+            processBatch(0);
+
+            function processBatch(batchIndex) {
             if (batchIndex >= batches.length) {
                 applyBtn.disabled    = false;
                 applyBtn.textContent = 'Apply Correction';
@@ -1204,7 +1365,7 @@ self.onInit = function () {
 
                 if (errorCount === 0) {
                     showMessage(
-                        'Correction applied -- ' + successCount + ' data points written to meterValCorrected.',
+                        'Correction applied -- ' + successCount + ' data points written to meterValFlash.',
                         'success'
                     );
                     // Reload to show the now-persisted corrected trace
@@ -1226,7 +1387,7 @@ self.onInit = function () {
                         method: 'POST',
                         body: JSON.stringify({
                             ts: p.ts,
-                            values: { meterValCorrected: p.value }
+                            values: { meterValFlash: p.value }
                         })
                     }
                 ).then(function () {
@@ -1245,7 +1406,11 @@ self.onInit = function () {
             });
         }
 
-        processBatch(0);
+        }).catch(function (e) {
+            applyBtn.disabled    = false;
+            applyBtn.textContent = 'Apply Correction';
+            showMessage('Error deleting old data: ' + e.message, 'error');
+        });
     });
 
     // -- Clear Corrected button --
@@ -1255,7 +1420,7 @@ self.onInit = function () {
 
         var deviceName = selectedDevice.name;
         var confirmed = confirm(
-            'Clear ALL meterValCorrected data for ' + deviceName + '?\n\n' +
+            'Clear ALL meterValFlash data for ' + deviceName + '?\n\n' +
             'This will permanently delete all corrected telemetry for this device.\n\n' +
             'This action cannot be undone.'
         );
@@ -1270,7 +1435,7 @@ self.onInit = function () {
 
         apiFetch(
             '/api/plugins/telemetry/DEVICE/' + selectedDevice.uuid +
-            '/timeseries/delete?keys=meterValCorrected' +
+            '/timeseries/delete?keys=meterValFlash' +
             '&startTs=' + startTs +
             '&endTs=' + endTs +
             '&deleteAllDataForKeys=false',
@@ -1344,11 +1509,32 @@ self.onInit = function () {
                         '/values/attributes/SERVER_SCOPE?keys=Apartment'
                     ).catch(function () { return []; });
 
-                    return Promise.all([propP, aptP]).then(function (res) {
-                        var propArr  = res[0] || [];
-                        var aptArr   = res[1] || [];
-                        dev.property  = propArr.length ? propArr[0].value : '--';
-                        dev.apartment = aptArr.length  ? aptArr[0].value  : '--';
+                    var leakP = apiFetch(
+                        '/api/plugins/telemetry/DEVICE/' + dev.uuid +
+                        '/values/attributes/SERVER_SCOPE?keys=Leak'
+                    ).catch(function () { return []; });
+
+                    var billP = apiFetch(
+                        '/api/plugins/telemetry/DEVICE/' + dev.uuid +
+                        '/values/attributes/SERVER_SCOPE?keys=Billable'
+                    ).catch(function () { return []; });
+
+                    var reviewP = apiFetch(
+                        '/api/plugins/telemetry/DEVICE/' + dev.uuid +
+                        '/values/attributes/SERVER_SCOPE?keys=Meter Review'
+                    ).catch(function () { return []; });
+
+                    return Promise.all([propP, aptP, leakP, billP, reviewP]).then(function (res) {
+                        var propArr    = res[0] || [];
+                        var aptArr     = res[1] || [];
+                        var leakArr    = res[2] || [];
+                        var billArr    = res[3] || [];
+                        var reviewArr  = res[4] || [];
+                        dev.property    = propArr.length ? propArr[0].value : '--';
+                        dev.apartment   = aptArr.length  ? aptArr[0].value  : '--';
+                        dev.leak        = leakArr.length ? (String(leakArr[0].value).toLowerCase() === 'true') : false;
+                        dev.billable    = billArr.length ? (String(billArr[0].value).toLowerCase() === 'true') : null;
+                        dev.meterReview = reviewArr.length ? (String(reviewArr[0].value).toLowerCase() === 'true') : false;
                         return dev;
                     });
                 });

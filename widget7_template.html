@@ -93,6 +93,13 @@
                     </div>
                 </div>
 
+                <!-- Attribute toggles -->
+                <div id="w7-attrToggles" class="w7-attr-toggles" style="display:none">
+                    <button id="w7-toggleBillable" class="w7-toggle-btn" title="Toggle Billable">Billable: --</button>
+                    <button id="w7-toggleMeterReview" class="w7-toggle-btn" title="Toggle Meter Review">Meter Review: --</button>
+                    <button id="w7-toggleLeak" class="w7-toggle-btn" title="Toggle Leak">Leak: --</button>
+                </div>
+
                 <!-- Chart -->
                 <div id="w7-chartPanel" style="display:none">
                     <div class="w7-chart-container">
@@ -223,6 +230,34 @@
 .w7-btn-apply:hover:not([disabled]) { background: #96281b; }
 .w7-btn-clear { background: #757575; }
 .w7-btn-clear:hover:not([disabled]) { background: #616161; }
+
+.w7-attr-toggles {
+    display: flex;
+    gap: 8px;
+    padding: 6px 0;
+}
+.w7-toggle-btn {
+    padding: 4px 12px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    background: #fff;
+    color: #333;
+    transition: all 0.15s;
+}
+.w7-toggle-btn:hover { opacity: 0.85; }
+.w7-toggle-btn.w7-toggle-on {
+    border-color: #2e7d32;
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+.w7-toggle-btn.w7-toggle-off {
+    border-color: #c0392b;
+    background: #fdecea;
+    color: #c0392b;
+}
 
 .w7-message {
     position: fixed;
