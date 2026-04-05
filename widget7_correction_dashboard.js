@@ -638,8 +638,6 @@ self.onInit = function () {
                     { ts: prevMidLastArr[0].ts, value: parseFloat(prevMidLastArr[0].value) }
                 ];
             }
-            console.log('Previous 30d mid-period points:', prevPeriodRaw);
-
             var first = fetchedPoints[0];
             var last  = fetchedPoints[fetchedPoints.length - 1];
             var diff  = last.value - first.value;
@@ -648,7 +646,6 @@ self.onInit = function () {
             prevPeriodNorm = [];
             prevPeriodDelta = null;
             if (prevPeriodRaw.length < 2) {
-                console.log('Not enough previous data (' + prevPeriodRaw.length + ' points)');
                 prevBar.style.display = 'flex';
                 prevDeltaEl.textContent    = 'N/A';
                 currDeltaEl.textContent    = formatNumber(diff);
@@ -659,21 +656,14 @@ self.onInit = function () {
             if (prevPeriodRaw.length >= 2) {
                 var prevFirst = prevPeriodRaw[0];
                 var prevLast  = prevPeriodRaw[prevPeriodRaw.length - 1];
-                // Calculate daily rate from mid-period slope, extrapolate to 30 days
+                // Daily rate from mid-period slope, extrapolate to 30 days
                 var midDays = (prevLast.ts - prevFirst.ts) / 86400000;
                 var midDelta = prevLast.value - prevFirst.value;
                 var prevDailyRate = midDays > 0 ? midDelta / midDays : 0;
                 prevPeriodDelta = Math.round(prevDailyRate * 30);
-                console.log('Mid-period: ' + midDays.toFixed(1) + ' days, delta=' + midDelta +
-                    ', rate=' + prevDailyRate.toFixed(2) + '/day, extrapolated 30d=' + prevPeriodDelta);
 
-                // Build normalized straight line: previous period daily rate
+                // Build normalized straight line using daily rate
                 var dayMs = 86400000;
-                var prevDays = (prevLast.ts - prevFirst.ts) / dayMs;
-                var prevDailyRate = prevDays > 0 ? prevPeriodDelta / prevDays : 0;
-
-                // One point per day from current start to current end
-                // First point anchored to exact baseline start
                 var currentStartDay = Math.floor(first.ts / dayMs) * dayMs;
                 var endDateTs = new Date(endDateEl.value).getTime();
                 var totalDays = Math.round((endDateTs - currentStartDay) / dayMs);
@@ -685,11 +675,6 @@ self.onInit = function () {
                         value: Math.round(first.value + (prevDailyRate * nd))
                     });
                 }
-
-                console.log('Prev normalized points:', prevPeriodNorm.length,
-                    'First:', prevPeriodNorm[0],
-                    'Last:', prevPeriodNorm[prevPeriodNorm.length - 1]);
-                console.log('showPrevOverlay:', showPrevOverlay);
 
                 // Show comparison bar
                 prevDeltaEl.textContent    = formatNumber(prevPeriodDelta);
@@ -895,7 +880,6 @@ self.onInit = function () {
         }
 
         // Previous period overlay (normalized)
-        console.log('renderChart: showPrevOverlay=' + showPrevOverlay + ', prevPeriodNorm.length=' + prevPeriodNorm.length);
         if (showPrevOverlay && prevPeriodNorm.length > 0) {
             var prevData = prevPeriodNorm.map(function (p) {
                 return { x: p.ts, y: p.value - baseZero };
