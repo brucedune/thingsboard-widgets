@@ -570,23 +570,29 @@ self.onInit = function () {
                     '&limit=100000&agg=NONE&orderBy=ASC'
                 ).catch(function () { return { flowRate: [] }; });
             }));
-            // Fetch previous 30 days for comparison
-            var prev30Start = startTs - (30 * 86400000);
-            var prev30End   = startTs - 1;
-            console.log('Fetching prev 30d: ' + new Date(prev30Start).toISOString() + ' to ' + new Date(prev30End).toISOString());
-            var prevP = apiFetch(
+            // Fetch previous 30 days: use mid-period slope (day 7.5 to 22.5)
+            // to avoid step functions at boundaries
+            var prev30End = startTs - 1;
+            var prev30Start = prev30End - (30 * 86400000);
+            var midStart = prev30Start + (7.5 * 86400000);   // day 7.5
+            var midEnd   = prev30Start + (22.5 * 86400000);  // day 22.5
+            // First reading at/after mid-start
+            var prevMidFirstP = apiFetch(
                 '/api/plugins/telemetry/DEVICE/' + dev.uuid +
                 '/values/timeseries?keys=meterValFlash' +
-                '&startTs=' + prev30Start +
-                '&endTs=' + prev30End +
-                '&limit=10000&agg=NONE&orderBy=ASC'
-            ).then(function (resp) {
-                console.log('Prev 30d response:', resp);
-                return resp;
-            }).catch(function (err) {
-                console.error('Prev 30d fetch FAILED:', err);
-                return null;
-            });
+                '&startTs=' + Math.round(midStart) +
+                '&endTs=' + Math.round(midEnd) +
+                '&limit=1&agg=NONE&orderBy=ASC'
+            ).catch(function () { return null; });
+            // Last reading at/before mid-end
+            var prevMidLastP = apiFetch(
+                '/api/plugins/telemetry/DEVICE/' + dev.uuid +
+                '/values/timeseries?keys=meterValFlash' +
+                '&startTs=' + Math.round(midStart) +
+                '&endTs=' + Math.round(midEnd) +
+                '&limit=1&agg=NONE&orderBy=DESC'
+            ).catch(function () { return null; });
+            var prevP = Promise.all([prevMidFirstP, prevMidLastP]);
             return Promise.all([meterP, flowP, prevP]);
         }).then(function (results) {
             var data = results[0];
@@ -620,13 +626,19 @@ self.onInit = function () {
                 return { ts: p.ts, value: v < 0.25 ? 0 : v };
             }).sort(function (a, b) { return a.ts - b.ts; });
 
-            // Process previous 30-day data
-            var prevResult = results[2];
-            var prevRaw = (prevResult && prevResult.meterValFlash) ? prevResult.meterValFlash : [];
-            console.log('Previous 30d points found:', prevRaw.length);
-            prevPeriodRaw = prevRaw.map(function (p) {
-                return { ts: p.ts, value: parseFloat(p.value) };
-            }).sort(function (a, b) { return a.ts - b.ts; });
+            // Process previous 30-day mid-period slope
+            var prevMidFirstResult = results[2][0];
+            var prevMidLastResult  = results[2][1];
+            var prevMidFirstArr = (prevMidFirstResult && prevMidFirstResult.meterValFlash) ? prevMidFirstResult.meterValFlash : [];
+            var prevMidLastArr  = (prevMidLastResult && prevMidLastResult.meterValFlash) ? prevMidLastResult.meterValFlash : [];
+            prevPeriodRaw = [];
+            if (prevMidFirstArr.length > 0 && prevMidLastArr.length > 0) {
+                prevPeriodRaw = [
+                    { ts: prevMidFirstArr[0].ts, value: parseFloat(prevMidFirstArr[0].value) },
+                    { ts: prevMidLastArr[0].ts, value: parseFloat(prevMidLastArr[0].value) }
+                ];
+            }
+            console.log('Previous 30d mid-period points:', prevPeriodRaw);
 
             var first = fetchedPoints[0];
             var last  = fetchedPoints[fetchedPoints.length - 1];
@@ -647,28 +659,32 @@ self.onInit = function () {
             if (prevPeriodRaw.length >= 2) {
                 var prevFirst = prevPeriodRaw[0];
                 var prevLast  = prevPeriodRaw[prevPeriodRaw.length - 1];
-                prevPeriodDelta = prevLast.value - prevFirst.value;
+                // Calculate daily rate from mid-period slope, extrapolate to 30 days
+                var midDays = (prevLast.ts - prevFirst.ts) / 86400000;
+                var midDelta = prevLast.value - prevFirst.value;
+                var prevDailyRate = midDays > 0 ? midDelta / midDays : 0;
+                prevPeriodDelta = Math.round(prevDailyRate * 30);
+                console.log('Mid-period: ' + midDays.toFixed(1) + ' days, delta=' + midDelta +
+                    ', rate=' + prevDailyRate.toFixed(2) + '/day, extrapolated 30d=' + prevPeriodDelta);
 
-                // Bucket previous data by day, take last reading per day
+                // Build normalized straight line: previous period daily rate
                 var dayMs = 86400000;
-                var prevStartDay = Math.floor(prevFirst.ts / dayMs) * dayMs;
-                var dailyBuckets = {};
-                prevPeriodRaw.forEach(function (p) {
-                    var dayKey = Math.floor((p.ts - prevStartDay) / dayMs);
-                    dailyBuckets[dayKey] = p; // last value wins
-                });
+                var prevDays = (prevLast.ts - prevFirst.ts) / dayMs;
+                var prevDailyRate = prevDays > 0 ? prevPeriodDelta / prevDays : 0;
 
-                // Map each day to current period start + day offset
+                // One point per day from current start to current end
+                // First point anchored to exact baseline start
                 var currentStartDay = Math.floor(first.ts / dayMs) * dayMs;
-                var valOffset = first.value - prevFirst.value;
-                var dayKeys = Object.keys(dailyBuckets).map(Number).sort(function (a, b) { return a - b; });
-                prevPeriodNorm = dayKeys.map(function (dayNum) {
-                    var p = dailyBuckets[dayNum];
-                    return {
-                        ts: currentStartDay + (dayNum * dayMs),
-                        value: p.value + valOffset
-                    };
-                });
+                var endDateTs = new Date(endDateEl.value).getTime();
+                var totalDays = Math.round((endDateTs - currentStartDay) / dayMs);
+                prevPeriodNorm = [];
+                prevPeriodNorm.push({ ts: first.ts, value: first.value });
+                for (var nd = 1; nd <= totalDays; nd++) {
+                    prevPeriodNorm.push({
+                        ts: currentStartDay + (nd * dayMs),
+                        value: Math.round(first.value + (prevDailyRate * nd))
+                    });
+                }
 
                 console.log('Prev normalized points:', prevPeriodNorm.length,
                     'First:', prevPeriodNorm[0],
@@ -819,12 +835,14 @@ self.onInit = function () {
     function renderChart(baseline, corrected, flowRate, deviceName) {
         if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
 
+        var baseZero = baseline.length > 0 ? baseline[0].value : 0;
+
         var baselineData = baseline.map(function (p) {
-            return { x: p.ts, y: p.value };
+            return { x: p.ts, y: p.value - baseZero };
         });
 
         var correctedDataset = corrected.map(function (p) {
-            return { x: p.ts, y: p.value };
+            return { x: p.ts, y: p.value - baseZero };
         });
 
         var datasets = [
@@ -860,7 +878,7 @@ self.onInit = function () {
         // If preview is active, add preview trace
         if (previewActive && correctedData.length > 0) {
             var previewDataset = correctedData.map(function (p) {
-                return { x: p.ts, y: p.value };
+                return { x: p.ts, y: p.value - baseZero };
             });
             datasets.push({
                 label: 'Preview (proposed correction)',
@@ -880,7 +898,7 @@ self.onInit = function () {
         console.log('renderChart: showPrevOverlay=' + showPrevOverlay + ', prevPeriodNorm.length=' + prevPeriodNorm.length);
         if (showPrevOverlay && prevPeriodNorm.length > 0) {
             var prevData = prevPeriodNorm.map(function (p) {
-                return { x: p.ts, y: p.value };
+                return { x: p.ts, y: p.value - baseZero };
             });
             datasets.push({
                 label: 'Previous 30d',
@@ -918,6 +936,13 @@ self.onInit = function () {
 
         var minTs = baseline[0].ts;
         var maxTs = baseline[baseline.length - 1].ts;
+        // Extend x-axis to include corrected/preview data and end date
+        if (previewActive && correctedData.length > 0) {
+            var lastCorr = correctedData[correctedData.length - 1].ts;
+            if (lastCorr > maxTs) maxTs = lastCorr;
+        }
+        var endDateTs = new Date(endDateEl.value).getTime();
+        if (endDateTs > maxTs) maxTs = endDateTs;
 
         var ctx = chartCanvas.getContext('2d');
         chartInstance = new Chart(ctx, {
@@ -990,7 +1015,7 @@ self.onInit = function () {
                     },
                     y: {
                         position: 'left',
-                        title: { display: true, text: 'Meter Value', font: { size: 11 } },
+                        title: { display: true, text: 'Usage', font: { size: 11 } },
                         ticks: {
                             font: { size: 10 },
                             callback: function (val) { return Math.round(val).toLocaleString(); }
