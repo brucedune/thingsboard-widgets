@@ -53,8 +53,19 @@
                     <input type="text" id="w7-deviceSearch" class="w7-input" placeholder="Search devices..."
                         autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                 </div>
+                <div class="w7-device-filters">
+                    <select id="w7-filterBillable" class="w7-filter-select">
+                        <option value="ALL">Billable: All</option>
+                        <option value="FALSE">Billable: FALSE</option>
+                    </select>
+                    <select id="w7-filterReview" class="w7-filter-select">
+                        <option value="ALL">Review: All</option>
+                        <option value="TRUE">Review: TRUE</option>
+                    </select>
+                </div>
                 <div class="w7-device-nav">
                     <span class="w7-device-count" id="w7-deviceCount">0 devices</span>
+                    <button id="w7-toggleEngReview" class="w7-toggle-btn w7-toggle-eng" title="Toggle Engineering Reviewed (group)">Eng Reviewed: --</button>
                     <div class="w7-nav-btns">
                         <button id="w7-prevDevBtn" class="w7-nav-btn" title="Previous device">&#9650;</button>
                         <button id="w7-nextDevBtn" class="w7-nav-btn" title="Next device">&#9660;</button>
@@ -96,8 +107,10 @@
                 <!-- Attribute toggles -->
                 <div id="w7-attrToggles" class="w7-attr-toggles" style="display:none">
                     <button id="w7-toggleBillable" class="w7-toggle-btn" title="Toggle Billable">Billable: --</button>
-                    <button id="w7-toggleMeterReview" class="w7-toggle-btn" title="Toggle Meter Review">Meter Review: --</button>
+                    <button id="w7-toggleMeterReview" class="w7-toggle-btn" title="Toggle Billing Review">Billing Review: --</button>
                     <button id="w7-toggleLeak" class="w7-toggle-btn" title="Toggle Leak">Leak: --</button>
+                    <button id="w7-toggleInstalled" class="w7-toggle-btn" title="Toggle Installed">Installed: --</button>
+                    <button id="w7-toggleReplace" class="w7-toggle-btn" title="Toggle Replace">Replace: --</button>
                 </div>
 
                 <!-- Chart -->
@@ -142,6 +155,35 @@
                         <div class="w7-field w7-btn-field">
                             <label>&nbsp;</label>
                             <button id="w7-clearCorrBtn" class="w7-btn w7-btn-clear">Clear Corrected</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Move device panel (independent of chart data) -->
+                <div id="w7-movePanel" style="display:none">
+                    <div class="w7-move-row">
+                        <div class="w7-field">
+                            <label>Move to Owner</label>
+                            <select id="w7-moveOwnerType">
+                                <option value="TENANT">Tenant</option>
+                                <option value="CUSTOMER">Customer</option>
+                            </select>
+                        </div>
+                        <div class="w7-field" id="w7-moveCustomerField" style="display:none">
+                            <label>Customer</label>
+                            <select id="w7-moveCustomerSelect">
+                                <option value="">-- Select Customer --</option>
+                            </select>
+                        </div>
+                        <div class="w7-field">
+                            <label>Target Group</label>
+                            <select id="w7-moveGroupSelect" disabled>
+                                <option value="">-- Select Group --</option>
+                            </select>
+                        </div>
+                        <div class="w7-field w7-btn-field">
+                            <label>&nbsp;</label>
+                            <button id="w7-moveBtn" class="w7-btn w7-btn-move" disabled>Move Device</button>
                         </div>
                     </div>
                 </div>
@@ -230,6 +272,17 @@
 .w7-btn-apply:hover:not([disabled]) { background: #96281b; }
 .w7-btn-clear { background: #757575; }
 .w7-btn-clear:hover:not([disabled]) { background: #616161; }
+.w7-btn-move { background: #1565c0; }
+.w7-btn-move:hover:not([disabled]) { background: #0d47a1; }
+.w7-move-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    padding-top: 8px;
+    border-top: 1px solid #e0e0e0;
+    margin-top: 8px;
+}
 
 .w7-attr-toggles {
     display: flex;
@@ -302,6 +355,25 @@
 .w7-device-search-wrap .w7-input {
     font-size: 12px;
     padding: 6px 8px;
+}
+.w7-device-filters {
+    display: flex;
+    gap: 6px;
+    padding: 6px 8px;
+    border-bottom: 1px solid #e0e0e0;
+    background: #f8f9fa;
+}
+.w7-filter-select {
+    flex: 1;
+    font-size: 11px;
+    padding: 3px 4px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background: #fff;
+}
+.w7-toggle-eng {
+    font-size: 10px !important;
+    padding: 2px 8px !important;
 }
 .w7-device-nav {
     display: flex;

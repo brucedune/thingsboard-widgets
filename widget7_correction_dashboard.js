@@ -65,10 +65,22 @@ self.onInit = function () {
     var toggleBillable = document.getElementById('w7-toggleBillable');
     var toggleReview   = document.getElementById('w7-toggleMeterReview');
     var toggleLeak     = document.getElementById('w7-toggleLeak');
+    var toggleInstalled = document.getElementById('w7-toggleInstalled');
+    var toggleReplace  = document.getElementById('w7-toggleReplace');
+    var toggleEngReview = document.getElementById('w7-toggleEngReview');
+    var filterBillable = document.getElementById('w7-filterBillable');
+    var filterReview   = document.getElementById('w7-filterReview');
+    var movePanel      = document.getElementById('w7-movePanel');
+    var moveOwnerType  = document.getElementById('w7-moveOwnerType');
+    var moveCustField  = document.getElementById('w7-moveCustomerField');
+    var moveCustSel    = document.getElementById('w7-moveCustomerSelect');
+    var moveGroupSel   = document.getElementById('w7-moveGroupSelect');
+    var moveBtn        = document.getElementById('w7-moveBtn');
     var currentUser    = null;
     var chartInstance  = null;
     var allDevices     = [];
     var selectedDevice = null;
+    var groupEngReviewed = false; // group-level Engineering Reviewed
     var fetchedPoints  = [];   // { ts, value } -- baseline meterValFlash
     var fetchedFlow    = [];   // { ts, value } -- flowRate data
     var correctedData  = [];   // { ts, value } -- corrected trace for chart
@@ -159,6 +171,8 @@ self.onInit = function () {
         summaryPanel.style.display    = 'none';
         chartPanel.style.display      = 'none';
         correctionPanel.style.display = 'none';
+        attrToggles.style.display     = 'none';
+        movePanel.style.display       = 'none';
         placeholder.style.display     = 'flex';
         deviceList.innerHTML          = '';
         deviceCount.textContent       = '0 devices';
@@ -330,11 +344,14 @@ self.onInit = function () {
 
     makeSearchable(customerSel);
     makeSearchable(groupSel);
+    makeSearchable(moveCustSel);
+    makeSearchable(moveGroupSel);
 
     // -- Load current user --
     apiFetch('/api/auth/user').then(function (user) {
         currentUser = user;
         loadGroups();
+        loadMoveGroups(); // initialize move target with tenant groups
     }).catch(function (e) {
         showMessage('Could not load user: ' + e.message, 'error');
     });
@@ -412,19 +429,39 @@ self.onInit = function () {
     startDateEl.addEventListener('change', function () { resetAll(); updateFetchBtn(); });
     endDateEl.addEventListener('change', function () { resetAll(); updateFetchBtn(); });
 
-    // -- Device list search filter --
-    deviceSearch.addEventListener('input', function () {
+    // -- Device list filtering (search + attribute filters) --
+    function applyDeviceFilters() {
         var term = deviceSearch.value.toLowerCase();
+        var billFilter = filterBillable.value;   // "ALL" or "FALSE"
+        var revFilter  = filterReview.value;     // "ALL" or "TRUE"
         var items = deviceList.querySelectorAll('.w7-device-item');
         var visible = 0;
         items.forEach(function (item) {
-            var text = item.textContent.toLowerCase();
-            var show = !term || text.indexOf(term) !== -1;
+            var uuid = item.dataset.uuid;
+            var dev = allDevices.find(function (d) { return d.uuid === uuid; });
+            var show = true;
+            // Text search
+            if (term) {
+                var text = item.textContent.toLowerCase();
+                if (text.indexOf(term) === -1) show = false;
+            }
+            // Billable filter
+            if (show && billFilter === 'FALSE' && dev) {
+                if (dev.billable === true) show = false;
+            }
+            // Meter Review filter
+            if (show && revFilter === 'TRUE' && dev) {
+                if (!dev.meterReview) show = false;
+            }
             item.style.display = show ? '' : 'none';
             if (show) visible++;
         });
         deviceCount.textContent = visible + ' of ' + allDevices.length + ' devices';
-    });
+    }
+
+    deviceSearch.addEventListener('input', applyDeviceFilters);
+    filterBillable.addEventListener('change', applyDeviceFilters);
+    filterReview.addEventListener('change', applyDeviceFilters);
 
     // -- Attribute toggle helpers --
     function updateToggleBtn(btn, label, isOn) {
@@ -459,19 +496,27 @@ self.onInit = function () {
                 // Rebuild name text color
                 var nameText = nameSpan.querySelector('span');
                 if (nameText) {
-                    var nameColor = dev.meterReview ? '#b8860b' : (dev.billable === true) ? '#2e7d32' : '#c0392b';
+                    var nameColor = dev.meterReview ? '#b8860b' : (dev.replace || dev.billable !== true) ? '#c0392b' : '#2e7d32';
                     nameText.style.color = nameColor;
                 }
-                // Update leak icon
-                var existingLeak = nameSpan.querySelector('[title="Leak detected"]');
-                if (dev.leak && !existingLeak) {
-                    var leakIcon = document.createElement('span');
-                    leakIcon.style.cssText = 'flex-shrink:0;display:flex;align-items:center;';
-                    leakIcon.title = 'Leak detected';
-                    leakIcon.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="#42a5f5" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C12 2 5 11.2 5 16a7 7 0 0 0 14 0C19 11.2 12 2 12 2z"/></svg>';
-                    nameSpan.appendChild(leakIcon);
-                } else if (!dev.leak && existingLeak) {
-                    existingLeak.remove();
+                // Update single droplet icon
+                var existingDrop = nameSpan.querySelector('.w7-drop-icon');
+                if (dev.noWater || dev.leak) {
+                    var dropColor = dev.noWater ? '#c0392b' : '#42a5f5';
+                    var dropTitle = dev.noWater ? 'No Water' : 'Leak detected';
+                    if (existingDrop) {
+                        existingDrop.title = dropTitle;
+                        existingDrop.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="' + dropColor + '" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C12 2 5 11.2 5 16a7 7 0 0 0 14 0C19 11.2 12 2 12 2z"/></svg>';
+                    } else {
+                        var dropIcon = document.createElement('span');
+                        dropIcon.style.cssText = 'flex-shrink:0;display:flex;align-items:center;';
+                        dropIcon.title = dropTitle;
+                        dropIcon.className = 'w7-drop-icon';
+                        dropIcon.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="' + dropColor + '" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C12 2 5 11.2 5 16a7 7 0 0 0 14 0C19 11.2 12 2 12 2z"/></svg>';
+                        nameSpan.appendChild(dropIcon);
+                    }
+                } else if (existingDrop) {
+                    existingDrop.remove();
                 }
             }
         });
@@ -481,11 +526,194 @@ self.onInit = function () {
         toggleAttribute('Billable', 'SERVER_SCOPE', toggleBillable, 'Billable', 'billable');
     });
     toggleReview.addEventListener('click', function () {
-        toggleAttribute('Meter Review', 'SERVER_SCOPE', toggleReview, 'Meter Review', 'meterReview');
+        toggleAttribute('Billing Review', 'SERVER_SCOPE', toggleReview, 'Billing Review', 'meterReview');
     });
     toggleLeak.addEventListener('click', function () {
         toggleAttribute('Leak', 'SERVER_SCOPE', toggleLeak, 'Leak', 'leak');
     });
+    toggleInstalled.addEventListener('click', function () {
+        toggleAttribute('Installed', 'SERVER_SCOPE', toggleInstalled, 'Installed', 'installed');
+    });
+    toggleReplace.addEventListener('click', function () {
+        toggleAttribute('Replace', 'SERVER_SCOPE', toggleReplace, 'Replace', 'replace');
+    });
+    toggleEngReview.addEventListener('click', function () {
+        var gId = groupSel.value;
+        if (!gId) return;
+        var newVal = !groupEngReviewed;
+        var attrs = { 'Engineering Reviewed': newVal };
+        if (newVal) {
+            attrs['Engineering Review Date'] = Date.now();
+        }
+        apiFetch(
+            '/api/plugins/telemetry/ENTITY_GROUP/' + gId + '/attributes/SERVER_SCOPE',
+            { method: 'POST', body: JSON.stringify(attrs) }
+        ).then(function () {
+            groupEngReviewed = newVal;
+            updateToggleBtn(toggleEngReview, 'Eng Reviewed', newVal);
+            showMessage('Engineering Reviewed set to ' + newVal + ' for group', 'success');
+        }).catch(function (e) {
+            showMessage('Failed to update Engineering Reviewed: ' + e.message, 'error');
+        });
+    });
+
+    // -- Move device controls --
+    function loadMoveCustomers() {
+        moveCustSel.innerHTML = '<option value="">Loading...</option>';
+        moveGroupSel.innerHTML = '<option value="">-- Select Group --</option>';
+        moveGroupSel.disabled = true;
+        moveBtn.disabled = true;
+
+        apiFetch('/api/customers?pageSize=1000&page=0').then(function (resp) {
+            var list = (resp && resp.data) ? resp.data.filter(Boolean) : [];
+            var items = list.map(function (c) {
+                return { id: extractId(c.id), name: c.title || c.name || '' };
+            });
+            populateSelect(moveCustSel, items, '-- Select Customer --');
+        }).catch(function () {
+            moveCustSel.innerHTML = '<option value="">-- Select Customer --</option>';
+        });
+    }
+
+    function loadMoveGroups() {
+        if (!currentUser) return;
+        moveGroupSel.disabled = true;
+        moveGroupSel.innerHTML = '<option value="">Loading...</option>';
+        moveBtn.disabled = true;
+
+        var mOwnerType = moveOwnerType.value;
+        var mOwnerId = mOwnerType === 'TENANT'
+            ? extractId(currentUser.tenantId)
+            : moveCustSel.value;
+
+        if (!mOwnerId) {
+            moveGroupSel.innerHTML = '<option value="">-- Select Group --</option>';
+            return;
+        }
+
+        apiFetch('/api/entityGroups/' + mOwnerType + '/' + mOwnerId + '/DEVICE')
+            .then(function (data) {
+                var list = (data || []).filter(function (g) { return g && g.name !== 'All'; });
+                var items = list.map(function (g) {
+                    return { id: extractId(g.id), name: g.name || g.label || '' };
+                });
+                populateSelect(moveGroupSel, items, '-- Select Group --');
+                moveGroupSel.disabled = false;
+            })
+            .catch(function () {
+                moveGroupSel.innerHTML = '<option value="">-- Select Group --</option>';
+            });
+    }
+
+    function updateMoveBtn() {
+        moveBtn.disabled = !selectedDevice || !moveGroupSel.value;
+    }
+
+    moveOwnerType.addEventListener('change', function () {
+        if (moveOwnerType.value === 'CUSTOMER') {
+            moveCustField.style.display = 'block';
+            loadMoveCustomers();
+        } else {
+            moveCustField.style.display = 'none';
+            loadMoveGroups();
+        }
+        updateMoveBtn();
+    });
+
+    moveCustSel.addEventListener('change', function () {
+        loadMoveGroups();
+        updateMoveBtn();
+    });
+
+    moveGroupSel.addEventListener('change', function () {
+        updateMoveBtn();
+    });
+
+    moveBtn.addEventListener('click', function () {
+        if (!selectedDevice || !moveGroupSel.value) return;
+
+        var targetGroupId = moveGroupSel.value;
+        var targetGroupName = moveGroupSel.options[moveGroupSel.selectedIndex].text;
+        var sourceGroupId = groupSel.value;
+        var uuid = selectedDevice.uuid;
+
+        if (!window.confirm('Move "' + selectedDevice.name + '" to group "' + targetGroupName + '"?\n\nThis will remove the device from the current group.')) {
+            return;
+        }
+
+        moveBtn.disabled = true;
+        moveBtn.textContent = 'Moving...';
+
+        // Determine if ownership change is needed
+        var sourceOwnerType = ownerTypeSel.value;
+        var sourceOwnerId = sourceOwnerType === 'TENANT'
+            ? extractId(currentUser.tenantId)
+            : customerSel.value;
+        var targetOwnerType = moveOwnerType.value;
+        var targetOwnerId = targetOwnerType === 'TENANT'
+            ? extractId(currentUser.tenantId)
+            : moveCustSel.value;
+        var ownerChanging = sourceOwnerId !== targetOwnerId;
+
+        var task;
+        if (ownerChanging) {
+            // Change ownership first
+            var ownerUrl;
+            if (targetOwnerType === 'CUSTOMER') {
+                ownerUrl = '/api/owner/CUSTOMER/' + targetOwnerId + '/DEVICE/' + uuid;
+            } else {
+                ownerUrl = '/api/owner/TENANT/' + extractId(currentUser.tenantId) + '/DEVICE/' + uuid;
+            }
+            task = apiFetch(ownerUrl, { method: 'POST' })
+                .then(function () {
+                    return apiFetch('/api/entityGroup/' + targetGroupId + '/addEntities', {
+                        method: 'POST',
+                        body: JSON.stringify([uuid])
+                    });
+                })
+                .then(function () {
+                    return apiFetch('/api/entityGroup/' + sourceGroupId + '/deleteEntities', {
+                        method: 'POST',
+                        body: JSON.stringify([uuid])
+                    }).catch(function () {}); // may fail silently if PE auto-removed
+                });
+        } else {
+            task = apiFetch('/api/entityGroup/' + targetGroupId + '/addEntities', {
+                method: 'POST',
+                body: JSON.stringify([uuid])
+            }).then(function () {
+                return apiFetch('/api/entityGroup/' + sourceGroupId + '/deleteEntities', {
+                    method: 'POST',
+                    body: JSON.stringify([uuid])
+                });
+            });
+        }
+
+        task.then(function () {
+            showMessage('Moved "' + selectedDevice.name + '" to "' + targetGroupName + '"', 'success');
+            // Remove device from local list
+            allDevices = allDevices.filter(function (d) { return d.uuid !== uuid; });
+            selectedDevice = null;
+            renderDeviceList();
+            // Reset right side
+            summaryPanel.style.display = 'none';
+            chartPanel.style.display = 'none';
+            correctionPanel.style.display = 'none';
+            attrToggles.style.display = 'none';
+            movePanel.style.display = 'none';
+            placeholder.style.display = 'block';
+            if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
+        }).catch(function (e) {
+            showMessage('Move failed: ' + e.message, 'error');
+        }).then(function () {
+            moveBtn.disabled = false;
+            moveBtn.textContent = 'Move Device';
+            updateMoveBtn();
+        });
+    });
+
+    // Initialize move owner type -- load tenant groups by default
+    // (deferred until currentUser is loaded)
 
     // -- Render device list --
     function renderDeviceList() {
@@ -508,18 +736,21 @@ self.onInit = function () {
             nameSpan.style.cssText = 'pointer-events:none;cursor:pointer;display:flex;align-items:center;gap:6px;';
 
             var nameText = document.createElement('span');
-            var nameColor = dev.meterReview ? '#b8860b' : (dev.billable === true) ? '#2e7d32' : '#c0392b';
+            var nameColor = dev.meterReview ? '#b8860b' : (dev.replace || dev.billable !== true) ? '#c0392b' : '#2e7d32';
             nameText.style.cssText = 'overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;color:' + nameColor + ';';
             nameText.textContent = parts.join(' - ');
             nameSpan.appendChild(nameText);
 
-            // Leak raindrop -- right side
-            if (dev.leak) {
-                var leakIcon = document.createElement('span');
-                leakIcon.style.cssText = 'flex-shrink:0;display:flex;align-items:center;';
-                leakIcon.title = 'Leak detected';
-                leakIcon.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="#42a5f5" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C12 2 5 11.2 5 16a7 7 0 0 0 14 0C19 11.2 12 2 12 2z"/></svg>';
-                nameSpan.appendChild(leakIcon);
+            // Single droplet: red if No Water, blue if Leak, hidden if neither
+            if (dev.noWater || dev.leak) {
+                var dropColor = dev.noWater ? '#c0392b' : '#42a5f5';
+                var dropTitle = dev.noWater ? 'No Water' : 'Leak detected';
+                var dropIcon = document.createElement('span');
+                dropIcon.style.cssText = 'flex-shrink:0;display:flex;align-items:center;';
+                dropIcon.title = dropTitle;
+                dropIcon.className = 'w7-drop-icon';
+                dropIcon.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="' + dropColor + '" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C12 2 5 11.2 5 16a7 7 0 0 0 14 0C19 11.2 12 2 12 2z"/></svg>';
+                nameSpan.appendChild(dropIcon);
             }
 
             item.appendChild(nameSpan);
@@ -586,9 +817,14 @@ self.onInit = function () {
         chartPanel.style.display      = 'none';
         correctionPanel.style.display = 'none';
         attrToggles.style.display     = 'flex';
+        movePanel.style.display       = 'block';
+        updateMoveBtn();
         updateToggleBtn(toggleBillable, 'Billable', dev.billable === true);
-        updateToggleBtn(toggleReview, 'Meter Review', dev.meterReview === true);
+        updateToggleBtn(toggleReview, 'Billing Review', dev.meterReview === true);
         updateToggleBtn(toggleLeak, 'Leak', dev.leak === true);
+        updateToggleBtn(toggleInstalled, 'Installed', dev.installed === true);
+        updateToggleBtn(toggleReplace, 'Replace', dev.replace === true);
+        updateToggleBtn(toggleEngReview, 'Eng Reviewed', groupEngReviewed);
         correctionVal.value           = '';
         previewBtn.disabled           = true;
         applyBtn.disabled             = true;
@@ -1025,9 +1261,7 @@ self.onInit = function () {
                 pointRadius: 3,
                 pointHoverRadius: 5,
                 fill: false,
-                showLine: true,
-                tension: 0,
-                stepped: true
+                showLine: false
             });
         }
 
@@ -1225,22 +1459,44 @@ self.onInit = function () {
     });
 
     function reloadCurrentDevice() {
-        if (!selectedDevice || fetchedPoints.length === 0) return;
+        if (!selectedDevice) return;
 
         var startTs = new Date(startDateEl.value).getTime();
         var endTs   = new Date(endDateEl.value).getTime() + 86400000 - 1;
 
         apiFetch(
             '/api/plugins/telemetry/DEVICE/' + selectedDevice.uuid +
-            '/values/timeseries?keys=meterValCorrected' +
+            '/values/timeseries?keys=meterValFlash,meterValCorrected' +
             '&startTs=' + startTs +
             '&endTs=' + endTs +
             '&limit=10000&agg=NONE&orderBy=ASC'
         ).then(function (data) {
+            var baselineRaw = (data && data.meterValFlash) ? data.meterValFlash : [];
+            baselineRaw.sort(function (a, b) { return a.ts - b.ts; });
+            fetchedPoints = baselineRaw.map(function (p) {
+                return { ts: p.ts, value: parseFloat(p.value) };
+            });
+
             var correctedRaw = (data && data.meterValCorrected) ? data.meterValCorrected : [];
             var correctedParsed = correctedRaw.map(function (p) {
                 return { ts: p.ts, value: parseFloat(p.value) };
             }).sort(function (a, b) { return a.ts - b.ts; });
+
+            if (fetchedPoints.length === 0) {
+                showMessage(selectedDevice.name + ' -- no meterValFlash data in this date range.', 'error');
+                return;
+            }
+
+            // Update summary cards
+            var first = fetchedPoints[0];
+            var last  = fetchedPoints[fetchedPoints.length - 1];
+            var diff  = last.value - first.value;
+            cardStart.textContent     = formatNumber(first.value);
+            cardStartDate.textContent = formatDateShort(first.ts);
+            cardEnd.textContent       = formatNumber(last.value);
+            cardEndDate.textContent   = formatDateShort(last.ts);
+            cardDiff.textContent      = formatNumber(diff);
+            cardPoints.textContent    = fetchedPoints.length;
 
             // Replace canvas
             var parent = chartCanvas.parentNode;
@@ -1521,20 +1777,41 @@ self.onInit = function () {
 
                     var reviewP = apiFetch(
                         '/api/plugins/telemetry/DEVICE/' + dev.uuid +
-                        '/values/attributes/SERVER_SCOPE?keys=Meter Review'
+                        '/values/attributes/SERVER_SCOPE?keys=Billing Review'
                     ).catch(function () { return []; });
 
-                    return Promise.all([propP, aptP, leakP, billP, reviewP]).then(function (res) {
+                    var instP = apiFetch(
+                        '/api/plugins/telemetry/DEVICE/' + dev.uuid +
+                        '/values/attributes/SERVER_SCOPE?keys=Installed'
+                    ).catch(function () { return []; });
+
+                    var replP = apiFetch(
+                        '/api/plugins/telemetry/DEVICE/' + dev.uuid +
+                        '/values/attributes/SERVER_SCOPE?keys=Replace'
+                    ).catch(function () { return []; });
+
+                    var noWaterP = apiFetch(
+                        '/api/plugins/telemetry/DEVICE/' + dev.uuid +
+                        '/values/attributes/SERVER_SCOPE?keys=No Water'
+                    ).catch(function () { return []; });
+
+                    return Promise.all([propP, aptP, leakP, billP, reviewP, instP, replP, noWaterP]).then(function (res) {
                         var propArr    = res[0] || [];
                         var aptArr     = res[1] || [];
                         var leakArr    = res[2] || [];
                         var billArr    = res[3] || [];
                         var reviewArr  = res[4] || [];
+                        var instArr    = res[5] || [];
+                        var replArr    = res[6] || [];
+                        var noWaterArr = res[7] || [];
                         dev.property    = propArr.length ? propArr[0].value : '--';
                         dev.apartment   = aptArr.length  ? aptArr[0].value  : '--';
                         dev.leak        = leakArr.length ? (String(leakArr[0].value).toLowerCase() === 'true') : false;
                         dev.billable    = billArr.length ? (String(billArr[0].value).toLowerCase() === 'true') : null;
                         dev.meterReview = reviewArr.length ? (String(reviewArr[0].value).toLowerCase() === 'true') : false;
+                        dev.installed   = instArr.length ? (String(instArr[0].value).toLowerCase() === 'true') : false;
+                        dev.replace     = replArr.length ? (String(replArr[0].value).toLowerCase() === 'true') : false;
+                        dev.noWater     = noWaterArr.length ? (String(noWaterArr[0].value).toLowerCase() === 'true') : false;
                         return dev;
                     });
                 });
@@ -1555,6 +1832,36 @@ self.onInit = function () {
 
                 allDevices = results;
                 renderDeviceList();
+
+                // Fetch group-level Engineering Reviewed (with 25-day auto-expire)
+                var gId = groupSel.value;
+                apiFetch(
+                    '/api/plugins/telemetry/ENTITY_GROUP/' + gId +
+                    '/values/attributes/SERVER_SCOPE?keys=Engineering Reviewed,Engineering Review Date'
+                ).then(function (attrs) {
+                    var arr = attrs || [];
+                    var engVal = false;
+                    var engDate = null;
+                    arr.forEach(function (a) {
+                        if (a.key === 'Engineering Reviewed') engVal = String(a.value).toLowerCase() === 'true';
+                        if (a.key === 'Engineering Review Date') engDate = Number(a.value);
+                    });
+                    if (engVal && engDate) {
+                        var daysSince = (Date.now() - engDate) / 86400000;
+                        if (daysSince >= 25) {
+                            engVal = false;
+                            apiFetch(
+                                '/api/plugins/telemetry/ENTITY_GROUP/' + gId + '/attributes/SERVER_SCOPE',
+                                { method: 'POST', body: JSON.stringify({ 'Engineering Reviewed': false }) }
+                            ).catch(function () {});
+                        }
+                    }
+                    groupEngReviewed = engVal;
+                    updateToggleBtn(toggleEngReview, 'Eng Reviewed', groupEngReviewed);
+                }).catch(function () {
+                    groupEngReviewed = false;
+                });
+
                 hideMessage();
 
                 fetchBtn.disabled    = false;
