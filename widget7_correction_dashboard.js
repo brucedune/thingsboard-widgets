@@ -91,6 +91,9 @@ self.onInit = function () {
     var showPrevOverlay = true;
     var fetchedNotMetering = []; // { ts } -- timestamps where deviceState = "Not Metering"
     var fetchedOffset = [];      // { ts, value } -- offset telemetry
+    var fetchedFwVer = [];        // { ts, value } -- fwVer telemetry (stepped trace)
+    var fetchedFwVerChanges = []; // { ts, fromVer, toVer } -- firmware version change points
+    var fetchedEventMeterDelta = []; // { ts, value } -- eventMeterDelta telemetry
 
     // -- Get JWT token --
     function getToken() {
@@ -864,7 +867,7 @@ self.onInit = function () {
             // Fetch meter data and flowRate in parallel
             var meterP = apiFetch(
                 '/api/plugins/telemetry/DEVICE/' + dev.uuid +
-                '/values/timeseries?keys=meterValFlash,meterValCorrected,deviceState,offset' +
+                '/values/timeseries?keys=meterValFlash,meterValCorrected,deviceState,offset,fwVer,eventMeterDelta' +
                 '&startTs=' + startTs +
                 '&endTs=' + endTs +
                 '&limit=10000&agg=NONE&orderBy=ASC'
@@ -954,6 +957,48 @@ self.onInit = function () {
                 return { ts: p.ts, value: parseFloat(p.value) };
             }).sort(function (a, b) { return a.ts - b.ts; });
 
+            // Parse fwVer telemetry -- group by day, detect day where version changes
+            var fwVerRaw = (data && data.fwVer) ? data.fwVer : [];
+            fwVerRaw.sort(function (a, b) { return a.ts - b.ts; });
+            fetchedFwVer = fwVerRaw.map(function (p) {
+                return { ts: p.ts, value: parseFloat(p.value) };
+            });
+            fetchedFwVerChanges = [];
+            if (fwVerRaw.length > 0) {
+                // Group by day, pick most common value per day
+                var dayMap = {};
+                fwVerRaw.forEach(function (p) {
+                    var dayKey = new Date(p.ts).toISOString().slice(0, 10);
+                    if (!dayMap[dayKey]) dayMap[dayKey] = {};
+                    var v = String(p.value);
+                    dayMap[dayKey][v] = (dayMap[dayKey][v] || 0) + 1;
+                });
+                var dayVers = Object.keys(dayMap).sort().map(function (day) {
+                    var counts = dayMap[day];
+                    var best = Object.keys(counts).reduce(function (a, b) {
+                        return counts[a] >= counts[b] ? a : b;
+                    });
+                    return { day: day, ver: best };
+                });
+                for (var di = 1; di < dayVers.length; di++) {
+                    if (dayVers[di].ver !== dayVers[di - 1].ver) {
+                        fetchedFwVerChanges.push({
+                            ts: new Date(dayVers[di].day).getTime(),
+                            fromVer: dayVers[di - 1].ver,
+                            toVer: dayVers[di].ver
+                        });
+                    }
+                }
+            }
+
+            // Parse eventMeterDelta telemetry (filter < 50 gal)
+            var emdRaw = (data && data.eventMeterDelta) ? data.eventMeterDelta : [];
+            fetchedEventMeterDelta = emdRaw.map(function (p) {
+                return { ts: p.ts, value: parseFloat(p.value) };
+            }).filter(function (p) {
+                return p.value >= 50;
+            }).sort(function (a, b) { return a.ts - b.ts; });
+
             // Process previous 30-day mid-period slope
             var prevMidFirstResult = results[2][0];
             var prevMidLastResult  = results[2][1];
@@ -1033,7 +1078,7 @@ self.onInit = function () {
             summaryPanel.style.display = 'block';
 
             // Render chart
-            renderChart(fetchedPoints, correctedParsed, fetchedFlow, dev.name, fetchedNotMetering, fetchedOffset);
+            renderChart(fetchedPoints, correctedParsed, fetchedFlow, dev.name, fetchedNotMetering, fetchedOffset, fetchedFwVerChanges);
             chartPanel.style.display      = 'flex';
             correctionPanel.style.display = 'block';
 
@@ -1145,7 +1190,7 @@ self.onInit = function () {
     }
 
     // -- Render chart: baseline vs corrected --
-    function renderChart(baseline, corrected, flowRate, deviceName, notMetering, offsetData) {
+    function renderChart(baseline, corrected, flowRate, deviceName, notMetering, offsetData, fwVerChanges) {
         if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
 
         var baseZero = baseline.length > 0 ? baseline[0].value : 0;
@@ -1286,6 +1331,26 @@ self.onInit = function () {
             });
         }
 
+        // Add eventMeterDelta as scatter plot on Usage axis
+        if (fetchedEventMeterDelta.length > 0) {
+            var emdDs = fetchedEventMeterDelta.map(function (p) {
+                return { x: p.ts, y: p.value };
+            });
+            datasets.push({
+                label: 'Event Meter Delta',
+                data: emdDs,
+                borderColor: 'rgba(13, 71, 161, 0.8)',
+                backgroundColor: 'rgba(13, 71, 161, 0.8)',
+                borderWidth: 2,
+                pointRadius: 3,
+                pointHoverRadius: 5,
+                pointStyle: 'circle',
+                fill: false,
+                showLine: false,
+                yAxisID: 'yEventDelta'
+            });
+        }
+
         var minTs = baseline[0].ts;
         var maxTs = baseline[baseline.length - 1].ts;
         // Extend x-axis to include corrected/preview data and end date
@@ -1295,6 +1360,29 @@ self.onInit = function () {
         }
         var endDateTs = new Date(endDateEl.value).getTime();
         if (endDateTs > maxTs) maxTs = endDateTs;
+
+        // Add fwVer change vertical lines as datasets (uses y axis = Usage)
+        var fwChanges = fwVerChanges || fetchedFwVerChanges || [];
+        if (fwChanges.length > 0) {
+            fwChanges.forEach(function (chg) {
+                datasets.push({
+                    label: 'FW ' + chg.fromVer + ' \u2192 ' + chg.toVer,
+                    data: [
+                        { x: chg.ts, y: 0 },
+                        { x: chg.ts, y: 1 }
+                    ],
+                    borderColor: 'rgba(255, 87, 34, 0.85)',
+                    borderWidth: 3,
+                    borderDash: [6, 4],
+                    pointRadius: 0,
+                    pointHoverRadius: 0,
+                    fill: false,
+                    showLine: true,
+                    tension: 0,
+                    yAxisID: 'yFwVer'
+                });
+            });
+        }
 
         var ctx = chartCanvas.getContext('2d');
         chartInstance = new Chart(ctx, {
@@ -1392,6 +1480,20 @@ self.onInit = function () {
                         grid: { drawOnChartArea: false },
                         min: 0,
                         max: 15000
+                    },
+                    yEventDelta: {
+                        position: 'right',
+                        display: fetchedEventMeterDelta.length > 0,
+                        title: { display: true, text: 'Event Delta', font: { size: 11 }, color: '#0d47a1' },
+                        ticks: { font: { size: 10 }, color: '#0d47a1' },
+                        grid: { drawOnChartArea: false },
+                        min: 0,
+                        max: 1000
+                    },
+                    yFwVer: {
+                        display: false,
+                        min: 0,
+                        max: 1
                     }
                 }
             }
@@ -1505,7 +1607,7 @@ self.onInit = function () {
             parent.replaceChild(newCanvas, chartCanvas);
             chartCanvas = newCanvas;
 
-            renderChart(fetchedPoints, correctedParsed, fetchedFlow, selectedDevice.name, fetchedNotMetering, fetchedOffset);
+            renderChart(fetchedPoints, correctedParsed, fetchedFlow, selectedDevice.name, fetchedNotMetering, fetchedOffset, fetchedFwVerChanges);
         });
     }
 
@@ -1565,7 +1667,7 @@ self.onInit = function () {
             parent.replaceChild(newCanvas, chartCanvas);
             chartCanvas = newCanvas;
 
-            renderChart(fetchedPoints, correctedParsed, fetchedFlow, selectedDevice.name, fetchedNotMetering, fetchedOffset);
+            renderChart(fetchedPoints, correctedParsed, fetchedFlow, selectedDevice.name, fetchedNotMetering, fetchedOffset, fetchedFwVerChanges);
             showMessage('Preview: orange dashed line shows proposed correction. Click Apply to write.', 'info');
         });
     });
