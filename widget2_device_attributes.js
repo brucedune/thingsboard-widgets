@@ -30,7 +30,11 @@ self.onInit = function () {
         { key: 'Install Date',  scope: 'SERVER_SCOPE'  },
         { key: 'Type',          scope: 'SERVER_SCOPE'  },
         { key: 'location',      scope: 'SERVER_SCOPE'  },
-        { key: 'Move Date',     scope: 'SERVER_SCOPE'  }
+        { key: 'Move Date',     scope: 'SERVER_SCOPE'  },
+        { key: 'recordNoneventFlow', scope: 'SHARED_SCOPE' },
+        { key: 'radioOnEventEnd',    scope: 'SHARED_SCOPE' },
+        { key: 'checkInPeriod',      scope: 'SHARED_SCOPE' },
+        { key: 'allowTiFotaVer',     scope: 'SHARED_SCOPE' }
     ];
 
     // ── Get JWT token ──────────────────────────────────────────────
