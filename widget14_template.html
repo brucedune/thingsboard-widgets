@@ -1,0 +1,233 @@
+<style>
+/* ── W14 Property Status Fleet Bar ── */
+.w14-wrap {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 13px;
+    color: #333;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 12px;
+    box-sizing: border-box;
+}
+
+.w14-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #305680;
+    margin-bottom: 6px;
+}
+
+/* ── Toolbar ── */
+.w14-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 8px;
+}
+.w14-toolbar label {
+    font-size: 11px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+}
+.w14-toolbar select,
+.w14-toolbar input {
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: inherit;
+    background: #fff;
+    outline: none;
+}
+.w14-toolbar select:focus,
+.w14-toolbar input:focus { border-color: #305680; }
+
+.w14-btn {
+    padding: 5px 12px;
+    background: #305680;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+}
+.w14-btn:hover { background: #244060; }
+.w14-btn:disabled { background: #94a3b8; cursor: not-allowed; }
+.w14-btn-sm { padding: 4px 10px; font-size: 11px; }
+
+/* ── Legend ── */
+.w14-legend {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    margin-left: auto;
+    font-size: 12px;
+}
+.w14-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.w14-legend-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+/* ── Chart area ── */
+.w14-chart-wrap {
+    flex: 1;
+    min-height: 300px;
+    position: relative;
+    padding: 4px 0;
+}
+
+/* ── Status message ── */
+.w14-status {
+    font-size: 12px;
+    color: #666;
+    padding: 6px 0;
+    min-height: 20px;
+}
+.w14-status.error   { color: #c62828; }
+.w14-status.success { color: #2e7d32; }
+
+/* ── Summary cards below chart ── */
+.w14-summary {
+    display: flex;
+    gap: 12px;
+    padding: 8px 0 4px;
+    flex-wrap: wrap;
+}
+.w14-sum-card {
+    padding: 6px 12px;
+    border-radius: 4px;
+    background: #f4f6f8;
+    border: 1px solid #cfd8dc;
+    font-size: 12px;
+    color: #37474f;
+    min-width: 110px;
+}
+.w14-sum-card b {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 2px;
+}
+.w14-sum-card.w14-green  { background:#e8f5e9; border-color:#c8e6c9; color:#2e7d32; }
+.w14-sum-card.w14-yellow { background:#fff8e1; border-color:#ffe082; color:#b27600; }
+.w14-sum-card.w14-red    { background:#fdecea; border-color:#f5c6cb; color:#c0392b; }
+
+/* ── Drill-down list ── */
+.w14-drill {
+    margin-top: 6px;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 12px;
+    background: #fafafa;
+    display: none;
+}
+.w14-drill-hd {
+    font-weight: 600;
+    color: #305680;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.w14-drill-hd button {
+    margin-left: auto;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #666;
+    font-size: 13px;
+}
+.w14-drill-row {
+    padding: 2px 0;
+    color: #444;
+    border-bottom: 1px dashed #eee;
+}
+.w14-drill-row:last-child { border-bottom: none; }
+</style>
+
+<div class="w14-wrap">
+    <div class="w14-title">Meter Fleet Status by Property</div>
+
+    <div class="w14-toolbar">
+        <label>Owner</label>
+        <select id="w14-ownerFilter">
+            <option value="ALL">All (Tenant + Customers)</option>
+            <option value="TENANT">Tenant only</option>
+            <option value="CUSTOMER">Customers only</option>
+        </select>
+
+        <label>Sort</label>
+        <select id="w14-sortBy">
+            <option value="worst">Worst first (% red + yellow)</option>
+            <option value="total">Most devices</option>
+            <option value="alpha">Alphabetical</option>
+            <option value="red">Most Replace</option>
+            <option value="yellow">Most Marginal</option>
+        </select>
+
+        <label>View</label>
+        <select id="w14-viewMode">
+            <option value="count">Absolute counts</option>
+            <option value="percent">100% normalized</option>
+        </select>
+
+        <label>Orient</label>
+        <select id="w14-orient">
+            <option value="vertical">Vertical bars</option>
+            <option value="horizontal">Horizontal bars</option>
+        </select>
+
+        <button id="w14-refreshBtn" class="w14-btn">Refresh</button>
+
+        <div class="w14-legend">
+            <div class="w14-legend-item">
+                <div class="w14-legend-swatch" style="background:#4caf50;"></div>Billing
+            </div>
+            <div class="w14-legend-item">
+                <div class="w14-legend-swatch" style="background:#ffc107;"></div>Marginal
+            </div>
+            <div class="w14-legend-item">
+                <div class="w14-legend-swatch" style="background:#e53935;"></div>Replace
+            </div>
+        </div>
+    </div>
+
+    <div class="w14-status" id="w14-status">Click Refresh to load fleet status.</div>
+
+    <div class="w14-summary" id="w14-summary" style="display:none;">
+        <div class="w14-sum-card"><span>Properties</span><b id="w14-sumProps">0</b></div>
+        <div class="w14-sum-card"><span>Total Devices</span><b id="w14-sumTotal">0</b></div>
+        <div class="w14-sum-card w14-green"><span>Billing</span><b id="w14-sumGreen">0</b></div>
+        <div class="w14-sum-card w14-yellow"><span>Marginal</span><b id="w14-sumYellow">0</b></div>
+        <div class="w14-sum-card w14-red"><span>Replace</span><b id="w14-sumRed">0</b></div>
+    </div>
+
+    <div class="w14-chart-wrap">
+        <canvas id="w14-chart"></canvas>
+    </div>
+
+    <div class="w14-drill" id="w14-drill">
+        <div class="w14-drill-hd">
+            <span id="w14-drillTitle"></span>
+            <button id="w14-drillClose" title="Close">&times;</button>
+        </div>
+        <div id="w14-drillBody"></div>
+    </div>
+</div>
