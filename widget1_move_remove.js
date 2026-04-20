@@ -555,6 +555,17 @@ self.onInit = function () {
             actionBtn.textContent         = 'Move Selected to Group';
             actionBtn.style.background    = '';
             moveTargetField.style.display = 'block';
+            // Load target groups for the current target owner selection.
+            // Required because the default Target Owner is TENANT, so the
+            // change event never fires — without this the dropdown stays empty.
+            if (targetOwnerTypeSel.value === 'CUSTOMER') {
+                if (!targetCustomerSel.options.length || targetCustomerSel.options.length <= 1) {
+                    loadCustomers(targetCustomerSel);
+                }
+                if (targetCustomerSel.value) { loadTargetGroups(); }
+            } else {
+                loadTargetGroups();
+            }
         } else {
             actionBtn.textContent         = 'Remove Selected from Group';
             actionBtn.style.background    = '';
