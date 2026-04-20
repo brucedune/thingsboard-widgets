@@ -1,0 +1,198 @@
+<div class="w11-wrap">
+    <div class="w11-title">Engineering Review Dashboard</div>
+
+    <!-- Toolbar -->
+    <div class="w11-toolbar">
+        <button id="w11-refreshBtn" class="w11-btn">Refresh</button>
+
+        <div class="w11-field w11-toolbar-field">
+            <label>Eng Reviewed</label>
+            <select id="w11-filterReviewed">
+                <option value="FALSE" selected>FALSE</option>
+                <option value="TRUE">TRUE</option>
+                <option value="ALL">All</option>
+            </select>
+        </div>
+
+        <button id="w11-resetAllBtn" class="w11-btn w11-btn-danger" disabled>Reset All Visible</button>
+
+        <span id="w11-countDisplay" class="w11-count">0 groups</span>
+    </div>
+
+    <!-- Status -->
+    <div id="w11-statusMsg" class="w11-message" style="display:none"></div>
+
+    <!-- Table -->
+    <div class="w11-table-wrap">
+        <table class="w11-table" id="w11-table">
+            <thead>
+                <tr>
+                    <th data-col="customer" class="w11-sortable">Customer</th>
+                    <th data-col="group" class="w11-sortable">Device Group</th>
+                    <th data-col="reviewDate" class="w11-sortable">Eng Review Date</th>
+                    <th data-col="reviewed" class="w11-sortable">Eng Reviewed</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="w11-tbody"></tbody>
+        </table>
+    </div>
+
+    <!-- Placeholder -->
+    <div id="w11-placeholder" class="w11-placeholder">
+        Click Refresh to scan all device groups for Engineering Review Date
+    </div>
+</div>
+
+<style>
+.w11-wrap {
+    font-family: Roboto, sans-serif;
+    font-size: 13px;
+    color: #333;
+    padding: 16px;
+    height: 100%;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+.w11-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: #305680;
+    border-bottom: 2px solid #305680;
+    padding-bottom: 6px;
+    margin-bottom: 16px;
+}
+.w11-toolbar {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+.w11-toolbar-field {
+    display: flex;
+    flex-direction: column;
+    min-width: 120px;
+}
+.w11-toolbar-field label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: #666;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+}
+.w11-toolbar-field select {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 7px 10px;
+    font-size: 13px;
+    background: #fafafa;
+    outline: none;
+    box-sizing: border-box;
+}
+.w11-toolbar-field select:focus { border-color: #305680; background: #fff; }
+
+.w11-btn {
+    padding: 8px 20px;
+    background: #305680;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s;
+    white-space: nowrap;
+}
+.w11-btn:hover:not([disabled]) { background: #264a6e; }
+.w11-btn[disabled] { background: #ccc; cursor: not-allowed; }
+.w11-btn-danger { background: #c0392b; }
+.w11-btn-danger:hover:not([disabled]) { background: #96281b; }
+
+.w11-count {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #888;
+    letter-spacing: 0.5px;
+    margin-left: auto;
+}
+
+.w11-message {
+    padding: 9px 20px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+.w11-msg-success { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+.w11-msg-error   { background: #fdecea; color: #c0392b; border: 1px solid #f5c6c2; }
+.w11-msg-info    { background: #e3f2fd; color: #1565c0; border: 1px solid #90caf9; }
+
+.w11-table-wrap {
+    overflow-x: auto;
+    display: none;
+}
+.w11-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #dde3eb;
+}
+.w11-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+.w11-table th {
+    background: #305680;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 10px 12px;
+    text-align: left;
+    white-space: nowrap;
+    user-select: none;
+}
+.w11-sortable { cursor: pointer; }
+.w11-sortable:hover { background: #264a6e; }
+.w11-sort-asc::after  { content: ' \25B2'; font-size: 10px; }
+.w11-sort-desc::after { content: ' \25BC'; font-size: 10px; }
+
+.w11-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #eee;
+    font-size: 13px;
+}
+.w11-table tbody tr:hover { background: #f0f4ff; }
+
+.w11-reviewed-true  { color: #2e7d32; font-weight: 500; }
+.w11-reviewed-false { color: #c0392b; font-weight: 500; }
+
+.w11-reset-btn {
+    padding: 4px 12px;
+    border: 1px solid #c0392b;
+    border-radius: 4px;
+    background: #fff;
+    color: #c0392b;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+.w11-reset-btn:hover { background: #fdecea; }
+.w11-reset-btn[disabled] { opacity: 0.5; cursor: not-allowed; }
+
+.w11-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
+    font-size: 14px;
+    font-style: italic;
+    border: 2px dashed #ddd;
+    border-radius: 6px;
+    min-height: 200px;
+}
+</style>
