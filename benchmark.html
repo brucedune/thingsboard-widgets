@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ThingsBoard API Benchmark</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Roboto', 'Segoe UI', sans-serif; font-size: 13px; padding: 20px; background: #f5f5f5; }
+h2 { color: #305680; margin-bottom: 12px; }
+.section { background: #fff; border-radius: 6px; padding: 16px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+label { font-weight: 500; margin-right: 8px; }
+input, select, button { font-size: 13px; padding: 6px 10px; border: 1px solid #bbb; border-radius: 4px; }
+button { background: #305680; color: #fff; border: none; cursor: pointer; padding: 8px 16px; }
+button:hover { background: #234060; }
+button:disabled { background: #999; cursor: not-allowed; }
+#log { font-family: 'Consolas', 'Courier New', monospace; font-size: 12px; background: #1e1e1e; color: #d4d4d4; padding: 12px; border-radius: 4px; max-height: 600px; overflow-y: auto; white-space: pre-wrap; line-height: 1.5; }
+.log-ok { color: #4ec9b0; }
+.log-warn { color: #dcdcaa; }
+.log-err { color: #f44747; }
+.log-info { color: #569cd6; }
+.log-head { color: #c586c0; font-weight: bold; }
+.log-dim { color: #808080; }
+table { border-collapse: collapse; width: 100%; margin-top: 8px; }
+th, td { border: 1px solid #ddd; padding: 4px 8px; text-align: left; font-size: 12px; }
+th { background: #305680; color: #fff; }
+tr:nth-child(even) { background: #f9f9f9; }
+.summary-box { display: inline-block; background: #e8f0fe; border-radius: 4px; padding: 8px 16px; margin: 4px 8px 4px 0; }
+.summary-box b { color: #305680; }
+</style>
+</head>
+<body>
+<h2>ThingsBoard API Benchmark Tool</h2>
+
+<div class="section">
+    <p><b>Instructions:</b> Open this page in the same browser where you're logged into ThingsBoard. It will use your JWT session token.</p>
+    <p style="margin-top:6px;color:#888;">This tests raw API response times to find what's slow: auth, group listing, device listing, or attribute fetches.</p>
+</div>
+
+<div class="section">
+    <label>JWT Token:</label>
+    <input id="jwt" type="text" style="width:400px" placeholder="Auto-detected..." readonly>
+    <button id="detectBtn" onclick="detectToken()">Detect Token</button>
+    <span id="tokenStatus" style="margin-left:8px;"></span>
+</div>
+
+<div class="section">
+    <label>Group ID (optional):</label>
+    <input id="groupId" type="text" style="width:340px" placeholder="Paste a device group UUID to test attribute fetching">
+    <label style="margin-left:16px;">Max devices:</label>
+    <input id="maxDevices" type="number" value="10" style="width:60px" min="1" max="200">
+</div>
+
+<div class="section">
+    <button id="runAll" onclick="runFullBenchmark()">Run Full Benchmark</button>
+    <button onclick="runSingleApiTest()" style="margin-left:8px;background:#607d8b;">Test Single API Call</button>
+    <button onclick="runParallelTest()" style="margin-left:8px;background:#7b1fa2;">Test Parallel Calls</button>
+    <button onclick="document.getElementById('log').innerHTML='';" style="margin-left:8px;background:#888;">Clear Log</button>
+</div>
+
+<div id="summaryArea" class="section" style="display:none;">
+    <b>Summary:</b>
+    <div id="summaryContent"></div>
+</div>
+
+<div class="section">
+    <div id="log">Click "Detect Token" first, then "Run Full Benchmark".</div>
+</div>
+
+<script>
+var BASE = window.location.origin;
+var jwt = '';
+
+function log(text, cls) {
+    var el = document.getElementById('log');
+    var span = document.createElement('span');
+    span.className = cls || '';
+    span.textContent = text + '\n';
+    el.appendChild(span);
+    el.scrollTop = el.scrollHeight;
+}
+
+function detectToken() {
+    var t = '';
+    try { t = localStorage.getItem('jwt_token') || ''; } catch(e) {}
+    if (!t) {
+        // Try to get from cookie
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var c = cookies[i].trim();
+            if (c.indexOf('jwt_token=') === 0) { t = c.substring(10); break; }
+        }
+    }
+    if (t) {
+        jwt = t;
+        document.getElementById('jwt').value = t.substring(0, 40) + '...';
+        document.getElementById('tokenStatus').textContent = 'Found! (' + t.length + ' chars)';
+        document.getElementById('tokenStatus').style.color = 'green';
+        log('JWT token detected (' + t.length + ' chars)', 'log-ok');
+    } else {
+        document.getElementById('tokenStatus').textContent = 'Not found - paste manually';
+        document.getElementById('tokenStatus').style.color = 'red';
+        log('Could not auto-detect JWT. Are you logged into ThingsBoard in this browser?', 'log-err');
+        log('You can paste the token from: Browser DevTools > Application > Local Storage > jwt_token', 'log-dim');
+    }
+}
+
+function apiFetch(path) {
+    var start = performance.now();
+    return fetch(BASE + path, {
+        headers: { 'Authorization': 'Bearer ' + jwt }
+    }).then(function(r) {
+        var elapsed = performance.now() - start;
+        var ct = r.headers.get('content-type') || '';
+        if (ct.indexOf('html') !== -1) {
+            return { ok: false, status: 'REDIRECT', elapsed: elapsed, data: null, error: 'HTML response (session expired?)' };
+        }
+        if (!r.ok) {
+            return r.text().then(function(t) {
+                return { ok: false, status: r.status, elapsed: elapsed, data: null, error: t.substring(0, 200) };
+            });
+        }
+        if (r.status === 204) return { ok: true, status: 204, elapsed: elapsed, data: null };
+        return r.text().then(function(txt) {
+            var d = null;
+            try { d = JSON.parse(txt); } catch(e) {}
+            return { ok: true, status: r.status, elapsed: elapsed, data: d };
+        });
+    }).catch(function(e) {
+        return { ok: false, status: 'NETWORK', elapsed: performance.now() - start, data: null, error: e.message };
+    });
+}
+
+function fmtMs(ms) {
+    if (ms < 1000) return ms.toFixed(0) + 'ms';
+    return (ms / 1000).toFixed(2) + 's';
+}
+
+function logResult(label, res) {
+    var cls = res.ok ? 'log-ok' : 'log-err';
+    var status = res.ok ? 'OK' : 'FAIL(' + res.status + ')';
+    var msg = '  ' + status + '  ' + fmtMs(res.elapsed).padStart(8) + '  ' + label;
+    if (res.error) msg += '  -- ' + res.error;
+    log(msg, cls);
+    return res;
+}
+
+async function runSingleApiTest() {
+    if (!jwt) { log('No JWT token. Click Detect Token first.', 'log-err'); return; }
+    log('\n=== Single API Call Test ===', 'log-head');
+    log('Testing: GET /api/auth/user', 'log-info');
+    var res = await apiFetch('/api/auth/user');
+    logResult('/api/auth/user', res);
+    if (res.ok && res.data) {
+        log('  User: ' + (res.data.email || res.data.name || 'unknown'), 'log-dim');
+        log('  Authority: ' + (res.data.authority || 'unknown'), 'log-dim');
+    }
+}
+
+async function runParallelTest() {
+    if (!jwt) { log('No JWT token. Click Detect Token first.', 'log-err'); return; }
+    log('\n=== Parallel Request Test (10 calls to /api/auth/user) ===', 'log-head');
+
+    var startAll = performance.now();
+    var promises = [];
+    for (var i = 0; i < 10; i++) {
+        promises.push(apiFetch('/api/auth/user'));
+    }
+    var results = await Promise.all(promises);
+    var totalElapsed = performance.now() - startAll;
+
+    var times = results.map(function(r) { return r.elapsed; });
+    var failed = results.filter(function(r) { return !r.ok; }).length;
+
+    log('  Total wall time: ' + fmtMs(totalElapsed), 'log-info');
+    log('  Min response:    ' + fmtMs(Math.min.apply(null, times)), 'log-dim');
+    log('  Max response:    ' + fmtMs(Math.max.apply(null, times)), 'log-dim');
+    log('  Avg response:    ' + fmtMs(times.reduce(function(a,b){return a+b;},0) / times.length), 'log-dim');
+    log('  Failed:          ' + failed + '/10', failed > 0 ? 'log-err' : 'log-ok');
+
+    if (totalElapsed > 5000) {
+        log('  WARNING: 10 parallel calls took ' + fmtMs(totalElapsed) + '. Server may be rate-limiting or overloaded.', 'log-warn');
+    }
+}
+
+async function runFullBenchmark() {
+    if (!jwt) { log('No JWT token. Click Detect Token first.', 'log-err'); return; }
+
+    var btn = document.getElementById('runAll');
+    btn.disabled = true;
+    btn.textContent = 'Running...';
+
+    var summary = {};
+
+    try {
+        log('\n========================================', 'log-head');
+        log('  FULL API BENCHMARK', 'log-head');
+        log('  ' + new Date().toISOString(), 'log-head');
+        log('========================================', 'log-head');
+
+        // Test 1: Auth
+        log('\n--- Test 1: Authentication ---', 'log-head');
+        var authRes = await apiFetch('/api/auth/user');
+        logResult('/api/auth/user', authRes);
+        summary.auth = authRes.elapsed;
+
+        if (!authRes.ok) {
+            log('AUTH FAILED. Cannot continue.', 'log-err');
+            return;
+        }
+
+        var user = authRes.data;
+        var tenantId = user.tenantId ? user.tenantId.id : null;
+        log('  Tenant ID: ' + tenantId, 'log-dim');
+
+        // Test 2: Fetch customers
+        log('\n--- Test 2: Fetch Customers ---', 'log-head');
+        var custRes = await apiFetch('/api/customers?pageSize=1000&page=0&sortProperty=title&sortOrder=ASC');
+        logResult('/api/customers (page 0, size 1000)', custRes);
+        summary.customers = custRes.elapsed;
+
+        var customerCount = 0;
+        if (custRes.ok && custRes.data && custRes.data.data) {
+            customerCount = custRes.data.data.length;
+            log('  Customers found: ' + customerCount, 'log-dim');
+        }
+
+        // Test 3: Fetch tenant device groups
+        log('\n--- Test 3: Fetch Tenant Device Groups ---', 'log-head');
+        var tgRes = await apiFetch('/api/entityGroups/TENANT/' + tenantId + '/DEVICE');
+        logResult('/api/entityGroups/TENANT/.../DEVICE', tgRes);
+        summary.tenantGroups = tgRes.elapsed;
+
+        var tenantGroups = (tgRes.ok && Array.isArray(tgRes.data)) ? tgRes.data : [];
+        log('  Tenant groups found: ' + tenantGroups.length, 'log-dim');
+
+        // Test 4: Fetch first 3 customer groups (sequential)
+        if (custRes.ok && custRes.data && custRes.data.data && custRes.data.data.length > 0) {
+            log('\n--- Test 4: Fetch Customer Groups (first 3 customers, sequential) ---', 'log-head');
+            var custs = custRes.data.data.slice(0, 3);
+            var cgTimes = [];
+            for (var ci = 0; ci < custs.length; ci++) {
+                var cId = custs[ci].id.id;
+                var cName = custs[ci].title || custs[ci].name;
+                var cgRes = await apiFetch('/api/entityGroups/CUSTOMER/' + cId + '/DEVICE');
+                logResult('Groups for "' + cName + '"', cgRes);
+                cgTimes.push(cgRes.elapsed);
+            }
+            summary.customerGroupsAvg = cgTimes.reduce(function(a,b){return a+b;},0) / cgTimes.length;
+        }
+
+        // Test 5: Fetch device list from a group
+        var testGroupId = document.getElementById('groupId').value.trim();
+        var maxDev = parseInt(document.getElementById('maxDevices').value) || 10;
+
+        if (!testGroupId && tenantGroups.length > 1) {
+            // Use first non-All group
+            for (var gi = 0; gi < tenantGroups.length; gi++) {
+                if (tenantGroups[gi].name !== 'All') {
+                    testGroupId = tenantGroups[gi].id.id;
+                    log('\n  Auto-selected group: "' + tenantGroups[gi].name + '" (' + testGroupId + ')', 'log-info');
+                    break;
+                }
+            }
+        }
+
+        if (testGroupId) {
+            log('\n--- Test 5: Fetch Device List ---', 'log-head');
+            var devRes = await apiFetch('/api/entityGroup/' + testGroupId + '/entities?pageSize=1000&page=0');
+            logResult('/api/entityGroup/.../entities', devRes);
+            summary.deviceList = devRes.elapsed;
+
+            var devices = [];
+            if (devRes.ok && Array.isArray(devRes.data)) {
+                devices = devRes.data;
+            } else if (devRes.ok && devRes.data && Array.isArray(devRes.data.data)) {
+                devices = devRes.data.data;
+            }
+            log('  Devices in group: ' + devices.length, 'log-dim');
+
+            if (devices.length > 0) {
+                var testDevices = devices.slice(0, maxDev);
+                var devId0 = testDevices[0].id ? testDevices[0].id.id : testDevices[0].id;
+
+                // Test 6: Single device attribute fetch
+                log('\n--- Test 6: Single Device Attribute Fetch ---', 'log-head');
+                var keys = ['Apartment', 'Leak', 'Billable', 'Billing Review', 'Installed', 'Replace', 'No Water'];
+
+                // 6a: Individual key calls (how W7 does it)
+                log('  6a: Individual calls (8 calls, sequential):', 'log-info');
+                var seqTimes = [];
+                var seqStart = performance.now();
+
+                var r1 = await apiFetch('/api/plugins/telemetry/DEVICE/' + devId0 + '/values/attributes/SHARED_SCOPE?keys=Property');
+                logResult('  SHARED_SCOPE?keys=Property', r1);
+                seqTimes.push(r1.elapsed);
+
+                for (var ki = 0; ki < keys.length; ki++) {
+                    var kr = await apiFetch('/api/plugins/telemetry/DEVICE/' + devId0 + '/values/attributes/SERVER_SCOPE?keys=' + encodeURIComponent(keys[ki]));
+                    logResult('  SERVER_SCOPE?keys=' + keys[ki], kr);
+                    seqTimes.push(kr.elapsed);
+                }
+                var seqTotal = performance.now() - seqStart;
+                log('  Sequential total: ' + fmtMs(seqTotal) + ' (sum of individual: ' + fmtMs(seqTimes.reduce(function(a,b){return a+b;},0)) + ')', 'log-info');
+                summary.singleDevSeq = seqTotal;
+
+                // 6b: Combined key call
+                log('  6b: Combined call (1 call with all keys):', 'log-info');
+                var combRes = await apiFetch('/api/plugins/telemetry/DEVICE/' + devId0 + '/values/attributes/SERVER_SCOPE?keys=' + encodeURIComponent(keys.join(',')));
+                logResult('  SERVER_SCOPE?keys=' + keys.join(','), combRes);
+                summary.singleDevCombined = combRes.elapsed;
+
+                // Test 7: Parallel attribute fetch for N devices (like W7 does)
+                log('\n--- Test 7: Parallel Attribute Fetch (' + testDevices.length + ' devices x 8 calls = ' + (testDevices.length * 8) + ' total) ---', 'log-head');
+                var parallelStart = performance.now();
+
+                var allPromises = [];
+                testDevices.forEach(function(dev) {
+                    var did = dev.id ? dev.id.id : dev.id;
+                    allPromises.push(apiFetch('/api/plugins/telemetry/DEVICE/' + did + '/values/attributes/SHARED_SCOPE?keys=Property'));
+                    keys.forEach(function(k) {
+                        allPromises.push(apiFetch('/api/plugins/telemetry/DEVICE/' + did + '/values/attributes/SERVER_SCOPE?keys=' + encodeURIComponent(k)));
+                    });
+                });
+
+                var allResults = await Promise.all(allPromises);
+                var parallelTotal = performance.now() - parallelStart;
+
+                var allTimes = allResults.map(function(r) { return r.elapsed; });
+                var failCount = allResults.filter(function(r) { return !r.ok; }).length;
+
+                log('  Wall clock time:  ' + fmtMs(parallelTotal), parallelTotal > 10000 ? 'log-err' : 'log-ok');
+                log('  Requests:         ' + allResults.length, 'log-dim');
+                log('  Failed:           ' + failCount, failCount > 0 ? 'log-err' : 'log-ok');
+                log('  Min response:     ' + fmtMs(Math.min.apply(null, allTimes)), 'log-dim');
+                log('  Max response:     ' + fmtMs(Math.max.apply(null, allTimes)), 'log-dim');
+                log('  Avg response:     ' + fmtMs(allTimes.reduce(function(a,b){return a+b;},0) / allTimes.length), 'log-dim');
+                log('  P50 response:     ' + fmtMs(percentile(allTimes, 50)), 'log-dim');
+                log('  P95 response:     ' + fmtMs(percentile(allTimes, 95)), 'log-dim');
+                summary.parallelWall = parallelTotal;
+                summary.parallelAvg = allTimes.reduce(function(a,b){return a+b;},0) / allTimes.length;
+                summary.parallelMax = Math.max.apply(null, allTimes);
+                summary.parallelFailed = failCount;
+                summary.parallelCount = allResults.length;
+
+                // Test 8: Check for rate limiting pattern
+                log('\n--- Test 8: Rate Limit Detection ---', 'log-head');
+                // Sort by elapsed time and look for clustering at high values
+                var sorted = allTimes.slice().sort(function(a,b){return a-b;});
+                var fast = sorted.slice(0, Math.floor(sorted.length * 0.5));
+                var slow = sorted.slice(Math.floor(sorted.length * 0.5));
+                var fastAvg = fast.reduce(function(a,b){return a+b;},0) / fast.length;
+                var slowAvg = slow.reduce(function(a,b){return a+b;},0) / slow.length;
+
+                log('  Fast half avg: ' + fmtMs(fastAvg), 'log-dim');
+                log('  Slow half avg: ' + fmtMs(slowAvg), 'log-dim');
+                log('  Ratio (slow/fast): ' + (slowAvg / fastAvg).toFixed(1) + 'x', 'log-dim');
+
+                if (slowAvg / fastAvg > 5) {
+                    log('  LIKELY RATE LIMITING: Slow half is ' + (slowAvg / fastAvg).toFixed(1) + 'x slower than fast half.', 'log-warn');
+                    log('  This suggests the server queues requests after the first few.', 'log-warn');
+                } else if (parallelTotal > 15000) {
+                    log('  SERVER SLOW: Responses are uniformly slow (' + fmtMs(parallelTotal) + ' total).', 'log-warn');
+                    log('  This suggests the server itself is slow, not rate limiting.', 'log-warn');
+                } else {
+                    log('  Looks healthy - no obvious rate limiting.', 'log-ok');
+                }
+
+                // Check for HTTP 429 or similar
+                var status429 = allResults.filter(function(r) { return r.status === 429; }).length;
+                if (status429 > 0) {
+                    log('  GOT ' + status429 + ' HTTP 429 RESPONSES (explicit rate limit!)', 'log-err');
+                }
+            }
+        } else {
+            log('\n--- Skipping device tests (no group ID) ---', 'log-warn');
+        }
+
+        // Summary
+        log('\n========================================', 'log-head');
+        log('  SUMMARY', 'log-head');
+        log('========================================', 'log-head');
+        log('  Auth:                ' + fmtMs(summary.auth || 0), 'log-info');
+        log('  Customer list:       ' + fmtMs(summary.customers || 0), 'log-info');
+        log('  Tenant groups:       ' + fmtMs(summary.tenantGroups || 0), 'log-info');
+        if (summary.customerGroupsAvg) log('  Cust groups (avg):   ' + fmtMs(summary.customerGroupsAvg), 'log-info');
+        if (summary.deviceList) log('  Device list:         ' + fmtMs(summary.deviceList), 'log-info');
+        if (summary.singleDevSeq) log('  1 dev attrs (seq):   ' + fmtMs(summary.singleDevSeq), 'log-info');
+        if (summary.singleDevCombined) log('  1 dev attrs (combo): ' + fmtMs(summary.singleDevCombined), 'log-info');
+        if (summary.parallelWall) {
+            log('  ' + summary.parallelCount + ' calls parallel:  ' + fmtMs(summary.parallelWall), summary.parallelWall > 15000 ? 'log-err' : 'log-ok');
+            log('    Avg response:      ' + fmtMs(summary.parallelAvg), 'log-dim');
+            log('    Max response:      ' + fmtMs(summary.parallelMax), 'log-dim');
+            log('    Failed:            ' + summary.parallelFailed, summary.parallelFailed > 0 ? 'log-err' : 'log-dim');
+        }
+
+        // Diagnosis
+        log('\n--- DIAGNOSIS ---', 'log-head');
+        if (summary.auth > 2000) {
+            log('  AUTH IS SLOW (' + fmtMs(summary.auth) + '). Server may be overloaded.', 'log-err');
+        }
+        if (summary.singleDevSeq && summary.singleDevSeq > 5000) {
+            log('  SINGLE DEVICE SEQUENTIAL IS SLOW. Each API call averages ' + fmtMs(summary.singleDevSeq / 8) + '.', 'log-err');
+            log('  This is a server-side issue - individual calls should be <200ms.', 'log-err');
+        }
+        if (summary.parallelWall && summary.parallelWall > 20000) {
+            log('  PARALLEL FETCH IS SLOW (' + fmtMs(summary.parallelWall) + ').', 'log-err');
+            if (summary.parallelAvg > 2000) {
+                log('  Server is slow per-request. This is NOT a browser connection limit issue.', 'log-err');
+            } else {
+                log('  Individual requests are fast but total is slow = BROWSER CONNECTION QUEUING.', 'log-warn');
+                log('  Consider reducing parallel requests or batching.', 'log-warn');
+            }
+        }
+        if (summary.parallelWall && summary.parallelWall < 5000) {
+            log('  API performance looks GOOD. Issue may be in widget rendering or other code.', 'log-ok');
+        }
+
+        showSummary(summary);
+
+    } catch(e) {
+        log('\nBENCHMARK ERROR: ' + e.message, 'log-err');
+        console.error(e);
+    } finally {
+        btn.disabled = false;
+        btn.textContent = 'Run Full Benchmark';
+    }
+}
+
+function percentile(arr, p) {
+    var sorted = arr.slice().sort(function(a,b){return a-b;});
+    var idx = Math.ceil(sorted.length * p / 100) - 1;
+    return sorted[Math.max(0, idx)];
+}
+
+function showSummary(s) {
+    var area = document.getElementById('summaryArea');
+    var content = document.getElementById('summaryContent');
+    area.style.display = 'block';
+    var html = '';
+    if (s.auth) html += '<div class="summary-box">Auth: <b>' + fmtMs(s.auth) + '</b></div>';
+    if (s.customers) html += '<div class="summary-box">Customers: <b>' + fmtMs(s.customers) + '</b></div>';
+    if (s.deviceList) html += '<div class="summary-box">Device List: <b>' + fmtMs(s.deviceList) + '</b></div>';
+    if (s.singleDevSeq) html += '<div class="summary-box">1 Dev (seq): <b>' + fmtMs(s.singleDevSeq) + '</b></div>';
+    if (s.parallelWall) html += '<div class="summary-box">' + s.parallelCount + ' Parallel: <b>' + fmtMs(s.parallelWall) + '</b></div>';
+    content.innerHTML = html;
+}
+
+// Auto-detect on load
+window.addEventListener('load', function() { detectToken(); });
+</script>
+</body>
+</html>
