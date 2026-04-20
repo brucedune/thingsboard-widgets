@@ -44,34 +44,61 @@
     <!-- Status -->
     <div id="w7-statusMsg" class="w7-message" style="display:none"></div>
 
-    <!-- Main content: device list + chart -->
+    <!-- Main content: device list + eng review | chart -->
     <div id="w7-contentPanel">
         <div class="w7-content-row">
-            <!-- Device list -->
-            <div class="w7-device-panel" id="w7-devicePanel">
-                <div class="w7-device-search-wrap">
-                    <input type="text" id="w7-deviceSearch" class="w7-input" placeholder="Search devices..."
-                        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-                </div>
-                <div class="w7-device-filters">
-                    <select id="w7-filterBillable" class="w7-filter-select">
-                        <option value="ALL">Billable: All</option>
-                        <option value="FALSE">Billable: FALSE</option>
-                    </select>
-                    <select id="w7-filterReview" class="w7-filter-select">
-                        <option value="ALL">Review: All</option>
-                        <option value="TRUE">Review: TRUE</option>
-                    </select>
-                </div>
-                <div class="w7-device-nav">
-                    <span class="w7-device-count" id="w7-deviceCount">0 devices</span>
-                    <button id="w7-toggleEngReview" class="w7-toggle-btn w7-toggle-eng" title="Toggle Engineering Reviewed (group)">Eng Reviewed: --</button>
-                    <div class="w7-nav-btns">
-                        <button id="w7-prevDevBtn" class="w7-nav-btn" title="Previous device">&#9650;</button>
-                        <button id="w7-nextDevBtn" class="w7-nav-btn" title="Next device">&#9660;</button>
+            <!-- Left column: device list + eng review -->
+            <div class="w7-left-column">
+                <div class="w7-device-panel" id="w7-devicePanel">
+                    <div class="w7-device-search-wrap">
+                        <input type="text" id="w7-deviceSearch" class="w7-input" placeholder="Search devices..."
+                            autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                     </div>
+                    <div class="w7-device-filters">
+                        <select id="w7-filterBillable" class="w7-filter-select">
+                            <option value="ALL">Billable: All</option>
+                            <option value="FALSE">Billable: FALSE</option>
+                        </select>
+                        <select id="w7-filterReview" class="w7-filter-select">
+                            <option value="ALL">Review: All</option>
+                            <option value="TRUE">Review: TRUE</option>
+                        </select>
+                        <select id="w7-filterReplace" class="w7-filter-select">
+                            <option value="ALL">Replace: All</option>
+                            <option value="TRUE">Replace: TRUE</option>
+                        </select>
+                    </div>
+                    <div class="w7-device-nav">
+                        <span class="w7-device-count" id="w7-deviceCount">0 devices</span>
+                        <button id="w7-toggleEngReview" class="w7-toggle-btn w7-toggle-eng" title="Toggle Engineering Reviewed (group)">Eng Reviewed: --</button>
+                        <div class="w7-nav-btns">
+                            <button id="w7-prevDevBtn" class="w7-nav-btn" title="Previous device">&#9650;</button>
+                            <button id="w7-nextDevBtn" class="w7-nav-btn" title="Next device">&#9660;</button>
+                        </div>
+                    </div>
+                    <div class="w7-device-list" id="w7-deviceList"></div>
                 </div>
-                <div class="w7-device-list" id="w7-deviceList"></div>
+
+                <!-- Engineering Review Panel -->
+                <div class="w7-eng-review-panel">
+                    <div class="w7-eng-toolbar">
+                        <span class="w7-eng-title">Engineering Review</span>
+                        <button id="w7-engRefreshBtn" class="w7-btn w7-btn-sm">Refresh</button>
+                        <select id="w7-engFilterReview" class="w7-filter-select">
+                            <option value="ALL">All</option>
+                            <option value="TRUE">TRUE</option>
+                            <option value="FALSE" selected>FALSE</option>
+                        </select>
+                        <button id="w7-engSetAllFalse" class="w7-btn w7-btn-sm" style="background:#c0392b;">Review State RESET</button>
+                        <span id="w7-engCount" class="w7-eng-count">0 groups</span>
+                    </div>
+                    <div class="w7-eng-header-row">
+                        <span data-col="groupName" class="w7-eng-sortable" style="flex:1;min-width:0;">Device Group</span>
+                        <span data-col="reviewDate" class="w7-eng-sortable" style="margin-left:auto;flex-shrink:0;padding-left:8px;">Date</span>
+                    </div>
+                    <div class="w7-eng-list" id="w7-engReviewBody"></div>
+                    <div id="w7-engReviewEmpty" class="w7-eng-empty">Click refresh to load.</div>
+                </div>
             </div>
 
             <!-- Right side: cards + chart + correction controls -->
@@ -98,19 +125,91 @@
                             <span class="w7-card-value w7-card-corrected" id="w7-cardCorrDiff">--</span>
                         </div>
                         <div class="w7-card">
-                            <span class="w7-card-label">Data Points</span>
-                            <span class="w7-card-value" id="w7-cardPoints">--</span>
+                            <span class="w7-card-label">FW Ver</span>
+                            <span class="w7-card-value" id="w7-cardFwVer">--</span>
+                            <span class="w7-card-sub" id="w7-cardFwVerDate">--</span>
+                        </div>
+                        <div class="w7-card">
+                            <span class="w7-card-label">FW Ver Ti</span>
+                            <span class="w7-card-value" id="w7-cardFwVerTi">--</span>
+                            <span class="w7-card-sub" id="w7-cardFwVerTiDate">--</span>
+                        </div>
+                        <div class="w7-card">
+                            <span class="w7-card-label">Device State</span>
+                            <span class="w7-card-value" id="w7-cardDeviceState">--</span>
+                            <span class="w7-card-sub" id="w7-cardDeviceStateDate">--</span>
+                        </div>
+                        <div class="w7-card">
+                            <span class="w7-card-label">Active</span>
+                            <span class="w7-card-value" id="w7-cardActive">--</span>
+                            <span class="w7-card-sub" id="w7-cardActiveDate">--</span>
+                        </div>
+                        <div class="w7-card">
+                            <span class="w7-card-label">Gain</span>
+                            <span class="w7-card-value" id="w7-cardGain">--</span>
+                            <span class="w7-card-sub" id="w7-cardGainDate">--</span>
+                        </div>
+                        <div class="w7-card">
+                            <span class="w7-card-label">VddAdc</span>
+                            <span class="w7-card-value" id="w7-cardVddAdc">--</span>
+                            <span class="w7-card-sub" id="w7-cardVddAdcDate">--</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Attribute toggles -->
+                <!-- Attribute toggles (per-device) + group-level counters -->
                 <div id="w7-attrToggles" class="w7-attr-toggles" style="display:none">
                     <button id="w7-toggleBillable" class="w7-toggle-btn" title="Toggle Billable">Billable: --</button>
                     <button id="w7-toggleMeterReview" class="w7-toggle-btn" title="Toggle Billing Review">Billing Review: --</button>
+                    <button id="w7-toggleVacant" class="w7-toggle-btn" title="Toggle Vacant">Vacant: --</button>
+                    <button id="w7-toggleNoWater" class="w7-toggle-btn" title="Toggle No Water">No Water: --</button>
                     <button id="w7-toggleLeak" class="w7-toggle-btn" title="Toggle Leak">Leak: --</button>
                     <button id="w7-toggleInstalled" class="w7-toggle-btn" title="Toggle Installed">Installed: --</button>
                     <button id="w7-toggleReplace" class="w7-toggle-btn" title="Toggle Replace">Replace: --</button>
+                    <button id="w7-toggleRecalibrate" class="w7-toggle-btn" title="Toggle Recalibrate (SHARED)">Recalibrate: --</button>
+                    <span class="w7-count-chip" id="w7-countTotal" title="Non-vacant lots in group">Total: 0</span>
+                    <span class="w7-count-chip w7-count-chip-warn" id="w7-countBillableFalse" title="Non-vacant lots with Billable = FALSE (excluding Replace)">Billable FALSE: 0</span>
+                    <span class="w7-count-chip w7-count-chip-warn" id="w7-countBillingReviewTrue" title="Devices with Billing Review = TRUE">Billing Review TRUE: 0</span>
+                    <span class="w7-count-chip w7-count-chip-warn" id="w7-countReplaceTrue" title="Devices with Replace = TRUE">Replace TRUE: 0</span>
+                    <span class="w7-count-chip w7-count-chip-warn" id="w7-countNoDevice" title="Non-vacant lots with Installed = FALSE (no working device)">No Device: 0</span>
+                </div>
+                <!-- Group-level counters shown when no device is selected yet -->
+                <div id="w7-groupCounts" class="w7-group-counts" style="display:none">
+                    <span class="w7-count-chip" id="w7-countTotal2" title="Non-vacant lots in group">Total: 0</span>
+                    <span class="w7-count-chip w7-count-chip-warn" id="w7-countBillableFalse2" title="Non-vacant lots with Billable = FALSE (excluding Replace)">Billable FALSE: 0</span>
+                    <span class="w7-count-chip w7-count-chip-warn" id="w7-countBillingReviewTrue2" title="Devices with Billing Review = TRUE">Billing Review TRUE: 0</span>
+                    <span class="w7-count-chip w7-count-chip-warn" id="w7-countReplaceTrue2" title="Devices with Replace = TRUE">Replace TRUE: 0</span>
+                    <span class="w7-count-chip w7-count-chip-warn" id="w7-countNoDevice2" title="Non-vacant lots with Installed = FALSE (no working device)">No Device: 0</span>
+                </div>
+
+                <!-- Attribute inputs row -->
+                <div id="w7-attrInputs" class="w7-attr-inputs" style="display:none">
+                    <div class="w7-attr-input-group">
+                        <label>gen2fw</label>
+                        <input type="text" id="w7-gen2fw" class="w7-input w7-input-sm" autocomplete="off">
+                        <button id="w7-gen2fwSet" class="w7-btn w7-btn-sm">Set</button>
+                    </div>
+                    <div class="w7-attr-input-group">
+                        <label>allowTiFotaVer</label>
+                        <input type="text" id="w7-allowTiFotaVer" class="w7-input w7-input-sm" autocomplete="off">
+                        <button id="w7-allowTiFotaVerSet" class="w7-btn w7-btn-sm">Set</button>
+                    </div>
+                    <div class="w7-attr-input-group">
+                        <label>Model</label>
+                        <input type="text" id="w7-model" class="w7-input w7-input-sm" autocomplete="off">
+                        <button id="w7-modelSet" class="w7-btn w7-btn-sm">Set</button>
+                    </div>
+                    <div class="w7-attr-input-group">
+                        <label>waterFlowDir</label>
+                        <select id="w7-flowDir" class="w7-input w7-input-sm">
+                            <option value="">--</option>
+                            <option value="1">1 - Not Flipped</option>
+                            <option value="2">2 - Flipped</option>
+                        </select>
+                        <button id="w7-flowDirSet" class="w7-btn w7-btn-sm">Set</button>
+                        <span id="w7-flowDirTS" class="w7-attr-ts">TS: --</span>
+                        <span id="w7-flowDirFlippedTS" class="w7-attr-ts">Flipped: --</span>
+                    </div>
                 </div>
 
                 <!-- Chart -->
@@ -134,6 +233,8 @@
                         </div>
                         <div class="w7-prev-actions">
                             <button id="w7-matchPrevBtn" class="w7-btn w7-btn-match" disabled>Match Previous</button>
+                            <button id="w7-pick2Btn" class="w7-btn w7-btn-match" disabled title="Click two points on the baseline trace to compute a slope">Pick 2 Points</button>
+                            <span id="w7-pick2Status" style="font-size:11px;color:#666;"></span>
                             <label class="w7-toggle-label">
                                 <input type="checkbox" id="w7-showPrevToggle" checked> Show overlay
                             </label>
@@ -288,6 +389,38 @@
     display: flex;
     gap: 8px;
     padding: 6px 0;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.w7-group-counts {
+    display: flex;
+    gap: 8px;
+    padding: 6px 0;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.w7-count-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid #cfd8dc;
+    background: #f4f6f8;
+    color: #37474f;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+.w7-count-chip-warn {
+    background: #fdecea;
+    border-color: #f5c6cb;
+    color: #c0392b;
+}
+.w7-count-chip-warn[data-count="0"] {
+    background: #f4f6f8;
+    border-color: #cfd8dc;
+    color: #37474f;
 }
 .w7-toggle-btn {
     padding: 4px 12px;
@@ -332,15 +465,24 @@
 .w7-content-row {
     display: flex;
     gap: 16px;
-    height: calc(100vh - 296px);
-    min-height: 400px;
+    height: calc(100vh - 248px);
+    min-height: 450px;
+}
+
+/* Left column: device list + eng review */
+.w7-left-column {
+    width: 436px;
+    min-width: 380px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 /* Device list panel */
 .w7-device-panel {
-    width: 340px;
-    min-width: 300px;
-    flex-shrink: 0;
+    flex: 1;
+    min-height: 0;
     display: flex;
     flex-direction: column;
     border: 1px solid #dde3eb;
@@ -559,6 +701,110 @@
     align-items: flex-end;
     margin-top: 8px;
     flex-wrap: wrap;
+}
+
+/* Attribute input row */
+.w7-attr-inputs {
+    display: flex;
+    gap: 10px;
+    padding: 6px 0;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+.w7-attr-input-group {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+}
+.w7-attr-input-group label {
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: #666;
+    white-space: nowrap;
+}
+.w7-input-sm {
+    width: 80px;
+    padding: 3px 6px;
+    font-size: 11px;
+}
+.w7-btn-sm {
+    padding: 3px 8px;
+    font-size: 11px;
+}
+.w7-attr-ts {
+    font-size: 10px;
+    color: #888;
+    white-space: nowrap;
+}
+
+/* Engineering Review Panel */
+.w7-eng-review-panel {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #dde3eb;
+    border-radius: 6px;
+    background: #f9fafb;
+    overflow: hidden;
+    height: 35%;
+    flex-shrink: 0;
+}
+.w7-eng-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 10px;
+    background: #f0f2f5;
+    border-bottom: 1px solid #eee;
+    flex-shrink: 0;
+}
+.w7-eng-title {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #888;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+.w7-eng-count {
+    font-size: 10px;
+    font-weight: 600;
+    color: #888;
+    margin-left: auto;
+    white-space: nowrap;
+}
+.w7-eng-header-row {
+    display: flex;
+    background: #f0f2f5;
+    border-bottom: 1px solid #dde3eb;
+    padding: 4px 8px;
+    flex-shrink: 0;
+}
+.w7-eng-header-row span {
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #888;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.w7-eng-sortable { cursor: pointer; }
+.w7-eng-sortable:hover { color: #305680; }
+.w7-eng-col-group { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; padding-right: 8px; }
+.w7-eng-col-date  { flex: 0 0 40px; text-align: right; flex-shrink: 0; }
+.w7-eng-list {
+    flex: 1;
+    overflow-y: auto;
+}
+.w7-eng-empty {
+    padding: 20px;
+    text-align: center;
+    color: #aaa;
+    font-style: italic;
+    font-size: 12px;
 }
 
 /* Placeholder */
