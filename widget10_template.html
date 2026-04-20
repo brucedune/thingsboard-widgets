@@ -1,0 +1,383 @@
+<div class="w10-wrap">
+    <div class="w10-title">Firmware Report &mdash; Installed Devices</div>
+
+    <!-- Scope row -->
+    <div class="w10-toolbar">
+        <div class="w10-field w10-field-sm">
+            <label>Owner Type</label>
+            <select id="w10-ownerType" class="w10-select">
+                <option value="ALL">All</option>
+                <option value="TENANT">Tenant</option>
+                <option value="CUSTOMER">Customer</option>
+            </select>
+        </div>
+        <div class="w10-field" id="w10-custScopeField" style="display:none">
+            <label>Customer</label>
+            <select id="w10-custScope" class="w10-select">
+                <option value="ALL">All</option>
+            </select>
+        </div>
+        <div class="w10-field" id="w10-groupScopeField" style="display:none">
+            <label>Device Group</label>
+            <select id="w10-groupScope" class="w10-select">
+                <option value="ALL">All</option>
+            </select>
+        </div>
+        <div class="w10-field w10-field-sm">
+            <label>Firmware Version</label>
+            <div style="display:flex;gap:4px;">
+                <input type="text" id="w10-fwInput" class="w10-input" list="w10-fwList" placeholder="fwVer..." autocomplete="off">
+                <datalist id="w10-fwList"></datalist>
+                <button id="w10-fwAddBtn" class="w10-btn-add" title="Add to lookup">+</button>
+            </div>
+        </div>
+        <div class="w10-field w10-field-sm">
+            <label>Start Date</label>
+            <input type="date" id="w10-startDate" class="w10-input">
+        </div>
+        <div class="w10-field w10-field-sm">
+            <label>End Date</label>
+            <input type="date" id="w10-endDate" class="w10-input">
+        </div>
+        <div class="w10-count" id="w10-count">--</div>
+        <button id="w10-refreshBtn" class="w10-btn">Refresh</button>
+        <button id="w10-exportBtn" class="w10-btn w10-btn-export" disabled>CSV</button>
+    </div>
+
+    <!-- Post-scan filter row (hidden until results exist) -->
+    <div class="w10-toolbar w10-filter-row" id="w10-filterRow" style="display:none">
+        <div class="w10-field w10-field-sm">
+            <label>Filter Customer</label>
+            <select id="w10-custFilter" class="w10-select">
+                <option value="ALL">All</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="w10-statusMsg" class="w10-message" style="display:none"></div>
+
+    <!-- Main content: device list + chart -->
+    <div class="w10-content-row">
+        <!-- Device list panel -->
+        <div class="w10-device-panel" id="w10-devicePanel">
+            <div class="w10-device-search-wrap">
+                <input type="text" id="w10-deviceSearch" class="w10-input" placeholder="Search devices..."
+                    autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            </div>
+            <div class="w10-device-nav">
+                <span class="w10-device-count" id="w10-deviceCount">0 devices</span>
+                <div class="w10-sort-controls">
+                    <select id="w10-sortSelect" class="w10-sort-sel">
+                        <option value="customer">Customer</option>
+                        <option value="group">Group</option>
+                        <option value="name">Name</option>
+                        <option value="fwVer">FW Ver</option>
+                        <option value="fwDate">FW Date</option>
+                    </select>
+                    <button id="w10-sortDir" class="w10-nav-btn" title="Toggle sort direction">&#9650;</button>
+                </div>
+                <div class="w10-nav-btns">
+                    <button id="w10-prevDevBtn" class="w10-nav-btn" title="Previous device">&#9650;</button>
+                    <button id="w10-nextDevBtn" class="w10-nav-btn" title="Next device">&#9660;</button>
+                </div>
+            </div>
+            <div id="w10-empty" class="w10-empty">Click Refresh to scan all devices.</div>
+            <div class="w10-device-list" id="w10-deviceList"></div>
+        </div>
+
+        <!-- Chart panel -->
+        <div class="w10-chart-side" id="w10-chartSide">
+            <div class="w10-chart-header">
+                <span class="w10-chart-title" id="w10-chartTitle">--</span>
+                <button id="w10-chartClose" class="w10-chart-close" title="Close chart">&times;</button>
+            </div>
+            <div class="w10-chart-container">
+                <canvas id="w10-chart"></canvas>
+            </div>
+            <div id="w10-chartPlaceholder" class="w10-placeholder">
+                Select a device to view chart
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.w10-wrap {
+    font-family: Roboto, sans-serif;
+    font-size: 13px;
+    color: #333;
+    padding: 16px;
+    height: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+.w10-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: #305680;
+    border-bottom: 2px solid #305680;
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+    flex-shrink: 0;
+}
+.w10-toolbar {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+    flex-shrink: 0;
+}
+.w10-field {
+    display: flex;
+    flex-direction: column;
+    min-width: 140px;
+}
+.w10-field-sm { min-width: 100px; flex: 0 1 auto; }
+.w10-filter-row { margin-top: -6px; }
+.w10-field label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #666;
+    margin-bottom: 3px;
+    letter-spacing: 0.5px;
+}
+.w10-select, .w10-input {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 12px;
+    background: #fafafa;
+    outline: none;
+}
+.w10-select:focus, .w10-input:focus { border-color: #305680; background: #fff; }
+.w10-count {
+    font-size: 12px;
+    font-weight: 600;
+    color: #305680;
+    background: #e8f0f7;
+    border: 1px solid #c5d5e8;
+    border-radius: 4px;
+    padding: 6px 14px;
+    white-space: nowrap;
+    align-self: flex-end;
+}
+.w10-btn {
+    padding: 6px 16px;
+    background: #305680;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    align-self: flex-end;
+}
+.w10-btn:hover { background: #264a6e; }
+.w10-btn-add {
+    padding: 4px 10px;
+    background: #1565c0;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    line-height: 1;
+}
+.w10-btn-add:hover { background: #0d47a1; }
+.w10-btn:disabled { background: #ccc; cursor: not-allowed; }
+.w10-btn-export { background: #2e7d32; }
+.w10-btn-export:hover:not([disabled]) { background: #1b5e20; }
+
+.w10-message {
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-bottom: 8px;
+    flex-shrink: 0;
+}
+.w10-msg-success { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+.w10-msg-error   { background: #fdecea; color: #c0392b; border: 1px solid #f5c6c2; }
+.w10-msg-info    { background: #e3f2fd; color: #1565c0; border: 1px solid #90caf9; }
+
+/* Main content row */
+.w10-content-row {
+    flex: 1;
+    display: flex;
+    gap: 12px;
+    min-height: 0;
+}
+
+/* Device list panel */
+.w10-device-panel {
+    width: 340px;
+    min-width: 300px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #dde3eb;
+    border-radius: 6px;
+    background: #f9fafb;
+    overflow: hidden;
+}
+.w10-device-search-wrap {
+    padding: 8px;
+    border-bottom: 1px solid #e0e0e0;
+}
+.w10-device-search-wrap .w10-input {
+    font-size: 12px;
+    padding: 6px 8px;
+}
+.w10-device-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 10px;
+    border-bottom: 1px solid #eee;
+    background: #f0f2f5;
+    gap: 6px;
+}
+.w10-device-count {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #888;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+.w10-sort-controls {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+.w10-sort-sel {
+    font-size: 10px;
+    padding: 2px 4px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background: #fff;
+}
+.w10-nav-btns { display: flex; gap: 2px; }
+.w10-nav-btn {
+    width: 24px;
+    height: 20px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background: #fff;
+    color: #555;
+    font-size: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    line-height: 1;
+}
+.w10-nav-btn:hover { background: #e0e0e0; }
+.w10-device-list {
+    flex: 1;
+    overflow-y: auto;
+}
+.w10-device-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    transition: background 0.15s;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.w10-device-item:hover { background: #e8f0f7; }
+.w10-device-item.w10-active {
+    background: #e0e0e0;
+}
+.w10-device-item-name {
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.w10-device-item-sub {
+    font-size: 11px;
+    color: #888;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.w10-empty {
+    padding: 24px;
+    text-align: center;
+    color: #999;
+    font-style: italic;
+    font-size: 13px;
+}
+.w10-placeholder {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
+    font-size: 14px;
+    font-style: italic;
+    border: 2px dashed #ddd;
+    border-radius: 6px;
+    margin: 8px;
+}
+
+/* Chart side */
+.w10-chart-side {
+    width: 55%;
+    min-width: 400px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #dde3eb;
+    border-radius: 6px;
+    background: #fafbfc;
+    overflow: hidden;
+}
+.w10-chart-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 12px;
+    background: #f0f2f5;
+    border-bottom: 1px solid #e0e0e0;
+    flex-shrink: 0;
+}
+.w10-chart-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #305680;
+}
+.w10-chart-close {
+    width: 24px;
+    height: 24px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background: #fff;
+    color: #555;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    line-height: 1;
+}
+.w10-chart-close:hover { background: #e0e0e0; }
+.w10-chart-container {
+    flex: 1;
+    position: relative;
+    width: 100%;
+    min-height: 0;
+    padding: 8px;
+    box-sizing: border-box;
+}
+</style>
