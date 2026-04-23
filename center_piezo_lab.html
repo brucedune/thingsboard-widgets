@@ -233,7 +233,27 @@ async function runReadLoop() {
   reader.releaseLock(); reader = null;
 }
 
+/* Pending fwup ack handshake — handleLine resolves this when it sees
+ * "fwup ack <offset>". Browser's upload loop awaits this before sending
+ * the next chunk so the firmware's lwrb doesn't overflow on STLink-VCP. */
+let fwupAckResolve = null;
+let fwupAckExpect = 0;
+function waitFwupAck(expectedOffset) {
+  fwupAckExpect = expectedOffset;
+  return new Promise(r => { fwupAckResolve = r; });
+}
+
 function handleLine(line) {
+  if (line.startsWith("fwup ack ")) {
+    const n = parseInt(line.slice(9), 10);
+    if (fwupAckResolve && n === fwupAckExpect) {
+      const r = fwupAckResolve;
+      fwupAckResolve = null;
+      r();
+    }
+    /* don't spam log with every ack — let the progress bar show progress */
+    return;
+  }
   if (line.startsWith("CAP BEGIN")) {
     curCap = { meta: parseKv(line.slice(9)), samples: [] };
     log("< " + line);
@@ -537,15 +557,25 @@ async function uploadTiFirmware() {
     /* firmware prints "ready to accept N bytes" then enters uart_read */
     await new Promise(r => setTimeout(r, 250));
 
+    /* Chunk size must match FWUP_CHUNK in firmware ti_hci_impl.c. */
     const chunk = 512;
     for (let off = 0; off < size; off += chunk) {
-      const slice = data.subarray(off, Math.min(off + chunk, size));
+      const end = Math.min(off + chunk, size);
+      const slice = data.subarray(off, end);
+      /* Arm the ack-wait BEFORE writing so we can't miss the ack. */
+      const ack = waitFwupAck(end);
       await writer.write(slice);
-      progress.value = Math.floor(((off + slice.length) * 100) / size);
-      statusSpan.textContent = `${off + slice.length} / ${size}`;
-      /* Let browser flush its USB buffer. No HW flow control in 8N1, but
-       * Web Serial internal queue + MCU uart_read keep pace at 921600. */
-      if ((off & 0x1FFF) === 0) await new Promise(r => setTimeout(r, 0));
+      /* Firmware calls uart_read for `chunk` bytes then emits
+       * "fwup ack <offset>". Timeout → report and bail so we don't
+       * wedge the UI. */
+      await Promise.race([
+        ack,
+        new Promise((_, rej) => setTimeout(() => rej(new Error(
+          `ack timeout at offset ${end} — STLink VCP may be dropping bytes`
+        )), 3000)),
+      ]);
+      progress.value = Math.floor((end * 100) / size);
+      statusSpan.textContent = `${end} / ${size}`;
     }
 
     progress.value = 100;
