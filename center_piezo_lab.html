@@ -131,6 +131,8 @@ async function connect() {
     setConnected(true);
     log("connected");
     readLoop = runReadLoop();
+    /* Wake the firmware's "lab shell alive" LED and pull current settings. */
+    await send("cp show");
   } catch (e) {
     log("connect error: " + e.message);
   }
