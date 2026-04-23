@@ -310,18 +310,125 @@ async function apply() {
   await send("cp show");
 }
 
+/* -------- TI-TXT decode + pack into ti_fota's chunk-header format ----- */
+/* ti_fota expects:
+ *   [uint32 CRC32(LE) of everything after]
+ *   repeating:
+ *     [packed struct { uint32 addr(LE); uint16 len(LE); }]
+ *     [len bytes of data]
+ * CRC32 is standard poly 0xEDB88320 but with the table pre-XORed by
+ * 0xFF000000 and init=0 / no-final-XOR — mirrors fota.c crc32_for_byte. */
+
+let cp_crc_table = null;
+function duneCrc32(data) {
+  if (!cp_crc_table) {
+    cp_crc_table = new Uint32Array(256);
+    for (let i = 0; i < 256; i++) {
+      let r = i;
+      for (let j = 0; j < 8; j++) r = ((r & 1) ? 0 : 0xEDB88320) ^ (r >>> 1);
+      cp_crc_table[i] = (r ^ 0xFF000000) >>> 0;
+    }
+  }
+  let crc = 0;
+  for (let i = 0; i < data.length; i++) {
+    crc = (cp_crc_table[(crc ^ data[i]) & 0xFF] ^ (crc >>> 8)) >>> 0;
+  }
+  return crc >>> 0;
+}
+
+function parseTiTxt(text) {
+  const chunks = [];
+  let cur = null;
+  let lineNo = 0;
+  for (const raw of text.split(/\r?\n/)) {
+    lineNo++;
+    const line = raw.trim();
+    if (!line) continue;
+    if (line === "q" || line === "Q") break;
+    if (line.startsWith("@")) {
+      if (cur) chunks.push(cur);
+      const addr = parseInt(line.slice(1), 16);
+      if (!Number.isFinite(addr)) throw new Error(`line ${lineNo}: bad @ address '${line}'`);
+      cur = { addr, data: [] };
+    } else {
+      if (!cur) throw new Error(`line ${lineNo}: data before @ section`);
+      for (const tok of line.split(/\s+/)) {
+        if (!tok) continue;
+        const b = parseInt(tok, 16);
+        if (!Number.isFinite(b) || b < 0 || b > 0xFF) {
+          throw new Error(`line ${lineNo}: bad hex byte '${tok}'`);
+        }
+        cur.data.push(b);
+      }
+    }
+  }
+  if (cur) chunks.push(cur);
+  if (chunks.length === 0) throw new Error("no @ sections found — not TI-TXT?");
+  return chunks;
+}
+
+function encodeChunksForTiFota(chunks) {
+  let total = 4;
+  for (const c of chunks) {
+    if (c.data.length > 0xFFFF) {
+      throw new Error(`chunk @0x${c.addr.toString(16)} too large (${c.data.length} > 65535)`);
+    }
+    total += 6 + c.data.length;
+  }
+  const out = new Uint8Array(total);
+  const view = new DataView(out.buffer);
+  let off = 4;
+  for (const c of chunks) {
+    view.setUint32(off, c.addr >>> 0, true);
+    view.setUint16(off + 4, c.data.length, true);
+    off += 6;
+    out.set(c.data, off);
+    off += c.data.length;
+  }
+  view.setUint32(0, duneCrc32(out.subarray(4)), true);
+  return out;
+}
+
+function looksLikeTiTxt(buf) {
+  /* First 1 KB: if all bytes are printable ASCII and '@' shows up, TI-TXT. */
+  const n = Math.min(buf.length, 1024);
+  let seenAt = false;
+  for (let i = 0; i < n; i++) {
+    const b = buf[i];
+    if (b === 0x40) seenAt = true;
+    if (b < 0x09 || (b > 0x0D && b < 0x20) || b > 0x7E) return false;
+  }
+  return seenAt;
+}
+
 /* -------- upload TI firmware over UART (existing `fwup <size>` command) */
 async function uploadTiFirmware() {
   const file = el("fwfile").files[0];
-  if (!file) { log("fwup: pick a binary file first"); return; }
+  if (!file) { log("fwup: pick a firmware file first"); return; }
   if (!writer) { log("fwup: connect first"); return; }
 
-  const size = file.size;
+  const raw = new Uint8Array(await file.arrayBuffer());
+  let data;
+  if (looksLikeTiTxt(raw)) {
+    try {
+      const text = new TextDecoder().decode(raw);
+      const chunks = parseTiTxt(text);
+      data = encodeChunksForTiFota(chunks);
+      const payloadBytes = data.length - 4 - 6 * chunks.length;
+      log(`fwup: parsed TI-TXT — ${chunks.length} section(s), ${payloadBytes} code bytes, ${data.length} packed`);
+    } catch (e) {
+      log("fwup: TI-TXT parse error: " + e.message);
+      return;
+    }
+  } else {
+    data = raw;
+    log(`fwup: treating as pre-encoded binary (${data.length} bytes)`);
+  }
+
+  const size = data.length;
   if (size === 0 || size > 131072) {
     log(`fwup: size ${size} out of range (max 128 KB = tmpBuf)`); return;
   }
-
-  const data = new Uint8Array(await file.arrayBuffer());
   const progress = el("fwprogress");
   const statusSpan = el("fwstatus");
   progress.style.display = "";
