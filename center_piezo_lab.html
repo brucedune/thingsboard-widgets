@@ -99,6 +99,16 @@
     <button id="save">Save CSV</button>
   </div>
 
+  <div class="panel">
+    <div class="group">
+      <label>TI Firmware (binary)</label>
+      <input type="file" id="fwfile" accept=".bin,.txt,.out">
+    </div>
+    <button id="fwup">Upload to TI</button>
+    <progress id="fwprogress" max="100" value="0" style="width:140px; display:none"></progress>
+    <span id="fwstatus" class="kv"></span>
+  </div>
+
   <div id="chart"></div>
   <div class="log-wrap">
     <div class="log-toolbar">
@@ -130,7 +140,7 @@ function setConnected(on) {
   statusEl.className = "status " + (on ? "connected" : "disconnected");
   el("connect").disabled = on;
   el("disconnect").disabled = !on;
-  for (const b of ["apply", "show", "fire"]) el(b).disabled = !on;
+  for (const b of ["apply", "show", "fire", "fwup"]) el(b).disabled = !on;
 }
 
 async function connect() {
@@ -300,6 +310,58 @@ async function apply() {
   await send("cp show");
 }
 
+/* -------- upload TI firmware over UART (existing `fwup <size>` command) */
+async function uploadTiFirmware() {
+  const file = el("fwfile").files[0];
+  if (!file) { log("fwup: pick a binary file first"); return; }
+  if (!writer) { log("fwup: connect first"); return; }
+
+  const size = file.size;
+  if (size === 0 || size > 131072) {
+    log(`fwup: size ${size} out of range (max 128 KB = tmpBuf)`); return;
+  }
+
+  const data = new Uint8Array(await file.arrayBuffer());
+  const progress = el("fwprogress");
+  const statusSpan = el("fwstatus");
+  progress.style.display = "";
+  progress.value = 0;
+  statusSpan.textContent = `sending ${size} bytes...`;
+
+  const wasDisabled = new Set();
+  for (const id of ["fwup", "fire", "apply", "disconnect"]) {
+    if (!el(id).disabled) wasDisabled.add(id);
+    el(id).disabled = true;
+  }
+
+  try {
+    log(`fwup: ${file.name} (${size} bytes)`);
+    await send(`fwup ${size}`);
+    /* firmware prints "ready to accept N bytes" then enters uart_read */
+    await new Promise(r => setTimeout(r, 250));
+
+    const chunk = 512;
+    for (let off = 0; off < size; off += chunk) {
+      const slice = data.subarray(off, Math.min(off + chunk, size));
+      await writer.write(slice);
+      progress.value = Math.floor(((off + slice.length) * 100) / size);
+      statusSpan.textContent = `${off + slice.length} / ${size}`;
+      /* Let browser flush its USB buffer. No HW flow control in 8N1, but
+       * Web Serial internal queue + MCU uart_read keep pace at 921600. */
+      if ((off & 0x1FFF) === 0) await new Promise(r => setTimeout(r, 0));
+    }
+
+    progress.value = 100;
+    statusSpan.textContent = "sent — awaiting CRC + BSL flash...";
+    log("fwup: all bytes sent");
+  } catch (e) {
+    log("fwup error: " + e.message);
+    statusSpan.textContent = "error";
+  } finally {
+    for (const id of wasDisabled) el(id).disabled = false;
+  }
+}
+
 /* -------- save last capture as CSV ------------------------------------ */
 function saveCsv() {
   if (!lastCap) { log("no capture to save"); return; }
@@ -327,6 +389,7 @@ el("fire").onclick = () => {
 };
 el("stop").onclick = stopContinuous;
 el("save").onclick = saveCsv;
+el("fwup").onclick = uploadTiFirmware;
 
 el("clearLog").onclick = () => { logEl.textContent = ""; };
 el("copyLog").onclick = async () => {
