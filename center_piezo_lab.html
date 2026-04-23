@@ -13,11 +13,22 @@
       font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
       line-height: 1.35;
       display: grid;
-      grid-template-rows: auto auto 1fr auto;
+      grid-template-rows: auto auto 1fr auto auto;
       gap: 10px;
       height: 100vh;
       box-sizing: border-box;
     }
+    .charts {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      gap: 8px;
+      min-height: 0;
+    }
+    .chart-pane { display: flex; flex-direction: column; min-height: 0; }
+    .chart-pane .chart-label {
+      font-size: 11px; opacity: 0.8; padding: 2px 4px;
+    }
+    .chart-pane .chart-host { flex: 1; min-height: 120px; }
     header { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
     header h1 { margin: 0; font-size: 16px; font-weight: 600; }
     .status { padding: 3px 8px; border-radius: 4px; font-size: 12px; }
@@ -108,6 +119,17 @@
     <span id="tofReadout" class="kv"></span>
   </div>
 
+  <div class="charts">
+    <div class="chart-pane">
+      <div class="chart-label">ADC waveforms — UPS (blue) / DNS (green)</div>
+      <div class="chart-host" id="chartAdc"></div>
+    </div>
+    <div class="chart-pane">
+      <div class="chart-label">Time of flight — tof_ups (blue) / tof_dns (green) / Δtof "tnorm" (red)</div>
+      <div class="chart-host" id="chartTof"></div>
+    </div>
+  </div>
+
   <div class="panel">
     <div class="group">
       <label>TI Firmware (binary)</label>
@@ -117,8 +139,6 @@
     <progress id="fwprogress" max="100" value="0" style="width:140px; display:none"></progress>
     <span id="fwstatus" class="kv"></span>
   </div>
-
-  <div id="chart"></div>
   <div class="log-wrap">
     <div class="log-toolbar">
       <span>Log</span>
@@ -249,28 +269,49 @@ function parseKv(s) {
   return out;
 }
 
-/* -------- uPlot chart -------------------------------------------------- */
-let plot = null;
-let plotLen = 0;
+/* -------- uPlot: ADC waveforms (top) + ToF history (bottom) ----------- */
+let adcPlot = null, adcPlotLen = 0;
+let tofPlot = null;
 
-function ensurePlot(n) {
-  const host = el("chart");
+/* ToF history buffers (parallel arrays). Indexed by shot order. */
+const tofHist = { x: [], ups: [], dns: [], d: [] };
+const TOF_HIST_MAX = 500;
+
+function ensureAdcPlot(n) {
+  const host = el("chartAdc");
   const opts = {
     width: host.clientWidth,
-    height: host.clientHeight || 300,
+    height: host.clientHeight || 240,
     scales: { x: { time: false } },
     axes: [ { label: "sample idx" }, { label: "ADC value" } ],
     series: [
       {},
       { label: "UPS", stroke: "#1e88e5", width: 1 },
       { label: "DNS", stroke: "#43a047", width: 1 },
-      { label: "env threshold", stroke: "#e53935", width: 1, dash: [4,4] },
     ],
   };
-  if (plot) { plot.destroy(); plot = null; }
+  if (adcPlot) { adcPlot.destroy(); adcPlot = null; }
   const zero = new Array(n).fill(0);
-  plot = new uPlot(opts, [Array.from({length:n}, (_,i)=>i), zero.slice(), zero.slice(), zero.slice()], host);
-  plotLen = n;
+  adcPlot = new uPlot(opts, [Array.from({length:n}, (_,i)=>i), zero.slice(), zero.slice()], host);
+  adcPlotLen = n;
+}
+
+function ensureTofPlot() {
+  const host = el("chartTof");
+  const opts = {
+    width: host.clientWidth,
+    height: host.clientHeight || 240,
+    scales: { x: { time: false } },
+    axes: [ { label: "shot" }, { label: "ToF (ps)" } ],
+    series: [
+      {},
+      { label: "tof_ups", stroke: "#1e88e5", width: 1 },
+      { label: "tof_dns", stroke: "#43a047", width: 1 },
+      { label: "Δtof",    stroke: "#e53935", width: 1 },
+    ],
+  };
+  if (tofPlot) { tofPlot.destroy(); tofPlot = null; }
+  tofPlot = new uPlot(opts, [[0], [null], [null], [null]], host);
 }
 
 function pad(arr, n) {
@@ -281,28 +322,41 @@ function pad(arr, n) {
   return out;
 }
 
+function appendTofHistory(shot, tu, td, dt) {
+  tofHist.x.push(shot);
+  tofHist.ups.push(Number.isFinite(tu) ? tu : null);
+  tofHist.dns.push(Number.isFinite(td) ? td : null);
+  tofHist.d.push(Number.isFinite(dt) ? dt : null);
+  if (tofHist.x.length > TOF_HIST_MAX) {
+    tofHist.x.shift(); tofHist.ups.shift(); tofHist.dns.shift(); tofHist.d.shift();
+  }
+  if (!tofPlot) ensureTofPlot();
+  tofPlot.setData([tofHist.x, tofHist.ups, tofHist.dns, tofHist.d]);
+}
+
 function renderCapture() {
   const ups = lastUps ? lastUps.samples : [];
   const dns = lastDns ? lastDns.samples : [];
   const n = Math.max(ups.length, dns.length, 1);
   const meta = (lastDns || lastUps || {meta:{}}).meta;
-  const env = parseInt(meta.env || "0", 10);
 
-  if (!plot || plotLen !== n) ensurePlot(n);
+  if (!adcPlot || adcPlotLen !== n) ensureAdcPlot(n);
   const x = Array.from({length: n}, (_, i) => i);
-  const envArr = new Array(n).fill(env);
-  plot.setData([x, pad(ups, n), pad(dns, n), envArr]);
+  adcPlot.setData([x, pad(ups, n), pad(dns, n)]);
 
-  const dtof = meta.dtof || "-";
-  const tu = meta.tof_ups || "-";
-  const td = meta.tof_dns || "-";
-  const vol = meta.vol || "-";
+  const shot = parseInt(meta.shot || "0", 10);
+  const tu = parseFloat(meta.tof_ups);
+  const td = parseFloat(meta.tof_dns);
+  const dt = parseFloat(meta.dtof);
+  appendTofHistory(shot, tu, td, dt);
+
   const mode = meta.mode || "?";
+  const vol = meta.vol || "-";
   el("tofReadout").textContent =
-    `mode=${mode} dtof=${dtof}ps tof_ups=${tu}ns tof_dns=${td}ns vol=${vol}`;
+    `mode=${mode} dtof=${meta.dtof||"-"}ps tof_ups=${meta.tof_ups||"-"}ns tof_dns=${meta.tof_dns||"-"}ns vol=${vol}`;
   const upsPeak = ups.length ? Math.max(...ups) : "-";
   const dnsPeak = dns.length ? Math.max(...dns) : "-";
-  log(`render shot=${meta.shot} ups_n=${ups.length} dns_n=${dns.length} upsPeak=${upsPeak} dnsPeak=${dnsPeak}`);
+  log(`render shot=${shot} ups_n=${ups.length} dns_n=${dns.length} upsPeak=${upsPeak} dnsPeak=${dnsPeak}`);
 }
 
 /* -------- continuous fire --------------------------------------------- */
@@ -569,7 +623,10 @@ el("shot").onchange = () => {
 };
 el("shot").onchange();
 
-window.addEventListener("resize", () => { if (plot) plot.setSize({ width: el("chart").clientWidth, height: el("chart").clientHeight }); });
+window.addEventListener("resize", () => {
+  if (adcPlot) adcPlot.setSize({ width: el("chartAdc").clientWidth, height: el("chartAdc").clientHeight });
+  if (tofPlot) tofPlot.setSize({ width: el("chartTof").clientWidth, height: el("chartTof").clientHeight });
+});
 window.addEventListener("beforeunload", disconnect);
 
 setConnected(false);
