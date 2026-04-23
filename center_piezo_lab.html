@@ -268,7 +268,6 @@ function stopContinuous() {
 async function apply() {
   const mode = el("mode").value;
   await send(`cp mode ${mode}`);
-  /* small gap between commands lets the firmware settle its config update */
   const pairs = [
     ["dur", el("dur").value],
     ["gain", el("gain").value],
@@ -278,8 +277,12 @@ async function apply() {
   ];
   for (const [k, v] of pairs) {
     await send(`cp ${k} ${v}`);
-    await new Promise(r => setTimeout(r, 20));
+    await new Promise(r => setTimeout(r, 10));
   }
+  /* Single push to TI once all params are set — avoids 2 s blocking
+   * retry loops per parameter and the nested-command buffer corruption
+   * that came with them. */
+  await send("cp apply");
   await send("cp show");
 }
 
