@@ -94,9 +94,18 @@
       </select>
     </div>
     <div class="group"><label>Period (ms)</label><input id="period" type="number" value="500" min="50"></div>
+    <div class="group">
+      <label>Direction</label>
+      <select id="dir">
+        <option value="both" selected>UPS + DNS</option>
+        <option value="ups">UPS only</option>
+        <option value="dns">DNS only</option>
+      </select>
+    </div>
     <button id="fire" class="primary">Fire</button>
     <button id="stop" class="danger" disabled>Stop</button>
     <button id="save">Save CSV</button>
+    <span id="tofReadout" class="kv"></span>
   </div>
 
   <div class="panel">
@@ -181,8 +190,8 @@ async function send(line) {
 
 /* -------- line reader & capture parser -------------------------------- */
 let rxBuf = "";
-let curCap = null;      /* { meta: {...}, samples: [] } while receiving */
-let lastCap = null;     /* most recent complete capture */
+let curCap = null;        /* { meta, samples } for direction currently streaming */
+let lastUps = null, lastDns = null; /* most recent of each */
 
 async function runReadLoop() {
   const decoder = new TextDecoderStream();
@@ -212,9 +221,10 @@ function handleLine(line) {
   }
   if (line.startsWith("CAP END")) {
     if (curCap) {
-      lastCap = curCap;
+      const dir = (curCap.meta.dir || "UPS").toUpperCase();
+      if (dir === "DNS") lastDns = curCap; else lastUps = curCap;
       curCap = null;
-      renderCapture(lastCap);
+      renderCapture();
     }
     log("< " + line);
     return;
@@ -241,6 +251,7 @@ function parseKv(s) {
 
 /* -------- uPlot chart -------------------------------------------------- */
 let plot = null;
+let plotLen = 0;
 
 function ensurePlot(n) {
   const host = el("chart");
@@ -251,23 +262,47 @@ function ensurePlot(n) {
     axes: [ { label: "sample idx" }, { label: "ADC value" } ],
     series: [
       {},
-      { label: "waveform", stroke: "#1e88e5", width: 1 },
+      { label: "UPS", stroke: "#1e88e5", width: 1 },
+      { label: "DNS", stroke: "#43a047", width: 1 },
       { label: "env threshold", stroke: "#e53935", width: 1, dash: [4,4] },
     ],
   };
   if (plot) { plot.destroy(); plot = null; }
-  plot = new uPlot(opts, [new Array(n).fill(0), new Array(n).fill(0), new Array(n).fill(0)], host);
+  const zero = new Array(n).fill(0);
+  plot = new uPlot(opts, [Array.from({length:n}, (_,i)=>i), zero.slice(), zero.slice(), zero.slice()], host);
+  plotLen = n;
 }
 
-function renderCapture(cap) {
-  const n = cap.samples.length;
-  const x = new Array(n);
-  for (let i = 0; i < n; i++) x[i] = i;
-  const env = parseInt(cap.meta.env || "0", 10);
+function pad(arr, n) {
+  if (arr.length === n) return arr;
+  if (arr.length > n) return arr.slice(0, n);
+  const out = arr.slice();
+  while (out.length < n) out.push(null);
+  return out;
+}
+
+function renderCapture() {
+  const ups = lastUps ? lastUps.samples : [];
+  const dns = lastDns ? lastDns.samples : [];
+  const n = Math.max(ups.length, dns.length, 1);
+  const meta = (lastDns || lastUps || {meta:{}}).meta;
+  const env = parseInt(meta.env || "0", 10);
+
+  if (!plot || plotLen !== n) ensurePlot(n);
+  const x = Array.from({length: n}, (_, i) => i);
   const envArr = new Array(n).fill(env);
-  if (!plot || plot.data[0].length !== n) ensurePlot(n);
-  plot.setData([x, cap.samples, envArr]);
-  log(`render shot=${cap.meta.shot} n=${n} peak=${Math.max(...cap.samples)}`);
+  plot.setData([x, pad(ups, n), pad(dns, n), envArr]);
+
+  const dtof = meta.dtof || "-";
+  const tu = meta.tof_ups || "-";
+  const td = meta.tof_dns || "-";
+  const vol = meta.vol || "-";
+  const mode = meta.mode || "?";
+  el("tofReadout").textContent =
+    `mode=${mode} dtof=${dtof}ps tof_ups=${tu}ns tof_dns=${td}ns vol=${vol}`;
+  const upsPeak = ups.length ? Math.max(...ups) : "-";
+  const dnsPeak = dns.length ? Math.max(...dns) : "-";
+  log(`render shot=${meta.shot} ups_n=${ups.length} dns_n=${dns.length} upsPeak=${upsPeak} dnsPeak=${dnsPeak}`);
 }
 
 /* -------- continuous fire --------------------------------------------- */
@@ -303,6 +338,7 @@ async function apply() {
     await send(`cp ${k} ${v}`);
     await new Promise(r => setTimeout(r, 10));
   }
+  await send(`cp dir ${el("dir").value}`);
   /* Single push to TI once all params are set — avoids 2 s blocking
    * retry loops per parameter and the nested-command buffer corruption
    * that came with them. */
@@ -469,13 +505,21 @@ async function uploadTiFirmware() {
   }
 }
 
-/* -------- save last capture as CSV ------------------------------------ */
+/* -------- save last capture(s) as CSV --------------------------------- */
 function saveCsv() {
-  if (!lastCap) { log("no capture to save"); return; }
-  const m = lastCap.meta;
-  const header = `# shot=${m.shot||""} dur=${m.dur||""} gain=${m.gain||""} pulses=${m.pulses||""} blank=${m.blank||""} env=${m.env||""}`;
-  const lines = [header, "idx,value"];
-  for (let i = 0; i < lastCap.samples.length; i++) lines.push(`${i},${lastCap.samples[i]}`);
+  if (!lastUps && !lastDns) { log("no capture to save"); return; }
+  const m = (lastDns || lastUps).meta;
+  const lines = [
+    `# shot=${m.shot||""} mode=${m.mode||""} dur=${m.dur||""} gain=${m.gain||""} pulses=${m.pulses||""} blank=${m.blank||""} env=${m.env||""}`,
+    `# dtof=${m.dtof||""} tof_ups=${m.tof_ups||""} tof_dns=${m.tof_dns||""} vol=${m.vol||""}`,
+    "idx,ups,dns",
+  ];
+  const ups = lastUps ? lastUps.samples : [];
+  const dns = lastDns ? lastDns.samples : [];
+  const n = Math.max(ups.length, dns.length);
+  for (let i = 0; i < n; i++) {
+    lines.push(`${i},${ups[i] ?? ""},${dns[i] ?? ""}`);
+  }
   const blob = new Blob([lines.join("\n")], { type: "text/csv" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
