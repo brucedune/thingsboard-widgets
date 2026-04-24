@@ -330,13 +330,21 @@ function ensureTofPlot() {
   const opts = {
     width: host.clientWidth,
     height: host.clientHeight || 240,
-    scales: { x: { time: false } },
-    axes: [ { label: "shot" }, { label: "ToF (ps)" } ],
+    scales: {
+      x: { time: false },
+      y:    {},   /* left axis — absolute tof_ups / tof_dns */
+      dtof: {},   /* right axis — Δtof (tnorm), much smaller scale */
+    },
+    axes: [
+      { label: "shot" },
+      { label: "tof (ps)" },
+      { label: "Δtof (ps)", side: 1, scale: "dtof", grid: { show: false } },
+    ],
     series: [
       {},
       { label: "tof_ups", stroke: "#1e88e5", width: 1 },
       { label: "tof_dns", stroke: "#43a047", width: 1 },
-      { label: "Δtof",    stroke: "#e53935", width: 1 },
+      { label: "Δtof",    stroke: "#e53935", width: 1, scale: "dtof" },
     ],
   };
   if (tofPlot) { tofPlot.destroy(); tofPlot = null; }
