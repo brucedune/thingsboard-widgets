@@ -94,7 +94,8 @@
     <div class="group"><label>Pulses</label><input id="pulses" type="number" value="13" min="1"></div>
     <div class="group"><label>Blanking (µs)</label><input id="blank" type="number" value="33" min="0"></div>
     <div class="group"><label>Env Threshold</label><input id="env" type="number" value="33"></div>
-    <div class="group"><label title="gap_dns_ups — idle between DNS and next UPS, in microseconds">Gap (µs)</label><input id="gap" type="number" value="50000"></div>
+    <div class="group"><label title="UPS→DNS gap within one measurement (HCI 0x82, µs, 0..65535)">UPS-DNS Gap (µs)</label><input id="gap_ud" type="number" value="3000" min="0" max="65535"></div>
+    <div class="group"><label title="UPS0→UPS1 gap — measurement period / cycle rate (HCI 0x83, ms, 20..2000)">UPS0-UPS1 Gap (ms)</label><input id="gap_uu" type="number" value="200" min="20" max="2000"></div>
     <button id="apply">Apply</button>
     <button id="show">Show</button>
 
@@ -416,7 +417,8 @@ async function apply() {
     ["pulses", el("pulses").value],
     ["blank", el("blank").value],
     ["env", el("env").value],
-    ["gap", el("gap").value],
+    ["gap_ud", el("gap_ud").value],
+    ["gap_uu", el("gap_uu").value],
   ];
   for (const [k, v] of pairs) {
     await send(`cp ${k} ${v}`);
