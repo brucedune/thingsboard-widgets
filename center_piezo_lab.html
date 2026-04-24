@@ -108,6 +108,7 @@
     </div>
     <button id="fire" class="primary" title="One-shot capture (useful after Stop)">Fire</button>
     <button id="stop" class="danger" disabled>Stop</button>
+    <button id="reset" title="Clear waveform + ToF history charts">Reset</button>
     <button id="save">Save CSV</button>
     <span id="tofReadout" class="kv"></span>
   </div>
@@ -163,6 +164,7 @@ function setConnected(on) {
   el("connect").disabled = on;
   el("disconnect").disabled = !on;
   for (const b of ["apply", "show", "fire", "stop", "fwup"]) el(b).disabled = !on;
+  /* Reset and Save CSV are UI-only — always enabled. */
 }
 
 async function connect() {
@@ -630,6 +632,21 @@ el("show").onclick = () => send("cp show");
 el("fire").onclick = () => send("cp fire");
 el("stop").onclick = stopStream;
 el("save").onclick = saveCsv;
+el("reset").onclick = () => {
+  /* Wipe ToF history + stream counter + last capture buffers, then
+   * re-render empty. ADC plot redraws on next capture. */
+  tofHist.x.length = 0;
+  tofHist.ups.length = 0;
+  tofHist.dns.length = 0;
+  tofHist.d.length = 0;
+  tofStreamCounter = 0;
+  lastUps = null;
+  lastDns = null;
+  if (tofPlot) tofPlot.setData([[0], [null], [null], [null]]);
+  if (adcPlot) adcPlot.setData([[0], [null], [null]]);
+  el("tofReadout").textContent = "";
+  log("reset");
+};
 el("fwup").onclick = uploadTiFirmware;
 
 el("clearLog").onclick = () => { logEl.textContent = ""; };
