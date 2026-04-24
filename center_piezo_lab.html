@@ -94,6 +94,7 @@
     <div class="group"><label>Pulses</label><input id="pulses" type="number" value="13" min="1"></div>
     <div class="group"><label>Blanking (µs)</label><input id="blank" type="number" value="33" min="0"></div>
     <div class="group"><label>Env Threshold</label><input id="env" type="number" value="33"></div>
+    <div class="group"><label title="gap_dns_ups — measurement interval, TI USS ticks">Gap (interval)</label><input id="gap" type="number" value="1000"></div>
     <button id="apply">Apply</button>
     <button id="show">Show</button>
 
@@ -415,6 +416,7 @@ async function apply() {
     ["pulses", el("pulses").value],
     ["blank", el("blank").value],
     ["env", el("env").value],
+    ["gap", el("gap").value],
   ];
   for (const [k, v] of pairs) {
     await send(`cp ${k} ${v}`);
