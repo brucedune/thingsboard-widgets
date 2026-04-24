@@ -251,7 +251,20 @@ function waitFwupAck(expectedOffset) {
   return new Promise(r => { fwupPendingWait = { offset: expectedOffset, resolve: r }; });
 }
 
+/* Shot counter for streaming ToF points — firmware-side shot_id only
+ * advances on cp fire, so we use a separate counter for continuous ToF. */
+let tofStreamCounter = 0;
+
 function handleLine(line) {
+  if (line.startsWith("TOF ")) {
+    const meta = parseKv(line.slice(4));
+    const dt = parseFloat(meta.dtof);
+    const tu = parseFloat(meta.tof_ups);
+    const td = parseFloat(meta.tof_dns);
+    appendTofHistory(++tofStreamCounter, tu, td, dt);
+    /* deliberately no log() — this fires every measurement cycle */
+    return;
+  }
   if (line.startsWith("fwup ack ")) {
     const n = parseInt(line.slice(9), 10);
     if (n > fwupLastAck) fwupLastAck = n;
