@@ -233,25 +233,33 @@ async function runReadLoop() {
   reader.releaseLock(); reader = null;
 }
 
-/* Pending fwup ack handshake — handleLine resolves this when it sees
- * "fwup ack <offset>". Browser's upload loop awaits this before sending
- * the next chunk so the firmware's lwrb doesn't overflow on STLink-VCP. */
-let fwupAckResolve = null;
-let fwupAckExpect = 0;
+/* fwup ack handshake — monotonic high-water mark, not exact match.
+ * Previously I checked n === fwupAckExpect which dropped acks that
+ * arrived faster than the await loop could consume them: any ack whose
+ * offset exceeded the currently-expected value was silently discarded
+ * and later iterations then hung waiting for the already-processed ack.
+ * Track the highest offset ever seen and resolve whenever it's reached
+ * or surpassed. */
+let fwupLastAck = 0;
+let fwupPendingWait = null;   /* {offset, resolve} or null */
+
+function fwupReset() { fwupLastAck = 0; fwupPendingWait = null; }
+
 function waitFwupAck(expectedOffset) {
-  fwupAckExpect = expectedOffset;
-  return new Promise(r => { fwupAckResolve = r; });
+  if (fwupLastAck >= expectedOffset) return Promise.resolve();
+  return new Promise(r => { fwupPendingWait = { offset: expectedOffset, resolve: r }; });
 }
 
 function handleLine(line) {
   if (line.startsWith("fwup ack ")) {
     const n = parseInt(line.slice(9), 10);
-    if (fwupAckResolve && n === fwupAckExpect) {
-      const r = fwupAckResolve;
-      fwupAckResolve = null;
+    if (n > fwupLastAck) fwupLastAck = n;
+    if (fwupPendingWait && fwupLastAck >= fwupPendingWait.offset) {
+      const r = fwupPendingWait.resolve;
+      fwupPendingWait = null;
       r();
     }
-    /* don't spam log with every ack — let the progress bar show progress */
+    /* don't log every ack — progress bar covers it */
     return;
   }
   if (line.startsWith("CAP BEGIN")) {
@@ -553,6 +561,7 @@ async function uploadTiFirmware() {
 
   try {
     log(`fwup: ${file.name} (${size} bytes)`);
+    fwupReset();
     await send(`fwup ${size}`);
     /* firmware prints "ready to accept N bytes" then enters uart_read */
     await new Promise(r => setTimeout(r, 250));
@@ -579,8 +588,8 @@ async function uploadTiFirmware() {
     }
 
     progress.value = 100;
-    statusSpan.textContent = "sent — awaiting CRC + BSL flash...";
-    log("fwup: all bytes sent");
+    statusSpan.textContent = "all bytes acked — awaiting CRC + BSL flash...";
+    log(`fwup: all ${size} bytes acknowledged by firmware (last ack offset=${fwupLastAck})`);
   } catch (e) {
     log("fwup error: " + e.message);
     statusSpan.textContent = "error";
