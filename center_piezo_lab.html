@@ -99,14 +99,6 @@
     <button id="show">Show</button>
 
     <div class="group">
-      <label>Shot mode</label>
-      <select id="shot">
-        <option value="single" selected>Single</option>
-        <option value="continuous">Continuous</option>
-      </select>
-    </div>
-    <div class="group"><label>Period (ms)</label><input id="period" type="number" value="500" min="50"></div>
-    <div class="group">
       <label>Direction</label>
       <select id="dir">
         <option value="both" selected>UPS + DNS</option>
@@ -114,7 +106,7 @@
         <option value="dns">DNS only</option>
       </select>
     </div>
-    <button id="fire" class="primary">Fire</button>
+    <button id="fire" class="primary" title="One-shot capture (useful after Stop)">Fire</button>
     <button id="stop" class="danger" disabled>Stop</button>
     <button id="save">Save CSV</button>
     <span id="tofReadout" class="kv"></span>
@@ -193,7 +185,6 @@ async function connect() {
 }
 
 async function disconnect() {
-  stopContinuous();
   try { if (reader) await reader.cancel(); } catch {}
   try { if (writer) { writer.releaseLock(); writer = null; } } catch {}
   try { if (port) await port.close(); } catch {}
@@ -409,27 +400,9 @@ function renderCapture() {
   log(`render shot=${shot} ups_n=${ups.length} dns_n=${dns.length} upsPeak=${upsPeak} dnsPeak=${dnsPeak}`);
 }
 
-/* -------- continuous fire --------------------------------------------- */
-let contTimer = null;
-
-function startContinuous() {
-  const period = Math.max(50, parseInt(el("period").value, 10) || 500);
-  el("stop").disabled = false;
-  el("fire").disabled = true;
-  contTimer = setInterval(() => send("cp fire"), period);
-  send("cp fire"); /* fire immediately too */
-  log(`continuous: period=${period}ms`);
-}
-
-function stopContinuous() {
-  if (contTimer) { clearInterval(contTimer); contTimer = null; }
-  el("fire").disabled = !port;
-}
-
-/* Stop TI streaming (cp stream off) AND any browser-side continuous timer.
- * Apply re-arms streaming; this button is the off-switch. */
+/* Stop TI streaming (cp stream off). Apply re-arms streaming;
+ * this button is the off-switch. */
 async function stopStream() {
-  stopContinuous();
   if (port) await send("cp stream off");
 }
 
@@ -656,10 +629,7 @@ el("connect").onclick = connect;
 el("disconnect").onclick = disconnect;
 el("apply").onclick = apply;
 el("show").onclick = () => send("cp show");
-el("fire").onclick = () => {
-  if (el("shot").value === "continuous") startContinuous();
-  else send("cp fire");
-};
+el("fire").onclick = () => send("cp fire");
 el("stop").onclick = stopStream;
 el("save").onclick = saveCsv;
 el("fwup").onclick = uploadTiFirmware;
@@ -683,13 +653,6 @@ el("copyLog").onclick = async () => {
     log("clipboard blocked — log selected, press Ctrl+C");
   }
 };
-
-el("shot").onchange = () => {
-  const isCont = el("shot").value === "continuous";
-  el("period").disabled = !isCont;
-  el("fire").textContent = isCont ? "Start" : "Fire";
-};
-el("shot").onchange();
 
 window.addEventListener("resize", () => {
   if (adcPlot) adcPlot.setSize({ width: el("chartAdc").clientWidth, height: el("chartAdc").clientHeight });
