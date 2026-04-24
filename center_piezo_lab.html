@@ -385,18 +385,16 @@ function renderCapture() {
   const x = Array.from({length: n}, (_, i) => i);
   adcPlot.setData([x, pad(ups, n), pad(dns, n)]);
 
-  const shot = parseInt(meta.shot || "0", 10);
-  const tu = parseFloat(meta.tof_ups);
-  const td = parseFloat(meta.tof_dns);
-  const dt = parseFloat(meta.dtof);
-  appendTofHistory(shot, tu, td, dt);
-
+  /* ToF history is appended by the "TOF ..." stream line — don't also
+   * feed it from here, otherwise the same measurement lands at TWO
+   * different x-values and the chart draws chaotic diagonals. */
   const mode = meta.mode || "?";
   const vol = meta.vol || "-";
   el("tofReadout").textContent =
     `mode=${mode} dtof=${meta.dtof||"-"}ps tof_ups=${meta.tof_ups||"-"}ns tof_dns=${meta.tof_dns||"-"}ns vol=${vol}`;
   const upsPeak = ups.length ? Math.max(...ups) : "-";
   const dnsPeak = dns.length ? Math.max(...dns) : "-";
+  const shot = parseInt(meta.shot || "0", 10);
   log(`render shot=${shot} ups_n=${ups.length} dns_n=${dns.length} upsPeak=${upsPeak} dnsPeak=${dnsPeak}`);
 }
 
