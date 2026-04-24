@@ -170,7 +170,7 @@ function setConnected(on) {
   statusEl.className = "status " + (on ? "connected" : "disconnected");
   el("connect").disabled = on;
   el("disconnect").disabled = !on;
-  for (const b of ["apply", "show", "fire", "fwup"]) el(b).disabled = !on;
+  for (const b of ["apply", "show", "fire", "stop", "fwup"]) el(b).disabled = !on;
 }
 
 async function connect() {
@@ -423,8 +423,14 @@ function startContinuous() {
 
 function stopContinuous() {
   if (contTimer) { clearInterval(contTimer); contTimer = null; }
-  el("stop").disabled = true;
   el("fire").disabled = !port;
+}
+
+/* Stop TI streaming (cp stream off) AND any browser-side continuous timer.
+ * Apply re-arms streaming; this button is the off-switch. */
+async function stopStream() {
+  stopContinuous();
+  if (port) await send("cp stream off");
 }
 
 /* -------- apply form -> firmware -------------------------------------- */
@@ -654,7 +660,7 @@ el("fire").onclick = () => {
   if (el("shot").value === "continuous") startContinuous();
   else send("cp fire");
 };
-el("stop").onclick = stopContinuous;
+el("stop").onclick = stopStream;
 el("save").onclick = saveCsv;
 el("fwup").onclick = uploadTiFirmware;
 
