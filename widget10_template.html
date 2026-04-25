@@ -3,18 +3,10 @@
 
     <!-- Scope row -->
     <div class="w10-toolbar">
-        <div class="w10-field w10-field-sm">
-            <label>Owner Type</label>
-            <select id="w10-ownerType" class="w10-select">
-                <option value="ALL">All</option>
-                <option value="TENANT">Tenant</option>
-                <option value="CUSTOMER">Customer</option>
-            </select>
-        </div>
-        <div class="w10-field" id="w10-custScopeField" style="display:none">
+        <div class="w10-field" id="w10-custScopeField">
             <label>Customer</label>
             <select id="w10-custScope" class="w10-select">
-                <option value="ALL">All</option>
+                <option value="ALL">All (Tenant + Customers)</option>
             </select>
         </div>
         <div class="w10-field" id="w10-groupScopeField" style="display:none">
@@ -22,14 +14,6 @@
             <select id="w10-groupScope" class="w10-select">
                 <option value="ALL">All</option>
             </select>
-        </div>
-        <div class="w10-field w10-field-sm">
-            <label>Firmware Version</label>
-            <div style="display:flex;gap:4px;">
-                <input type="text" id="w10-fwInput" class="w10-input" list="w10-fwList" placeholder="fwVer..." autocomplete="off">
-                <datalist id="w10-fwList"></datalist>
-                <button id="w10-fwAddBtn" class="w10-btn-add" title="Add to lookup">+</button>
-            </div>
         </div>
         <div class="w10-field w10-field-sm">
             <label>Start Date</label>
@@ -40,8 +24,21 @@
             <input type="date" id="w10-endDate" class="w10-input">
         </div>
         <div class="w10-count" id="w10-count">--</div>
-        <button id="w10-refreshBtn" class="w10-btn">Refresh</button>
+        <label class="w10-toggle-label" title="Limit scan to groups that have a non-zero Engineering Review Date">
+            <input type="checkbox" id="w10-engReviewOnly" checked> Eng Reviewed groups only
+        </label>
+        <button id="w10-refreshBtn" class="w10-btn" title="Click to refresh from cache; Shift+click to force full rescan">Refresh</button>
         <button id="w10-exportBtn" class="w10-btn w10-btn-export" disabled>CSV</button>
+    </div>
+
+    <!-- Stats row (hidden until first scan) -->
+    <div class="w10-stats-row" id="w10-statsRow" style="display:none">
+        <span class="w10-stat-chip" id="w10-statTotal" title="Installed devices in scan">Total: 0</span>
+        <span class="w10-stat-chip w10-stat-good" id="w10-statMetering" title="deviceState = Metering (latest TS)">Metering: 0</span>
+        <span class="w10-stat-chip w10-stat-warn" id="w10-statNotMetering" title="deviceState = Not Metering (latest TS)">Not Metering: 0</span>
+        <span class="w10-stat-chip w10-stat-warn" id="w10-statHighGain" title="gain &gt; 40 (latest TS)">Gain &gt; 40: 0</span>
+        <span class="w10-stat-chip w10-stat-warn" id="w10-statFwMismatch" title="Devices whose fwVer does NOT match the selected FW Version filter (FOTA stragglers). Hidden when FW filter = All." style="display:none;">FW Mismatch: 0</span>
+        <span class="w10-stat-chip w10-stat-cache" id="w10-statCacheInfo" style="margin-left:auto;display:none;">cached</span>
     </div>
 
     <!-- Post-scan filter row (hidden until results exist) -->
@@ -52,38 +49,92 @@
                 <option value="ALL">All</option>
             </select>
         </div>
+        <div class="w10-field w10-field-sm">
+            <label>Filter Group</label>
+            <select id="w10-groupFilter" class="w10-select">
+                <option value="ALL">All</option>
+            </select>
+        </div>
+        <div class="w10-field w10-field-sm">
+            <label>Installed</label>
+            <select id="w10-installedFilter" class="w10-select">
+                <option value="TRUE" selected>TRUE</option>
+                <option value="FALSE">FALSE</option>
+                <option value="ALL">All</option>
+            </select>
+        </div>
+        <div class="w10-field w10-field-sm">
+            <label>Model</label>
+            <select id="w10-modelFilter" class="w10-select">
+                <option value="ALL">All</option>
+            </select>
+        </div>
+        <div class="w10-field w10-field-sm">
+            <label>FW Version</label>
+            <select id="w10-fwFilter" class="w10-select">
+                <option value="ALL">All</option>
+            </select>
+        </div>
+        <div class="w10-field" style="flex:1;min-width:200px;">
+            <label>Search</label>
+            <input type="text" id="w10-deviceSearch" class="w10-input" placeholder="Name, customer, group, fwVer..."
+                autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+        </div>
     </div>
 
     <div id="w10-statusMsg" class="w10-message" style="display:none"></div>
 
-    <!-- Main content: device list + chart -->
+    <!-- Main content: (device list + groups table) | chart -->
     <div class="w10-content-row">
+      <div class="w10-left-column">
         <!-- Device list panel -->
         <div class="w10-device-panel" id="w10-devicePanel">
-            <div class="w10-device-search-wrap">
-                <input type="text" id="w10-deviceSearch" class="w10-input" placeholder="Search devices..."
-                    autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-            </div>
             <div class="w10-device-nav">
                 <span class="w10-device-count" id="w10-deviceCount">0 devices</span>
-                <div class="w10-sort-controls">
-                    <select id="w10-sortSelect" class="w10-sort-sel">
-                        <option value="customer">Customer</option>
-                        <option value="group">Group</option>
-                        <option value="name">Name</option>
-                        <option value="fwVer">FW Ver</option>
-                        <option value="fwDate">FW Date</option>
-                    </select>
-                    <button id="w10-sortDir" class="w10-nav-btn" title="Toggle sort direction">&#9650;</button>
-                </div>
                 <div class="w10-nav-btns">
                     <button id="w10-prevDevBtn" class="w10-nav-btn" title="Previous device">&#9650;</button>
                     <button id="w10-nextDevBtn" class="w10-nav-btn" title="Next device">&#9660;</button>
                 </div>
             </div>
             <div id="w10-empty" class="w10-empty">Click Refresh to scan all devices.</div>
-            <div class="w10-device-list" id="w10-deviceList"></div>
+            <div class="w10-device-list-wrap" id="w10-deviceListWrap">
+                <table class="w10-device-table">
+                    <thead>
+                        <tr>
+                            <th>Device ID</th>
+                            <th>Property</th>
+                            <th>FW</th>
+                            <th>State</th>
+                            <th>Active</th>
+                            <th class="w10-num">Gain</th>
+                        </tr>
+                    </thead>
+                    <tbody id="w10-deviceList"></tbody>
+                </table>
+            </div>
         </div>
+
+        <!-- Groups table (groups with Engineering Review Date) -->
+        <div class="w10-groups-section" id="w10-groupsSection" style="display:none;">
+            <div class="w10-groups-header">
+                <span class="w10-groups-title">Engineering Reviewed Groups</span>
+                <span class="w10-groups-meta" id="w10-groupsMeta">--</span>
+            </div>
+            <div class="w10-groups-table-wrap">
+                <table class="w10-groups-table">
+                    <thead>
+                        <tr>
+                            <th>Group</th>
+                            <th class="w10-num">Devices</th>
+                            <th class="w10-num">FW Match</th>
+                            <th class="w10-num">FW Mismatch</th>
+                        </tr>
+                    </thead>
+                    <tbody id="w10-groupsTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+      </div>
 
         <!-- Chart panel -->
         <div class="w10-chart-side" id="w10-chartSide">
@@ -137,6 +188,160 @@
 }
 .w10-field-sm { min-width: 100px; flex: 0 1 auto; }
 .w10-filter-row { margin-top: -6px; }
+.w10-toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: #555;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.w10-stats-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    padding: 6px 0 8px;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 8px;
+}
+.w10-stat-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid #cfd8dc;
+    background: #f4f6f8;
+    color: #37474f;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+.w10-stat-good {
+    background: #e8f5e9;
+    border-color: #a5d6a7;
+    color: #2e7d32;
+}
+.w10-stat-warn {
+    background: #fdecea;
+    border-color: #f5c6cb;
+    color: #c0392b;
+}
+.w10-stat-warn[data-count="0"] {
+    background: #f4f6f8;
+    border-color: #cfd8dc;
+    color: #37474f;
+}
+.w10-stat-cache {
+    background: #e3f2fd;
+    border-color: #90caf9;
+    color: #1565c0;
+    font-style: italic;
+}
+
+/* Left column wraps the device-list panel and the groups table */
+.w10-left-column {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.w10-left-column .w10-device-panel {
+    flex: 1;
+    min-height: 0;
+}
+
+/* Groups table sits below the device panel within the left column */
+.w10-groups-section {
+    flex: 0 0 auto;
+    height: 35%;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 6px;
+}
+.w10-groups-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 0 0 6px;
+}
+.w10-groups-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #305680;
+}
+.w10-groups-meta {
+    font-size: 11px;
+    color: #888;
+}
+.w10-groups-table-wrap {
+    flex: 1;
+    overflow: auto;
+    border: 1px solid #dde3eb;
+    border-radius: 4px;
+    background: #fff;
+}
+.w10-groups-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    font-size: 11px !important;
+    line-height: 1.3 !important;
+}
+.w10-groups-table thead {
+    position: sticky;
+    top: 0;
+    background: #f4f6f8;
+    z-index: 1;
+}
+.w10-groups-table th {
+    text-align: left !important;
+    padding: 4px 8px !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase;
+    color: #888 !important;
+    letter-spacing: 0.4px;
+    border-bottom: 1px solid #dde3eb !important;
+    line-height: 1.3 !important;
+}
+.w10-groups-table th.w10-num,
+.w10-groups-table td.w10-num {
+    text-align: right !important;
+    width: 80px;
+}
+.w10-groups-table tbody tr {
+    border-bottom: 1px solid #f0f0f0 !important;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+.w10-groups-table tbody tr:hover {
+    background: #e8f0f7;
+}
+.w10-groups-table tbody tr.w10-row-mismatch {
+    background: #fdecea;
+}
+.w10-groups-table tbody tr.w10-row-mismatch:hover {
+    background: #fbd0c9;
+}
+.w10-groups-table td {
+    padding: 3px 8px !important;
+    color: #444 !important;
+    font-size: 11px !important;
+    line-height: 1.3 !important;
+}
+.w10-groups-table .w10-cell-mismatch {
+    color: #c0392b !important;
+    font-weight: 600 !important;
+}
+.w10-groups-table .w10-cell-zero {
+    color: #888 !important;
+}
 .w10-field label {
     font-size: 10px;
     font-weight: 600;
@@ -225,14 +430,6 @@
     background: #f9fafb;
     overflow: hidden;
 }
-.w10-device-search-wrap {
-    padding: 8px;
-    border-bottom: 1px solid #e0e0e0;
-}
-.w10-device-search-wrap .w10-input {
-    font-size: 12px;
-    padding: 6px 8px;
-}
 .w10-device-nav {
     display: flex;
     align-items: center;
@@ -279,37 +476,73 @@
     line-height: 1;
 }
 .w10-nav-btn:hover { background: #e0e0e0; }
-.w10-device-list {
+/* Device list -- compact dashboard styling (overrides TB defaults with !important) */
+.w10-device-list-wrap {
     flex: 1;
-    overflow-y: auto;
+    overflow: auto;
+    border-top: 1px solid #dde3eb;
+    background: #fff;
 }
-.w10-device-item {
-    padding: 8px 12px;
+.w10-device-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    font-size: 11px !important;
+    line-height: 1.3 !important;
+}
+.w10-device-table thead {
+    position: sticky;
+    top: 0;
+    background: #f4f6f8;
+    z-index: 1;
+}
+.w10-device-table th {
+    text-align: left !important;
+    padding: 4px 8px !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase;
+    color: #888 !important;
+    letter-spacing: 0.4px;
+    border-bottom: 1px solid #dde3eb !important;
+    white-space: nowrap !important;
+    line-height: 1.3 !important;
+}
+.w10-device-table th.w10-num,
+.w10-device-table td.w10-num {
+    text-align: right !important;
+}
+.w10-device-table tbody tr {
+    border-bottom: 1px solid #f0f0f0 !important;
     cursor: pointer;
-    border-bottom: 1px solid #eee;
     transition: background 0.15s;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
 }
-.w10-device-item:hover { background: #e8f0f7; }
-.w10-device-item.w10-active {
-    background: #e0e0e0;
+.w10-device-table tbody tr:hover {
+    background: #e8f0f7;
 }
-.w10-device-item-name {
-    font-size: 13px;
-    font-weight: 500;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.w10-device-table tbody tr.w10-active {
+    background: #e0e0e0 !important;
 }
-.w10-device-item-sub {
-    font-size: 11px;
-    color: #888;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.w10-device-table td {
+    padding: 3px 8px !important;
+    color: #444 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 0;
+    font-size: 11px !important;
+    line-height: 1.3 !important;
 }
+.w10-device-table .w10-cell-name {
+    color: #305680 !important;
+    font-weight: 600 !important;
+}
+.w10-device-table .w10-cell-fw {
+    color: #1565c0 !important;
+}
+.w10-device-table .w10-cell-state-on  { color: #2e7d32 !important; }
+.w10-device-table .w10-cell-state-off { color: #c0392b !important; }
+.w10-device-table .w10-cell-bool-true  { color: #2e7d32 !important; font-weight: 600 !important; }
+.w10-device-table .w10-cell-bool-false { color: #c0392b !important; font-weight: 600 !important; }
 .w10-empty {
     padding: 24px;
     text-align: center;
@@ -332,8 +565,8 @@
 
 /* Chart side */
 .w10-chart-side {
-    width: 55%;
-    min-width: 400px;
+    width: 28%;
+    min-width: 320px;
     flex-shrink: 0;
     display: flex;
     flex-direction: column;

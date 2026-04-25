@@ -23,10 +23,14 @@ self.onInit = function () {
     });
 
     // -- DOM refs (w10- prefix) --
-    var fwInput     = document.getElementById('w10-fwInput');
-    var fwList      = document.getElementById('w10-fwList');
-    var fwAddBtn    = document.getElementById('w10-fwAddBtn');
+    // (FW Version is now a post-scan dropdown in the filter row, not a
+    //  free-text input. The Add-to-lookup button + datalist are gone too;
+    //  the dropdown is auto-populated from scan results.)
     var custFilter  = document.getElementById('w10-custFilter');
+    var groupFilter = document.getElementById('w10-groupFilter');
+    var fwFilter    = document.getElementById('w10-fwFilter');
+    var modelFilter = document.getElementById('w10-modelFilter');
+    var installedFilter = document.getElementById('w10-installedFilter');
     var startDateEl = document.getElementById('w10-startDate');
     var endDateEl   = document.getElementById('w10-endDate');
     var countEl     = document.getElementById('w10-count');
@@ -37,8 +41,8 @@ self.onInit = function () {
     var deviceCount = document.getElementById('w10-deviceCount');
     var deviceList  = document.getElementById('w10-deviceList');
     var emptyMsg    = document.getElementById('w10-empty');
-    var sortSelect  = document.getElementById('w10-sortSelect');
-    var sortDirBtn  = document.getElementById('w10-sortDir');
+    // (sort dropdown + direction button removed; default sort is
+    //  customer -> group -> name asc, applied in renderDeviceList)
     var prevDevBtn  = document.getElementById('w10-prevDevBtn');
     var nextDevBtn  = document.getElementById('w10-nextDevBtn');
     var chartSide   = document.getElementById('w10-chartSide');
@@ -47,17 +51,149 @@ self.onInit = function () {
     var chartCanvas = document.getElementById('w10-chart');
     var chartPlaceholder = document.getElementById('w10-chartPlaceholder');
     var filterRow   = document.getElementById('w10-filterRow');
-    var ownerTypeSel  = document.getElementById('w10-ownerType');
-    var custScopeField = document.getElementById('w10-custScopeField');
-    var custScopeSel  = document.getElementById('w10-custScope');
+    // (Owner Type dropdown removed. Customer Scope is now the top-level
+    //  scope picker; Group Scope still cascades from Customer.)
+    var custScopeField  = document.getElementById('w10-custScopeField');
+    var custScopeSel    = document.getElementById('w10-custScope');
     var groupScopeField = document.getElementById('w10-groupScopeField');
-    var groupScopeSel = document.getElementById('w10-groupScope');
+    var groupScopeSel   = document.getElementById('w10-groupScope');
+    var engReviewOnly   = document.getElementById('w10-engReviewOnly');
+    // (FW Search scope toggle removed -- FW filter is post-scan only now.)
+
+    // Stats panel chips
+    var statsRow         = document.getElementById('w10-statsRow');
+    var statTotal        = document.getElementById('w10-statTotal');
+    var statMetering     = document.getElementById('w10-statMetering');
+    var statNotMetering  = document.getElementById('w10-statNotMetering');
+    var statHighGain     = document.getElementById('w10-statHighGain');
+    var statFwMismatch   = document.getElementById('w10-statFwMismatch');
+
+    // Groups-table DOM refs
+    var groupsSection    = document.getElementById('w10-groupsSection');
+    var groupsTableBody  = document.getElementById('w10-groupsTableBody');
+    var groupsMeta       = document.getElementById('w10-groupsMeta');
+    var statCacheInfo    = document.getElementById('w10-statCacheInfo');
 
     var currentUser   = null;
     var allCustomers  = [];  // cached customer list
     var allRows       = [];   // full scan results
     var chartInstance = null;
     var selectedRow   = null;
+
+    // ── Caches (W7-style) ─────────────────────────────────────────
+    // eligibleGroupCache: groups that survived the Eng Review Date filter
+    //   shape: [{ ownerType, ownerId, ownerName, groupId, groupName }]
+    //   key   = "<scopeKey>:<engReviewMode>"  (scope and Eng filter mode)
+    // deviceCache: per-device latest values to avoid re-fetching
+    //   shape: { uuid -> { name, installed, fwVer, fwTs, deviceState, deviceStateTs, gain, gainTs, cachedAt } }
+    var eligibleGroupCache    = null;
+    var eligibleGroupCacheKey = '';
+    var deviceCache           = {};
+    var lastScanAt            = 0;
+
+    // Build a key that captures the scan scope so changing it auto-invalidates
+    function getScopeKey() {
+        var cs = (custScopeSel && custScopeSel.value) || '';
+        var gs = (groupScopeSel && groupScopeSel.value) || '';
+        return cs + '|' + gs;
+    }
+    function invalidateCaches() {
+        eligibleGroupCache    = null;
+        eligibleGroupCacheKey = '';
+        deviceCache           = {};
+    }
+    // Auto-invalidate when scope changes
+    [custScopeSel, groupScopeSel].forEach(function (el) {
+        if (!el) return;
+        el.addEventListener('change', invalidateCaches);
+    });
+    if (engReviewOnly) {
+        engReviewOnly.addEventListener('change', function () {
+            // Eng review toggle changes which groups are eligible -- drop the
+            // group cache but keep per-device cache (device data unchanged).
+            eligibleGroupCache    = null;
+            eligibleGroupCacheKey = '';
+        });
+    }
+
+    // Stats updater -- reflects the current Installed/Customer/Group/Search
+    // filters so changing dropdowns updates counts without rescanning.
+    function updateStats() {
+        var rows = (typeof getFiltered === 'function') ? getFiltered() : allRows;
+        var total = rows.length;
+        var metering = 0, notMetering = 0, highGain = 0;
+        rows.forEach(function (r) {
+            if (r.deviceState === 'Metering')      metering++;
+            else if (r.deviceState === 'Not Metering') notMetering++;
+            if (r.gain != null && Number(r.gain) > 40) highGain++;
+        });
+        statTotal.textContent       = 'Total: ' + total;
+        statMetering.textContent    = 'Metering: ' + metering;
+        statNotMetering.textContent = 'Not Metering: ' + notMetering;
+        statHighGain.textContent    = 'Gain > 40: ' + highGain;
+        statMetering.setAttribute('data-count', metering);
+        statNotMetering.setAttribute('data-count', notMetering);
+        statHighGain.setAttribute('data-count', highGain);
+
+        // FW Mismatch -- counts FOTA stragglers in groups TARGETING the
+        // selected fwVer (group-level gen2fw == fwTarget). This makes the
+        // chip consistent with the Engineering Reviewed Groups table.
+        if (statFwMismatch) {
+            var fwTarget = fwFilter ? fwFilter.value : 'ALL';
+            if (fwTarget && fwTarget !== 'ALL') {
+                // Build set of "ownerName||groupName" for groups whose gen2fw
+                // matches the target (and have a review date set).
+                var targetGroups = {};
+                (eligibleGroupCache || []).forEach(function (g) {
+                    if (g.reviewDate > 0 && String(g.gen2fw) === String(fwTarget)) {
+                        targetGroups[g.ownerName + '||' + g.groupName] = true;
+                    }
+                });
+                var rowsIgnoringFw = getFilteredIgnoringFw();
+                var mismatch = 0;
+                rowsIgnoringFw.forEach(function (r) {
+                    if (!targetGroups[r.customer + '||' + r.group]) return;
+                    if (r.fwVer !== fwTarget) mismatch++;
+                });
+                statFwMismatch.style.display = 'inline-flex';
+                statFwMismatch.textContent = 'FW Mismatch: ' + mismatch;
+                statFwMismatch.setAttribute('data-count', mismatch);
+                statFwMismatch.title = 'Devices in groups targeting gen2fw="' + fwTarget +
+                    '" but on a different fwVer (FOTA stragglers). Matches the Engineering Reviewed Groups table.';
+            } else {
+                statFwMismatch.style.display = 'none';
+            }
+        }
+
+        statsRow.style.display = allRows.length > 0 ? 'flex' : 'none';
+    }
+
+    // Variant of getFiltered that applies all filters EXCEPT the FW Version
+    // filter -- used to compute the "FW Mismatch" count against the selected
+    // FW target. Model filter still applies (a mismatch is per-model).
+    function getFilteredIgnoringFw() {
+        var model     = modelFilter ? modelFilter.value : 'ALL';
+        var cust      = custFilter.value;
+        var grp       = groupFilter ? groupFilter.value : 'ALL';
+        var installed = installedFilter ? installedFilter.value : 'TRUE';
+        var searchTerm = (deviceSearch && deviceSearch.value)
+            ? deviceSearch.value.trim().toLowerCase() : '';
+        return allRows.filter(function (r) {
+            if (model !== 'ALL' && r.model    !== model) return false;
+            if (cust  !== 'ALL' && r.customer !== cust)  return false;
+            if (grp   !== 'ALL' && r.group    !== grp)   return false;
+            if (installed === 'TRUE'  && r.installed !== true) return false;
+            if (installed === 'FALSE' && r.installed === true) return false;
+            if (searchTerm) {
+                var hit = r.name.toLowerCase().indexOf(searchTerm) !== -1 ||
+                          r.customer.toLowerCase().indexOf(searchTerm) !== -1 ||
+                          r.group.toLowerCase().indexOf(searchTerm) !== -1 ||
+                          (r.fwVer || '').toLowerCase().indexOf(searchTerm) !== -1;
+                if (!hit) return false;
+            }
+            return true;
+        });
+    }
 
     // -- Firmware version lookup table (Tenant SERVER_SCOPE attribute) --
     var FW_ATTR_KEY = 'w10_fwVersions';
@@ -77,7 +213,6 @@ self.onInit = function () {
                 }
             });
             fwLookupCache = list;
-            refreshFwDatalist();
             return list;
         }).catch(function () { return []; });
     }
@@ -93,23 +228,16 @@ self.onInit = function () {
         ).catch(function () { /* silent */ });
     }
 
+    // Maintained for backwards-compat with callers (e.g. post-scan it's still
+    // called to record discovered fwVer values into the tenant-level lookup);
+    // no longer paints into a datalist since the toolbar input is gone.
     function addFwVersion(ver) {
         if (!ver) return;
         if (fwLookupCache.indexOf(ver) === -1) {
             fwLookupCache.push(ver);
             fwLookupCache.sort();
             saveFwLookupToTB();
-            refreshFwDatalist();
         }
-    }
-
-    function refreshFwDatalist() {
-        fwList.innerHTML = '';
-        fwLookupCache.forEach(function (v) {
-            var opt = document.createElement('option');
-            opt.value = v;
-            fwList.appendChild(opt);
-        });
     }
 
     // Default date range: past 30 days
@@ -120,7 +248,7 @@ self.onInit = function () {
 
     // -- Sort state --
     var sortCol = 'customer';
-    var sortAsc = true;
+    // (sort direction state removed; default ascending)
 
     // -- Get JWT token --
     function getToken() {
@@ -326,27 +454,22 @@ self.onInit = function () {
         });
     }
 
+    // Cascade Group Scope from the selected Customer Scope.
+    // - "ALL" customer  -> Group scope hidden (we scan everything)
+    // - specific customer -> Group scope visible, populated with that customer's groups
     function loadGroupScope() {
         groupScopeSel.innerHTML = '<option value="ALL">All</option>';
         groupScopeSel.disabled = true;
         groupScopeField.style.display = 'none';
 
         if (!currentUser) return;
-        var ot = ownerTypeSel.value;
-        if (ot === 'ALL') return;
-
-        var ownerId;
-        if (ot === 'TENANT') {
-            ownerId = extractId(currentUser.tenantId);
-        } else {
-            ownerId = custScopeSel.value;
-            if (!ownerId || ownerId === 'ALL') return;
-        }
+        var ownerId = custScopeSel.value;
+        if (!ownerId || ownerId === 'ALL') return;
 
         groupScopeField.style.display = 'block';
         groupScopeSel.innerHTML = '<option value="">Loading...</option>';
 
-        apiFetch('/api/entityGroups/' + ot + '/' + ownerId + '/DEVICE').then(function (groups) {
+        apiFetch('/api/entityGroups/CUSTOMER/' + ownerId + '/DEVICE').then(function (groups) {
             var list = (groups || []).filter(function (g) { return g && g.name !== 'All'; });
             groupScopeSel.innerHTML = '<option value="ALL">All</option>';
             list.forEach(function (g) {
@@ -361,19 +484,6 @@ self.onInit = function () {
             groupScopeSel.disabled = false;
         });
     }
-
-    // -- Scope dropdown events --
-    ownerTypeSel.addEventListener('change', function () {
-        var ot = ownerTypeSel.value;
-        custScopeField.style.display = (ot === 'CUSTOMER') ? 'block' : 'none';
-        if (ot === 'TENANT') {
-            loadGroupScope();
-        } else if (ot === 'CUSTOMER') {
-            groupScopeField.style.display = 'none';
-        } else {
-            groupScopeField.style.display = 'none';
-        }
-    });
 
     custScopeSel.addEventListener('change', function () {
         if (custScopeSel.value && custScopeSel.value !== 'ALL') {
@@ -395,100 +505,209 @@ self.onInit = function () {
         return next();
     }
 
-    // -- Scan a single group for installed devices --
-    function scanGroup(gId, gName, ownerName) {
-        var filterFw = fwInput.value.trim();
-        return apiFetch('/api/entityGroup/' + gId + '/entities?pageSize=1000&page=0')
-            .then(function (devResp) {
-                var devs = (devResp && devResp.data) ? devResp.data
-                         : Array.isArray(devResp) ? devResp : [];
-                devs = devs.filter(Boolean);
-                if (devs.length === 0) return Promise.resolve();
-
-                // Step 1: Fetch fwVer for all devices in parallel (1 call each)
-                return Promise.all(devs.map(function (d) {
-                    var uuid = extractId(d.id) || extractId(d);
-                    var dName = d.name || d.label || '--';
-                    return apiFetch(
-                        '/api/plugins/telemetry/DEVICE/' + uuid +
-                        '/values/timeseries?keys=fwVer' +
-                        '&startTs=0&endTs=' + Date.now() +
-                        '&limit=1&agg=NONE&orderBy=DESC'
-                    ).then(function (tsData) {
-                        var fwVer = '--';
-                        var fwTs = 0;
-                        if (tsData && tsData.fwVer && tsData.fwVer.length > 0) {
-                            fwVer = String(tsData.fwVer[0].value);
-                            fwTs  = Number(tsData.fwVer[0].ts);
-                        }
-                        return { uuid: uuid, name: dName, fwVer: fwVer, fwTs: fwTs };
-                    }).catch(function () {
-                        return { uuid: uuid, name: dName, fwVer: '--', fwTs: 0 };
-                    });
-                })).then(function (devResults) {
-                    // Step 2: Filter by fwVer if a version is selected
-                    var candidates = devResults;
-                    if (filterFw) {
-                        candidates = devResults.filter(function (d) { return d.fwVer === filterFw; });
-                    }
-                    if (candidates.length === 0) return Promise.resolve();
-
-                    // Step 3: Fetch Installed attribute only for fwVer matches (1 call each)
-                    return Promise.all(candidates.map(function (d) {
-                        return apiFetch(
-                            '/api/plugins/telemetry/DEVICE/' + d.uuid +
-                            '/values/attributes/SERVER_SCOPE?keys=Installed'
-                        ).then(function (attrs) {
-                            var installed = false;
-                            (attrs || []).forEach(function (a) {
-                                if (a.key === 'Installed') {
-                                    installed = String(a.value).toLowerCase() === 'true';
-                                }
-                            });
-                            if (!installed) return;
-
-                            allRows.push({
-                                customer: ownerName,
-                                group: gName,
-                                name: d.name,
-                                uuid: d.uuid,
-                                fwVer: d.fwVer,
-                                fwTs: d.fwTs
-                            });
-                            countEl.textContent = allRows.length + ' found...';
-                        }).catch(function () {});
-                    }));
-                });
-            }).catch(function () { /* skip group */ });
+    // -- Group-level attribute fetch: pulls Engineering Review Date AND
+    //    gen2fw (target firmware version for the group). Single-group fetch,
+    //    used as the fallback when the batched path fails.
+    //    Returns { reviewDate: ms-or-0, gen2fw: 'string-or-empty' }.
+    function groupHasEngReview(gId) {
+        return apiFetch(
+            '/api/plugins/telemetry/ENTITY_GROUP/' + gId +
+            '/values/attributes/SERVER_SCOPE?keys=' +
+            encodeURIComponent('Engineering Review Date,gen2fw')
+        ).then(function (attrs) {
+            var arr = attrs || [];
+            var reviewDate = 0;
+            var gen2fw = '';
+            arr.forEach(function (a) {
+                if (a.key === 'Engineering Review Date') {
+                    var ts = Number(a.value);
+                    if (ts > 0) reviewDate = ts;
+                } else if (a.key === 'gen2fw') {
+                    gen2fw = (a.value == null) ? '' : String(a.value);
+                }
+            });
+            return { reviewDate: reviewDate, gen2fw: gen2fw };
+        }).catch(function () { return { reviewDate: 0, gen2fw: '' }; });
     }
 
-    // -- Build list of owners to scan based on scope selections --
-    function getScanOwners() {
-        var tenantId = extractId(currentUser.tenantId);
-        var ot = ownerTypeSel.value;
+    // ── Batched group-attribute fetch via entitiesQuery on ENTITY_GROUP ──
+    // Up to ~100 groups in a single API call. Returns map
+    //   { groupId -> { reviewDate: ms-or-0, gen2fw: 'string-or-empty' } }
+    // Returns null on failure (caller falls back to per-group fetches).
+    function fetchBatchGroupAttrs(groupIds) {
+        if (!groupIds || groupIds.length === 0) return Promise.resolve({});
+        return apiFetch('/api/entitiesQuery/find', {
+            method: 'POST',
+            body: JSON.stringify({
+                entityFilter: {
+                    type: 'entityList',
+                    entityType: 'ENTITY_GROUP',
+                    entityList: groupIds
+                },
+                pageLink: { pageSize: groupIds.length, page: 0 },
+                latestValues: [
+                    { type: 'ATTRIBUTE', key: 'Engineering Review Date' },
+                    { type: 'ATTRIBUTE', key: 'gen2fw' }
+                ]
+            })
+        }).then(function (resp) {
+            var byId = {};
+            var data = (resp && resp.data) ? resp.data : [];
+            data.forEach(function (entity) {
+                var id = entity.entityId && (entity.entityId.id || extractId(entity.entityId));
+                if (!id) return;
+                var latest = entity.latest || {};
+                var attrL  = latest.ATTRIBUTE || {};
+                var rawTs  = attrL['Engineering Review Date'] && attrL['Engineering Review Date'].value;
+                var rawFw  = attrL.gen2fw && attrL.gen2fw.value;
+                var ts     = Number(rawTs);
+                byId[id] = {
+                    reviewDate: (ts > 0) ? ts : 0,
+                    gen2fw:     (rawFw == null || rawFw === '') ? '' : String(rawFw)
+                };
+            });
+            return byId;
+        }).catch(function (err) {
+            console.warn('[w10] entitiesQuery batch (groups) failed:', err && err.message);
+            return null;
+        });
+    }
 
-        if (ot === 'TENANT') {
-            return Promise.resolve([{ type: 'TENANT', id: tenantId, name: 'Tenant' }]);
-        }
-
-        if (ot === 'CUSTOMER') {
-            var custId = custScopeSel.value;
-            if (custId && custId !== 'ALL') {
-                var custName = custScopeSel.options[custScopeSel.selectedIndex].textContent;
-                return Promise.resolve([{ type: 'CUSTOMER', id: custId, name: custName }]);
-            }
-            // All customers
-            return apiFetch('/api/customers?pageSize=1000&page=0').then(function (resp) {
-                var customers = (resp && resp.data) ? resp.data.filter(Boolean) : [];
-                return customers.map(function (c) {
-                    return { type: 'CUSTOMER', id: extractId(c.id), name: c.title || c.name || '' };
-                });
+    // Chunked variant -- calls fetchBatchGroupAttrs in groups of 100.
+    function fetchBatchGroupAttrsChunked(groupIds, chunkSize) {
+        chunkSize = chunkSize || 100;
+        var result = {};
+        var i = 0;
+        function next() {
+            if (i >= groupIds.length) return Promise.resolve(result);
+            var chunk = groupIds.slice(i, i + chunkSize);
+            i += chunkSize;
+            return fetchBatchGroupAttrs(chunk).then(function (data) {
+                if (data === null) return null;  // signal failure
+                Object.keys(data).forEach(function (k) { result[k] = data[k]; });
+                return next();
             });
         }
+        return next();
+    }
 
-        // ALL - tenant + all customers
+    // ── Batched device-data fetch via TB's entitiesQuery API ──
+    // Returns map { uuid -> { installed, fwVer, fwTs, deviceState, deviceStateTs, gain, gainTs } }
+    // for up to ~100 devices in a single API call. Returns null on failure
+    // (caller can fall back to the per-device path).
+    function fetchBatchDeviceData(uuids) {
+        if (!uuids || uuids.length === 0) return Promise.resolve({});
+        return apiFetch('/api/entitiesQuery/find', {
+            method: 'POST',
+            body: JSON.stringify({
+                entityFilter: {
+                    type: 'entityList',
+                    entityType: 'DEVICE',
+                    entityList: uuids
+                },
+                pageLink: { pageSize: uuids.length, page: 0 },
+                latestValues: [
+                    { type: 'ATTRIBUTE',        key: 'Installed' },
+                    { type: 'ATTRIBUTE',        key: 'active' },
+                    { type: 'SHARED_ATTRIBUTE', key: 'Model' },
+                    { type: 'SHARED_ATTRIBUTE', key: 'Property' },
+                    { type: 'TIME_SERIES',      key: 'fwVer' },
+                    { type: 'TIME_SERIES',      key: 'deviceState' },
+                    { type: 'TIME_SERIES',      key: 'gain' }
+                ]
+            })
+        }).then(function (resp) {
+            var byUuid = {};
+            var data = (resp && resp.data) ? resp.data : [];
+            data.forEach(function (entity) {
+                var uuid = entity.entityId && (entity.entityId.id || extractId(entity.entityId));
+                if (!uuid) return;
+                var latest = entity.latest || {};
+                var attrL  = latest.ATTRIBUTE        || {};
+                var sharedL = latest.SHARED_ATTRIBUTE || {};
+                var tsL    = latest.TIME_SERIES       || {};
+                function val(obj, k) {
+                    return (obj[k] && obj[k].value !== undefined && obj[k].value !== '') ? obj[k].value : null;
+                }
+                function tsv(obj, k) {
+                    return (obj[k] && obj[k].ts !== undefined) ? (Number(obj[k].ts) || 0) : 0;
+                }
+                var installedVal = val(attrL, 'Installed');
+                var installed    = installedVal != null && String(installedVal).toLowerCase() === 'true';
+                var activeVal    = val(attrL, 'active');
+                var activeBool   = activeVal != null && String(activeVal).toLowerCase() === 'true';
+                // Shared-scope attrs (Model, Property) -- fall back to the
+                // catch-all ATTRIBUTE bucket if the TB version returns them
+                // there instead of in SHARED_ATTRIBUTE.
+                var modelVal = val(sharedL, 'Model');
+                if (modelVal == null) modelVal = val(attrL, 'Model');
+                var propVal = val(sharedL, 'Property');
+                if (propVal == null) propVal = val(attrL, 'Property');
+                byUuid[uuid] = {
+                    installed:     installed,
+                    active:        activeBool,
+                    model:         modelVal != null ? String(modelVal) : '',
+                    property:      propVal  != null ? String(propVal)  : '',
+                    fwVer:         val(tsL, 'fwVer') != null ? String(val(tsL, 'fwVer')) : '--',
+                    fwTs:          tsv(tsL, 'fwVer'),
+                    deviceState:   val(tsL, 'deviceState') != null ? String(val(tsL, 'deviceState')) : '',
+                    deviceStateTs: tsv(tsL, 'deviceState'),
+                    gain:          val(tsL, 'gain') != null ? Number(val(tsL, 'gain')) : null,
+                    gainTs:        tsv(tsL, 'gain')
+                };
+            });
+            return byUuid;
+        }).catch(function (err) {
+            console.warn('[w10] entitiesQuery batch failed:', err && err.message);
+            return null;
+        });
+    }
+
+    // ── Chunk uuids into batches of N and fetch each ──
+    // Stops on first batch failure, returning whatever succeeded so far.
+    function fetchBatchDeviceDataChunked(uuids, chunkSize) {
+        chunkSize = chunkSize || 100;
+        var result = {};
+        var i = 0;
+        function next() {
+            if (i >= uuids.length) return Promise.resolve(result);
+            var chunk = uuids.slice(i, i + chunkSize);
+            i += chunkSize;
+            return fetchBatchDeviceData(chunk).then(function (data) {
+                if (data === null) return null;  // failure
+                Object.keys(data).forEach(function (k) { result[k] = data[k]; });
+                return next();
+            });
+        }
+        return next();
+    }
+
+    // (groupFwMatches removed -- FW filtering is post-scan only via the
+    //  fwFilter dropdown in the filter row.)
+
+    // -- Build list of owners to scan based on Customer Scope selection --
+    // - "ALL" customer  -> Tenant + all customers
+    // - specific customer -> just that one customer
+    function getScanOwners() {
+        var tenantId = extractId(currentUser.tenantId);
+        var custId   = custScopeSel.value;
+
+        if (custId && custId !== 'ALL') {
+            var custName = custScopeSel.options[custScopeSel.selectedIndex].textContent;
+            return Promise.resolve([{ type: 'CUSTOMER', id: custId, name: custName }]);
+        }
+
+        // ALL: Tenant + every customer
+        if (allCustomers && allCustomers.length > 0) {
+            var owners = [{ type: 'TENANT', id: tenantId, name: 'Tenant' }];
+            allCustomers.forEach(function (c) {
+                owners.push({ type: 'CUSTOMER', id: extractId(c.id), name: c.title || c.name || '' });
+            });
+            return Promise.resolve(owners);
+        }
         return apiFetch('/api/customers?pageSize=1000&page=0').then(function (resp) {
             var customers = (resp && resp.data) ? resp.data.filter(Boolean) : [];
+            allCustomers = customers;
             var owners = [{ type: 'TENANT', id: tenantId, name: 'Tenant' }];
             customers.forEach(function (c) {
                 owners.push({ type: 'CUSTOMER', id: extractId(c.id), name: c.title || c.name || '' });
@@ -497,12 +716,109 @@ self.onInit = function () {
         });
     }
 
+    // -- Build the eligible-group cache (walks owners, applies Eng Review filter) --
+    // Returns flat list of { ownerType, ownerId, ownerName, groupId, groupName,
+    // reviewDate, gen2fw }.
+    //
+    // Three phases:
+    //   1. Walk all owners and collect every candidate device-group across them
+    //      (one /api/entityGroups call per owner, parallelised in batches of 3)
+    //   2. Batch-fetch the Engineering Review Date + gen2fw attributes for ALL
+    //      candidate groups via one /api/entitiesQuery/find call per 100 groups
+    //      (replaces the old per-group attribute round-trips that took 3-5s)
+    //   3. Filter by reviewDate when engReviewMode is on, then collect
+    //
+    // Falls back to per-group attribute fetches if the batched ENTITY_GROUP
+    // query fails (some TB versions might not support entityList queries on
+    // ENTITY_GROUP type).
+    function discoverEligibleGroups() {
+        var engReviewMode = engReviewOnly && engReviewOnly.checked;
+        var specificGroup = groupScopeSel.value && groupScopeSel.value !== 'ALL' ? groupScopeSel.value : null;
+
+        return getScanOwners().then(function (owners) {
+            // Specific group case: skip discovery, use selection directly
+            if (specificGroup) {
+                var gName = groupScopeSel.options[groupScopeSel.selectedIndex].textContent;
+                return owners.map(function (o) {
+                    return { ownerType: o.type, ownerId: o.id, ownerName: o.name,
+                             groupId: specificGroup, groupName: gName,
+                             reviewDate: 0, gen2fw: '' };
+                });
+            }
+
+            // Phase 1: collect every candidate device-group across all owners
+            emptyMsg.textContent = 'Loading group lists from ' + owners.length + ' owner(s)...';
+            var candidates = [];   // [{ owner, group: rawTbGroup }]
+            return batchProcess(owners, 3, function (owner) {
+                return apiFetch('/api/entityGroups/' + owner.type + '/' + owner.id + '/DEVICE')
+                    .then(function (groups) {
+                        (groups || []).forEach(function (g) {
+                            if (!g || g.name === 'All') return;
+                            candidates.push({ owner: owner, group: g });
+                        });
+                    }).catch(function () { /* skip owner */ });
+            }).then(function () {
+                if (candidates.length === 0) return [];
+
+                // Phase 2: batch-fetch reviewDate + gen2fw for all candidates.
+                // Always fetched so the Engineering Reviewed Groups table can
+                // populate even when engReviewMode is OFF (the renderer filters
+                // by reviewDate>0 itself).
+                var ids = candidates.map(function (c) { return extractId(c.group.id); });
+                emptyMsg.textContent = 'Batch fetching attributes for ' + ids.length +
+                    ' group(s) (' + Math.ceil(ids.length / 100) + ' calls)...';
+
+                return fetchBatchGroupAttrsChunked(ids, 100).then(function (attrsMap) {
+                    if (attrsMap === null) {
+                        // Batched path failed -- fall back to per-group fetches
+                        console.warn('[w10] Group attr batch failed; falling back to per-group fetches');
+                        emptyMsg.textContent = 'Batch unavailable; per-group fetch (slower)...';
+                        attrsMap = {};
+                        return batchProcess(candidates, 5, function (c) {
+                            var gid = extractId(c.group.id);
+                            return groupHasEngReview(gid).then(function (a) {
+                                attrsMap[gid] = a;
+                            });
+                        }).then(function () { return attrsMap; });
+                    }
+                    return attrsMap;
+                }).then(function (attrsMap) {
+                    // Phase 3: filter and collect
+                    var collected = [];
+                    var keptCount = 0;
+                    candidates.forEach(function (c) {
+                        var gid   = extractId(c.group.id);
+                        var attrs = attrsMap[gid] || { reviewDate: 0, gen2fw: '' };
+                        if (engReviewMode && !(attrs.reviewDate > 0)) return;
+                        keptCount++;
+                        collected.push({
+                            ownerType:  c.owner.type,
+                            ownerId:    c.owner.id,
+                            ownerName:  c.owner.name,
+                            groupId:    gid,
+                            groupName:  c.group.name || c.group.label || '',
+                            reviewDate: attrs.reviewDate,
+                            gen2fw:     attrs.gen2fw
+                        });
+                    });
+                    if (engReviewMode) {
+                        emptyMsg.textContent = 'Eng-reviewed groups: ' + keptCount +
+                            ' of ' + candidates.length;
+                    }
+                    return collected;
+                });
+            });
+        });
+    }
+
     // -- Scan devices based on scope --
-    function scanAll() {
+    // forceRescan = true: invalidate caches and re-discover/refetch everything
+    // forceRescan = false (default): reuse caches when available
+    function scanAll(forceRescan) {
         if (!currentUser) { showMessage('User not loaded yet.', 'error'); return; }
 
         refreshBtn.disabled    = true;
-        refreshBtn.textContent = 'Scanning...';
+        refreshBtn.textContent = forceRescan ? 'Rescanning...' : 'Scanning...';
         exportBtn.disabled     = true;
         allRows = [];
         displayedRows = [];
@@ -512,33 +828,113 @@ self.onInit = function () {
         countEl.textContent = '--';
         hideMessage();
 
-        var specificGroup = groupScopeSel.value && groupScopeSel.value !== 'ALL' ? groupScopeSel.value : null;
+        if (forceRescan) invalidateCaches();
 
-        getScanOwners().then(function (owners) {
-            // Process owners 3 at a time
-            return batchProcess(owners, 3, function (owner) {
-                // If a specific group is selected, only scan that group
-                if (specificGroup) {
-                    var gName = groupScopeSel.options[groupScopeSel.selectedIndex].textContent;
-                    return scanGroup(specificGroup, gName, owner.name);
-                }
+        var scopeKey   = getScopeKey();
+        var engOn      = engReviewOnly && engReviewOnly.checked;
+        var cacheKey   = scopeKey + '|eng=' + engOn;
+        var groupListP;
 
-                return apiFetch('/api/entityGroups/' + owner.type + '/' + owner.id + '/DEVICE')
-                    .then(function (groups) {
-                        var list = (groups || []).filter(function (g) { return g && g.name !== 'All'; });
-                        if (list.length === 0) return Promise.resolve();
+        if (eligibleGroupCache && eligibleGroupCacheKey === cacheKey) {
+            // Reuse cached eligible-group list
+            groupListP = Promise.resolve(eligibleGroupCache);
+            emptyMsg.textContent = 'Using cached group list (' + eligibleGroupCache.length + ' groups)...';
+        } else {
+            groupListP = discoverEligibleGroups().then(function (groups) {
+                eligibleGroupCache    = groups;
+                eligibleGroupCacheKey = cacheKey;
+                return groups;
+            });
+        }
 
-                        // Process groups 3 at a time
-                        return batchProcess(list, 3, function (g) {
-                            emptyMsg.textContent = 'Scanning ' + owner.name + ' / ' + (g.name || '') + '...';
-                            return scanGroup(extractId(g.id), g.name || g.label || '', owner.name);
+        groupListP.then(function (groups) {
+            if (!groups || groups.length === 0) return Promise.resolve();
+
+            // Phase 1: Fetch every group's device list in parallel (5 at a time).
+            //   Output: per-group [{uuid, name}, ...]
+            //   This is the only fan-out we still do per-group; entity-group
+            //   listing must be one call per group (no cross-group endpoint).
+            emptyMsg.textContent = 'Loading device lists from ' + groups.length + ' groups...';
+            var groupDevs = [];   // [{ group: {ownerName, groupName, groupId}, devs: [{uuid, name}] }]
+            var listsLoaded = 0;
+            return batchProcess(groups, 5, function (g) {
+                return apiFetch('/api/entityGroup/' + g.groupId + '/entities?pageSize=1000&page=0')
+                    .then(function (resp) {
+                        var devs = (resp && resp.data) ? resp.data
+                                 : Array.isArray(resp) ? resp : [];
+                        devs = devs.filter(Boolean).map(function (d) {
+                            return {
+                                uuid: extractId(d.id) || extractId(d),
+                                name: d.name || d.label || '--'
+                            };
                         });
-                    }).catch(function () { /* skip owner */ });
+                        groupDevs.push({ group: g, devs: devs });
+                        listsLoaded++;
+                        emptyMsg.textContent = 'Loaded ' + listsLoaded + '/' +
+                            groups.length + ' device lists...';
+                    }).catch(function () {
+                        // Skip the group on list-fetch failure; record empty
+                        groupDevs.push({ group: g, devs: [] });
+                        listsLoaded++;
+                    });
+            }).then(function () {
+                // Phase 2: Collect every UNCACHED uuid across ALL groups,
+                //   then chunk into 100-device batches and run the entitiesQuery
+                //   API. Cross-group batching means a fleet of 50 small groups
+                //   (~20 devices each) becomes ~10 big batch calls instead of
+                //   50 small ones.
+                var uncached = [];
+                groupDevs.forEach(function (gd) {
+                    gd.devs.forEach(function (d) {
+                        if (!deviceCache[d.uuid]) uncached.push(d.uuid);
+                    });
+                });
+                emptyMsg.textContent = 'Batch fetching ' + uncached.length +
+                    ' device(s) (' + Math.ceil(uncached.length / 100) + ' calls)...';
+                if (uncached.length === 0) return null;
+                return fetchBatchDeviceDataChunked(uncached, 100);
+            }).then(function (newData) {
+                if (newData === null) {
+                    // No-op (everything cached) -- proceed.
+                } else if (typeof newData === 'object') {
+                    Object.keys(newData).forEach(function (uuid) {
+                        deviceCache[uuid] = newData[uuid];
+                    });
+                }
+                // Phase 3: build allRows from cache. FW filtering happens
+                //   post-scan via the fwFilter dropdown in the filter row.
+                groupDevs.forEach(function (gd) {
+                    var owner = gd.group.ownerName;
+                    var gName = gd.group.groupName;
+                    gd.devs.forEach(function (d) {
+                        var rec = deviceCache[d.uuid];
+                        if (!rec) return;
+                        allRows.push({
+                            customer:  owner,
+                            group:     gName,
+                            name:      d.name,
+                            uuid:      d.uuid,
+                            installed: rec.installed,
+                            active:    rec.active === true,
+                            model:     rec.model    || '',
+                            property:  rec.property || '',
+                            fwVer:     rec.fwVer,
+                            fwTs:      rec.fwTs,
+                            deviceState:   rec.deviceState,
+                            deviceStateTs: rec.deviceStateTs,
+                            gain:      rec.gain,
+                            gainTs:    rec.gainTs
+                        });
+                    });
+                });
+                countEl.textContent = allRows.length + ' found';
             });
         }).then(function () {
             refreshBtn.disabled    = false;
             refreshBtn.textContent = 'Refresh';
             exportBtn.disabled     = allRows.length === 0;
+            lastScanAt = Date.now();
+
             // Auto-add discovered fwVer values to lookup
             allRows.forEach(function (r) {
                 if (r.fwVer && r.fwVer !== '--') addFwVersion(r.fwVer);
@@ -546,7 +942,27 @@ self.onInit = function () {
             buildFilters();
             filterRow.style.display = allRows.length > 0 ? 'flex' : 'none';
             renderDeviceList();
-            showMessage('Scan complete: ' + allRows.length + ' installed devices found.', 'success');
+            updateStats();
+            renderGroupsTable();
+
+            // Cache indicator: count how many devices came from the cache
+            var cachedCount = 0;
+            allRows.forEach(function (r) {
+                if (deviceCache[r.uuid]) cachedCount++;
+            });
+            if (statCacheInfo) {
+                if (forceRescan || cachedCount === 0) {
+                    statCacheInfo.style.display = 'none';
+                } else {
+                    statCacheInfo.textContent = 'cached: ' + cachedCount + ' / ' + allRows.length;
+                    statCacheInfo.style.display = 'inline-flex';
+                }
+            }
+
+            var msg = 'Scan complete: ' + allRows.length + ' installed devices found' +
+                      (forceRescan ? ' (full rescan)' :
+                       (eligibleGroupCache ? ' (using cache)' : ''));
+            showMessage(msg + '.', 'success');
         }).catch(function (e) {
             refreshBtn.disabled    = false;
             refreshBtn.textContent = 'Refresh';
@@ -557,9 +973,7 @@ self.onInit = function () {
     // -- Build filter dropdowns from data --
     function buildFilters() {
         var customers = {};
-        allRows.forEach(function (r) {
-            customers[r.customer] = true;
-        });
+        allRows.forEach(function (r) { customers[r.customer] = true; });
 
         var curCust = custFilter.value;
         custFilter.innerHTML = '<option value="ALL">All</option>';
@@ -569,16 +983,244 @@ self.onInit = function () {
             opt.textContent = c;
             custFilter.appendChild(opt);
         });
-        if (curCust && custFilter.querySelector('option[value="' + curCust + '"]')) custFilter.value = curCust;
+        if (curCust && custFilter.querySelector('option[value="' + curCust + '"]')) {
+            custFilter.value = curCust;
+        }
+
+        // Group dropdown -- cascades from the selected customer
+        rebuildGroupFilter();
+
+        // Model dropdown -- one option per unique Model (SHARED) in scan results
+        if (modelFilter) {
+            var curModel = modelFilter.value;
+            var models = {};
+            allRows.forEach(function (r) {
+                if (r.model) models[r.model] = true;
+            });
+            modelFilter.innerHTML = '<option value="ALL">All</option>';
+            Object.keys(models).sort().forEach(function (m) {
+                var opt = document.createElement('option');
+                opt.value = m;
+                opt.textContent = m;
+                modelFilter.appendChild(opt);
+            });
+            if (curModel && modelFilter.querySelector('option[value="' + curModel + '"]')) {
+                modelFilter.value = curModel;
+            } else {
+                modelFilter.value = 'ALL';
+            }
+        }
+
+        // FW Version dropdown -- one option per unique fwVer in scan results
+        if (fwFilter) {
+            var curFw = fwFilter.value;
+            var versions = {};
+            allRows.forEach(function (r) {
+                if (r.fwVer && r.fwVer !== '--') versions[r.fwVer] = true;
+            });
+            fwFilter.innerHTML = '<option value="ALL">All</option>';
+            // Sort numerically when possible (firmware versions like "15143")
+            Object.keys(versions).sort(function (a, b) {
+                var na = Number(a), nb = Number(b);
+                if (!isNaN(na) && !isNaN(nb)) return na - nb;
+                return a.localeCompare(b);
+            }).forEach(function (v) {
+                var opt = document.createElement('option');
+                opt.value = v;
+                opt.textContent = v;
+                fwFilter.appendChild(opt);
+            });
+            if (curFw && fwFilter.querySelector('option[value="' + curFw + '"]')) {
+                fwFilter.value = curFw;
+            } else {
+                fwFilter.value = 'ALL';
+            }
+        }
+    }
+
+    // Repopulate the group dropdown based on the currently selected customer.
+    // When customer = ALL, lists every group across allRows.
+    // Otherwise lists only the groups that belong to the selected customer.
+    function rebuildGroupFilter() {
+        if (!groupFilter) return;
+        var selectedCust = custFilter.value;
+        var groups = {};
+        allRows.forEach(function (r) {
+            if (selectedCust !== 'ALL' && r.customer !== selectedCust) return;
+            if (r.group) groups[r.group] = true;
+        });
+
+        var curGroup = groupFilter.value;
+        groupFilter.innerHTML = '<option value="ALL">All</option>';
+        Object.keys(groups).sort().forEach(function (g) {
+            var opt = document.createElement('option');
+            opt.value = g;
+            opt.textContent = g;
+            groupFilter.appendChild(opt);
+        });
+        // Preserve the selection if still valid; otherwise reset to ALL
+        if (curGroup && groupFilter.querySelector('option[value="' + curGroup + '"]')) {
+            groupFilter.value = curGroup;
+        } else {
+            groupFilter.value = 'ALL';
+        }
+    }
+
+    // -- Render the Engineering Reviewed Groups table --
+    // Source: eligibleGroupCache (only groups with reviewDate > 0).
+    // Per-group device counts come from allRows. The FW Match / Mismatch
+    // columns use the currently-selected FW Version filter as the target.
+    // When FW filter = "All", match/mismatch columns show "--".
+    function renderGroupsTable() {
+        if (!groupsTableBody || !groupsSection) return;
+
+        var fwTarget  = fwFilter ? fwFilter.value : 'ALL';
+        var hasTarget = fwTarget && fwTarget !== 'ALL';
+
+        // Eligible: has Engineering Review Date AND (when a specific FW
+        // version is selected) the group's gen2fw attribute matches that
+        // version. When FW filter = "All", show every reviewed group.
+        var groupsWithReview = (eligibleGroupCache || []).filter(function (g) {
+            if (!(g.reviewDate && g.reviewDate > 0)) return false;
+            if (hasTarget && String(g.gen2fw) !== String(fwTarget)) return false;
+            return true;
+        });
+
+        if (groupsWithReview.length === 0) {
+            groupsSection.style.display = 'none';
+            groupsTableBody.innerHTML = '';
+            if (groupsMeta) groupsMeta.textContent = '';
+            return;
+        }
+        groupsSection.style.display = 'flex';
+
+        // Index allRows by groupId so per-group lookups are cheap.
+        var devsByKey = {};
+        allRows.forEach(function (r) {
+            var key = r.customer + '||' + r.group;
+            if (!devsByKey[key]) devsByKey[key] = [];
+            devsByKey[key].push(r);
+        });
+
+        // Build rows -- sort by mismatch count desc when FW target set,
+        // otherwise alphabetically by group name.
+        // Per-group device counts respect the dashboard's Installed and
+        // Model filters so the table stays consistent with the device list.
+        var installedMode = installedFilter ? installedFilter.value : 'TRUE';
+        var modelMode     = modelFilter ? modelFilter.value : 'ALL';
+
+        var rows = groupsWithReview.map(function (g) {
+            var key = g.ownerName + '||' + g.groupName;
+            var devs = devsByKey[key] || [];
+            var inScope = devs.filter(function (d) {
+                if (installedMode === 'TRUE'  && d.installed !== true) return false;
+                if (installedMode === 'FALSE' && d.installed === true) return false;
+                if (modelMode !== 'ALL' && d.model !== modelMode) return false;
+                return true;
+            });
+            var match = 0, mismatch = 0;
+            if (hasTarget) {
+                inScope.forEach(function (d) {
+                    if (d.fwVer === fwTarget) match++;
+                    else mismatch++;
+                });
+            }
+            return {
+                group: g, devices: inScope.length, match: match, mismatch: mismatch
+            };
+        });
+
+        // When a Model filter is active, hide groups that have zero devices
+        // matching that model -- otherwise the table fills with empty rows.
+        if (modelMode !== 'ALL') {
+            rows = rows.filter(function (r) { return r.devices > 0; });
+        }
+        if (rows.length === 0) {
+            groupsSection.style.display = 'none';
+            groupsTableBody.innerHTML = '';
+            if (groupsMeta) groupsMeta.textContent = '';
+            return;
+        }
+
+        rows.sort(function (a, b) {
+            if (hasTarget) {
+                if (b.mismatch !== a.mismatch) return b.mismatch - a.mismatch;
+            }
+            return (a.group.groupName || '').toLowerCase()
+                   .localeCompare((b.group.groupName || '').toLowerCase());
+        });
+
+        // Render
+        var totalMismatch = 0;
+        groupsTableBody.innerHTML = '';
+        rows.forEach(function (row) {
+            var tr = document.createElement('tr');
+            if (hasTarget && row.mismatch > 0) tr.classList.add('w10-row-mismatch');
+
+            var matchCell = hasTarget ? row.match : '--';
+            var mismatchCellText = hasTarget ? row.mismatch : '--';
+            var mismatchClass = '';
+            if (hasTarget) {
+                mismatchClass = row.mismatch > 0 ? 'w10-cell-mismatch' : 'w10-cell-zero';
+            }
+
+            tr.innerHTML =
+                '<td>' + escapeHtml(row.group.groupName) + '</td>' +
+                '<td class="w10-num">' + row.devices + '</td>' +
+                '<td class="w10-num">' + matchCell + '</td>' +
+                '<td class="w10-num ' + mismatchClass + '">' + mismatchCellText + '</td>';
+
+            // Click row -> set Filter Customer + Group to drill in
+            tr.addEventListener('click', function () {
+                custFilter.value = row.group.ownerName;
+                rebuildGroupFilter();
+                if (groupFilter && groupFilter.querySelector('option[value="' + row.group.groupName + '"]')) {
+                    groupFilter.value = row.group.groupName;
+                }
+                renderDeviceList();
+                updateStats();
+            });
+            groupsTableBody.appendChild(tr);
+            if (hasTarget) totalMismatch += row.mismatch;
+        });
+
+        // Header summary
+        if (groupsMeta) {
+            var modelSuffix = (modelMode !== 'ALL') ? ' (Model=' + modelMode + ')' : '';
+            if (hasTarget) {
+                groupsMeta.textContent = rows.length + ' group(s) targeting gen2fw=' +
+                    fwTarget + modelSuffix + ' — total mismatch: ' + totalMismatch;
+            } else {
+                groupsMeta.textContent = rows.length + ' group(s)' + modelSuffix +
+                    ' — pick a FW Version filter to narrow by gen2fw';
+            }
+        }
+    }
+
+    // Tiny HTML escape so group / customer names with special chars don't break the table
+    function escapeHtml(s) {
+        if (s == null) return '';
+        return String(s)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
     }
 
     // -- Get filtered rows --
     function getFiltered() {
-        var fwTerm = fwInput.value.trim().toLowerCase();
-        var cust   = custFilter.value;
+        var fw        = fwFilter ? fwFilter.value : 'ALL';
+        var model     = modelFilter ? modelFilter.value : 'ALL';
+        var cust      = custFilter.value;
+        var grp       = groupFilter ? groupFilter.value : 'ALL';
+        var installed = installedFilter ? installedFilter.value : 'TRUE';
         return allRows.filter(function (r) {
-            if (fwTerm && r.fwVer.toLowerCase().indexOf(fwTerm) === -1) return false;
-            if (cust !== 'ALL' && r.customer !== cust) return false;
+            if (fw    !== 'ALL' && r.fwVer    !== fw)    return false;
+            if (model !== 'ALL' && r.model    !== model) return false;
+            if (cust  !== 'ALL' && r.customer !== cust)  return false;
+            if (grp   !== 'ALL' && r.group    !== grp)   return false;
+            if (installed === 'TRUE'  && r.installed !== true) return false;
+            if (installed === 'FALSE' && r.installed === true) return false;
             return true;
         });
     }
@@ -590,8 +1232,9 @@ self.onInit = function () {
         deviceList.innerHTML = '';
         var filtered = getFiltered();
 
-        // Apply search
-        var searchTerm = deviceSearch.value.trim().toLowerCase();
+        // Apply free-text search (matches name, customer, group, fwVer)
+        var searchTerm = deviceSearch && deviceSearch.value
+            ? deviceSearch.value.trim().toLowerCase() : '';
         if (searchTerm) {
             filtered = filtered.filter(function (r) {
                 return r.name.toLowerCase().indexOf(searchTerm) !== -1 ||
@@ -614,22 +1257,15 @@ self.onInit = function () {
 
         emptyMsg.style.display = 'none';
 
-        // Sort
-        var col = sortSelect.value;
+        // Default sort: customer -> group -> name (all ascending, case-insensitive)
         filtered.sort(function (a, b) {
-            var cmp = 0;
-            if (col === 'customer') {
-                cmp = a.customer.toLowerCase().localeCompare(b.customer.toLowerCase());
-            } else if (col === 'group') {
-                cmp = a.group.toLowerCase().localeCompare(b.group.toLowerCase());
-            } else if (col === 'name') {
-                cmp = a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-            } else if (col === 'fwVer') {
-                cmp = a.fwVer.localeCompare(b.fwVer);
-            } else if (col === 'fwDate') {
-                cmp = a.fwTs - b.fwTs;
-            }
-            return sortAsc ? cmp : -cmp;
+            var ca = (a.customer || '').toLowerCase();
+            var cb = (b.customer || '').toLowerCase();
+            if (ca !== cb) return ca.localeCompare(cb);
+            var ga = (a.group || '').toLowerCase();
+            var gb = (b.group || '').toLowerCase();
+            if (ga !== gb) return ga.localeCompare(gb);
+            return (a.name || '').toLowerCase().localeCompare((b.name || '').toLowerCase());
         });
 
         displayedRows = filtered;
@@ -637,23 +1273,38 @@ self.onInit = function () {
         countEl.textContent = filtered.length + ' devices';
 
         filtered.forEach(function (r, idx) {
-            var div = document.createElement('div');
-            div.className = 'w10-device-item';
-            if (selectedRow && selectedRow.uuid === r.uuid) div.className += ' w10-active';
+            var tr = document.createElement('tr');
+            if (selectedRow && selectedRow.uuid === r.uuid) tr.className = 'w10-active';
 
-            var dateStr = r.fwTs > 0
-                ? new Date(r.fwTs).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-                : '--';
+            var prop    = r.property || r.group || '';
+            var state   = r.deviceState || '--';
+            var actStr  = (r.active === true) ? 'TRUE' : (r.active === false ? 'FALSE' : '--');
+            var gainStr = (r.gain != null && !isNaN(r.gain)) ? String(r.gain) : '--';
+            // Tooltip with full text so users can see anything truncated by ellipsis
+            tr.title = r.name + ' · ' + prop + ' · FW ' + (r.fwVer || '--') +
+                       ' · ' + state + ' · act:' + actStr + ' · gain:' + gainStr;
 
-            div.innerHTML =
-                '<div class="w10-device-item-name">' + r.name + '</div>' +
-                '<div class="w10-device-item-sub">' + r.customer + ' / ' + r.group + ' &mdash; FW: ' + r.fwVer + ' (' + dateStr + ')</div>';
+            // Color classes for state and active
+            var stateClass = '';
+            if (state === 'Metering') stateClass = 'w10-cell-state-on';
+            else if (state === 'Not Metering') stateClass = 'w10-cell-state-off';
+            var actClass = '';
+            if (r.active === true)  actClass = 'w10-cell-bool-true';
+            else if (r.active === false) actClass = 'w10-cell-bool-false';
 
-            div.addEventListener('click', function () {
+            tr.innerHTML =
+                '<td class="w10-cell-name">' + escapeHtml(r.name) + '</td>' +
+                '<td>' + escapeHtml(prop) + '</td>' +
+                '<td class="w10-cell-fw">' + escapeHtml(r.fwVer || '--') + '</td>' +
+                '<td class="' + stateClass + '">' + escapeHtml(state) + '</td>' +
+                '<td class="' + actClass + '">' + actStr + '</td>' +
+                '<td class="w10-num">' + gainStr + '</td>';
+
+            tr.addEventListener('click', function () {
                 selectDevice(idx);
             });
 
-            deviceList.appendChild(div);
+            deviceList.appendChild(tr);
         });
     }
 
@@ -689,32 +1340,29 @@ self.onInit = function () {
         else if (displayedRows.length > 0) selectDevice(0);
     });
 
-    // -- Sort controls --
-    sortSelect.addEventListener('change', function () { renderDeviceList(); });
-    sortDirBtn.addEventListener('click', function () {
-        sortAsc = !sortAsc;
-        sortDirBtn.innerHTML = sortAsc ? '&#9650;' : '&#9660;';
-        renderDeviceList();
-    });
-
     // -- Filter/search handlers --
-    deviceSearch.addEventListener('input', renderDeviceList);
-    fwInput.addEventListener('input', renderDeviceList);
-    custFilter.addEventListener('change', renderDeviceList);
-
-    fwAddBtn.addEventListener('click', function () {
-        var val = fwInput.value.trim();
-        if (val) {
-            addFwVersion(val);
-        }
+    function rerenderAndStats() {
+        renderDeviceList();
+        updateStats();
+        renderGroupsTable();
+    }
+    // Customer change: cascade the Group dropdown options first, then re-render.
+    custFilter.addEventListener('change', function () {
+        rebuildGroupFilter();
+        rerenderAndStats();
     });
+    if (groupFilter)     groupFilter.addEventListener('change', rerenderAndStats);
+    if (modelFilter)     modelFilter.addEventListener('change', rerenderAndStats);
+    if (fwFilter)        fwFilter.addEventListener('change', rerenderAndStats);
+    if (deviceSearch)    deviceSearch.addEventListener('input', rerenderAndStats);
+    if (installedFilter) installedFilter.addEventListener('change', rerenderAndStats);
 
-    // -- Refresh --
-    refreshBtn.addEventListener('click', function () {
+    // -- Refresh -- Shift+click forces full rescan (clears caches)
+    refreshBtn.addEventListener('click', function (e) {
         selectedRow = null;
         if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
         chartPlaceholder.style.display = 'flex';
-        scanAll();
+        scanAll(!!e.shiftKey);
     });
 
     // -- Close chart --
