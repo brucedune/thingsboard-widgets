@@ -34,7 +34,9 @@ self.onInit = function () {
         { key: 'recordNoneventFlow', scope: 'SHARED_SCOPE' },
         { key: 'radioOnEventEnd',    scope: 'SHARED_SCOPE' },
         { key: 'checkInPeriod',      scope: 'SHARED_SCOPE' },
-        { key: 'allowTiFotaVer',     scope: 'SHARED_SCOPE' }
+        { key: 'allowTiFotaVer',     scope: 'SHARED_SCOPE' },
+        { key: 'resetOffset',        scope: 'SHARED_SCOPE' },
+        { key: 'gen2fw',             scope: 'SERVER_SCOPE'  }
     ];
 
     // ── Get JWT token ──────────────────────────────────────────────
@@ -386,14 +388,17 @@ self.onInit = function () {
         ).catch(function () { return []; });
 
         Promise.all([sharedP, serverP]).then(function (results) {
+            // Key the value map by "scope|key" so the same attribute name
+            // can exist in both SHARED and SERVER scopes without the
+            // second fetch overwriting the first in the lookup.
             var valueMap = {};
-            (results[0] || []).forEach(function (a) { valueMap[a.key] = a; });
-            (results[1] || []).forEach(function (a) { valueMap[a.key] = a; });
+            (results[0] || []).forEach(function (a) { valueMap['SHARED_SCOPE|' + a.key] = a; });
+            (results[1] || []).forEach(function (a) { valueMap['SERVER_SCOPE|' + a.key] = a; });
 
             attrSel.innerHTML = '<option value="">— Select Attribute —</option>';
 
             ATTRIBUTES.forEach(function (a) {
-                var current = valueMap[a.key];
+                var current = valueMap[a.scope + '|' + a.key];
                 var val   = (current !== undefined && current.value !== undefined)
                             ? current.value : '—';
                 var type  = (current !== undefined && current.value !== undefined)
