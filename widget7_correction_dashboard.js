@@ -99,6 +99,8 @@ self.onInit = function () {
     var countElsNoDevice      = [document.getElementById('w7-countNoDevice'),
                                  document.getElementById('w7-countNoDevice2')];
     var toggleEngReview = document.getElementById('w7-toggleEngReview');
+    var exportCsvBtn    = document.getElementById('w7-exportCsvBtn');
+    var exportHourlyBtn = document.getElementById('w7-exportHourlyBtn');
     var filterBillable = document.getElementById('w7-filterBillable');
     var filterReplace  = document.getElementById('w7-filterReplace');
     var filterReview   = document.getElementById('w7-filterReview');
@@ -142,8 +144,12 @@ self.onInit = function () {
     var fetchedOffset = [];      // { ts, value } -- offset telemetry
     var fetchedFwVer = [];        // { ts, value } -- fwVer telemetry (stepped trace)
     var fetchedFwVerChanges = []; // { ts, fromVer, toVer } -- firmware version change points
+    var fetchedFlowDirChanges = []; // { ts, fromDir, toDir } -- flowDirection change points
+    var fetchedFlippedIntervals = []; // { startTs, endTs } -- periods where direction == FLIP
     var fetchedEventMeterDelta = []; // { ts, value } -- eventMeterDelta telemetry
+    var fetchedHourlyUsage = [];     // { ts, value } -- eventMeterDelta summed per hour (hour-start ts, gallons)
     var fetchedVDDA = [];
+    var fetchedTempExt = [];         // { ts, value } -- temp_ext_c telemetry (°C)
     var engReviewData = [];
     // Cache of discovered device groups that have Engineering Review Date set.
     // Populated on first full scan; subsequent refreshes reuse it to avoid
@@ -261,6 +267,65 @@ self.onInit = function () {
     function formatNumber(val) {
         if (val === null || val === undefined) return '--';
         return Math.round(parseFloat(val)).toLocaleString();
+    }
+
+    // ── Parse a "YYYY-MM-DD" date-input value as LOCAL midnight ──
+    // new Date("2026-04-20") parses as UTC midnight (JS Date quirk). This
+    // helper returns local midnight instead, so the date range the user
+    // picks in the date inputs lines up with their calendar day.
+    function parseDateLocal(dateStr) {
+        if (!dateStr) return NaN;
+        var parts = String(dateStr).split('-');
+        if (parts.length === 3) {
+            var y = parseInt(parts[0], 10);
+            var m = parseInt(parts[1], 10) - 1;
+            var d = parseInt(parts[2], 10);
+            if (!isNaN(y) && !isNaN(m) && !isNaN(d)) {
+                return new Date(y, m, d).getTime();
+            }
+        }
+        return new Date(dateStr).getTime();
+    }
+
+    // ── Floor a timestamp (ms) to the start of its LOCAL hour ──
+    // Math.floor(ts / 3600000)*3600000 floors to a UTC-hour boundary, which
+    // only aligns with local hours in whole-hour-offset zones. This is robust
+    // for any offset (incl. India +5:30) -- it uses setMinutes(0,0,0).
+    function floorToLocalHour(ts) {
+        var d = new Date(ts);
+        d.setMinutes(0, 0, 0);
+        return d.getTime();
+    }
+
+    // ── Floor a timestamp (ms) to the start of its LOCAL day ──
+    // Same reasoning as floorToLocalHour -- handles any UTC offset, plus
+    // DST transitions (the Date object's setHours drops into local time).
+    function floorToLocalDay(ts) {
+        var d = new Date(ts);
+        d.setHours(0, 0, 0, 0);
+        return d.getTime();
+    }
+
+    // ── Hourly usage aggregation ──
+    // Takes an array of eventMeterDelta points [{ts, value}] (ts in ms, value
+    // in gallons) and returns hourly sums aligned to the LOCAL hour boundary.
+    // Each output point is { ts: local-hour-start-epoch-ms, value: gal-in-hour }.
+    // Zero-sum hours within the range are NOT emitted.
+    // Output is sorted ascending by ts.
+    function computeHourlyUsage(emdPoints) {
+        if (!emdPoints || emdPoints.length === 0) return [];
+        var buckets = {};
+        emdPoints.forEach(function (p) {
+            if (p.ts == null || isNaN(p.value)) return;
+            var hourTs = floorToLocalHour(p.ts);
+            buckets[hourTs] = (buckets[hourTs] || 0) + p.value;
+        });
+        var out = [];
+        Object.keys(buckets).forEach(function (k) {
+            out.push({ ts: parseInt(k, 10), value: buckets[k] });
+        });
+        out.sort(function (a, b) { return a.ts - b.ts; });
+        return out;
     }
 
     // ── Populate status cards (deviceState, active, gain, VddAdc) ──
@@ -640,12 +705,16 @@ self.onInit = function () {
                 var text = item.textContent.toLowerCase();
                 if (text.indexOf(term) === -1) show = false;
             }
-            // Billable filter -- show Billable=FALSE devices, but EXCLUDE
-            // those already flagged Replace=TRUE (matches the counter logic:
-            // a device queued for replacement is expected to be non-billable
-            // and is not actionable under this filter).
+            // Billable filter -- show Billable=FALSE devices (actionable ones
+            // only). Matches the Billable FALSE counter logic exactly:
+            //   - must NOT be Vacant   (no occupant to bill)
+            //   - must be Installed     (device actually in service)
+            //   - must NOT be Replace   (already in hardware queue)
             if (show && billFilter === 'FALSE' && dev) {
-                if (dev.billable === true || dev.replace === true) show = false;
+                if (dev.billable === true ||
+                    dev.replace === true ||
+                    dev.installed !== true ||
+                    dev.vacant === true) show = false;
             }
             // Meter Review filter
             if (show && revFilter === 'TRUE' && dev) {
@@ -1023,9 +1092,13 @@ self.onInit = function () {
         allDevices.forEach(function (d) {
             var isVacant = d.vacant === true;
             if (!isVacant) total++;
-            // Count Billable=FALSE (excluding Vacant, excluding Replace) --
-            // a device being replaced is expected non-billable and not actionable.
-            if (!isVacant && d.billable !== true && d.replace !== true) billableFalse++;
+            // Count Billable=FALSE only for devices that are actually in service:
+            //   - Not Vacant (no occupant to bill)
+            //   - Installed=TRUE (device physically in place and running)
+            //   - Not flagged Replace (already in hardware queue)
+            // An uninstalled device is expected non-billable and is captured
+            // by the "No Device" counter instead.
+            if (!isVacant && d.installed === true && d.billable !== true && d.replace !== true) billableFalse++;
             if (d.meterReview === true) reviewTrue++;
             if (d.replace === true) replaceTrue++;
             // "No device assigned" = non-vacant lot with no working meter installed
@@ -1153,6 +1226,290 @@ self.onInit = function () {
         navigateDevice('down');
     });
 
+    // ── Export CSV of currently-visible devices ──
+    // Walks the rendered device list (respecting search + Billable/Review/Replace
+    // filters) and emits one row per visible device with the columns most
+    // commonly needed for field / billing review.
+    exportCsvBtn.addEventListener('click', function () {
+        var items = deviceList.querySelectorAll('.w7-device-item');
+        // Only rows currently displayed (filters apply display:none to hidden)
+        var visibleDevs = [];
+        items.forEach(function (item) {
+            if (item.style.display === 'none') return;
+            var uuid = item.dataset.uuid;
+            var dev  = allDevices.find(function (d) { return d.uuid === uuid; });
+            if (dev) visibleDevs.push(dev);
+        });
+
+        if (visibleDevs.length === 0) {
+            showMessage('No visible devices to export.', 'error');
+            return;
+        }
+
+        function csvEscape(v) {
+            if (v === null || v === undefined) return '';
+            var s = String(v);
+            // Quote if it contains comma, quote, newline, or leading/trailing spaces
+            if (/[",\r\n]/.test(s) || s !== s.trim()) {
+                return '"' + s.replace(/"/g, '""') + '"';
+            }
+            return s;
+        }
+        function boolCell(v) {
+            if (v === true)  return 'TRUE';
+            if (v === false) return 'FALSE';
+            return '';  // null/undefined -> blank
+        }
+
+        var headers = [
+            'Property',
+            'Apartment',
+            'Device Name',
+            'UUID',
+            'Installed',
+            'Billable',
+            'Vacant',
+            'Billing Review',
+            'No Water',
+            'Leak',
+            'Replace',
+            'Recalibrate',
+            'Model',
+            'gen2fw',
+            'allowTiFotaVer',
+            'waterFlowDir'
+        ];
+
+        var rows = [headers.map(csvEscape).join(',')];
+        visibleDevs.forEach(function (d) {
+            var prop = (d.property && d.property !== '--') ? d.property : '';
+            var apt  = (d.apartment && d.apartment !== '--') ? d.apartment : '';
+            rows.push([
+                csvEscape(prop),
+                csvEscape(apt),
+                csvEscape(d.name || ''),
+                csvEscape(d.uuid || ''),
+                csvEscape(boolCell(d.installed)),
+                csvEscape(boolCell(d.billable)),
+                csvEscape(boolCell(d.vacant)),
+                csvEscape(boolCell(d.meterReview)),
+                csvEscape(boolCell(d.noWater)),
+                csvEscape(boolCell(d.leak)),
+                csvEscape(boolCell(d.replace)),
+                csvEscape(boolCell(d.recalibrate)),
+                csvEscape(d.model || ''),
+                csvEscape(d.gen2fw || ''),
+                csvEscape(d.allowTiFotaVer || ''),
+                csvEscape(d.flowDirection || '')
+            ].join(','));
+        });
+
+        var csv = rows.join('\r\n');
+        // BOM so Excel opens UTF-8 correctly on Windows
+        var blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+
+        // Build a descriptive filename:  w7-devices_{group}_{YYYY-MM-DD}.csv
+        var groupName = '';
+        try {
+            var sel = groupSel.options[groupSel.selectedIndex];
+            if (sel && sel.text) groupName = sel.text.replace(/[^A-Za-z0-9_-]+/g, '_');
+        } catch (e) {}
+        var now  = new Date();
+        var pad  = function (n) { return n < 10 ? '0' + n : String(n); };
+        var dstr = now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate());
+        var fname = 'w7-devices_' + (groupName || 'group') + '_' + dstr + '.csv';
+
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = fname;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+
+        showMessage('Exported ' + visibleDevs.length + ' device(s) to ' + fname, 'success');
+    });
+
+    // ── Export HOURLY CSV: one row per (device × hour) ──
+    // For each visible device, fetches eventMeterDelta over the selected date
+    // range, aggregates into hourly buckets via computeHourlyUsage(), and
+    // emits long-format rows. Zero-sum hours are skipped to keep file size
+    // manageable. Because this fires one API call per device, the button
+    // shows progress and batches requests in groups of 10.
+    exportHourlyBtn.addEventListener('click', function () {
+        var items = deviceList.querySelectorAll('.w7-device-item');
+        var visibleDevs = [];
+        items.forEach(function (item) {
+            if (item.style.display === 'none') return;
+            var uuid = item.dataset.uuid;
+            var dev  = allDevices.find(function (d) { return d.uuid === uuid; });
+            if (dev) visibleDevs.push(dev);
+        });
+
+        if (visibleDevs.length === 0) {
+            showMessage('No visible devices to export.', 'error');
+            return;
+        }
+        if (!startDateEl.value || !endDateEl.value) {
+            showMessage('Select Start Date and End Date first.', 'error');
+            return;
+        }
+
+        var startTs = parseDateLocal(startDateEl.value);
+        var endTs   = parseDateLocal(endDateEl.value) + 86400000 - 1;
+
+        if (!confirm('Export hourly usage for ' + visibleDevs.length + ' device(s)?\n\n' +
+                     'This fetches eventMeterDelta for each device over the selected ' +
+                     'date range. It may take a moment.')) return;
+
+        exportHourlyBtn.disabled = true;
+        var originalLabel = exportHourlyBtn.textContent;
+        exportHourlyBtn.textContent = 'Fetching 0/' + visibleDevs.length + '...';
+        showMessage('Fetching hourly usage for ' + visibleDevs.length + ' device(s)...', 'info');
+
+        function csvEscape(v) {
+            if (v === null || v === undefined) return '';
+            var s = String(v);
+            if (/[",\r\n]/.test(s) || s !== s.trim()) {
+                return '"' + s.replace(/"/g, '""') + '"';
+            }
+            return s;
+        }
+        function isoLocal(ts) {
+            // Emit ISO-like local timestamp for Excel-friendly display
+            var d = new Date(ts);
+            var pad = function (n) { return n < 10 ? '0' + n : String(n); };
+            return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) +
+                   'T' + pad(d.getHours()) + ':00:00';
+        }
+
+        // Per-device hourly results: { dev, hours: [{ ts, value }] }
+        var results = [];
+        var done = 0;
+        var batchSize = 10;
+        var idx = 0;
+
+        function processNextBatch() {
+            if (idx >= visibleDevs.length) {
+                finish();
+                return;
+            }
+            var batch = visibleDevs.slice(idx, idx + batchSize);
+            idx += batchSize;
+            Promise.all(batch.map(function (dev) {
+                return apiFetch(
+                    '/api/plugins/telemetry/DEVICE/' + dev.uuid +
+                    '/values/timeseries?keys=eventMeterDelta' +
+                    '&startTs=' + startTs +
+                    '&endTs=' + endTs +
+                    '&limit=50000&agg=NONE&orderBy=ASC'
+                ).then(function (data) {
+                    var emdRaw = (data && data.eventMeterDelta) ? data.eventMeterDelta : [];
+                    var emdParsed = emdRaw.map(function (p) {
+                        return { ts: p.ts, value: parseFloat(p.value) };
+                    }).filter(function (p) {
+                        return !isNaN(p.value) && p.value > 0;
+                    });
+                    var hours = computeHourlyUsage(emdParsed);
+                    results.push({ dev: dev, hours: hours });
+                }).catch(function () {
+                    // On failure, emit an empty hours array -- device still
+                    // appears in output (with no rows)
+                    results.push({ dev: dev, hours: [] });
+                }).then(function () {
+                    done++;
+                    exportHourlyBtn.textContent = 'Fetching ' + done + '/' + visibleDevs.length + '...';
+                });
+            })).then(processNextBatch);
+        }
+
+        function finish() {
+            // Wide (transposed) format: one row per device, one column per
+            // hour. Build the full set of LOCAL hour timestamps spanning the
+            // selected date range so ALL devices align on the same columns,
+            // even if a given device has no reading for some hours.
+            var HOUR_MS = 3600000;
+            var firstHour = floorToLocalHour(startTs);
+            var lastHour  = floorToLocalHour(endTs);
+            var hourList = [];
+            for (var h = firstHour; h <= lastHour; h += HOUR_MS) {
+                hourList.push(h);
+            }
+
+            // Per-device hour -> value map for O(1) lookup
+            results.forEach(function (r) {
+                var map = {};
+                r.hours.forEach(function (p) { map[p.ts] = p.value; });
+                r.hourMap = map;
+            });
+
+            var headers = ['Property', 'Apartment', 'Device Name', 'UUID']
+                .concat(hourList.map(isoLocal));
+            var rows = [headers.map(csvEscape).join(',')];
+            var totalHourCells = 0;
+
+            results.forEach(function (r) {
+                var d = r.dev;
+                var prop = (d.property && d.property !== '--') ? d.property : '';
+                var apt  = (d.apartment && d.apartment !== '--') ? d.apartment : '';
+                var cells = [
+                    csvEscape(prop),
+                    csvEscape(apt),
+                    csvEscape(d.name || ''),
+                    csvEscape(d.uuid || '')
+                ];
+                hourList.forEach(function (ts) {
+                    var v = r.hourMap[ts];
+                    if (v === undefined) {
+                        cells.push('');   // blank = no reading that hour
+                    } else {
+                        cells.push(csvEscape(Math.round(v * 100) / 100));
+                        totalHourCells++;
+                    }
+                });
+                rows.push(cells.join(','));
+            });
+
+            if (totalHourCells === 0) {
+                exportHourlyBtn.disabled = false;
+                exportHourlyBtn.textContent = originalLabel;
+                showMessage('No hourly usage data in the selected date range.', 'error');
+                return;
+            }
+
+            var csv = rows.join('\r\n');
+            var blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+
+            var groupName = '';
+            try {
+                var sel = groupSel.options[groupSel.selectedIndex];
+                if (sel && sel.text) groupName = sel.text.replace(/[^A-Za-z0-9_-]+/g, '_');
+            } catch (e) {}
+            var pad  = function (n) { return n < 10 ? '0' + n : String(n); };
+            var s = new Date(startTs);
+            var e = new Date(endTs);
+            var startStr = s.getFullYear() + pad(s.getMonth() + 1) + pad(s.getDate());
+            var endStr   = e.getFullYear() + pad(e.getMonth() + 1) + pad(e.getDate());
+            var fname = 'w7-hourly_' + (groupName || 'group') + '_' + startStr + '-' + endStr + '.csv';
+
+            var a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = fname;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+
+            exportHourlyBtn.disabled = false;
+            exportHourlyBtn.textContent = originalLabel;
+            showMessage('Exported ' + visibleDevs.length + ' device(s) × ' +
+                         hourList.length + ' hour(s) (' + totalHourCells +
+                         ' data cells) to ' + fname, 'success');
+        }
+
+        processNextBatch();
+    });
+
     // -- Select device & load chart --
     var lastSelectedItem = null;
 
@@ -1233,8 +1590,8 @@ self.onInit = function () {
 
         showMessage('Loading ' + dev.name + '...', 'info');
 
-        var startTs = new Date(startDateEl.value).getTime();
-        var endTs   = new Date(endDateEl.value).getTime() + 86400000 - 1;
+        var startTs = parseDateLocal(startDateEl.value);
+        var endTs   = parseDateLocal(endDateEl.value) + 86400000 - 1;
 
         chartReady.then(function () {
             if (!window.chartjsAdapterLoaded) {
@@ -1250,7 +1607,7 @@ self.onInit = function () {
             // Fetch meter data and flowRate in parallel
             var meterP = apiFetch(
                 '/api/plugins/telemetry/DEVICE/' + dev.uuid +
-                '/values/timeseries?keys=meterValFlash,meterValCorrected,deviceState,offset,fwVer,eventMeterDelta,VddAdc' +
+                '/values/timeseries?keys=meterValFlash,meterValCorrected,deviceState,offset,fwVer,eventMeterDelta,VddAdc,flowDirection,temp_ext_c' +
                 '&startTs=' + startTs +
                 '&endTs=' + endTs +
                 '&limit=10000&agg=NONE&orderBy=ASC'
@@ -1368,6 +1725,20 @@ self.onInit = function () {
                 return { ts: p.ts, value: parseFloat(p.value) };
             }).sort(function (a, b) { return a.ts - b.ts; });
 
+            // Parse temp_ext_c telemetry (external probe, firmware reports in °C).
+            // Convert to °F for display since these devices are installed in the
+            // US and can be outdoor-mounted. Validation still uses °C sensor
+            // operating range (-40 to 125 °C) to catch fault reads before conversion.
+            var tempExtRaw = (data && data.temp_ext_c) ? data.temp_ext_c : [];
+            fetchedTempExt = tempExtRaw.map(function (p) {
+                var c = parseFloat(p.value);
+                return { ts: p.ts, valueC: c, value: (c * 9 / 5) + 32 };
+            }).filter(function (p) {
+                // Reject obviously-bogus values (sensor fault reads can be
+                // wildly out of range); keep everything in a plausible band.
+                return !isNaN(p.valueC) && p.valueC > -40 && p.valueC < 125;
+            }).sort(function (a, b) { return a.ts - b.ts; });
+
             // Parse fwVer telemetry -- group by day, detect day where version changes
             var fwVerRaw = (data && data.fwVer) ? data.fwVer : [];
             fwVerRaw.sort(function (a, b) { return a.ts - b.ts; });
@@ -1402,13 +1773,86 @@ self.onInit = function () {
                 }
             }
 
-            // Parse eventMeterDelta telemetry (filter < 50 gal)
+            // Parse flowDirection telemetry. Firmware uploads as strings
+            // (see status_report.c flow_direction_string):
+            //   "UNKNOWN"      -- direction not yet established
+            //   "NOT FLIPPED"  -- NOFLIP (normal)
+            //   "FLIPPED"      -- FLIP (meter picked wrong direction)
+            // Build two outputs:
+            //   fetchedFlowDirChanges   -- transitions for vertical-line flags
+            //   fetchedFlippedIntervals -- {startTs, endTs} windows where direction
+            //                              was FLIPPED, used for grey shading
+            // Filter UNKNOWN so telemetry hiccups don't split a flipped interval
+            // into multiple shaded bands.
+            var flowDirRaw = (data && data.flowDirection) ? data.flowDirection : [];
+            flowDirRaw.sort(function (a, b) { return a.ts - b.ts; });
+            fetchedFlowDirChanges = [];
+            fetchedFlippedIntervals = [];
+            var lastKnownDir = null;     // 'FLIPPED' or 'NOT FLIPPED'
+            var flipStart = null;
+            for (var fdi = 0; fdi < flowDirRaw.length; fdi++) {
+                var dvStr = String(flowDirRaw[fdi].value || '').trim();
+                // Accept string form from firmware OR numeric form (0/1/2)
+                // in case some historical device uploaded as int.
+                var isFlipped, isNoFlip;
+                if (dvStr === 'FLIPPED' || dvStr === '2') {
+                    isFlipped = true;  isNoFlip = false;
+                } else if (dvStr === 'NOT FLIPPED' || dvStr === '1') {
+                    isFlipped = false; isNoFlip = true;
+                } else {
+                    continue; // UNKNOWN or anything else -> skip
+                }
+                var dv = isFlipped ? 'FLIPPED' : 'NOT FLIPPED';
+
+                if (lastKnownDir !== null && lastKnownDir !== dv) {
+                    fetchedFlowDirChanges.push({
+                        ts: flowDirRaw[fdi].ts,
+                        fromDir: lastKnownDir,
+                        toDir: dv
+                    });
+                }
+
+                // Track FLIPPED intervals for shading.
+                if (isFlipped && flipStart === null) {
+                    flipStart = flowDirRaw[fdi].ts;
+                } else if (isNoFlip && flipStart !== null) {
+                    fetchedFlippedIntervals.push({
+                        startTs: flipStart,
+                        endTs: flowDirRaw[fdi].ts
+                    });
+                    flipStart = null;
+                }
+
+                lastKnownDir = dv;
+            }
+            // Open-ended FLIPPED interval — direction still flipped at end of
+            // data window. Extend to last known timestamp so the shading
+            // covers the whole affected region.
+            if (flipStart !== null) {
+                var lastFdTs = flowDirRaw.length > 0
+                    ? flowDirRaw[flowDirRaw.length - 1].ts
+                    : flipStart;
+                fetchedFlippedIntervals.push({
+                    startTs: flipStart,
+                    endTs: lastFdTs
+                });
+            }
+
+            // Parse eventMeterDelta telemetry (filter < 50 gal for scatter plot display)
             var emdRaw = (data && data.eventMeterDelta) ? data.eventMeterDelta : [];
-            fetchedEventMeterDelta = emdRaw.map(function (p) {
+            var emdParsed = emdRaw.map(function (p) {
                 return { ts: p.ts, value: parseFloat(p.value) };
             }).filter(function (p) {
-                return p.value >= 50;
+                return !isNaN(p.value) && p.value > 0;
             }).sort(function (a, b) { return a.ts - b.ts; });
+
+            fetchedEventMeterDelta = emdParsed.filter(function (p) {
+                return p.value >= 50;
+            });
+
+            // Hourly usage TS = sum of ALL eventMeterDelta (unfiltered) within
+            // each hour-aligned window. ts = hour-start epoch, value = gallons.
+            fetchedHourlyUsage = computeHourlyUsage(emdParsed);
 
             // Process previous 30-day mid-period slope
             var prevMidFirstResult = results[2][0];
@@ -1448,8 +1892,8 @@ self.onInit = function () {
 
                 // Build normalized straight line using daily rate
                 var dayMs = 86400000;
-                var currentStartDay = Math.floor(first.ts / dayMs) * dayMs;
-                var endDateTs = new Date(endDateEl.value).getTime();
+                var currentStartDay = floorToLocalDay(first.ts);
+                var endDateTs = parseDateLocal(endDateEl.value);
                 var totalDays = Math.round((endDateTs - currentStartDay) / dayMs);
                 prevPeriodNorm = [];
                 prevPeriodNorm.push({ ts: first.ts, value: first.value });
@@ -1480,8 +1924,8 @@ self.onInit = function () {
 
             // Summary cards -- when baseline is empty, show the selected date
             // range (dates only, values as '--') so the user still sees context.
-            var rangeStartTs = new Date(startDateEl.value).getTime();
-            var rangeEndTs   = new Date(endDateEl.value).getTime();
+            var rangeStartTs = parseDateLocal(startDateEl.value);
+            var rangeEndTs   = parseDateLocal(endDateEl.value);
             cardStart.textContent     = first ? formatNumber(first.value) : '--';
             cardStartDate.textContent = first ? formatDateShort(first.ts) : formatDateShort(rangeStartTs);
             cardEnd.textContent       = last  ? formatNumber(last.value)  : '--';
@@ -1573,8 +2017,8 @@ self.onInit = function () {
         var rangeDays = (eTs - sTs) / 86400000;
 
         // If zoomed out to near full range, use cached fetchedFlow
-        var fullStart = new Date(startDateEl.value).getTime();
-        var fullEnd = new Date(endDateEl.value).getTime() + 86400000 - 1;
+        var fullStart = parseDateLocal(startDateEl.value);
+        var fullEnd = parseDateLocal(endDateEl.value) + 86400000 - 1;
         var fullRange = fullEnd - fullStart;
         var visRange = eTs - sTs;
 
@@ -1814,6 +2258,19 @@ self.onInit = function () {
             });
         }
 
+        // Add temp_ext_c on secondary axis -- displayed in °F (converted at parse)
+        if (fetchedTempExt.length > 0) {
+            var thinnedTemp = thinData(fetchedTempExt, 10000);
+            datasets.push({
+                label: 'Temp ext (\u00B0F)',
+                data: thinnedTemp.map(function (p) { return { x: p.ts, y: p.value }; }),
+                borderColor: 'rgba(0, 150, 136, 0.75)',   /* teal */
+                backgroundColor: 'rgba(0, 150, 136, 0.05)',
+                borderWidth: 1.5, pointRadius: 0, pointHoverRadius: 3,
+                fill: false, tension: 0.2, yAxisID: 'yTemp'
+            });
+        }
+
         // Add eventMeterDelta as scatter plot on Usage axis
         if (fetchedEventMeterDelta.length > 0) {
             var emdDs = fetchedEventMeterDelta.map(function (p) {
@@ -1836,8 +2293,8 @@ self.onInit = function () {
 
         // When baseline is empty, fall back to the user-selected date range so
         // the x-axis still spans a useful window.
-        var rangeStartTs2 = new Date(startDateEl.value).getTime();
-        var rangeEndTs2   = new Date(endDateEl.value).getTime() + 86400000 - 1;
+        var rangeStartTs2 = parseDateLocal(startDateEl.value);
+        var rangeEndTs2   = parseDateLocal(endDateEl.value) + 86400000 - 1;
         var minTs = baseline.length > 0 ? baseline[0].ts : rangeStartTs2;
         var maxTs = baseline.length > 0 ? baseline[baseline.length - 1].ts : rangeEndTs2;
         // Extend x-axis to include corrected/preview data and end date
@@ -1845,7 +2302,7 @@ self.onInit = function () {
             var lastCorr = correctedData[correctedData.length - 1].ts;
             if (lastCorr > maxTs) maxTs = lastCorr;
         }
-        var endDateTs = new Date(endDateEl.value).getTime();
+        var endDateTs = parseDateLocal(endDateEl.value);
         if (endDateTs > maxTs) maxTs = endDateTs;
 
         // Add fwVer change vertical lines as datasets (uses y axis = Usage)
@@ -1871,10 +2328,73 @@ self.onInit = function () {
             });
         }
 
+        // Add flowDirection change vertical lines as flags. Direction flips
+        // are usually operator-visible anomalies (meter picked the wrong
+        // direction during calibration); showing each transition on the
+        // chart helps correlate with usage/offset changes.
+        // Values are already strings from parsing: 'FLIPPED' or 'NOT FLIPPED'.
+        var shortDir = function (v) {
+            if (v === 'FLIPPED') return 'FLIP';
+            if (v === 'NOT FLIPPED') return 'NOFLIP';
+            return v;
+        };
+        var fdChanges = fetchedFlowDirChanges || [];
+        if (fdChanges.length > 0) {
+            fdChanges.forEach(function (chg) {
+                datasets.push({
+                    label: 'Dir ' + shortDir(chg.fromDir) + ' \u2192 ' + shortDir(chg.toDir),
+                    data: [
+                        { x: chg.ts, y: 0 },
+                        { x: chg.ts, y: 1 }
+                    ],
+                    borderColor: 'rgba(156, 39, 176, 0.85)', /* purple */
+                    borderWidth: 3,
+                    borderDash: [2, 3],
+                    pointRadius: 0,
+                    pointHoverRadius: 0,
+                    fill: false,
+                    showLine: true,
+                    tension: 0,
+                    yAxisID: 'yFwVer'
+                });
+            });
+        }
+
+        /* Inline plugin: paint light-grey rectangles in the chart background
+         * for each interval where flowDirection was FLIP. Runs before
+         * datasets so shading sits behind all traces. Reads fresh state
+         * every draw so zoom/pan updates the shading correctly. */
+        var flippedShadingPlugin = {
+            id: 'flippedShading',
+            beforeDatasetsDraw: function (chart) {
+                var intervals = fetchedFlippedIntervals;
+                if (!intervals || intervals.length === 0) return;
+                var xScale = chart.scales.x;
+                var area = chart.chartArea;
+                if (!xScale || !area) return;
+                var gctx = chart.ctx;
+                gctx.save();
+                gctx.fillStyle = 'rgba(128, 128, 128, 0.18)';
+                for (var i = 0; i < intervals.length; i++) {
+                    var iv = intervals[i];
+                    var xs = xScale.getPixelForValue(iv.startTs);
+                    var xe = xScale.getPixelForValue(iv.endTs);
+                    // Clip to visible chart area
+                    if (xs < area.left)  xs = area.left;
+                    if (xe > area.right) xe = area.right;
+                    if (xe > xs) {
+                        gctx.fillRect(xs, area.top, xe - xs, area.bottom - area.top);
+                    }
+                }
+                gctx.restore();
+            }
+        };
+
         var ctx = chartCanvas.getContext('2d');
         chartInstance = new Chart(ctx, {
             type: 'line',
             data: { datasets: datasets },
+            plugins: [flippedShadingPlugin],
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
@@ -1993,6 +2513,21 @@ self.onInit = function () {
                         min: 3000,
                         max: 4000
                     },
+                    yTemp: {
+                        position: 'right',
+                        display: fetchedTempExt.length > 0,
+                        title: { display: true, text: 'Temp (\u00B0F)', font: { size: 11 }, color: '#009688' },
+                        ticks: { font: { size: 10 }, color: '#009688' },
+                        grid: { drawOnChartArea: false },
+                        // Auto-scale with a sensible baseline range. Chart.js
+                        // uses suggested* as starting bounds but expands if
+                        // data exceeds them -- so typical 55-75°F meter data
+                        // fills the plot nicely, while outliers (e.g. hot
+                        // water cross-connect, freeze events) still render
+                        // without clipping. Refreshes on zoom/pan too.
+                        suggestedMin: 40,
+                        suggestedMax: 90
+                    },
                     yEventDelta: {
                         position: 'left',
                         display: fetchedEventMeterDelta.length > 0,
@@ -2037,8 +2572,8 @@ self.onInit = function () {
         // Build one corrected point per day using previous period slope
         var first = fetchedPoints[0];
         var dayMs = 86400000;
-        var startDay = Math.floor(first.ts / dayMs) * dayMs;
-        var endDay   = new Date(endDateEl.value).getTime();
+        var startDay = floorToLocalDay(first.ts);
+        var endDay   = parseDateLocal(endDateEl.value);
         var totalDays = Math.round((endDay - startDay) / dayMs);
         var correctedDiff = Math.round(dailyRate * totalDays);
 
@@ -2139,8 +2674,8 @@ self.onInit = function () {
         // Build one corrected point per day spanning current fetched range, using picked slope
         var first = fetchedPoints[0];
         var dayMs = 86400000;
-        var startDay = Math.floor(first.ts / dayMs) * dayMs;
-        var endDay   = new Date(endDateEl.value).getTime();
+        var startDay = floorToLocalDay(first.ts);
+        var endDay   = parseDateLocal(endDateEl.value);
         var totalDays = Math.round((endDay - startDay) / dayMs);
         var correctedDiff = Math.round(dailyRate * totalDays);
 
@@ -2178,8 +2713,8 @@ self.onInit = function () {
     function reloadCurrentDevice() {
         if (!selectedDevice) return;
 
-        var startTs = new Date(startDateEl.value).getTime();
-        var endTs   = new Date(endDateEl.value).getTime() + 86400000 - 1;
+        var startTs = parseDateLocal(startDateEl.value);
+        var endTs   = parseDateLocal(endDateEl.value) + 86400000 - 1;
 
         // Refresh latest status cards alongside meter data
         var refreshStatusP = apiFetch(
@@ -2221,8 +2756,8 @@ self.onInit = function () {
             var first = fetchedPoints.length > 0 ? fetchedPoints[0] : null;
             var last  = fetchedPoints.length > 0 ? fetchedPoints[fetchedPoints.length - 1] : null;
             var diff  = (first && last) ? (last.value - first.value) : null;
-            var rangeStartTs = new Date(startDateEl.value).getTime();
-            var rangeEndTs   = new Date(endDateEl.value).getTime();
+            var rangeStartTs = parseDateLocal(startDateEl.value);
+            var rangeEndTs   = parseDateLocal(endDateEl.value);
             cardStart.textContent     = first ? formatNumber(first.value) : '--';
             cardStartDate.textContent = first ? formatDateShort(first.ts) : formatDateShort(rangeStartTs);
             cardEnd.textContent       = last  ? formatNumber(last.value)  : '--';
@@ -2252,8 +2787,8 @@ self.onInit = function () {
 
         var first   = fetchedPoints[0];
         var dayMs   = 86400000;
-        var startDay = Math.floor(first.ts / dayMs) * dayMs;
-        var endDay   = new Date(endDateEl.value).getTime();
+        var startDay = floorToLocalDay(first.ts);
+        var endDay   = parseDateLocal(endDateEl.value);
         var totalDays = Math.round((endDay - startDay) / dayMs);
         var dailyRate = totalDays > 0 ? correctedDiff / totalDays : 0;
 
@@ -2274,8 +2809,8 @@ self.onInit = function () {
         cardCorrDiff.textContent = formatNumber(correctedDiff);
 
         // Redraw chart with preview overlay
-        var startTs = new Date(startDateEl.value).getTime();
-        var endTs   = new Date(endDateEl.value).getTime() + 86400000 - 1;
+        var startTs = parseDateLocal(startDateEl.value);
+        var endTs   = parseDateLocal(endDateEl.value) + 86400000 - 1;
 
         apiFetch(
             '/api/plugins/telemetry/DEVICE/' + selectedDevice.uuid +
@@ -2332,8 +2867,8 @@ self.onInit = function () {
         hideMessage();
 
         var deviceId  = selectedDevice.uuid;
-        var startTs = new Date(startDateEl.value).getTime();
-        var endTs   = new Date(endDateEl.value).getTime() + 86400000 - 1;
+        var startTs = parseDateLocal(startDateEl.value);
+        var endTs   = parseDateLocal(endDateEl.value) + 86400000 - 1;
 
         // Step 1: Delete existing meterValFlash in date range (reuses Clear Corrected logic)
         deleteMeterValFlashRange(deviceId, startTs, endTs).then(function () {
@@ -2423,8 +2958,8 @@ self.onInit = function () {
         clearCorrBtn.textContent = 'Clearing...';
         hideMessage();
 
-        var startTs = new Date(startDateEl.value).getTime();
-        var endTs   = new Date(endDateEl.value).getTime() + 86400000 - 1;
+        var startTs = parseDateLocal(startDateEl.value);
+        var endTs   = parseDateLocal(endDateEl.value) + 86400000 - 1;
 
         deleteMeterValFlashRange(selectedDevice.uuid, startTs, endTs).then(function () {
             clearCorrBtn.disabled    = false;
@@ -2449,8 +2984,8 @@ self.onInit = function () {
         var groupId = groupSel.value;
         if (!groupId || !startDateEl.value || !endDateEl.value) return;
 
-        var startTs = new Date(startDateEl.value).getTime();
-        var endTs   = new Date(endDateEl.value).getTime() + 86400000 - 1;
+        var startTs = parseDateLocal(startDateEl.value);
+        var endTs   = parseDateLocal(endDateEl.value) + 86400000 - 1;
 
         if (startTs >= endTs) {
             showMessage('Start date must be before end date.', 'error');
