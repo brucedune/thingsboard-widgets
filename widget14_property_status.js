@@ -11,7 +11,8 @@ self.onInit = function () {
     });
 
     // ── DOM refs (w14- prefix) ──
-    var ownerFilter = document.getElementById('w14-ownerFilter');
+    var ownerFilter    = document.getElementById('w14-ownerFilter');
+    var customerFilter = document.getElementById('w14-customerFilter');
     var sortBy      = document.getElementById('w14-sortBy');
     var viewMode    = document.getElementById('w14-viewMode');
     var orientSel   = document.getElementById('w14-orient');
@@ -120,10 +121,14 @@ self.onInit = function () {
     // ── Step 1: discover all customers + tenant → all device groups ──
     function discoverGroups() {
         showStatus('Discovering customers...');
-        var ownerMode = ownerFilter.value;
-        var tenantId  = extractId(currentUser.tenantId);
+        var ownerMode   = ownerFilter.value;
+        var customerSel = customerFilter.value;  // "ALL" or a specific customer UUID
+        var tenantId    = extractId(currentUser.tenantId);
         var owners = [];
-        if (ownerMode !== 'CUSTOMER') {
+        // Tenant is included only when no specific customer is selected AND
+        // the owner mode allows it. Picking a specific customer implies a
+        // customer-only view.
+        if (ownerMode !== 'CUSTOMER' && customerSel === 'ALL') {
             owners.push({ type: 'TENANT', id: tenantId, name: 'Tenant' });
         }
 
@@ -136,9 +141,23 @@ self.onInit = function () {
             });
         }
 
-        var custP = (ownerMode === 'TENANT')
-            ? Promise.resolve([])
-            : fetchCustomers(0, []);
+        // If a specific customer is selected, skip customer list fetch
+        // and just use that one. If owner=TENANT (tenant-only), no need
+        // to fetch customers at all.
+        var custP;
+        if (customerSel !== 'ALL') {
+            // Use cached list if available (populated by initCustomerFilter)
+            var cached = (window.__w14CustomerCache || []).find(function (c) {
+                return extractId(c.id) === customerSel;
+            });
+            custP = cached
+                ? Promise.resolve([cached])
+                : apiFetch('/api/customer/' + customerSel).then(function (c) { return c ? [c] : []; });
+        } else if (ownerMode === 'TENANT') {
+            custP = Promise.resolve([]);
+        } else {
+            custP = fetchCustomers(0, []);
+        }
 
         return custP.then(function (custs) {
             custs.forEach(function (c) {
@@ -255,25 +274,29 @@ self.onInit = function () {
                         var name = d.name || '';
                         return apiFetch(
                             '/api/plugins/telemetry/DEVICE/' + uuid +
-                            '/values/attributes/SERVER_SCOPE?keys=Billable,Replace'
+                            '/values/attributes/SERVER_SCOPE?keys=Billable,Replace,Installed'
                         ).then(function (attrs) {
                             var map = {};
                             (attrs || []).forEach(function (a) { map[a.key] = a.value; });
                             devInfo.push({
                                 uuid: uuid,
                                 name: name,
-                                billable: String(map.Billable).toLowerCase() === 'true',
-                                replace:  String(map.Replace).toLowerCase()  === 'true'
+                                billable:  String(map.Billable).toLowerCase()  === 'true',
+                                replace:   String(map.Replace).toLowerCase()   === 'true',
+                                installed: String(map.Installed).toLowerCase() === 'true'
                             });
                         }).catch(function () {
-                            // On error, default to marginal (unknown)
-                            devInfo.push({ uuid: uuid, name: name, billable: false, replace: false });
+                            // On error, default to marginal + uninstalled (will be filtered out)
+                            devInfo.push({ uuid: uuid, name: name, billable: false, replace: false, installed: false });
                         });
                     })).then(nextDevBatch);
                 }
                 return nextDevBatch().then(function () {
+                    // Exclude uninstalled devices from the fleet view -- the
+                    // bar chart represents the IN-SERVICE fleet only.
+                    var inService = devInfo.filter(function (d) { return d.installed === true; });
                     var counts = { green: 0, yellow: 0, red: 0 };
-                    devInfo.forEach(function (d) {
+                    inService.forEach(function (d) {
                         d.category = classify(d);
                         counts[d.category]++;
                     });
@@ -281,11 +304,11 @@ self.onInit = function () {
                         groupId: g.groupId,
                         groupName: g.groupName,
                         ownerName: g.ownerName,
-                        total: devInfo.length,
+                        total: inService.length,
                         green:  counts.green,
                         yellow: counts.yellow,
                         red:    counts.red,
-                        devices: devInfo
+                        devices: inService
                     });
                 });
             }).catch(function () {
@@ -528,9 +551,53 @@ self.onInit = function () {
         showStatus('Owner filter changed -- click Refresh to reload.');
     });
 
+    // ── Populate the Customer dropdown on load ──
+    // Pagination aware. The cache is stashed on window so discoverGroups()
+    // can reuse it when a specific customer is selected (avoids a second
+    // /api/customer/{id} round trip).
+    function initCustomerFilter() {
+        function fetchAll(page, acc) {
+            return apiFetch('/api/customers?pageSize=1000&page=' + page).then(function (resp) {
+                var list = (resp && resp.data) ? resp.data.filter(Boolean) : [];
+                acc = acc.concat(list);
+                if (resp && resp.hasNext) return fetchAll(page + 1, acc);
+                return acc;
+            });
+        }
+        fetchAll(0, []).then(function (custs) {
+            // Sort alphabetically for the dropdown
+            custs.sort(function (a, b) {
+                var an = (a.title || a.name || '').toLowerCase();
+                var bn = (b.title || b.name || '').toLowerCase();
+                return an.localeCompare(bn);
+            });
+            window.__w14CustomerCache = custs;
+            // Keep the existing "All customers" option and append each customer
+            custs.forEach(function (c) {
+                var opt = document.createElement('option');
+                opt.value = extractId(c.id);
+                opt.textContent = c.title || c.name || '(unnamed)';
+                customerFilter.appendChild(opt);
+            });
+        }).catch(function () {
+            // Silent: user can still use Tenant / All modes
+        });
+    }
+
+    // Customer filter change -- invalidates cache (different owner set)
+    customerFilter.addEventListener('change', function () {
+        groupCache = [];
+        propStats  = [];
+        if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
+        summaryPanel.style.display = 'none';
+        drillPanel.style.display = 'none';
+        showStatus('Customer filter changed -- click Refresh to reload.');
+    });
+
     // ── Initial load: fetch current user (needed for tenantId), then wait ──
     apiFetch('/api/auth/user').then(function (user) {
         currentUser = user;
+        initCustomerFilter();
     }).catch(function (e) {
         showStatus('Could not load user: ' + e.message, 'error');
     });
