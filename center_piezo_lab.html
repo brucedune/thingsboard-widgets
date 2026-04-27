@@ -107,6 +107,14 @@
         <option value="dns">DNS only</option>
       </select>
     </div>
+    <div class="group">
+      <label title="Op-amp / mux experiment knob — RX0_TX1 / RX1_TX0 timing">Mux</label>
+      <select id="mux">
+        <option value="0" selected>0: toggle (normal)</option>
+        <option value="1">1: both during meas</option>
+        <option value="2">2: both always on</option>
+      </select>
+    </div>
     <button id="fire" class="primary" title="One-shot capture (useful after Stop)">Fire</button>
     <button id="stop" class="danger" disabled>Stop</button>
     <button id="reset" title="Clear waveform + ToF history charts">Reset</button>
@@ -425,6 +433,7 @@ async function apply() {
     await new Promise(r => setTimeout(r, 10));
   }
   await send(`cp dir ${el("dir").value}`);
+  await send(`cp mux ${el("mux").value}`);
   /* Single push to TI once all params are set — avoids 2 s blocking
    * retry loops per parameter and the nested-command buffer corruption
    * that came with them. */
