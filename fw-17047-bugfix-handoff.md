@@ -1120,6 +1120,20 @@ volumes make this a battery nuisance, not a data problem, in Toronto).
 
 ---
 
+**17058 LANDED 9/5 ~20:15 PT (fleet-ops session's one-time OFFSET cleanup v3,
+prompt `fw-17058-offset-cleanup-prompt.md`; Bruce: "incorporate... land
+17058"):** parked patch applied unchanged on 17057 -> `154d166` (main ff'd),
+109,652 B / 2,988 B headroom / zero warnings, sha256 195b9289..., st-prod
+G/17058. Marker bit 28 verified free. Offset zeroed once per device on the
+upgrade (done-bit), direction retained (waterFlowDir re-imposed on 1,930
+devices; UNKNOWN = ABS phantom path). **NOT rolled to the bench yet** — it
+zeroes offsets and reboots mid-laminar-validation; roll + §5 acceptance
+(offset 0 once, no re-fire on second reboot, flowDirection unchanged, offset
+re-promotes on water, deltaMeterVal in (-1,0]) on Bruce's word after the
+0.5/1 gpm confirmation runs. Reply to the fleet session with the two §6
+answers (Lf 2.225 final; FIFO bug retracted -> Waves 3-5 unblocked; scan the
+fleet for adcCapture=true) written to `fw-17058-bench-reply.md`.
+
 **BELL-FIRST SPECIAL BUILD for WYSE Toronto — 9/4 ~16:30 PT.** Bruce: the
 first 3 Toronto samples show on the Monogoto/Bell side but drop sessions;
 "special ST rev that selects Bell Canada only" -> refined to "if no Bell
