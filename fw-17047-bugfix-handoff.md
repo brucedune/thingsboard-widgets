@@ -726,6 +726,76 @@ cannot carry pre-reset RAM counters; a BKUP snapshot of tiAggCount /
 tofMarkerRejCnt / bufSamples at radio-off would make this diagnosable
 (small; queue with the parked link-learning work).
 
+**GIT STATE 9/3 ~16:10 PT (Bruce: "Lets get up to date"):** notes repo
+(this folder = github.com/Brucedune/thingsboard-widgets — the widgets repo
+renamed; notes have always lived here) committed `0a4d413` + pushed: this
+handoff, laminar spec, 3 fleet CSVs, plus the 3 previously-staged cal files.
+DuneFW_L5_2: `main` fast-forwarded to `stuck-event-fix` @ `04611e4` (17054),
+pushed. Dune_FW_TI: `cal-reacq` @ `3586ad0` (v365) pushed; `main` is stale
+(one Jan-2026 commit d760a69 "184" touching offset.c not on cal-reacq) —
+-> Bruce: "go with your recommendation". Force-push was blocked by the
+permission classifier, so done as a merge commit `aefddbc` whose tree == cal-reacq
+(v365) with d760a69 kept in history; pushed. TI main == shipped line.
+
+**FIRST 2-H PERIODIC POSTS 17:34-17:35 PT, all three on 17054, trigger
+connmgr.c:272 (the checkInPeriod gate):** bytesToSend entering 121,040 /
+122,672 / 120,224 B (~7,200 records = 2 h at 1 Hz) — within ~10 KB of the
+131,072 B carry cap, tofDropped 0, dataPunts 0, radioForceOffCnt 0, nvForceOff
+0; recorder healthy on all three (bufSamples == tiAggCount, sfRadioSkips 0,
+sfBufferDrops 0). NOTE: 2 h of 1 Hz sits right at the cap — a late session or
+an event on top will trim a few KB (tofDropped small, non-zero) by design; not
+a fail. Soak continues overnight on the 2-h cadence; read the series in the
+morning: expect ~7 posts/unit, each ~120 KB in, 0 punts, 0 force-offs.
+**Drain check after the 17:34 sessions:** '8549 6,829 and '3063 6,941 records
+(of ~7,100-7,260 written) reached TB — normal. **'4423: 5,099, and the gap is
+its OLDEST half-hour (15:36-16:06 = 1 record vs 1,800)**, unchanged after a
+2.5-min recheck -> not ingestion lag. **RETRACTED 21:05 PT — the '4423 "hole" was a TOOLING ARTIFACT.** TB's
+bucketed `agg=COUNT` returned 1-5 records for some 30-min buckets while the
+RAW pull for the same span holds 14,332 records at exactly 600 per 10-min bin
+(15:30-19:35), identical to '8549's 14,234. All three units' records are
+complete; the only gap on every unit is ~200-250 s at 17:30-17:34 = the radio
+session (records gated while the radio is up — Bug 2 class, expected). 19:34
+posts: tofDropped 0, dataPunts 0, lastDataFail 0 on all three, nvUpOk
++3/+2/+5 identical across units. **17051 has NOT been exercised; nothing was
+lost.** LESSON: never use TB `agg=COUNT` buckets for record-coverage claims —
+pull raw with a large limit and histogram client-side (also invalidates the
+per-hour "records in TB" readouts earlier in this doc; the raw totals stand).
+The fleet-scan "days_with_records" used agg=COUNT>0 per DAY — a presence test,
+robust to this (a day with any records counts), so the 295/560 split stands.
+
+**CADENCE -> 8 h, 9/3 ~21:15 PT (Bruce):** `checkInPeriod=480` on the trio
+(verified), picked up by the event-end session of Bruce's evening event. This
+DELIBERATELY exercises the 17051 carry cap: 8 h at 1 Hz ~ 460 KB -> each
+periodic session trims the oldest ~330 KB (tofDropped +~20,000 per session) and
+sends the newest 4 chunks (~1 min data phase). Expect per 8-h post: bytesToSend
+~460 KB reported, tofDropped climbing by ~20k, dataPunts 0, lastDataFail 0,
+radioForceOffCnt 0. First 8-h post ~05:30 9/4. Capture latency for a stuck
+flag is now 8 h (17054 fixed the flag; radioForceOffCnt would still show it).
+radioOnEventEnd stays on, so accuracy runs still post immediately.
+
+**21:05 PT event (Bruce, no reference stated):** 1.538 / 1.539 / 1.465 gal
+('8549/'4423/'3063), event-end sessions 21:07 on all three, entering 90-91 KB,
+drop 0 / punt 0 / force-off 0, recorder healthy; checkInPeriod=480 fetched in
+these sessions -> first 8-h periodic ~05:07 9/4. **Event timing alarm RETRACTED:** the windowed event records read
+eventDurationSeconds 16 / 15 / 15 s and eventAverageFlow 5.77 / 6.15 / 5.86 gpm
+(1.5 gal in 15 s — correct). The "35-year duration" came from my watcher
+reading the LATEST-value endpoint, which returns the far-future FOSSIL rows for
+those keys, not this event. Lesson (2nd time today): never read `latest` on
+keys with fossil pollution (flowRate/tofNorm/temp/eventDuration/eventAverage
+on the trio); query by time window. Bruce 21:10: "All 3 checked in" — 480
+cadence confirmed in effect.
+
+**FIELD ROLL DECISION 9/3 ~21:20 PT — Bruce: "lets hold for now."** No 17054
+to Shady or the fault list yet. Facts gathered for when it resumes: Shady = 36
+PEX-A units (no copper -> 17048's M-3/4 table change is irrelevant there; the
+PEX-A table stays 2.270, so accuracy unchanged — an lFactor=2225 attr would be a
+separate, customer-facing +9% decision). Two Shady units are on 17050 WITHOUT
+17051's full-FIFO relief (79461768 at 402 KB rising, 70269798) — first
+candidates whenever the hold lifts. Proposed stage 1 = 8 units (those two + the
+five >256 KB + 79459895), watch ~48 h, then the rest. 18 Shady units on 17028
+have no gen2fw attr (per-device pins needed). Precondition Bruce should see
+first: the trio's 8-h posts (~05:07 9/4) exercising the carry cap.
+
 **TI v365 LIST (accumulating):**
   1. Implement the designed sample buffering across radio sessions (Bug 2:
      a check-in landing mid-event truncates it — 0.49 gal on 9/1).
@@ -783,6 +853,307 @@ once 17048 is on, so the compiled value is what's actually exercised.
 **Build recipe** (toolchain is not on PATH) is in memory
 `reference_st_build_recipe.md`. Trio shared-attr helper:
 `<scratchpad>/tb_attr.py read|write`.
+
+---
+
+## 0c. MORNING 9/4 — "lots of data gaps" = the 17051 carry cap, both holes (~09:15 PT)
+
+**Bruce:** "Have a look lots of data gaps" / "they all check in at 8 hours on
+the dot - only report last 2hrs of TS data" / "Ran an event this morning,
+check in reported 2hrs of data including the event."
+
+**Verdict (verified from TB + code):** every gap in the trio's flow records
+is `TOF_CARRY_CAP_RECORDS` = 4 x 32 KB = **8,192 slots = 128 KB ~= 2.1 h of
+1 Hz records** (7,710 samples + 1 header per 16). The cap trims the OLDEST
+slots at the start of the data phase, so with `recordNoneventFlow=true` a
+session only ever delivers the newest ~2.1 h:
+
+| session | pending at post | slots | trimmed | TB shows |
+|---|---|---|---|---|
+| 05:17 (8 h beat) | 497,760 B | 31,110 | 22,918 (6.4 h: 21:05->03:07) | 03:07->05:13 |
+| 08:08 (event end, 2.9 h later) | 174,624 B | 10,914 | **2,722 (05:18->06:00)** | 06:00:47->08:08 |
+
+'8549 figures; '4423/'3063 identical to the slot. The 08:08 trim is why the
+06:00 hourly `meterValFlash` record is missing while 05:00 and 07:00 exist.
+**`tofDropped` LAGS ONE POST:** the cap runs in `bg95_send_data` after the
+status JSON is built, so 05:17 showed 0 (trim 22,918 reported at 08:11) and
+08:11 shows 22,918 (the 2,722 shows at the next post). Predicted next
+`tofDropped`: '8549 **25,640**, '4423 **25,810**, '3063 **25,725** — check.
+
+Also **verified: no records are lost anywhere else.** `bufSamples` +10,268
+between the 05:17 and 08:11 posts = 1 Hz for the whole 10,260 s interval,
+`sfBufferDrops`/`sfRadioSkips`/`bufGateRadio` = 0, `dataPunts` 0,
+`lastDataFail` 0, no reset (`rtcWakeCnt` continuous), and 10,914 slots =
+10,268 samples + 642 headers + 3 hourly + 1 event-delta EXACTLY. The
+05:17 session itself lasted 37.7 s (`timeTotal`), data phase 17.2 s for
+128 KB (~7.6 KB/s).
+
+**Retractions on the way (logged so nobody re-walks them):** far-future
+"fossil" rows (none exist for flowRate/tofNorm now); an RTC-hour anchor
+(the 06:00:38-51 resume is 2h10m45s +/-5 s before each unit's post, i.e.
+the cap, not the hour); a FIFO erase/GC bug (code reviewed: GC guards on
+head_rd's block, lazy erase only on block entry, remove() moves head_rd
+only); a decoder age filter (the 03:00 hourly record in the 05:17 upload
+was older than any such cutoff and is present).
+
+**DESIGN GAP the bench exposed:** the cap is tag-blind. It dropped the
+22:00-02:00 and 06:00 hourly usage records (`meterValFlash`/`mvfInterim`),
+and would drop a local-midnight daily record or an event-delta record that
+sits in the trimmed span. In the field (`recordNoneventFlow=false`) the
+trimmed span only exists when >2.1 h of EVENT flow accumulates between
+check-ins — i.e. a leak, or a busy building on the daily beat — exactly the
+devices whose hourly/daily series matter most. Register + status are
+unaffected. **17055 candidate (not built, Bruce's call):** before trimming,
+scan the to-be-dropped span and re-append its TAGGED records (Meter, Daily,
+Meter_Delta, Offset, TI_Error — not samples/headers/ADC) at the tail so
+they survive out of order (decoder places them by their own time field).
+Cost: one read pass of the dropped span (366 KB ~= 1-2 s) at session start.
+Alternative: `tofCarryCap` shared attr so the cap is tunable without a
+rebuild (512 KB = 8.5 h = ~70 s of data time on a good link).
+
+**SECOND FINDING — the ST RTC runs 2.7-3.6% SLOW (verified):**
+`unixTimeDrift` (= network time - RTC at each sync) scales linearly with
+the interval since the previous sync on all three units: '8549 199 s @
+2.08 h, 802 s @ 8.17 h, 2,280 s @ 23.08 h (~98 s/h); '4423 ~107 s/h;
+'3063 ~130 s/h. Cause: `stm32l5xx_hal_msp.c:211-215` forces the RTC
+clock source to **LSI** (32 kHz nominal, +/-5%) while `main.c:744-745`
+prescalers 127/255 assume a 32,768 Hz LSE -> 2.3% slow by construction
+plus the unit's LSI tolerance. The `time.c:44` comment "RTC wake runs on
+the accurate LSE" is wrong. Consequences (inferred, not yet measured in
+the field): at the 24 h fleet cadence the RTC is ~40 min slow before each
+sync, so the hourly usage record boundaries (`meterHourlyUpdateTime`) and
+the local-midnight daily record fire up to 40 min late in real time and
+drift through the day; check-in intervals stretch ~3% (8 h -> 8 h 10 m,
+as seen: 21:07 -> 05:17); `meterFlashTs`/`eventStartEpoch` inherit the
+skew. Smooth calibration (CALR, +/-488 ppm) is too small; fix = prescaler
+for 32,000 Hz + per-sync trim of `SynchPrediv` from the measured drift
+(0.1% resolution with Async 31). **Not in 17055 scope unless Bruce says.**
+
+**THIRD (minor, inferred):** the record clock `tiTime` (+1000 per TI
+aggregate) also runs slow — the TI delivers 0.990-0.993 aggregates per
+real second (bufSamples vs unixTime between posts), so records lag real
+time by ~30-50 s/h until the next sync and `volIncrement = flow/60` per
+aggregate under-integrates ~0.8% against wall time. Absorbed by the
+L-factor calibration (same on bench and field); the 0.2 pp unit-to-unit
+period spread is a small part of the device spread.
+
+**What the 8-h soak did prove:** no wedge on any unit across 05:17 and
+08:08 sessions (Bug 3 signature absent), `radioForceOffCnt`/`nvForceOff`
+0, `dataPunts` 0, no punt, register checkpoints intact (`meterFlashTs`
+tracks the 08:06 event end). The soak stays on 480 min unless Bruce
+changes it; next 8-h beat ~16:10 PT is the tofDropped check.
+
+---
+
+## 0d. 9/4 ~10:30 PT — Bruce's upload-policy decision -> **17055 BUILT (not committed/rolled)**
+
+Walking the FIFO with Bruce: "We don't want to trim the data - just throw
+out the chunks that fail. We have open leaks that can continue for many
+hours." Then: "If data connection fails the session throw out all but last
+60 min of TS data." Then: "Can you upload most current data first" ->
+Option A (newest chunk as a preview, then ordered drain; duplicate chunk is
+harmless because TB upserts by timestamp).
+
+**Also found while patching:** Rev 16040 (`bg95.c` FSM `BG95_STATE_FAIL/
+TIMEOUT`) dropped the ENTIRE pending backlog, uncounted, on ANY cycle
+failure (connect/status/timeout). That is a standing fleet loss path since
+16040 and a candidate explanation for "usage but no records" — every
+fringe-site connect failure wiped the records. Replaced.
+
+**17055 = 17054 +** (bg95.c, connmgr.c, main.h, status_report.c, config.h):
+1. Carry cap deleted (`TOF_CARRY_CAP_RECORDS` gone).
+2. Preview: if >1 chunk pending, first POST = newest 2,040 slots read from
+   the tail (`sf_flow_tof_get_tail`), head_rd untouched; then oldest-first
+   drain as before. A struck preview is not dropped (it recurs in order).
+   Status key `tofPreviews` = sessions whose preview landed.
+3. Struck chunks still dropped individually (unchanged 17051 rule).
+4. `tof_failure_trim()` = keep newest `TOF_FAIL_KEEP_RECORDS` 3,825 slots
+   (225 x 17 = 60 min at 1 Hz; >=60 min wall time with event-only
+   recording). Called on: data punt (either class), FSM cycle failure
+   (replaces 16040 drop-all), 12-min force-off. Healthy sessions never trim.
+5. All removes are multiples of 17 (flash-full relief 4096 -> 4080) so every
+   chunk opens on a timestamp header; chunks were already 2,040 slots.
+Build: 109,340 B (+328), headroom 3,300 B, sha256 d7eb58e5..., zero
+warnings. Bench expectation on the 8-h beat with 1 Hz recording: ~460 KB
+drains in ~60 s, TB shows the full 8 h, `tofDropped` stays flat,
+`tofPreviews` +1 per session with >1 chunk pending.
+**Bruce 9/4 ~10:40: "Connect failure is different mechanism - should only
+throw out when data failure occurs."** -> rebuilt: `tof_failure_trim()` is
+called ONLY from the data-phase punt. The 16040 cycle-failure eviction is
+simply removed (backlog kept); force-off keeps everything too. Final build
+**109,296 B, headroom 3,344, sha256 fcc1d055...**, zero warnings.
+
+**SHIPPED 9/4 ~10:50 PT (Bruce: "Commit, push, upload and set the trio to
+17055"):** `e27fe35` on `stuck-event-fix`, main fast-forwarded to it and
+pushed; `st-prod` 672132E5/G/17055 (6 parts); `gen2fw=17055` written on all
+three (HTTP 200 each), other attrs unchanged (checkInPeriod 480,
+recordNoneventFlow true, lFactor 2225, pipeType X, allowTiFotaVer 365).
+Pickup at the next session (event end or the ~16:10 beat).
+
+**17055 + v365 CONFIRMED on all four by 14:43 PT** (fwVer 17055 / fwVerTi
+365, tofDropped 0 since boot, tofPreviews 0 — no session has had >1 chunk
+pending yet; first real test is the next 8-h beat).
+
+**'8538 cal story (9/4 14:13-14:54):** on the original rubber coupling pad
+it parked OFF_PIPE twice (gain 55 upamp 1019; at gain 38 only 180; the
+v365 pipe-present floor is 273 counts on BOTH channels at gain 44; tiError
+word 4 bits = USS codes 135 dtof_shift_range + 138 dtof_corr_threshold =
+TOF lock failures). Repositioned: committed gain 30 but upamp 336 (trio
+930-1375 at gain 29-30). Bruce swapped the pad for the trio's type: commit
+gain 36, upamp 1394, peaks +/-698 symmetric, offset 3452 (was 3459) —
+coupling roughly doubled. Lesson: **coupling pad type is a cal variable**;
+'8538 remains the weakest-coupled of the four by ~1 rung.
+
+**50-gal reference run 9/4 15:11 PT, Bruce: 50 gal + 12 oz = 50.094 gal,
+18.8 C, ~5.3 gpm, 573-577 s, all four on lFactor 2225 / PEX-A:**
+
+| unit | eventMeterDelta | error | 9/3 10:51 run (50.5 gal, 17.6 C) |
+|---|---|---|---|
+| '8549 | 49.942 | -0.30% | +0.05% |
+| '4423 | 51.692 | +3.19% | +1.00% |
+| '3063 | 50.988 | +1.78% | +3.20% |
+| '8538 | 50.486 | +0.78% | (new) |
+
+Trio mean +1.56% (yesterday +1.41%); temperature model (+0.32%/C below
+22.4 C) predicts +1.15% at 18.8 C / +1.54% at 17.6 C -> mean on model
+within ~0.4%. **Spread 3.5 pp and NOT a stable per-unit bias** ('4423
++1.0 -> +3.2, '3063 +3.2 -> +1.8, '8549 flat): PEX-A run-to-run
+variability is ~2 pp per unit versus the 0.6% spread seen on copper M.
+'8538 lands inside the trio band on its first reference run. Ext-probe
+bias after the run (probe - water): +4.4 / dead / +5.0 / +3.9 C ->
+consistent with the PEX ~4.0 C working value in the laminar spec.
+
+**17056 SHIPPED 9/4 ~15:40 PT (Bruce: "lets bake it in... need to send
+another sample to wyse - please push to bucket and commit to git"):**
+`lFactorsM` 3/4" X column 2.270 -> 2.225 (PEX-A), nothing else. `64c4cb3`
+on `stuck-event-fix`, main fast-forwarded + pushed; `st-prod`
+672132E5/G/17056 (6 parts); 109,296 B, sha256 cd3aedb1..., zero warnings.
+**Trio/'8538 NOT rolled** (still gen2fw 17055 with lFactor=2225 attr — reads
+identically). For the WYSE sample: gen2fw=17056 + pipeType X + pipesize
+3/4, NO lFactor attr. When the bench moves to 17056, delete the four
+lFactor=2225 attrs so the table is what runs (Bruce's OK first).
+
+## 0e. 9/5 — 24-h check of all four + **17055 FIFO ACCOUNTING ANOMALY** (~15:00 PT)
+
+Metering/accuracy state fine on all four (gains 29-36, offsets unchanged,
+registers flat overnight, TB coverage 98-99%/h). '8538 remounted 14:21:
+gain 36 / upamp 650 (half of 9/4's 1394 on the same pad), offset 3359.
+Both banks Bell-first validated (17902 15:51, 17903 15:59 on T-Mobile).
+
+**RESOLVED 9/5 15:40 PT — NOT A FIRMWARE BUG. Shared attr `adcCapture=true`
+on all four (Bruce: "yes turned all 4 yesterday", ~14:40 9/4 while working
+'8538's cal). Installer live-waveform mode = capture pair requested every
+20 s, 120 records per landed capture: adcReq ~180/h, adcCapReceived ~45/h
+-> ~5,400 records/h on top of ~3,500 samples/h = the 2.4x pending growth,
+the ring-full sessions on '4423/'3063, the sfBufferDrops, and the 3-min data
+phases. Invisible on TB because overlapping captures collapse onto the same
+timestamps. 17057 pointer keys confirmed the drain is exact (head advanced
+by precisely the uploaded amount at every post; tail-head == pend/16
+throughout). 17055 upload policy stands. Fix = adcCapture=false WRITTEN on all four 15:5x PT (Bruce "yes go ahead", HTTP 200 x4). Takes effect at each unit's next attribute fetch (next session); capture records already in the ring drain normally. Lesson: an attribute audit (full SHARED scope) belongs
+at the top of any data-volume investigation.**
+
+**50-gal runs 9/5 (Bruce: 50 gal + 12 oz = 50.094 gal; rerun at 19.2 C, model
++1.02%; 15:18 run reference assumed identical):**
+| unit | 15:18 | 16:04 rerun | 9/4 15:11 (18.8 C) |
+|---|---|---|---|
+| '8549 | -0.53% | -0.12% | -0.30% |
+| '4423 | +3.08% | +2.97% | +3.19% |
+| '3063 | 46.90 gal, TRUNCATED (0.94-gal event split at 15:09:09 -> event-end radio -> TI paused ~50 s; Bug 2 signature) | +2.36% | +1.78% |
+| '8538 | -0.73% | -0.82% | +0.78% (old pad) |
+Third run 16:52 (50 gal + 28 oz = 50.219 gal, 19.4 C, model +0.96%): '8549
++0.36 / '4423 +3.10 / '3063 +2.61 / '8538 -0.55, mean +1.38%, all 582-583 s.
+Group mean 16:04 +1.10% vs +1.02% predicted -> **Lf 2.225 confirmed (4 runs
+incl. 9/4)**. Per-unit offsets held a 4th time ('4423 +3.1 x4).
+**REVISION of 9/4 note:** per-unit offsets are STABLE since the 9/4 remount
+('4423 +3.0/+3.1/+3.2, '8549 -0.1..-0.5, '8538 -0.7/-0.8 on the trio pad,
+'3063 +1.8/+2.4); the 9/3->9/4 '3063/'4423 swap coincided with the remount.
+= coupling/mount position, not scatter. Proposed test: swap '4423 <-> '8538
+positions, rerun 50 gal (unit vs position). '8538 ship-ready: -0.8% at 19 C
+~= +0.2% at 22 C water, consistent x2.
+
+**1 gpm run 17:45 (Bruce: 20.33 gal + 40 oz = 20.642 gal, 20.1 C, ~1,185 s
+-> true 1.044 gpm, Re ~4,780 on PEX-A; lamCorr OFF):**
+| unit | err | err minus own 5-gpm offset |
+|---|---|---|
+| '8549 | +1.72% | +1.81% |
+| '4423 | +7.57% | +4.52% |
+| '3063 | +3.72% | +1.23% |
+| '8538 | -0.61% | +0.09% |
+Mean +3.10% (spread 8.2 pp); offset-corrected mean **+1.91%**, of which the
+cold-water term is +0.74% -> laminar over-read on PEX-A at Re 4,780 ~= **+1.2%
+(k ~0.988)** vs the copper curve's +3.3% (k 0.9616 at knot 2). **Copper knots
+do NOT carry over to PEX-A at this Re** — enabling lamCorr with the defaults
+would over-correct ~2%. Provisional PEX-A knot 2: lamRe2 ~4800, lamK2 ~9880.
+Low-Re device spread reappears (copper lesson): '4423's +3.1 at 5 gpm becomes
++7.6 at 1 gpm. adcCapture=false confirmed (adcReq flat 109/111/110/197 across
+16:41 -> 17:45 posts). Next: 0.5 gpm run (Re ~2,400) for knot 1.
+
+**0.5 gpm run 19:01 (Bruce: 20 gal + 60 oz = 20.469 gal, 20.0 C, 2,717 s ->
+true 0.452 gpm, Re ~2,066; lamCorr OFF):** '8549 +12.94 / '4423 +24.29 /
+'3063 +7.99 / '8538 +7.08; mean +13.08% (spread 17.2 pp). Offset-corrected
+mean +11.89%, minus cold-water +0.77 -> laminar-only **+11.1%, k 0.900** —
+matches the copper knot 1 (0.9010 @ Re 1886; copper curve at Re 2066 gives
+0.907). So PEX-A == copper at Re ~2,000 but recovers much faster: k 0.988
+at Re 4,780 vs copper 0.965. **Provisional PEX-A knots: (2066, 0.9000),
+(4780, 0.9880), (10000, 1.0000)** -> attrs lamRe1=2066 lamK1=9000
+lamRe2=4780 lamK2=9880 lamRe3=10000 lamK3=10000, extTempBias=4.0, then
+lamCorr=true and repeat 0.5 + 1 gpm to confirm (expect group ~0 +/- the
+device spread). **WRITTEN on all four 19:2x PT (Bruce "go"; HTTP 200 x4, read-back verified).** Takes effect at each unit's next attribute fetch = next session; a short water pulse before the 0.5 gpm rerun forces that (radioOnEventEnd) — the status post should then show lamCorr=1 and lamCorrMax>0 after a low-flow run. '4423 dead ext probe -> lamTempSrc=1 (internal minus 2.8 C fallback) on that unit. Device spread at Re 2000 = 17 pp ('4423 +24, '8538 +7): a
+group curve fixes the mean, not the spread — same copper lesson.
+
+**Original write-up (kept for the reasoning trail):** after a
+complete drain (nvUpOk deltas = pending/2040 chunks, count -> 0), pending
+re-grows to ~2.6x the records written within hours ('8549: 1.29 MB at
+23:32 and 1.27 MB at 07:31 for ~0.48 MB of samples each 8 h) and on
+'4423/'3063 saturates at the ring size (1,835,008 B) every ~5 h ->
+flash_full-triggered sessions (connmgr.c:426), 200-220 s data phases,
+sfBufferDrops climbing (~90 records/h lost). Post-drain remainders are
+EXACT 64 KB multiples (16/17/18/28 blocks) -> pointer arithmetic, not data.
+bufSamples rate 0.985/s, sfRadioSkips 0, no resets, dataPunts 0. Every
+mover of head_rd/tail/head_free and the compiled drain loop were re-read;
+no cause found statically. The 17051 cap masked this (pending never
+exceeded 128 KB + one beat). **17057 = 17056 + status keys tofHead /
+tofTail / tofFree / tofRing / tofAvail** (diagnostic only), BUILT 15:1x:
+109,612 B, headroom 3,028, sha256 d3077368..., zero warnings. **SHIPPED 15:3x PT** (Bruce: "Commit, push, upload and set the trio to 17057"): `5a83d62` (main ff'd), st-prod G/17057, gen2fw=17057 on the trio (HTTP 200 x3); '8538 stays on 17903. NOTE the FOTA reboot runs the 17050 recovery, which re-derives tail/head_free from the block scan and head_rd from BKUP — the first 17057 post is therefore a fresh baseline, and the anomaly (if pointer-side) needs one or two beats to reappear. Read tofTail-tofHead vs bytesToSend/16 and tofFree vs tofHead at each post. Ship config for '8538 recommended:
+recordNoneventFlow=false + customer checkInPeriod regardless (event-only
+volumes make this a battery nuisance, not a data problem, in Toronto).
+
+---
+
+**BELL-FIRST SPECIAL BUILD for WYSE Toronto — 9/4 ~16:30 PT.** Bruce: the
+first 3 Toronto samples show on the Monogoto/Bell side but drop sessions;
+"special ST rev that selects Bell Canada only" -> refined to "if no Bell
+Canada continue with network scan" -> and "FOTA the other bank with the same
+code, bumped rev". Code (verified): fleet scan order T-Mobile, AT&T, Verizon
+(60 s then 120 s manual attaches each) BEFORE Bell, inside the 12-min
+force-off; 2 failed cycles re-force the full scan. Bootloader: swap-on-IWDG
+is re-armed every boot and disarmed only at init if fw == latest validated,
+else at first CONNECT success; validated record is MONOTONIC (`<`).
+Built as compile option `DUNE_CARRIER_BELL_FIRST` on the 17056 source
+(bg95.c table reorder Bell->TMO->ATT->VZW + "Bell found -> skip US"; init.c
+first-boot rescan; config.h `DUNE_BELL_REV` default 17902). Mainline image
+logic unchanged (bg95.o +48 B from protothread `__LINE__` shifts only; NOT
+re-shipped). Commit `ec28fc5` (main ff'd), images in `special/`:
+**17902 sha a08c1dc4…, 17903 sha d05f7baf…, 109,368 B**, both in `st-prod`.
+Levers: '8538 `gen2fw=17902` written, `lFactor` attr DELETED (table 2.225).
+**17902 VALIDATED 15:51:38 PT:** fwVer 17902, radioOper '310260' (Bell failed on the US bench, scan fell through to T-Mobile as designed), SWAP_BANK 0, resetReason NONE. Bruce: "set 17903" -> `gen2fw=17903` written 16:4x (HTTP 200). After it posts fwVer 17903 both banks hold Bell-first code; ship on 17903. Post-FOTA boot snapshot showed Failed Cal / L_FACTOR 2.13 (cal restarting after the reboot) — run water or power-cycle once 17903 is on and confirm Metering before boxing. Bench
+cost: 60-120 s of failing Bell per session. Gotcha: mainline revs < 17903
+never validate on these units — keep them on 179xx until they come home.
+For the Toronto 3 nothing changes remotely (they never complete a session).
+
+**4th bench unit added 9/4 ~11:00 PT (Bruce: "adding a 4th device to the
+test 75368538 - please configure the same as the trio" / "yes"):** TB
+"Device 75368538" id `c4001920-4d71-11f1-b1bb-f3574cce671d`, Wyse Eval /
+Wyse4, lot 26W20, ICCID 8943… (Monogoto). Was 17037 / TI v354, Failed Cal,
+meterVal 0, pipeType P, no FW levers. Written (HTTP 200): gen2fw 17055,
+allowTiFotaVer 365, checkInPeriod 480, radioOnEventEnd true,
+recordNoneventFlow true, pipeType X, lFactor 2225, radioOveruseMax 15.
+Expect: STFOTA 17037->17055 + TIFOTA 354->365 at its next session, then a
+power cycle after mounting for a fresh cal. tb_attr.py NAMES should gain
+this id as "'8538". Acceptance:
+first 17055 post shows fwVer 17055; the following beat with ~460 KB
+pending delivers the FULL interval to TB (no 6-h hole), `tofDropped` flat
+at 25,6xx-25,8xx (the last 17054 trim), `tofPreviews` = 1.
 
 ---
 

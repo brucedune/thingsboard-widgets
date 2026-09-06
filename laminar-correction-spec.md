@@ -23,6 +23,18 @@ committed / uploaded / rolled — Bruce's call. Implementation notes:
   untouched. Knot 2 (Re 4102 / 0.9616, from 8/30) still to be re-pinned
   with a 1 gpm run on this firmware.
 
+**PEX-A 3/4" (dia 0.681) 1 gpm run 9/5 17:45 (20.642 gal, 20.1 C, Re ~4,780,
+lamCorr off, Lf 2.225):** four-unit mean +3.10%; after removing each unit's
+stable 5-gpm offset, +1.91% incl. +0.74% cold-water -> laminar-only ~+1.2%,
+k ~0.988. Copper knot 2 (Re 4102, 0.9616) would over-correct PEX-A by ~2%:
+**the k(Re) knots are material-specific** (mechanism via d is not enough).
+Provisional PEX-A knot 2: Re 4800 / 0.988. **0.5 gpm run 9/5 19:01 (20.469
+gal, 20.0 C, Re ~2,066): offset-corrected mean +11.89%, laminar-only +11.1%
+-> k 0.900 = copper knot 1.** PEX-A curve: (2066, 0.900), (4780, 0.988),
+(10000, 1.0) — same floor as copper at Re 2k, much faster recovery. Attr
+set to trial: lamRe1=2066 lamK1=9000 lamRe2=4780 lamK2=9880 lamRe3=10000
+lamK3=10000 extTempBias=4.0 lamCorr=true.
+
 ## Objective
 Remove the velocity-profile over-read at low Reynolds number on the ST
 flow computation, fitted to the curve measured on the bench trio, with
@@ -71,6 +83,7 @@ relation does NOT fit (-7.6% at Re 1886), so the table IS the model.
   | 8/30 1.0 gpm, 20-min run | 22.5 | 25.0 / 24.7 | **+2.5 / +2.2** | +3.5 / +3.1 |
   | 9/2 2.0 gpm, 10-min run, Bruce 20.0 C | 20.0 | 22.7 / 22.2 | **+2.7 / +2.2** | +2.3 / +1.6 ('4423 int +1.9) |
   | 9/3 5.0 gpm PEX-A, 10-min run, Bruce 18.0 C | 18.0 | 22.2 / 21.6 | **+4.2 / +3.6** | +4.6 / +3.7 ('4423 int +4.0) |
+  | 9/4 5.3 gpm PEX-A, 9.6-min run, Bruce 18.8 C | 18.8 | 23.8 / 23.2 ('8538 22.7) | **+5.0 / +4.4** ('8538 +3.9) | +6.3 / +5.6 ('4423 int +5.9, '8538 +5.3) |
 
   Reading: the clamp-on sits behind rubber and starts at pipe/ambient
   temperature; flowing water pulls it toward water temp with a settling
