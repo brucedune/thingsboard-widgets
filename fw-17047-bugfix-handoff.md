@@ -1176,6 +1176,22 @@ without a visit. Fleet-side: v366 item — exempt/soften the flat test when the
 base-rung amplitude is near the 1638 compression ceiling (a clipped real
 signal is flat by construction).
 
+**Bruce 9/6 ~10:45: "some devices have strong coupling on PEX so with a high
+start gain ppk amplitude could compress quickly" — agreed mechanism; then
+"good argument for reduced pulse count".** Fleet sizing (entitiesQuery latest
+values, 4,972 Metering Gen2): commit gain <=29 AND upamp >=1200 = **92 units
+(86 PEX-A 3/4)**; >=1400 = 42 (39 PEX-A; VB 8, Mena 5, Grand Valley 5, Shady
+3, Rustic 3); >=1600 = 17. Caveat: pre-v344 TI report gain on other scales,
+so approximate; 77041962/65824917 are not in the list only because they are
+not Metering right now. List: `fleet-loud-coupling-watchlist-0906.csv`. Shady
+peers at 1866-2142 recovered after a transient fail, so it is a watch list,
+not a certain failure. **v366 proposal:** pulse count joins the cal ladder —
+if the base rung (gain 26) reads above a compression-onset threshold (~1000
+counts), drop to 6 pulses and re-sweep before any flatness verdict (fixes the
+loud class without touching weak paths that need 13); (2) apply the flat test
+only in the linear range; (3) export `calFlatRej`. Immediate remote lever for
+77041962 (and 65824917 if it fails after TIFOTA): `pulse=6` attr.
+
 **17058 acceptance on the 19 (fleet session's §5):** offset 0 on the FOTA
 post on 17/19 (2 units' first post came later: 79461768 shows -1795 at +4 min
 vs -1820 before — check whether the block fired); **re-promotion within
