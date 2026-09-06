@@ -61,6 +61,15 @@
 - The three remaining `lFactor=2225` attrs on the trio read identically to
   the 17056+ table; deletion awaits Bruce's OK (they are bench units only).
 
+## Pulse count for the limited roll (Bruce 9/5 ~20:55)
+
+**Leave the fielded devices at the TI default of 13 pulses — do not push a
+`pulse` attribute with the roll.** The 8/28-29 bench result (6 pulses removed
+the split-5 skip class on two of three units, 10-40x wider crossing margins,
+amplitude x0.42) is real but stays a bench item for now; the bench itself is
+also at 13 today (the 8/28 attr was lost at the 9/2 reboots) and will move to
+6 only after the laminar runs, on Bruce's word.
+
 ## Follow-up agreed
 
 `flowDirAlarm` in the status report is a cheap addition for a later rev; the

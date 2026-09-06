@@ -1130,6 +1130,21 @@ devices; UNKNOWN = ABS phantom path). **Bruce 9/5 20:20: "this will not apply to
 answers (Lf 2.225 final; FIFO bug retracted -> Waves 3-5 unblocked; scan the
 fleet for adcCapture=true) written to `fw-17058-bench-reply.md`.
 
+**PULSE COUNT — bench has been at the TI DEFAULT 13 since 9/2 (verified 9/5
+20:45):** TI v365 `ussDCCommandHandlers.c:140` `.num_pls = 13` (v344, 8/9;
+v333 had 9, v332 had 6 — code default was never changed after v344). The
+trio ran the `pulse=6` attr 8/28 -> 9/1 (status key `pulse` = 6 between
+reboots); from the 9/2 FOTA reboots (03:28/06:11/08:30) the status reads 0
+and no `pulse` attr exists in shared scope on any of the four ('8538 read 6
+9/3 10:50 -> 0 at 9/4 14:09). So ALL 9/2-9/5 accuracy + laminar results are
+at 13 pulses = the fleet default (good for fleet relevance; not what Bruce
+assumed). 8/28-29 data for the fielded-set question: 6 pulses removed the
+split-5 skip class on '8549/'4423 and widened 35%%-crossing margins 10-40x,
+at the cost of peak amplitude 533 -> 223 counts (gain +~8, i.e. ~1.5 rungs);
+'3063's convulsion mode persisted; the 8/28 recommendation was to pilot at
+8. v344's reason for 13: 9 starved marginal paths (1" L-copper, Ibiza).
+Bruce (20:45): bench devices should be at 6 — then (20:55): **"We'll hold for now however I want to push to a limited fleet roll out tonight - leave at 13."** No pulse attr on the fielded set; bench stays at 13 until he says otherwise. Caveat logged: at 6 the 5 gpm baseline and the 1 gpm knot need a repeat before the PEX knots are final.
+
 **BELL-FIRST SPECIAL BUILD for WYSE Toronto — 9/4 ~16:30 PT.** Bruce: the
 first 3 Toronto samples show on the Monogoto/Bell side but drop sessions;
 "special ST rev that selects Bell Canada only" -> refined to "if no Bell
