@@ -10,11 +10,12 @@
   sha256 `195b9289…`, uploaded to `st-prod` 672132E5/G/17058. Marker bit 28
   verified free (OPER 16-25, V1 26, V2 27; hardware/pipe/installed masks all
   below bit 16).
-- **Not rolled to the bench yet, on purpose.** The trio and '8538 are mid-way
-  through the PEX-A laminar-correction validation (0.5 / 1 gpm runs with
-  `lamCorr` on). A 17058 FOTA zeroes their offsets and reboots them, which
-  would confound those runs. Bruce decides when; acceptance steps 1-6 from
-  your §5 will be run then and logged in `fw-17047-bugfix-handoff.md`.
+- **Bruce's call (9/5 20:20): 17058 does NOT go to the bench devices** — they
+  stay on 17057 / 17903 with their offsets. So your §5 acceptance moves to
+  the FIRST FIELD WAVE: on those devices' FOTA post expect `offset` 0 and
+  `offsetSet` false once, a normal offset re-promoting on the next water,
+  `flowDirection` unchanged, `deltaMeterVal` in (-1, 0], and no re-fire on a
+  later reset. Plan Wave 1 as that test and read those keys.
 
 ## Answers to your §6 dependencies
 

@@ -1126,11 +1126,7 @@ prompt `fw-17058-offset-cleanup-prompt.md`; Bruce: "incorporate... land
 109,652 B / 2,988 B headroom / zero warnings, sha256 195b9289..., st-prod
 G/17058. Marker bit 28 verified free. Offset zeroed once per device on the
 upgrade (done-bit), direction retained (waterFlowDir re-imposed on 1,930
-devices; UNKNOWN = ABS phantom path). **NOT rolled to the bench yet** — it
-zeroes offsets and reboots mid-laminar-validation; roll + §5 acceptance
-(offset 0 once, no re-fire on second reboot, flowDirection unchanged, offset
-re-promotes on water, deltaMeterVal in (-1,0]) on Bruce's word after the
-0.5/1 gpm confirmation runs. Reply to the fleet session with the two §6
+devices; UNKNOWN = ABS phantom path). **Bruce 9/5 20:20: "this will not apply to the bench devices" — 17058 is FLEET-ONLY.** Bench stays on 17057 ('8538 on 17903), offsets intact. The §5 acceptance (offset 0 once, no re-fire on a later reset, flowDirection unchanged, offset re-promotes on water, deltaMeterVal in (-1,0]) therefore runs on the FIRST FIELD WAVE's devices, not the bench. Reply to the fleet session with the two §6
 answers (Lf 2.225 final; FIFO bug retracted -> Waves 3-5 unblocked; scan the
 fleet for adcCapture=true) written to `fw-17058-bench-reply.md`.
 
