@@ -75,3 +75,42 @@ also at 13 today (the 8/28 attr was lost at the 9/2 reboots) and will move to
 `flowDirAlarm` in the status report is a cheap addition for a later rev; the
 bench session will fold it into the next mainline rev after the laminar work
 closes, unless you take it first — say which.
+
+## 9/6 hand-off: Shady Lane wave-1 cal review + pulse plan (Bruce moved this to the fleet session)
+
+**Cal review of the 22 Shady units on 17058** (groups "Shady Lane MHP" +
+"MHP-Cust"; details in `fw-17047-bugfix-handoff.md` §0f): 19 Metering ->
+Metering, offsets re-promoted within ~1 h on 16/19 to values within 2-5% of
+the old ones, flowDirection unchanged on all 22, deltaMeterVal -0.01..-0.88.
+Not metering: **77041962** (v341 healthy for months at gain 26 / amp
+1,400-1,900; v365 sweep rejected it as "loud-flat" — amplitude 1,692 @ g26 vs
+2,836 @ g55, a real PEX install in compression, Bruce agrees); **65824917**
+(same loud class, still v341, TIFOTA pending); **70269798** (dead signal,
+Calibrating for >1 day before the roll, not a regression, needs a visit).
+Two loud peers (70268832, 65828520) failed the first v365 sweep and
+recovered on the off-pipe retry within 10-70 min.
+
+**Loud-coupling class fleet-wide:** `fleet-loud-coupling-watchlist-0906.csv`
+(92 units at gain<=29 & upamp>=1200, 86 PEX-A 3/4"; 42 at >=1400 = HIGH).
+Per-pipe sizing showed 9 pulses clears 92% of the PEX-A 3/4" loud class at
+~5 more units near the floor; 6 clears all of it at ~21 more; 1/2" PEX and
+copper/PVC have no compression problem and need 13 for the weak end.
+
+**Bruce's decisions (9/6 11:xx):** attribute first, no code change; **wave 1
+PEX 3/4" units get `{"pulse": 6, "recalibrate": true}`**; fielded default
+otherwise stays 13. Code facts: a pulse change is a live TI parameter update
+and does NOT restart cal, hence `recalibrate=true` on metering units (set it
+back to false after they re-cal); a unit parked off-pipe re-sweeps every ~72 s
+on its own, and a TIFOTA resets the TI, so units getting v365 in the same
+write need no recalibrate.
+
+**Prepared, NOT written (Bruce interrupted to move it here):** 22 roll units
+are all pipeType X; 16 are 3/4" (pipesize 3/4 or dia 0.681), 6 are 1/2"
+(dia 0.485, pipesize 1/2) — recommend excluding the 1/2" units. Target list:
+65823489 (verify pipesize — reports dia 0.485), 65824917, 65828520, 70267966,
+70268832, 70269798, 75364586, 75365898, 75367100, 77041962, 77054957,
+79455422, 79461768, 79466007, 79466379, 79466452, 79466858. Ids in
+`scratchpad/wave1_pex_targets.json` of session 44b8a8f9 and in the Shady
+group listing. **v366 proposal** (not built): pulse count joins the TI cal
+ladder — base rung above ~1000 counts -> drop to 6 pulses and re-sweep before
+any flatness verdict; export `calFlatRej`.

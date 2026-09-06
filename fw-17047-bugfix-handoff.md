@@ -1192,6 +1192,8 @@ loud class without touching weak paths that need 13); (2) apply the flat test
 only in the linear range; (3) export `calFlatRej`. Immediate remote lever for
 77041962 (and 65824917 if it fails after TIFOTA): `pulse=6` attr.
 
+**Bruce 9/6 ~11:10: "I started another session to handle fleet rollout, will continue this topic on that thread."** The wave-1 pulse=6 + recalibrate=true write (16 PEX 3/4" targets, 1/2" excluded) was PREVIEWED here, NOT written; handed to the fleet session via `fw-17058-bench-reply.md` (9/6 hand-off section).
+
 **17058 acceptance on the 19 (fleet session's §5):** offset 0 on the FOTA
 post on 17/19 (2 units' first post came later: 79461768 shows -1795 at +4 min
 vs -1820 before — check whether the block fired); **re-promotion within
