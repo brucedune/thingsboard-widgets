@@ -1145,6 +1145,51 @@ at the cost of peak amplitude 533 -> 223 counts (gain +~8, i.e. ~1.5 rungs);
 8. v344's reason for 13: 9 starved marginal paths (1" L-copper, Ibiza).
 Bruce (20:45): bench devices should be at 6 — then (20:55): **"We'll hold for now however I want to push to a limited fleet roll out tonight - leave at 13."** No pulse attr on the fielded set; bench stays at 13 until he says otherwise. Caveat logged: at 6 the 5 gpm baseline and the 1 gpm knot need a repeat before the PEX knots are final.
 
+## 0f. 9/6 ~10:15 PT — SHADY LANE 17058/v365 LIMITED ROLL: CAL REVIEW
+
+Groups "Shady Lane MHP" + "Shady Lane MHP-Cust" = 36 devices (scan by group,
+not Property). 22 took 17058 overnight (21 also v365; 65824917 still v341,
+TIFOTA pending). 14 untouched (12 on 17037/344, 2 on 17040/354 — not in the
+roll list). Of the 22: **19 Metering -> Metering**, 3 not metering now:
+
+| device | before | after | read |
+|---|---|---|---|
+| 77041962 | 17028/341 Metering, g26 amp 1426-1692, off 740, FLIPPED, ~70 gal/d | 17058/365 **Failed Cal** 09:00, g55 amp 2836 pk +/-1500, surfN 0, cf2 2, tiError w3 bit11 | LOUD-FLAT REJECT (below); no post since 09:01 |
+| 70269798 | 17050/364 **Calibrating for >1 day**, amp 103-128 @ g40, tiBoot 244, mv 74 frozen | 17058/365 Failed Cal, g55 amp 437 pk 113/-324 asymmetric | NOT a regression: dead/absent signal, v365 names it honestly; site visit |
+| 65824917 | 17028/341 Metering, g26 amp 2048-2142, off -856 | 17058/**341** Calibrating 09:06 (TI restart after FOTA boot) | TIFOTA to 365 pending; same LOUD class as 77041962 -> watch |
+
+**Mechanism for 77041962 (verified in cal.c amp_scan_done):** v327+ "min-gain-
+loud noise test": if the base rung (gain 26) already clears CAL_AMP_FLOOR
+(273) and NO adjacent rung rises >= 1.30x (CAL_AMP_FLAT_RATIO_Q8 333), the
+sweep is judged a flat loud artifact (the VB stuck-carousel class) -> n=0 ->
+3 bails -> OFF_PIPE -> Failed Cal. 77041962 reads 1692 @ g26 and only 2836 @
+g55 (expected ~28x for a linear path) — genuinely flat with gain, so the test
+fires on a unit v341 metered on for months (whether accurately is a separate
+question; a crosstalk/frame-borne artifact would look exactly like this).
+**Two peers show the post-TIFOTA Failed Cal is often TRANSIENT:** 70268832
+(Failed Cal 07:18-07:21 -> Metering 07:31) and 65828520 (08:42-08:43 ->
+Metering 09:51) — OFF_PIPE re-probes every ~72 s and the later sweep passed.
+So 77041962's verdict is its NEXT post. If still Failed Cal: remote lever =
+`pulse=9` (or 6) attr on that unit only — drops amplitude below the floor at
+the base rung so the flatness test is not judged; the off-pipe retry re-cals
+without a visit. Fleet-side: v366 item — exempt/soften the flat test when the
+base-rung amplitude is near the 1638 compression ceiling (a clipped real
+signal is flat by construction).
+
+**17058 acceptance on the 19 (fleet session's §5):** offset 0 on the FOTA
+post on 17/19 (2 units' first post came later: 79461768 shows -1795 at +4 min
+vs -1820 before — check whether the block fired); **re-promotion within
+~1 h on 16/19 to values within ~2-5% of the old ones** (2164->2160,
+-5253->-5151, 5249->5213, 5507->5527...) — the old offsets were fine, which
+is consistent with the provenance-only argument; 70268832 / 65828520 still 0
+(pending qualification). deltaMeterVal at the FOTA boot -0.01..-0.88 (17047
+checkpoint OK). flowDirection unchanged on ALL 22 (V3 design point). No
+second-reboot re-fire check yet. v365 re-cal moved commit gains substantially
+on some (75368439 41->24 amp 1554->307; 79466452 44->33) — lowest clean rung
+picking, expected.
+
+---
+
 **BELL-FIRST SPECIAL BUILD for WYSE Toronto — 9/4 ~16:30 PT.** Bruce: the
 first 3 Toronto samples show on the Monogoto/Bell side but drop sessions;
 "special ST rev that selects Bell Canada only" -> refined to "if no Bell
