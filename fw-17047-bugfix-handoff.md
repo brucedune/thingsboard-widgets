@@ -1312,7 +1312,7 @@ index 6 -> gain 35; grid, fidelity walk and lowest-clean-gain picker
 untouched; decided once per sweep; normal/weak units never enter it. cal.c:
 `g_ladder_base`/`g_frame_shifted`, base-aware `ladder_gain()`, reset in
 `enter_amp_scan`, decision in `cal_feed_raw`. Build 46,926 B, crc f7b12793,
-0 errors / 14 pre-existing warnings. NOT committed/uploaded/rolled. Note:
+0 errors / 14 pre-existing warnings. **SHIPPED 20:05 PT** (Bruce: "Commit, push, upload v368 and set the quad to 368"): tag v368 on cal-reacq, main merge `2f1bb4d`, msp368.bin (sha cd0fdb55), allowTiFotaVer=368 on all four (HTTP 200 x4). TIFOTA at each unit's next session -> TI reboot -> boot cal at 6 pulses (override pushed at boot-idle) -> tiPulse 6 again, gains ~unchanged (regression expectation). Note:
 the bench units are NOT loud at 26 (700-950), so on the quad v368 is a
 regression check only; the acceptance case is a loud fielded unit —
 77041962 (Shady, Failed Cal on v365) is the natural first target via
