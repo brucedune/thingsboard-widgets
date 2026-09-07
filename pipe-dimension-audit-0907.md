@@ -36,3 +36,6 @@ c column = PVC/CPVC Sch 80 IPS nominal (.423/.546/.742) then .825 placeholders. 
 - PEX rows: decide one convention. Either keep nominal and keep fitting Lf per row, or move to average ID (0.475/0.671/0.862/1.054/1.244) and refit 3/4" Lf (it would move ~1.5%: 2.225 -> ~2.21 to keep today's readings).
 - CPVC: add a CTS SDR-11 column or repoint C to CTS bores (0.469/0.695/0.901/1.105/1.309 average) and bench-fit its Lf; find out what pipe the 252 fielded C meters are actually on.
 - Fill 1-1/4" and 1-1/2" plastic bores from the standards above; the 11 fielded 1-1/4" PVC meters are the immediate case.
+
+## Scope note (Bruce 9/7): supported pipe sizes are limited to 1"
+Findings 6 and 7 and the 1-1/4" / 1-1/2" recommendations are out of scope; those rows stay placeholders. The 11 Gen2 meters coded P at 1-1/4" are therefore miscoded or unsupported installs and should be reviewed by device group (they compute through bore 1.000 / Lf 2.13 today). Remaining actions: PEX-B Lf fit (bench), CPVC column vs CTS (252 meters), 1/2" PEX Lf fit.
