@@ -1666,3 +1666,19 @@ Ext probes read 1.2-1.9 C ABOVE the 20.2 C tank this run (9/6 they read below): 
 | mean | **-0.20%** (trio +0.22%) | -1.10 | +1.10..+1.41 (group) | ~-2.3 pp |
 
 Spread 2.50 pp (trio 2.06 pp; was 3.15 pp at 13 pulses). All four inside +/-1.5% raw at 19.6 C. **6 pulses reads ~2 pp lower than 13 at 5 gpm on every unit**, the same direction and about the same size as the ~3 pp shortfall vs the model at 0.5 gpm this morning -> the pulse-count effect on the reading is a consistent -2..-3 pp, not wander (inferred from one run per flow; the trio also re-calibrated at the 17061 boot, gains 32/32/26 -> 29/30/27). Lf 2.225 stays: the group is centred on the reference raw (-0.2%) and the 13-pulse +1.1..+1.4 "vs model" cushion has become -1.1 — the cold-water term itself came from copper at 13 pulses, so a refit on one run is premature. lamCorrMax on 17061 behaves: 0 on '4423/'3063 at Re ~22k, 6 (k 0.994, Re ~8k) on '8549 = one eventing sample on the valve ramp; '8538 (17906) still shows the 100 -> 0 pair. Direction still UNKNOWN x4. 17907 (= 17061 + Bell-first) built/uploaded/committed e1a339f, NOT written to '8538 (Bruce's word pending). Bruce: move on to 1/2" pipe next; loose end = a repeat 0.5 gpm at 6 pulses to pin the low-flow pulse shift.
+
+### 0g — 9/7 PEX-B 3/4" eval (quad remounted ~12:55 PT; pipeType left X, lFactor attr 2225 on the trio, PEX-A knots, 6 pulses)
+
+Remount = power cycle -> TI default 13 pulses on '8549/'4423/'8538 ('3063 came up at 6); boot session skipped attrs (known). Clean-out at 13:08 -> sessions 13:12 fetched attrs -> v366 param re-cal -> tiPulse 6 x4 (paramRecal 1 on the three). PEX-B coupling vs PEX-A (gain/amp at 6 pulses): '8549 24/394 (PEX-A 29/986, ~same raw), '4423 30/254 (30/1008, ~-11 dB, at the 273 floor — Bruce: run as is), '3063 32/867 (27/992, ~-6 dB), '8538 36/1580 (35/845, ~+6 dB; 1867 at 13 pulses = above the 1638 compression ceiling, 6 pulses brought it under). 13->6 pulses cost '8549 592->394 counts (-3.5 dB) at fixed gain: larger than PEX-A's -8%. Bore of the PEX-B stick NOT calipered.
+
+**Run 1, 50 gal @ 5 gpm (Bruce: 52.405 gal + 40 oz = 52.7175 gal, 19.5 C, 604-607 s -> 5.23 gpm), Lf 2.225 on all:**
+
+| unit | err | PEX-A today (same Lf, 6 pulses) | delta |
+|---|---|---|---|
+| '8549 | -1.86% | -1.04% | -0.8 pp |
+| '4423 | -1.02% | +1.02% | -2.0 pp |
+| '3063 | -1.08% | +0.69% | -1.8 pp |
+| '8538 | +0.04% | -1.48% | +1.5 pp |
+| mean | **-0.98%** (trio -1.32, spread 1.9 pp) | -0.20% | -0.8 pp |
+
+Lf that zeroes the raw group error: **2.221** (2.217 vs the cold-water model). That is 0.2% from PEX-A's 2.225 = 0.4% of flow — inside the PEX-A run-to-run spread (3.5 pp), so run 1 says PEX-B == PEX-A within measurement. Table x column (2.250) would read 2.6% LOW on this pipe. lamCorrMax on 17061: 9/15 ('8549/'3063 = valve-ramp samples), '4423 = 100 with no low-flow run -> its noise floor exceeds the 0.175 gpm gate (weak coupling, 245 counts) — a usable "noisy unit" tell. Run 2 pending; decision rule: within 1% -> both PEX columns 2.225.
