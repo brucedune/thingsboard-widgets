@@ -1283,6 +1283,25 @@ Builds: v367 46,858 B crc 0241b4d7 (0 errors / 14 pre-existing warnings);
 9/6 18:01 v366 cals ran at 6 or 13 — `tiPulse` on the first 17060/367 post
 answers it, and every future pulse question.
 
+**tiPulse VERDICT 9/6 18:28-18:32 PT (first 17060/v367 posts after the
+clean-out): `tiPulse=6` on all four.** The TI's own parameter says 6 pulses,
+and the v367 boot cal (TI reboot at TIFOTA -> override pushed at boot-idle
+before the sweep -> first sight 6, no ParamRecal flag) ran at 6:
+'8549 g30 amp 1289 off -531 | '4423 g29 915 off -2001 | '3063 g27 882 off
+5100 | '8538 g30 538 off 2804 (its `adcCapture` stream, on since ~19:20,
+shows a short burst: 10 lobes >20%, 50% ring-up at sample 28 — consistent
+with 6). By the same sequence the 18:01 v366 cals almost certainly ran at
+6 too; paramRecal=0 everywhere is the deferred/first-sight path, as
+designed. Observation to keep: amplitude at a given gain did NOT fall ~0.42x
+as 8/28 suggested ('8549 g27/948 at 13 -> g30/1289 at 6 is on the same
+curve), so pulse count is a weaker amplitude lever than assumed at this
+blank/window; the compression argument for the loud class needs a bench
+check on a loud unit before it drives a fleet number. flowDirection still
+UNKNOWN on all four (legacy recal wipe) — re-learns with flow.
+**Bench is now on 6 pulses with a v367 cal: 5 gpm baseline next, then the
+1 gpm / 0.5 gpm knots.** '8538 adcCapture must go back to false (Bruce's
+go).
+
 **BELL-FIRST SPECIAL BUILD for WYSE Toronto — 9/4 ~16:30 PT.** Bruce: the
 first 3 Toronto samples show on the Monogoto/Bell side but drop sessions;
 "special ST rev that selects Bell Canada only" -> refined to "if no Bell
