@@ -1652,3 +1652,5 @@ Cold-water term at 20.2 C is +0.70%. Posts: lamCorr=true, tiPulse=6 x4, flowDire
 Ext probes read 1.2-1.9 C ABOVE the 20.2 C tank this run (9/6 they read below): with bias 4.0 the modelled water is ~2 C cold -> Re ~5% low -> knot-1 depth ~0.5 pp too deep. Small; the bias table is not the priority.
 
 **Rev 17061 BUILT + prod bucket + pushed (e2930ab), NOT rolled:** (a) per-report resets run only when `earlyStatusDone` is set (final post only) — `bg95.c` in `bg95_send_status`; (b) `lamCorrMax` counts only samples with flow >= `EVENT_FLOW_THRES` (0.175 gpm) — `measure.c` `lam_knorm`. 110,008 B (2,632 B headroom). No Bell-first twin for '8538 yet. Roll on Bruce's word; after the roll, a low-flow run should show lamCorrMax ~90-100 on the FINAL post and 5 gpm only ~0.
+
+**9/7 ~10:45 PT TB WRITE (Bruce: "set the trio to 17061"):** gen2fw 17060 -> 17061 on 8549/4423/3063 (SHARED_SCOPE, HTTP 200 x3, read-back verified). 8538 untouched (17905 Bell-first line). Next: 50 gal @ 5 gpm at 6 pulses, then Bruce wants to move to 1/2" pipe testing.
