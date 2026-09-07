@@ -1330,8 +1330,15 @@ Bruce's "missed one data upload"). TI came up on 13, calibrated at 13
 (g32 amp 1596-1677 = Bruce's "large ADC waveform at 32 dB"), and the
 boot session did NOT get the pulse=6 override across (tiPulse still 13 at
 19:00, paramRecal 0). Waiting on the next event post to see whether the
-19:00 session-end push flipped it. OPEN: (a) why the boot-session override
-push missed; (b) the SPI errors on '8549 during TIFOTA (17020 bus
+19:00 session-end push flipped it. **RESOLVED 19:07: '8549 tiPulse=6, paramRecal=1, tiBootCnt unchanged, g32 amp
+1495, offset -531** — the 19:00 session-end push carried the override, v368
+re-ran the sweep at 6 with no TI reset, the ST re-qualified the offset on
+the flag edge: the whole v366/17059 chain proven end to end on hardware.
+The boot session after the 18:56 reset did NOT fetch attributes (`pulse=0`
+on the 18:58 post), so an unplanned ST reboot leaves the TI on its default
+drive until the next regular session (up to a day in the field). OPEN: (a)
+boot sessions after an unplanned reset skip GET_SHARED_ATTRIBUTES — worth a
+17061 look; (b) the SPI errors on '8549 during TIFOTA (17020 bus
 arbitration territory). **Cal parameters otherwise uniform across the
 quad:** env 40, blank 33, capture 15, surface-cal gain window 23/38 on all
 four, clean N 28-32, offsets stable (-531/-2001/5100/2804), zero rejects,
