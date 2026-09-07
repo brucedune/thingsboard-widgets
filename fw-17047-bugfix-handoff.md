@@ -1628,3 +1628,27 @@ relies on that gate.
 Memory files with the full background:
 `project_register_save_gap_0901.md`, `project_pulse_accuracy_0901.md`,
 `project_v362_lock_integrity_0901.md`.
+
+### 0e (cont.) — 9/7 10:18 PT: 0.5 gpm at 6 PULSES, lamCorr ON — correction confirmed; "not engaging" RETRACTED
+
+**Run (Bruce: 20 gal + 112 oz = 20.875 gal, 20.2 C, ~2,620 s -> true 0.478 gpm, Re ~2,195 at tank temp):**
+
+| unit | err | 13-pulse 0.5 gpm 9/5 (lamCorr OFF) | delta |
+|---|---|---|---|
+| '8549 | -0.26% | +12.94% | -13.2 pp |
+| '4423 | +3.92% | +24.29% | -20.4 pp |
+| '3063 | -6.07% | +7.99% | -14.1 pp |
+| '8538 | -1.09% | +7.08% | -8.2 pp |
+| mean | **-0.88%** (spread 10.0 pp) | +13.08% (17.2 pp) | -14.0 pp |
+
+Cold-water term at 20.2 C is +0.70%. Posts: lamCorr=true, tiPulse=6 x4, flowDirection UNKNOWN x4 after 44 min at 0.5 gpm, gains 32/32/26/35, upamp 1587/1261/754/934, lamTempSrc 0/1/0/0 ('4423 ext probe dead).
+
+**The correction IS engaging.** The 9/6 finding "lamCorr on but lamCorrMax=0 -> not engaging" is RETRACTED. Two reporting artefacts stacked:
+1. **Rev 16144 double post.** Every session posts status twice: the early snapshot, then the authoritative post 2-4 s later. `bg95_send_status` reset the per-report statistics after EVERY successful post, so the final post — the one TB shows as latest and the one my reads took — carried zeros for lamCorrMax, tnormMin/Max/Count, tempMin/Max, measCtr, measFailCtr, errbCtr, spiMismatch and the meterFlash* fault flags. Verified in paired posts on all four (lamCorrMax 100 -> 0, tnormCount 2717 -> 0, tnormMax 30493 -> 0 three seconds apart). **On FW <= 17060 read the FIRST post of a session for any per-report key.** A meterFlash fault flag has never been visible on "latest" since 16144.
+2. **lamCorrMax pinned at 100.** Every early post since the knots loaded reads exactly 100 = 1000*(1-k1): positive noise samples (micro-gpm, Re ~0) sit at the knot-1 floor, so the max says only "table loaded", never what a run was corrected by.
+
+**Model check (inferred, one run):** raw +13.08% x k. Water temp used by the device = ext probe (21.4-22.1 C) minus extTempBias 4.0 = 17.4-18.1 C -> nu ~1.06e-6 -> Re ~2,090 -> k 0.900-0.905 -> predicted corrected group +1.8 to +2.4%. Measured -0.88%: ~3 pp lower than the model. Candidates: the 6-pulse drive reads lower at 0.5 gpm than 13 did (the 1 gpm comparison showed no group shift, so not proven), or run-to-run wander. Per-unit deltas between the two runs span -8 to -20 pp around the -14 mean: **the low-Re per-unit offsets are not stable run to run (or moved with the pulse change), so per-device low-Re trims would not hold.** At 0.5 gpm '3063 (-6.1%) and '4423 (+3.9%) are still outside +/-3%; the group mean is inside.
+
+Ext probes read 1.2-1.9 C ABOVE the 20.2 C tank this run (9/6 they read below): with bias 4.0 the modelled water is ~2 C cold -> Re ~5% low -> knot-1 depth ~0.5 pp too deep. Small; the bias table is not the priority.
+
+**Rev 17061 BUILT + prod bucket + pushed (e2930ab), NOT rolled:** (a) per-report resets run only when `earlyStatusDone` is set (final post only) — `bg95.c` in `bg95_send_status`; (b) `lamCorrMax` counts only samples with flow >= `EVENT_FLOW_THRES` (0.175 gpm) — `measure.c` `lam_knorm`. 110,008 B (2,632 B headroom). No Bell-first twin for '8538 yet. Roll on Bruce's word; after the roll, a low-flow run should show lamCorrMax ~90-100 on the FINAL post and 5 gpm only ~0.
