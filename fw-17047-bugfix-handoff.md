@@ -1233,6 +1233,44 @@ for fielded units; flagged to the fleet session in fw-17058-bench-reply.md.
 The 1 gpm run Bruce is starting is therefore a 13-pulse REPEAT of yesterday's
 knot-2 point (useful as repeatability), not the 6-pulse point.
 
+**TI v366 + ST 17059 BUILT 9/6 ~17:50 PT (spec `param-change-recal-spec.md`,
+Bruce: "Yes on all three - build v366 and 17059"):**
+- **v366** (`dune/cal.c`, `dune.h`, `ussDCCommandHandlers.c/.h`,
+  `comm_config.h`, `dune_version.h`): pulse-count watcher beside the blank
+  watcher at the top of `cal_feed_aggregate` (first sight records, any later
+  change -> `cal_param_recal(false)`); new 0xAD `COMMAND_HANDLER_DUNE_CAL_RESTART_ID`
+  -> `Handler_cal_restart` -> `cal_param_recal(true)`; `cal_param_recal` =
+  cal_resweep_gain bookkeeping + `enter_amp_scan(true)` (fresh window),
+  deferred in INIT/SURFACE_DETECT/PIPE_SCAN and in OFF_PIPE unless forced,
+  no-op in prodtest; `CalF2_ParamRecal = 8` exported until the next commit;
+  listener table 52->53. Build: 0 errors, 14 pre-existing warnings;
+  `LPM/Dune_FW_TI.txt.bin` 46,848 B, 5 chunks, crc 20ac5cdb. NOT committed/
+  uploaded (-> msp366.bin) yet.
+- **17059** (`hci.h/.c`, `hci_st.h`, `ti_hci_impl.c`, `main.c`, `main.h`,
+  `measure.c`, `status_report.c`, `config.h`): `hci_cal_restart()` (0xAD) via
+  new `TIW_CAL_RESTART` trigger bit; recalibrate attr -> 0xAD on TI >= 366
+  (legacy power cycle kept for older TI); INFO handler edge on
+  `CAL_F2_PARAM_RECAL` -> `meas_on_drive_change()` = offset 0 + offset_init,
+  DIRECTION UNTOUCHED, `paramRecal` status key. Build 109,876 B, headroom
+  2,764, sha256 1dc19f12..., zero warnings. NOT committed/uploaded/rolled.
+- **SHIPPED 9/6 ~18:05 PT** (Bruce: "Commit, push, upload and set the quad to
+  17059 / 366"): TI v366 `08d033e` on cal-reacq (tag v366), main merge
+  `8ae0e4b`, `msp366.bin` uploaded (46,848 B, sha e2c4b691); ST 17059
+  `58732e5` (main ff'd), st-prod G/17059. Trio: gen2fw=17059 +
+  allowTiFotaVer=366 written. **'8538 caught before it pulled mainline:**
+  the quad write put gen2fw=17059 on the WYSE sample, which would have
+  replaced its Bell-first image (and 17059 < 17903 never validates on it);
+  reverted to 17903 within minutes, no session in between (last post 17:26).
+  Built **17904 / 17905 = 17059 + Bell-first** (109,908 B, both banks) in
+  `special/`, commit on main; NOT uploaded/rolled — Bruce's call so the WYSE
+  sample also gets v366 param-recal + 17059 while staying Bell-first.
+- Roll plan for the quad (Bruce's word): allowTiFotaVer=366 + gen2fw=17059
+  together; the boot session after TIFOTA pushes the existing `pulse=6`
+  override to a TI that booted at 13 -> v366 detects 13->6 and re-cals at 6
+  automatically = the acceptance test; 17059 then re-qualifies offsets on
+  the flag edge; flowDirection must stay as it is (currently UNKNOWN from
+  the legacy recal, will re-learn).
+
 **BELL-FIRST SPECIAL BUILD for WYSE Toronto — 9/4 ~16:30 PT.** Bruce: the
 first 3 Toronto samples show on the Monogoto/Bell side but drop sessions;
 "special ST rev that selects Bell Canada only" -> refined to "if no Bell
