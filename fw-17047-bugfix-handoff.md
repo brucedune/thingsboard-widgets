@@ -1262,8 +1262,7 @@ Bruce: "Yes on all three - build v366 and 17059"):**
   replaced its Bell-first image (and 17059 < 17903 never validates on it);
   reverted to 17903 within minutes, no session in between (last post 17:26).
   Built **17904 / 17905 = 17059 + Bell-first** (109,908 B, both banks) in
-  `special/`, commit on main; NOT uploaded/rolled — Bruce's call so the WYSE
-  sample also gets v366 param-recal + 17059 while staying Bell-first.
+  `special/`, commit on main; Bruce 18:15: "Upload 17904/17905 and set 8538 to 17904" -> both in st-prod, '8538 gen2fw=17904 (allowTiFotaVer 366 already set). Next: after fwVer 17904 posts from a US carrier, set 17905 on Bruce's word so both banks carry Bell-first + v366 behaviour; ship on 17905.
 - Roll plan for the quad (Bruce's word): allowTiFotaVer=366 + gen2fw=17059
   together; the boot session after TIFOTA pushes the existing `pulse=6`
   override to a TI that booted at 13 -> v366 detects 13->6 and re-cals at 6
