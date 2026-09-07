@@ -1349,6 +1349,14 @@ independent of pulse count at this window (ring-up saturates by ~6), so
 "reduce pulses to escape compression" was a weak lever; the v368 frame
 shift is the right one. 8/28's 533->223 note does not reproduce.
 
+**Bruce 9/6 ~19:15:** waveform on '8549 confirms 6 pulses, gain unchanged,
+ADC 1534 vs ~1680 = -9%% amplitude (matches the 1596->1495 status numbers).
+Pulse count = lobe-shape/skip-margin lever, not an amplitude lever; 8/28's
+"533->223" figure is retired. **Bruce leaning to 8 pulses fleet-wide, to be
+evaluated.** Running 50 gal @ 1 gpm at 6 pulses with lamCorr on (PEX knots)
+before the 5 gpm baseline; afternoon 1 gpm (13 pulses) reference volume
+still not received.
+
 **BELL-FIRST SPECIAL BUILD for WYSE Toronto — 9/4 ~16:30 PT.** Bruce: the
 first 3 Toronto samples show on the Monogoto/Bell side but drop sessions;
 "special ST rev that selects Bell Canada only" -> refined to "if no Bell
