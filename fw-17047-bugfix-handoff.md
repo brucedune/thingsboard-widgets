@@ -1654,3 +1654,15 @@ Ext probes read 1.2-1.9 C ABOVE the 20.2 C tank this run (9/6 they read below): 
 **Rev 17061 BUILT + prod bucket + pushed (e2930ab), NOT rolled:** (a) per-report resets run only when `earlyStatusDone` is set (final post only) — `bg95.c` in `bg95_send_status`; (b) `lamCorrMax` counts only samples with flow >= `EVENT_FLOW_THRES` (0.175 gpm) — `measure.c` `lam_knorm`. 110,008 B (2,632 B headroom). No Bell-first twin for '8538 yet. Roll on Bruce's word; after the roll, a low-flow run should show lamCorrMax ~90-100 on the FINAL post and 5 gpm only ~0.
 
 **9/7 ~10:45 PT TB WRITE (Bruce: "set the trio to 17061"):** gen2fw 17060 -> 17061 on 8549/4423/3063 (SHARED_SCOPE, HTTP 200 x3, read-back verified). 8538 untouched (17905 Bell-first line). Next: 50 gal @ 5 gpm at 6 pulses, then Bruce wants to move to 1/2" pipe testing.
+
+**9/7 ~11:25 PT — 50 gal @ 5 gpm at 6 PULSES on 17061 (trio) / 17906 ('8538), Bruce: 51 gal + 16 oz = 51.125 gal, 19.6 C, 579-581 s -> 5.30 gpm. Cold-water model term +0.90%.**
+
+| unit | raw err | vs model | 13-pulse unit offset vs model (4-run avg) | shift |
+|---|---|---|---|---|
+| '8549 | -1.04% | -1.94 | -0.10 | -1.8 pp |
+| '4423 | +1.02% | +0.12 | +3.05 | -2.9 pp |
+| '3063 | +0.69% | -0.21 | +2.49 | -2.7 pp |
+| '8538 | -1.48% | -2.37 | -0.70 | -1.7 pp |
+| mean | **-0.20%** (trio +0.22%) | -1.10 | +1.10..+1.41 (group) | ~-2.3 pp |
+
+Spread 2.50 pp (trio 2.06 pp; was 3.15 pp at 13 pulses). All four inside +/-1.5% raw at 19.6 C. **6 pulses reads ~2 pp lower than 13 at 5 gpm on every unit**, the same direction and about the same size as the ~3 pp shortfall vs the model at 0.5 gpm this morning -> the pulse-count effect on the reading is a consistent -2..-3 pp, not wander (inferred from one run per flow; the trio also re-calibrated at the 17061 boot, gains 32/32/26 -> 29/30/27). Lf 2.225 stays: the group is centred on the reference raw (-0.2%) and the 13-pulse +1.1..+1.4 "vs model" cushion has become -1.1 — the cold-water term itself came from copper at 13 pulses, so a refit on one run is premature. lamCorrMax on 17061 behaves: 0 on '4423/'3063 at Re ~22k, 6 (k 0.994, Re ~8k) on '8549 = one eventing sample on the valve ramp; '8538 (17906) still shows the 100 -> 0 pair. Direction still UNKNOWN x4. 17907 (= 17061 + Bell-first) built/uploaded/committed e1a339f, NOT written to '8538 (Bruce's word pending). Bruce: move on to 1/2" pipe next; loose end = a repeat 0.5 gpm at 6 pulses to pin the low-flow pulse shift.
