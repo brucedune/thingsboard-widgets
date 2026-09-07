@@ -1688,3 +1688,5 @@ Lf that zeroes the raw group error: **2.221** (2.217 vs the cold-water model). T
 **9/7 ~14:30 Bruce calipered both 3/4" PEX sticks: ID 0.670" (A and B). Table uses nominal 0.681 (+1.6%); the fitted (0.681, 2.225) pair is equivalent to (0.670, 2.218). Left as is. Rule for 1/2": measure bore first, then fit Lf.**
 
 **9/7 ~14:35 TB WRITE (Bruce: "set 8538 to 17907"):** gen2fw 17906 -> 17907 on Device 75368538 (SHARED_SCOPE, HTTP 200, read-back verified). 17907 = 17061 + Bell-first; takes at its next session, ST reboot -> TI param re-cal at 6 pulses follows.
+
+**9/7 ~14:40 TB DELETE (Bruce: "delete the lFactor attr on the trio"):** SHARED_SCOPE lFactor (2225) removed from 8549/4423/3063 (HTTP 200 x3, read-back unset). Effective Lf unchanged: 17056+ table X-A 3/4" = 2.225. 8538 never had the attr.
