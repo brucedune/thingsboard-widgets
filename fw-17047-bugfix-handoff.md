@@ -1357,6 +1357,30 @@ evaluated.** Running 50 gal @ 1 gpm at 6 pulses with lamCorr on (PEX knots)
 before the 5 gpm baseline; afternoon 1 gpm (13 pulses) reference volume
 still not received.
 
+**50 gal @ 1 gpm at 6 PULSES, lamCorr ON (9/6 ~19:15-20:05, Bruce: 50 gal +
+80 oz = 50.625 gal, 19.5 C; ~2,975 s -> 1.02 gpm, Re ~4,600):**
+| unit | err | 13-pulse 1 gpm (afternoon) |
+|---|---|---|
+| '8549 | +1.13% | +1.72% |
+| '4423 | +7.74% | +7.57% |
+| '3063 | +1.64% | +3.72% |
+| '8538 | +2.02% | -0.61% |
+Mean +3.13% (spread 6.6 pp; offset-corrected +1.95%) = IDENTICAL to the
+13-pulse run (+3.10 / +1.91). **lamCorr did NOT engage: `lamCorr=true` on
+all four posts but `lamCorrMax=0` after 50 min at Re ~4,600**, where even
+the copper defaults would show depth ~35 and the PEX knots ~12. Code
+re-read: parser (lamRe/lamK idx from the key's last char, clamps), monotone
+guard, flow >= 0 at the call site (fmaxf), temp/nu helpers, lamCorrMax
+cleared only after a successful post — nothing found statically. Next
+discriminator = the 0.5 gpm run (a -10% correction is unmistakable); if it
+also shows nothing, 17061 gets a status echo of the effective knots + last
+Re. Other notes: 6 pulses did not change the 1 gpm group mean; per-unit
+moves mixed ('3063 -2.1 pp, '8538 +2.6 pp). flowDirection still UNKNOWN on
+all four after 50 min of 1 gpm flow — the direction learner did not
+re-acquire at this flow. '8549/'3063 ext probe read 12.4-12.8 C at the
+post (below the 19.5 C water, opposite of the +4 C bias seen so far) —
+unexplained, logged.
+
 **BELL-FIRST SPECIAL BUILD for WYSE Toronto — 9/4 ~16:30 PT.** Bruce: the
 first 3 Toronto samples show on the Monogoto/Bell side but drop sessions;
 "special ST rev that selects Bell Canada only" -> refined to "if no Bell
