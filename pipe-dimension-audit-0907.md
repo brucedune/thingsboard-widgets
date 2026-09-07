@@ -39,3 +39,6 @@ c column = PVC/CPVC Sch 80 IPS nominal (.423/.546/.742) then .825 placeholders. 
 
 ## Scope note (Bruce 9/7): supported pipe sizes are limited to 1"
 Findings 6 and 7 and the 1-1/4" / 1-1/2" recommendations are out of scope; those rows stay placeholders. The 11 Gen2 meters coded P at 1-1/4" are therefore miscoded or unsupported installs and should be reviewed by device group (they compute through bore 1.000 / Lf 2.13 today). Remaining actions: PEX-B Lf fit (bench), CPVC column vs CTS (252 meters), 1/2" PEX Lf fit.
+
+## Bench measurement 9/7 (Bruce, calipers): 3/4" PEX-A and PEX-B ID both 0.670"
+Matches the F876/PPI average (0.671), not the table's nominal 0.681 (+1.6%). The fitted pair (0.681, 2.225) is self-consistent; the physically honest pair for the same readings is (0.670, 2.218). No change made. For the 1/2" fit: caliper the stick and enter the measured bore BEFORE fitting Lf, so the 1/2" Lf comes out physical rather than absorbing the 2.1% nominal-vs-average gap.
