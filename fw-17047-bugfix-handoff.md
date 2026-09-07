@@ -1302,6 +1302,23 @@ UNKNOWN on all four (legacy recal wipe) — re-learns with flow.
 1 gpm / 0.5 gpm knots.** '8538 adcCapture must go back to false (Bruce's
 go).
 
+**TI v368 BUILT 9/6 ~19:55 PT — LOUD-COUPLING FRAME SHIFT (Bruce: "if signal
+above x @ 26 drop frame by 9"; "go build v368"):** after the first rung of
+every amplitude sweep, if either channel reads >= 1000 counts at gain 26 the
+ladder restarts on the low frame 17..46 (PGA floor verified = index 17 =
+-6.5 dB; 26 = +1.0 dB, so the shift is 7.5 dB = x0.42, landing the measured
+loud class 1000-2836 at 420-1190). Same 11 rungs/step; pipe-present verdict
+index 6 -> gain 35; grid, fidelity walk and lowest-clean-gain picker
+untouched; decided once per sweep; normal/weak units never enter it. cal.c:
+`g_ladder_base`/`g_frame_shifted`, base-aware `ladder_gain()`, reset in
+`enter_amp_scan`, decision in `cal_feed_raw`. Build 46,926 B, crc f7b12793,
+0 errors / 14 pre-existing warnings. NOT committed/uploaded/rolled. Note:
+the bench units are NOT loud at 26 (700-950), so on the quad v368 is a
+regression check only; the acceptance case is a loud fielded unit —
+77041962 (Shady, Failed Cal on v365) is the natural first target via
+allowTiFotaVer=368 (fleet session's list). No calFlags2 bit was free to
+flag the shift; a commit gain below 26 is its fingerprint.
+
 **BELL-FIRST SPECIAL BUILD for WYSE Toronto — 9/4 ~16:30 PT.** Bruce: the
 first 3 Toronto samples show on the Monogoto/Bell side but drop sessions;
 "special ST rev that selects Bell Canada only" -> refined to "if no Bell
