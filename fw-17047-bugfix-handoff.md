@@ -1208,6 +1208,31 @@ picking, expected.
 
 ---
 
+**BENCH TO 6 PULSES — 9/6 ~11:30 PT (Bruce: "set the quad to 6 pulses -
+recal TRUE"):** `pulse=6, recalibrate=true` written on all four (HTTP 200 x4,
+read back). Takes effect at each unit's next attribute fetch = the event-end
+session after Bruce's clean-out: TI power-cycled, fresh cal at 6 pulses,
+offset zeroed and re-qualified. Everything measured 9/2-9/5 (Lf 2.225
+confirmation, per-unit offsets, PEX laminar knots) was at 13 pulses -> the
+5 gpm baseline and the 1 gpm knot need a repeat at 6. `recalibrate` must be
+set back to false once all four show Metering again (second pass, Bruce's
+word). Expect '8538 to commit ~gain 44-48 (amp 650 @ 36 at 13 pulses).
+**RESULT 17:26 (after the 2nd clean-out):** all four Metering — '8549 g26 amp
+879 off -629; '4423 g24 587 off -2395 (tnSd 7509, USS err 135 once); '3063
+g29 1042 off 5255; '8538 g38 895 off 3359. Offsets within 70-170 of their
+13-pulse values. **BUT amplitudes at the same gains are unchanged ('3063
+1042 vs 1053) -> the TI is still at 13 pulses:** the recal's ti_power_cycle
+rebooted the TI to its default after the live num_pls push, and the fresh cal
+ran at 13; status `pulse=6` is the ST's override, not the TI's state. The 6
+lands as a LIVE switch at the next session end (radio-off override push) —
+amplitude hold will walk gain up; a clean 6-pulse cal needs `recalibrate`
+cycled false->true one session AFTER that. **Also: `recalibrate=true` set
+flowDirection=UNKNOWN on all four** (ABS-rectification path until 50
+detections) — a direct conflict with 17058's direction-retention rationale
+for fielded units; flagged to the fleet session in fw-17058-bench-reply.md.
+The 1 gpm run Bruce is starting is therefore a 13-pulse REPEAT of yesterday's
+knot-2 point (useful as repeatability), not the 6-pulse point.
+
 **BELL-FIRST SPECIAL BUILD for WYSE Toronto — 9/4 ~16:30 PT.** Bruce: the
 first 3 Toronto samples show on the Monogoto/Bell side but drop sessions;
 "special ST rev that selects Bell Canada only" -> refined to "if no Bell

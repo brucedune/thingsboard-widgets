@@ -114,3 +114,34 @@ are all pipeType X; 16 are 3/4" (pipesize 3/4 or dia 0.681), 6 are 1/2"
 group listing. **v366 proposal** (not built): pulse count joins the TI cal
 ladder — base rung above ~1000 counts -> drop to 6 pulses and re-sweep before
 any flatness verdict; export `calFlatRej`.
+
+## 9/6 17:30 — TWO FINDINGS FROM THE BENCH THAT CHANGE THE WAVE-1 PULSE PLAN
+
+Written `pulse=6, recalibrate=true` on the four bench units (Bruce's order);
+first post after the recal (17:26):
+
+1. **`recalibrate=true` WIPES FLOW DIRECTION.** All four came back
+   `flowDirection=UNKNOWN` (were FLIPPED / NOT FLIPPED / learned). UNKNOWN is
+   the ABS-rectification (phantom) path until 50 detections re-learn it —
+   exactly what 17058's offset-only cleanup was designed to avoid on the
+   fleet. So `recalibrate=true` on wave-1 field units undoes that design
+   point for the re-learn window; on the 1,930 devices with a `waterFlowDir`
+   attr it is harmless (re-imposed every sample), on the rest it is not.
+   Recommend: **pulse-only on fielded units, no `recalibrate`** (see 2), or
+   accept the UNKNOWN window knowingly.
+2. **`pulse` + `recalibrate` in the SAME write does not calibrate at 6.**
+   Sequence on the device: attrs parsed -> session ends -> ST pushes
+   num_pls=6 to the running TI (live param) -> recalibrate fires ->
+   `ti_power_cycle()` -> TI reboots with its default 13 -> the fresh cal ran
+   at 13. Evidence: all four re-committed at the same gain with the same
+   amplitude as at 13 pulses ('3063 gain 29 amp 1042 vs 1053 before; '8549
+   26/879 vs 917; '8538 38/895 vs ~820 predicted at 13). The ST status key
+   `pulse=6` shows the ST's override, not what the TI runs. The 6 will land
+   as a LIVE switch at the NEXT session end (main.c radio-off override push):
+   amplitude x~0.42 under a gain picked for 13, then the TI's amplitude hold
+   walks gain up (the 8/28 "gain compensates 28->30" behaviour). A clean
+   6-pulse cal needs `recalibrate` cycled false -> true AFTER that push has
+   landed, i.e. two sessions later — or a mag/power cycle is NOT a fix
+   either (ST boot has no attrs until the boot session; same live switch).
+   For fielded units: pulse-only, let the amplitude hold absorb it; if a
+   clean re-cal is wanted, `recalibrate=true` one session AFTER `pulse`.
