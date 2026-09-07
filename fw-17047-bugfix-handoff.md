@@ -1270,6 +1270,19 @@ Bruce: "Yes on all three - build v366 and 17059"):**
   the flag edge; flowDirection must stay as it is (currently UNKNOWN from
   the legacy recal, will re-learn).
 
+**TI v367 + ST 17060 BUILT 9/6 ~19:10 PT (Bruce: "lets add the tiPulse
+now"):** the INFO packet was already at its 96-byte cap (info.c guard failed
+on a new byte), so the running pulse count rides in **calFlags2 bits 4-7**
+(values 6/9/13 fit a nibble; `CalF2_PulseShift/Mask` in dune.h, filled in
+calFillInfoState from gCommandHandler num_pls). ST 17060 splits the byte:
+`calFlags2` key = low nibble (flags, unchanged semantics), new `tiPulse` key
+= high nibble when TI >= 367 and outside the 390-399 diag band, else 0.
+Builds: v367 46,858 B crc 0241b4d7 (0 errors / 14 pre-existing warnings);
+17060 109,964 B headroom 2,676 sha 3a800155; Bell-first **17906** 109,996 B
+(special/). **SHIPPED 19:25 PT** (Bruce: "Commit, push, upload and set the quad to 17060 / 367"): v367 tag on cal-reacq, main merge `3bc5008`, msp367.bin (sha d008b593); 17060 `cc59072` (main ff'd), st-prod G/17060 + G/17906; trio gen2fw=17060/allowTiFotaVer=367, '8538 gen2fw=17906/367 (17905 lever superseded before it was consumed; banks end 17904 + 17906, both Bell-first). NOTE: '8538 read back `adcCapture=True` — not set by this session; presumably Bruce enabled the waveform; useful once for the lobe count, then must go back to false (capture flood). Purpose: settle whether the
+9/6 18:01 v366 cals ran at 6 or 13 — `tiPulse` on the first 17060/367 post
+answers it, and every future pulse question.
+
 **BELL-FIRST SPECIAL BUILD for WYSE Toronto — 9/4 ~16:30 PT.** Bruce: the
 first 3 Toronto samples show on the Monogoto/Bell side but drop sessions;
 "special ST rev that selects Bell Canada only" -> refined to "if no Bell
