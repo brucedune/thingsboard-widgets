@@ -1740,3 +1740,13 @@ Then '8549 and '3063 rebooted at 18:34:50: spiWrErr 11 / 18 and spiReadyTimeout 
 '8538 untouched (17908 / v368, 35 / 1356-1715).
 
 **9/7 ~18:45 TB WRITE (Bruce: "update 8538"):** Device 75368538 gen2fw 17908 -> 17910 (= 17065 + Bell-first), allowTiFotaVer 368 -> 370 (HTTP 200, read-back verified). Next session: ST FOTA + reboot, boot session TIFOTA v370 -> from-scratch cal on the 6x4 grid (expect ~g27-29 / ~900 / env 42 instead of 35 / 1768). Watch for the post-TIFOTA sf-wedge reboot (spiWrErr) and confirm tiPulse 6 before boxing.
+
+**9/7 19:06 — 50 gal @ 5 gpm on the v370 picks (Bruce: 50 gal + 24 oz = 50.1875 gal, 19.5 C, 576-580 s -> 5.2 gpm). '8538 had already taken 17910 / v370 at 18:52-18:55 (new pick g30 / 1075 / env 42, was 35 / 1768).**
+| unit | pick | err | PEX-B runs 1 / 2 today (old picks) |
+|---|---|---|---|
+| '8549 | 28 / ~800 / 42 | -1.29% | -1.86 / -1.06 |
+| '4423 | 36 / 678 / 42 | +0.66% | -1.02 / +0.51 |
+| '3063 | 30 / 838 / 42 | -0.50% | -1.08 / +0.47 |
+| '8538 | 30 / 1075 / 42 | -0.88% | +0.04 / +0.60 |
+| mean | | **-0.50%** (spread 1.95 pp) | -0.98 / +0.13 |
+Lf to zero 2.223 (third run in a row within 0.1% of 2.225). The v370 picks moved '8538 -1.2 pp (out of compression) and the others within their run-to-run band; accuracy at 5 gpm is unchanged by the pick change, as expected (Lf absorbs the operating point). All four inside +/-1.3%.
