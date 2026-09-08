@@ -1750,3 +1750,13 @@ Then '8549 and '3063 rebooted at 18:34:50: spiWrErr 11 / 18 and spiReadyTimeout 
 | '8538 | 30 / 1075 / 42 | -0.88% | +0.04 / +0.60 |
 | mean | | **-0.50%** (spread 1.95 pp) | -0.98 / +0.13 |
 Lf to zero 2.223 (third run in a row within 0.1% of 2.225). The v370 picks moved '8538 -1.2 pp (out of compression) and the others within their run-to-run band; accuracy at 5 gpm is unchanged by the pick change, as expected (Lf absorbs the operating point). All four inside +/-1.3%.
+
+### 0m — 9/8 05:16 1 gpm x 20 gal on the v370 picks, lamCorr on (Bruce: 20 gal + 40 oz = 20.3125 gal, 19.8 C, ~1,205 s -> 1.01 gpm, Re ~4,590 at tank temp)
+| unit | pick | err | 9/6 1 gpm (old picks, 6 pulses) |
+|---|---|---|---|
+| '8549 | 28 / 804 | +0.78% | +1.13 |
+| '4423 | 36 / 801 | +1.03% | +7.74 |
+| '3063 | 30 / 732 | -1.87% | +1.64 |
+| '8538 | 30 / 1188 | +0.45% | +2.02 |
+| mean | | **+0.10%** (spread 2.90 pp) | +3.13 |
+Expected +0.83% (cold-water term) if knot 2 is right. Implied k2 = 0.9953 (excl '4423 0.9984) vs table 0.9880 -> within 0.7% = the same ~-0.7 pp 6-pulse shift seen at 5 gpm. **Knot 2 holds at 0.988; no change.** '4423's 9/6 outlier (+7.74) is gone on the v370 pick + 17064 offset (it was 30/254 counts at the floor with a locked 400 ps offset then; now 36/801). All four inside +/-2% at 1 gpm. lamCorrMax 100/26/61/96 = valve-ramp samples (gated key working). Remaining 3/4" PEX run: 0.5 gpm x 20 gal (knot 1 repeat at 6 pulses + PEX-B low-flow confirm).
