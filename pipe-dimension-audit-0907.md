@@ -42,3 +42,5 @@ Findings 6 and 7 and the 1-1/4" / 1-1/2" recommendations are out of scope; those
 
 ## Bench measurement 9/7 (Bruce, calipers): 3/4" PEX-A and PEX-B ID both 0.670"
 Matches the F876/PPI average (0.671), not the table's nominal 0.681 (+1.6%). The fitted pair (0.681, 2.225) is self-consistent; the physically honest pair for the same readings is (0.670, 2.218). No change made. For the 1/2" fit: caliper the stick and enter the measured bore BEFORE fitting Lf, so the 1/2" Lf comes out physical rather than absorbing the 2.1% nominal-vs-average gap.
+
+## Bench measurement 9/8: 3/4" PVC Sch 40 ID 0.804-0.809" (table 0.804, average-ID convention) - consistent.
