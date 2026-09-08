@@ -1760,3 +1760,13 @@ Lf to zero 2.223 (third run in a row within 0.1% of 2.225). The v370 picks moved
 | '8538 | 30 / 1188 | +0.45% | +2.02 |
 | mean | | **+0.10%** (spread 2.90 pp) | +3.13 |
 Expected +0.83% (cold-water term) if knot 2 is right. Implied k2 = 0.9953 (excl '4423 0.9984) vs table 0.9880 -> within 0.7% = the same ~-0.7 pp 6-pulse shift seen at 5 gpm. **Knot 2 holds at 0.988; no change.** '4423's 9/6 outlier (+7.74) is gone on the v370 pick + 17064 offset (it was 30/254 counts at the floor with a locked 400 ps offset then; now 36/801). All four inside +/-2% at 1 gpm. lamCorrMax 100/26/61/96 = valve-ramp samples (gated key working). Remaining 3/4" PEX run: 0.5 gpm x 20 gal (knot 1 repeat at 6 pulses + PEX-B low-flow confirm).
+
+### 0n — 9/8 06:13 0.5 gpm x 20 gal on the v370 picks, lamCorr on (Bruce: 20 gal + 110 oz = 20.859 gal, 20.4 C, ~2,850 s -> 0.44 gpm, Re ~2,025 = knot 1). **3/4" PEX CLOSED.**
+| unit | pick | err | 9/7 0.5 gpm (old picks) | quiet residual before run | plateau tofNorm |
+|---|---|---|---|---|---|
+| '8549 | 28 / 656 | +1.63% | -0.26 | +35 ps | 1989 |
+| '4423 | 36 / 742 | +2.06% | +3.92 | -22 ps | 1985 |
+| '3063 | 30 / 889 | **-8.32%** | -6.07 | **-108 ps** | **1792** |
+| '8538 | 30 / 1091 | +0.39% | -1.09 | +25 ps | 1954 |
+| mean | | -1.06% (excl '3063 +1.36%) | -0.88 | | |
+Expected +0.64% (cold-water term). Three units within +/-2.1% and the group within +/-3% -> **knot 1 (2066 / 0.900) final; PEX knots, Lf 2.225 both columns, bias 4.0 all final at 6 pulses.** '3063 is a unit, not a knot: its plateau sits 193 ps below the others (-9.7% of dtof), of which -108 ps is its un-re-anchored quiet residual (-5.4 pp) and ~85 ps (~4 pp) is unit-specific at low Re (the copper-era finding: device spread is a low-Re phenomenon). Its applied offset (5003, the largest magnitude of the four) has not moved since 04:56: 17064's re-anchor bar compounds 4x per re-anchor (32 -> 128 -> 512 = FAST_CAP), so after one or two re-anchors it is effectively frozen until the 24 h commit, and the post-commit cz slew is 256 ps/day. **Proposed 17066 (not built): fixed re-anchor bar (e.g. >= 256 samples of quiet, ~4 min) with a minimum interval instead of 4x compounding, so a 100 ps residual clears in minutes; a 100 ps residual is 5% at Q1.** Direction still UNKNOWN x4 after 48 min at 0.44 gpm.
