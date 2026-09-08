@@ -1788,3 +1788,12 @@ Mag-reset installs on PVC (06:48-06:51, 17066/v370, pipeType P): first cal at 6 
 **9/8 ~09:15 v372 BUILT + s3 msp372.bin (Bruce: "just like we shift the gain window down if hot signal would like to shift up by 5 if weak signal"):** after ladder rung 0 (gain 26), both channels alive and < CAL_WEAK_BASE_UPAMP 160 -> ladder base 26 -> 31, grid rows +5 (28..52) via SC_ROW_GAIN() and g_grid_shift; one-shot per sweep, reset in enter_amp_scan; envelope bounds follow (calSurfGainLo/Hi read 28..52 when fired). Threshold from today's PVC numbers: normal units ~230-250 counts at g26 (projected from 38/749, 43/1084 at 0.8 dB/idx), '4423 ~60-130 (from 47/902 and 47/448). NOT rolled: all four set to allowTiFotaVer 371 for Bruce's power cycles; 372 on his word (weak-unit acceptance = '4423 on PVC).
 
 **9/8 ~09:20 TB WRITE (Bruce: "roll it"):** allowTiFotaVer 371 -> 372 on all four (HTTP 200 x4, read-back verified). Power cycles pending on Bruce; install session TIFOTAs v372, first cal at 9 pulses (compiled default), weak shift armed for 4423.
+
+### 0p — 9/8 08:57-09:05 power-cycle installs on PVC: v372, 9 pulses, weak shift fired on '4423
+| unit | fw / TI | pick (gain / counts / env) | window | pulses | map | quiet residual |
+|---|---|---|---|---|---|---|
+| '8549 | 17066 / 372 | 36 / 842 / 42 | 36 / 15 | 9 | 22/22, rows 23-47 | -20 ps |
+| '4423 | 17066 / 372 | **48 / 863 / 42** | 36 / 15 | 9 | 16/16, **rows 33-52 = weak shift fired** | +33 ps (sd 151) |
+| '3063 | 17066 / 372 | 43 / 1308 / 42 | 36 / 15 | 9 | 19/18, rows 23-47 | +39 ps |
+| '8538 | 17910 / 372 | 40 / 930 / 42 | 36 / 15 | 9 (paramRecal 1: 6 -> 9 after 0xAE) | 21/21 | +10 ps |
+All four Metering, no pulse attr anywhere, compiled default 9 delivered (v371). '4423: the +5 frame put it at gain 48 with 863 counts instead of the 47-row ceiling at 448-902; first weak-shift acceptance. '8538's window is back to 36/15 (v371: reset no longer touches it) and its persisted 6 was reset to 9 by 0xAE then param-recal'd (pRecal 1) — the full fresh-install path worked on it. '3063 picked 43/1308 (above the 900 target): lower rows in the centre column were not core-quiet, so 43 was the lowest usable row — acceptable, watch. **'8538 ship state: 17910 / v372 / 9 pulses / 40-930-42 / 36-15 / Metering / offset re-derived.** PVC runs next: 50 gal @ 5 gpm (Lf 2.211 at 9 pulses — the pulse count it was originally measured at), then 1 gpm and 0.5 gpm with correction on.
