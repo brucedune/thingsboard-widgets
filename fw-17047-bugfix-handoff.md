@@ -1797,3 +1797,12 @@ Mag-reset installs on PVC (06:48-06:51, 17066/v370, pipeType P): first cal at 6 
 | '3063 | 17066 / 372 | 43 / 1308 / 42 | 36 / 15 | 9 | 19/18, rows 23-47 | +39 ps |
 | '8538 | 17910 / 372 | 40 / 930 / 42 | 36 / 15 | 9 (paramRecal 1: 6 -> 9 after 0xAE) | 21/21 | +10 ps |
 All four Metering, no pulse attr anywhere, compiled default 9 delivered (v371). '4423: the +5 frame put it at gain 48 with 863 counts instead of the 47-row ceiling at 448-902; first weak-shift acceptance. '8538's window is back to 36/15 (v371: reset no longer touches it) and its persisted 6 was reset to 9 by 0xAE then param-recal'd (pRecal 1) — the full fresh-install path worked on it. '3063 picked 43/1308 (above the 900 target): lower rows in the centre column were not core-quiet, so 43 was the lowest usable row — acceptable, watch. **'8538 ship state: 17910 / v372 / 9 pulses / 40-930-42 / 36-15 / Metering / offset re-derived.** PVC runs next: 50 gal @ 5 gpm (Lf 2.211 at 9 pulses — the pulse count it was originally measured at), then 1 gpm and 0.5 gpm with correction on.
+
+### 0q — 9/8 10:39 PVC 3/4" Sch 40, 50 gal @ 5 gpm, 9 pulses, v372 picks (Bruce: 50 gal + 16 oz = 50.125 gal, 18.8 C, ~567 s -> 5.3 gpm). '3063 silent since 09:15 (hung; needs power cycle) — three units.
+| unit | pick | err | vs model (+1.15) |
+|---|---|---|---|
+| '8549 | 36 / 789 / 42 | -3.71% | -4.86 |
+| '4423 | 48 / 852 / 42 | +1.54% | +0.38 |
+| '8538 | 40 / 1053 / 42 | -2.38% | -3.53 |
+| mean | | **-1.52%** (spread 5.24 pp) | -2.67 |
+Lf to zero: 2.205 raw / 2.200 vs model (table 2.211, measured 8/7 at 2 and 4.2 gpm on v342/343 at 9 pulses). Group is 0.3-0.5% of Lf low, but the unit spread (5.2 pp on three units) is 2.5x the PEX spread and the run is a single sample with '3063 missing -> no refit yet; repeat 50 gal after '3063 is back. PVC couples weaker and less uniformly than PEX (same pads): '8549 -3.7 and '8538 -2.4 vs '4423 +1.5 — the two units on the lower gains read low. lamCorrMax 4/61/8 = ramp samples.
