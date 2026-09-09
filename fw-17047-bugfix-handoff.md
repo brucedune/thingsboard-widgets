@@ -1858,3 +1858,34 @@ Run 3 mean (three units) -2.15%, spread 4.4 pp; three-run all-sample mean **-1.9
 SWD access OK (STM32L5 0x472, 256 KB, VTref not wired). Release firmware sleeps with debug off, so hot-plug only catches it awake; connect under reset works. Bank A = 17066 release (dump matched), bank B = an older release. **Bank 2 (>= 0x08020000) cannot be programmed through CubeProgrammer 2.21 here**: every write fails verification (reads back the old bytes), explicit page erases do not take, and 0x08020000 holds a bootloader copy (the FOTA slot starts at 0x08024800). The two-bank DEBUGSPAN idea is dead; a first attempt left bank A with a truncated image, restored from the dump (verified). Fallback = DEBUG-LEAN: modules unrelated to the investigation compile DBG_PRINTF out (commit above), image 112,576 B (64 B free), flashed + verified 05:3x, running. UART: USART1 PA9/PA10 921600 8N1 = the ST-Link VCP on COM4; boot log confirmed (IMEI ...3063, Monogoto SIM, radio init). Logger: scratchpad/uart_log.py -> GitHub/3063-uart-0909.log (timestamped, auto-reconnect). checkInPeriod 5 in force -> a session every 5 min; the TI streams between. What to read at the next hang: session end path (PWRDN vs TIMEOUT/FAIL/force-off), INFO packets after it, TI banner, ti_monitor lines.
 
 **9/9 ~06:30 TB WRITE (Bruce "go"):** 3063 checkInPeriod 5 -> 60. First hour on the DEBUG-LEAN image at 5-min cadence: 22 sessions, all closed via PWRDN, one network failure (+CME ERROR 30 at 06:10) torn down cleanly, TI stream continuous - no hang. Hypothesis: the fault needs "session then long idle" (all three 9/8 hangs began within ~15 min of a session on a device idle for hours between). Debug build still uses STOP2 (USE_STOP2 unconditional). Gap: 9/8 sessions were event-end sessions after real water; if the trigger needs the event-close path, scheduled check-ins will not reproduce it -> unit back on a pipe with the debugger if 60-min stays clean.
+
+## 0x. 9/9 08:55 — why the debugger run is stable: the hang is an EVENT-END hang, not an idle one
+
+Bruce: "60min looks good so far / Any theories as to why it seems stable".
+Re-read '3063's 9/8 telemetry against the three record gaps:
+
+| gap (records) | last flow record | flow -> 0 | last record | silence | recovery |
+|---|---|---|---|---|---|
+| 08:26-08:57 | 08:26:33 7.10 gpm | 08:26:34 (0.15 -> 0) | 08:26:37 | 31 min | 08:57 Calibrating, tiBootCnt 5->6 |
+| 09:14-10:45 | 09:14:29 7.13 gpm | 09:14:30 (0.02 -> 0) | 09:14:33 | 91 min | 10:45 Calibrating, tiBootCnt 1->2 |
+| 11:35-12:00 | 11:35:39 5.26 gpm | 11:35:40 (0.08 -> 0.14) | 11:35:42 | 25 min | 12:00 Metering, tiBootCnt 2->3 |
+
+All three: full flow, valve closed, 3-4 records at ~0 gpm, then silence.
+tiBootCnt did NOT move at the hang, only at the recovery (monitor / power
+cycle) -> the TI did not reset itself; either the TI stalled or the ST-side
+framer died. That is what the UART log has to decide.
+Counter-evidence for the idle theory: 9/8 12:46-23:57 the same unit on the
+RELEASE image ran ~135 idle 5-min sessions on the bench with zero gaps, and
+today 05:30-08:55 on the debugger 24 sessions (22 at 5 min, 2 at 60 min)
+with zero gaps. Cadence is not the variable; flow-stop is.
+Event-end path (measure.c measHandleEndEvent): event record -> sf buffer,
+radioOnEventEnd -> gRadioTrigger + SET_RADIO_START_INFO, Rev 17047
+meter_update_internal() checkpoint to the SPI-flash meter log; then the
+session start flushes USART3 and tiuart_fb_resync() (17043). Suspects in
+that order: masked SPI-flash write during a high-rate record stream; the
+session-edge flush/resync leaving the framer poisoned; a TI-side stall on
+the flow->0 transition ('8549/'4423 on the same pipe never hung, so
+'3063-specific signal/timing). DEBUG image (DBG stop clocks) is a confound
+for STOP2 timing but is not needed to explain today's stability.
+Next: the reproduction needs a flow STOP with the debugger attached, not
+more idle hours. 3 of 4 flow stops on 9/8 hung (run 3 at 12:07 did not).
