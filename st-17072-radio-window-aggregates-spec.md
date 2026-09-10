@@ -1,6 +1,6 @@
 # ST Rev 17072 — keep the TI aggregates that arrive during a radio session
 
-Status: SPEC, awaiting Bruce's approval before build. Author: Claude, 9/10/2026 12:30. Evidence: fw-17047-bugfix-handoff.md §1f/§1g.
+Status: APPROVED for the '3063 debug bench (Bruce 9/10 12:40-12:41); building. Author: Claude, 9/10/2026 12:30. Evidence: fw-17047-bugfix-handoff.md §1f/§1g.
 
 ## 1. Problem (verified on '3063, 17070/17071 link line)
 
@@ -63,14 +63,14 @@ config.h `DUNE_FIRMWARE_REV 17072` with the rationale comment.
 - meas_hold_tick already ignores radio time (17068); aggregates arriving during radio simply refresh `lastAggEpoch` — no new kill path.
 - 96-record queue = 1.5 min. A session longer than that (carrier survey, FOTA) overflows; `radioQDrops` counts it; the register is still right because totalization is upstream.
 
-## 6. Success criteria (rig, '3063, then bench pair)
+## 6. Success criteria ('3063 rig)
 
 1. Link line through a session under flow: `rx` keeps climbing, `full` flat, `agg` advances ~16 per 16 s.
 2. Records continuous across the session: no gap >3 s in TB except the SYNC_TIME step; the queued batch appears with its own times, in order.
 3. Register delta == integrated records ±0.5% across a run that contains ≥1 mid-flow session (test: stop pump, wait for RADIO INIT, restart pump 10 s later — flow during the event-end session).
 4. `tiUartFull` flat across ≥3 sessions; `radioQueued` ≈ session seconds; `radioQDrops` 0.
 5. No new hold ENTER/KILL, no framer `bad` increments, `fe/ne/ore` unchanged.
-6. Bench pair ('8549/'4423) after the rig (Bruce 9/10 12:40: "test on debug bench as well"): FOTA roll of the RELEASE image — TB shared writes gen2fw 17066 -> 17072 and allowTiFotaVer 375 -> 379 on both (preview + go; they never ran 17067-17071, so this also brings the 17067 dedup exemption, 17068 billing gate, 17069 blob-aware hold, 17070 link keys). Then one PVC 3/4 5 gpm run with a forced mid-run session (stop water, wait for RADIO INIT, restart within 10 s), same criteria 1-5 read from TB (tiUartFull flat, radioQueued ~ session seconds, register == integrated, no record gap).
+6. Test scope = '3063 on the debug probe ONLY (Bruce 9/10 12:41: "not the bench pair", "just 3063"). '8549/'4423 stay at 17066/375; any later roll is a separate decision.
 
 ## 7. Option (b), rejected for now
 TI-side flow control: ST clears the TI's `g_stReady` at RADIO INIT so aggregates stay in the TI's 1,024-packet FRAM buffer, re-arms at RADIO OFF, TI dumps the backlog. Needs a TI release plus an ST drain able to absorb ~60 frames in one burst (~1.5 KB > 512 B ring — would need 4.1 anyway). Keeps the ST FSM untouched but doubles the moving parts. Revisit only if 4.1 shows a concrete problem.
