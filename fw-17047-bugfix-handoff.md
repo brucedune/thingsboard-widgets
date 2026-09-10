@@ -1889,3 +1889,27 @@ the flow->0 transition ('8549/'4423 on the same pipe never hung, so
 for STOP2 timing but is not needed to explain today's stability.
 Next: the reproduction needs a flow STOP with the debugger attached, not
 more idle hours. 3 of 4 flow stops on 9/8 hung (run 3 at 12:07 did not).
+
+## 0y. 9/9 evening — '3063 on the recirculating rig (1" M copper, pump ~12.5 gpm): four tnorm gaps, one anomaly
+
+Bruce reconnected '3063 (power-cycle boot 17:48:17 log, PIN+BOR) to a bucket
+rig with a DC pump on 1" M copper; set pipeType M / pipesize 1 in TB at
+17:53:40 (device applied it in the 17:56 session: log "pipesize: dia=2" ->
+"dia=3"; recal + offset reset followed). Clock note: the PC/log clock is 87 s
+BEHIND the TB server (status posts); record timestamps ride the device
+clock, which drifts up to ~50 s between hourly syncs (unixTimeDrift 49).
+Align log vs records to about +/-1 min only.
+
+| gap (TB record clock) | length | what it is | verdict |
+|---|---|---|---|
+| 17:54:43 -> 17:58:05 | 3.4 min | flow stop -> event-end session (records gated while radio on) + the pipe-change recal (TI silent ~70 s, offset reset -5104 ps at 17:58:21, relocked 17:58:30) | benign |
+| 18:08:13 -> 18:12:23 | 4.2 min | pump running 12.6 gpm; TI dropped out of Metering (12 s of raw records with flow 0, tnorm ~30k), went silent, RECALIBRATED itself (gain 48->47, upamp 983->1109, offset 5092->5166, state Calibrating at 18:12:25); ST closed the event (not-metering close) and ran the event-end session | TI self-recal mid-flow, ~50 gal not metered |
+| 18:13:47 -> 18:15:05 | 78 s | flow stop -> event-end session | benign |
+| 18:40:44 -> 18:48:14 | 7.5 min | pump running ~12.5 gpm. TI ALIVE: INFO packets kept coming (~243 in the window = normal 8 s cadence), blob EOT markers every 16 s in the log, no TI reset (boot count 10 throughout), no cal (cal surface identical). But NO aggregates: tiAggCount +1518 in 1937 s (~400 s missing), records 1039 of 1511 s in the flow span. TI error bits at the 18:47 post carry USS code 103 = measurement_period_overflow; reacqCnt 16->58 (+42, 1 fail), errCrossCnt +76. ST: one hold episode (heldGal 1.83 = ~8 s at 13 gpm), event killed at 12 s (17042), radioStartFile = measure.c:222 — but the session did not start until 18:45:35 log when aggregates resumed (LARGE EVENT quick flag at :1164). Register: 200.65 gal booked between posts = the recorded 17 min at ~12.5 gpm; the hole (~94 gal) was NOT counted. | THE ANOMALY: same class as 9/8 (TI stops producing aggregates mid-flow, ST alive); today self-recovered after ~6.5 min, yesterday needed a TI reset |
+
+Open from this: (1) why the TI stops emitting aggregates while INFO continues
+(period overflow 103 + re-acquisition storm at high dTof ~35k ps is the lead);
+(2) why the ST's event-kill trigger did not open a session for 6 min (radio
+FSM OFF-state gate — see next section); (3) the debug-lean image silences
+measure.c and hci.c, so hold/kill and INFO decode did not print — rebuild
+with measure.c prints ON before the next stop.
