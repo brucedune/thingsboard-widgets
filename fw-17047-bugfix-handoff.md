@@ -1922,3 +1922,5 @@ accrues in awake-ms and took ~6 min of wall clock; heldGal 1.83 (~8.8 s at
 12.5 gpm) and the kill/session landing at the END of the hole fit. INFERRED
 from code + counters, not yet printed. 17067 candidate: clock the hold/kill on
 RTC_epoch (or an LPTIM ms clock) like ti_timed_out() already does.
+
+**9/9 19:13 DEBUG-LEAN v2 flashed to '3063 (Bruce "lets do it"):** measure.c prints back ON (hold/kill, event open/close, per-aggregate "a.. b.. td.. fr.." line = 1 Hz TI heartbeat with flow), ti_hci_impl.c and connmgr.c silenced instead (EOT/CAP/checkInPeriod chatter gone). Image `special/debug/DuneFW_L5_2_17066_DEBUGLEAN2.hex` 111,620 B (1,020 B free), source commit c1ce596 in DuneFW_L5_2. Flashed via CubeProgrammer CLI mode=UR, verified, MCU reset 19:13:42 (PIN boot). Logger kept COM4; same log file.
