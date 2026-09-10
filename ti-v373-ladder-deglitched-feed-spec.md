@@ -25,9 +25,19 @@ A. Pair deglitch, mirroring the dtof hold: keep `last_good_ups/dns`. If
    good pair and count `gPairHoldCnt`; otherwise adopt and re-seat. Never re-seat from an
    aggregate whose dtof is -1 or over the ceiling.
 B. Move `envTest()` after the hold block and call it with the SHIPPED values
-   (`agg.tofDps, agg.tofUPSps, agg.tofDNSps`). A single-aggregate hop can no longer start a
-   3 s attempt; a hop that persists 3 aggregates is adopted, err_cross then fires once and the
-   ladder re-inits the lock — the intended cure, once, not 114 times.
+   (`agg.tofDps, agg.tofUPSps, agg.tofDNSps`). err_cross is then a per-aggregate FLAG only.
+B2. Ladder entry becomes ERROR-RATE based (Bruce 21:50: "should be signal to noise based
+   (error rate)"). Keep a 32-aggregate ring of the deglitched err_cross flags; rate = errors/32.
+   - ENTER the ladder when rate >= REACQ_RATE_ENTER (proposed 25% = 8 of 32). A broken lock
+     errors on nearly every aggregate (8/27 finding: a wrong-lobe lock is persistent); noise
+     gives isolated flags. Tonight's aerated run was ~9% raw / ~2% shipped -> would not enter.
+   - Attempt phases unchanged (self, env+5, env-5; 3 aggs each; success = 3 clean).
+   - A spiral recovery counts a STRIKE only when entry was rate-based (always, now) — the
+     isolated-hop strikes disappear with the isolated entries.
+   - Re-arm unchanged (30 clean aggs clear strikes). Ring cleared on cal restart / re-init.
+   - Report the rate: reuse errBurstMax's slot or add `errRate32` to INFO (needs ST decode;
+     optional, see E).
+   Thresholds are proposals for Bruce to set; 25%/32 is the starting point.
 C. `err_floor` keeps the raw pair (a real signal dropout must not be hidden for 3 s).
 D. `cal_feed_aggregate()` unchanged (raw). `-1` (no valid raws) path unchanged.
 E. Telemetry (optional, needs an INFO field + ST 17067 decode): gSkipCompCnt,
@@ -37,7 +47,7 @@ Out of scope: strike counting while the transient window is open; the 3-strike r
 the deferred-recal cap. Listed as levers in the handoff, not touched here.
 
 ## Success criteria (bench, '3063 on the pump rig, 30 min continuous ~12 gpm)
-- errCrossCnt growth ~0 from single-aggregate hops (was ~2/min); reacqCnt/reacqSpiralOk flat.
+- errCrossCnt may still count isolated flags; reacqCnt/reacqSpiralOk FLAT (no ladder entry below 25%).
 - No status = Calibrating during the run; per-aggregate UART line continuous.
 - Records: tnorm identical in behaviour; tofA/tofB no longer show +-500 k ps hops (<= 3 held).
 - Quiet-water behaviour unchanged (offset lock, cal). Regression later on '4423/'8549 at 5 gpm.
