@@ -1986,3 +1986,9 @@ Every session was radioStartFile measure.c:221 (event end):
 TB record gaps (122-468 s) sit right before each session: the record clock is a per-aggregate counter re-synced at SYNC_TIME, so each session shows a jump = lag accumulated since the previous sync; the log shows continuous samples across most of them. Cosmetic, but it makes TB gaps unreliable as evidence.
 v374 late run (05:00-06:30, 5,260 samples): robust sd 2,202 ps, ONE >10 k excursion (run A had 8 in 700), max 10.8 k; pair-lobe hops 56 (persistent hops adopt after the 3-agg hold) — abs-TOF lobe instability on this rig persists.
 Pending Bruce: 17067 (dedup exempt, RTC clocks for dedup + hold/kill, drop counter/print), v375 (deferred recal + post-FOTA cal require no-flow), fleet TI-silent fingerprint check.
+
+**9/10 07:15 BUILT + ROLLED (Bruce "Ok for both"):**
+- ST Rev 17067 (fc65939): aggregates (0xA1) bypass the tiuart dedup, dedup drops counted (tiUartDedupCnt) + printed; meas_hold_tick on RTC seconds (lastAggEpoch) with "hold ENTER/KILL" prints. Release 110,924 B -> prod bucket 672132E5/G/17067 (5 chunks); DEBUG-LEAN 111,792 B = special/debug/DuneFW_L5_2_17067_DEBUGLEAN.hex flashed + verified to '3063 over SWD (reset ~07:13).
+- TI v375 (tag; merged to main): deferred recal requires 60 consecutive shipped aggregates with |dtof| < 2,000 ps as well as 60 clean ones. msp375.bin -> s3://dune-firmware-ti/msp375.bin (key was absent).
+- TB WRITES (shared scope, '8549 '4423 '3063): allowTiFotaVer 374 -> 375, gen2fw 17066 -> 17067 (re-read below). '8538 untouched. NOTE gen2fw 17067 on '3063 is required so the FOTA path does not pull 17066 over the flashed debug image.
+Expected: no more multi-minute aggregate silences (or, if the TI still errors, -1 aggregates reach the ST every second -> tofMarkerRejCnt climbs 60/min and the hold/kill fires in 12 s real time with a KILL print); no recal while the pump runs; sessions only at event end / open-event chunks.
