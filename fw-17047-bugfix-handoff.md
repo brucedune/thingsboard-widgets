@@ -1913,3 +1913,12 @@ Open from this: (1) why the TI stops emitting aggregates while INFO continues
 FSM OFF-state gate — see next section); (3) the debug-lean image silences
 measure.c and hci.c, so hold/kill and INFO decode did not print — rebuild
 with measure.c prints ON before the next stop.
+Follow-up on open item (2): radio_process() runs every main-loop pass, so a
+set gRadioTrigger is not the delay. meas_hold_tick() measures the TI gap with
+HAL_GetTick(), and pwr.c suspends the SysTick around STOP2 with no sleep
+compensation (HAL_SuspendTick / HAL_ResumeTick only). With the TI silent the
+ST is awake only for the 16 s blob-end wakes, so the "12 s" HOLD_KILL budget
+accrues in awake-ms and took ~6 min of wall clock; heldGal 1.83 (~8.8 s at
+12.5 gpm) and the kill/session landing at the END of the hole fit. INFERRED
+from code + counters, not yet printed. 17067 candidate: clock the hold/kill on
+RTC_epoch (or an LPTIM ms clock) like ti_timed_out() already does.
