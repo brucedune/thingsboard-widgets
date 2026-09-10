@@ -55,7 +55,7 @@ config.h `DUNE_FIRMWARE_REV 17072` with the rationale comment.
 
 ## 5. Constraints and risks
 
-- **Lean image size**: 17071 lean has 96 B free of 112,640; release has 1,248 B. 17072 adds ~400–700 B. Release fits. For the '3063 rig image: (i) quiet one more module under DUNE_LOG_QUIET in the lean build, or (ii) build the rig image as DEBUG-SPAN (220 K, SWD-only, FOTA disabled — already appropriate for '3063 with gen2fw deleted). Decide at build; (ii) is the fallback.
+- **Lean image size**: 17071 lean has 96 B free of 112,640; release has 1,248 B. 17072 adds ~400–700 B. Release fits. For the '3063 rig image the DEBUG-SPAN route is DEAD (handoff 9/8: bank 2 cannot be programmed through CubeProgrammer here), so the lean build must quiet one or two more modules under DUNE_LOG_QUIET (candidates by print count, keeping measure.c samples, the link line, cal hold and the >> RADIO state lines). Measure at build.
 - Processing aggregates during a session interleaves `DBG_PRINTF` with AT traffic in the log (already happens with the link line; cosmetic).
 - `hci_process_data` during radio also handles INFO and any other TI frame types. Captures (`adc_cap_t`) go through the same record path and are queued like samples (16 B each). No capture is scheduled during a session today, so exposure is nil.
 - Watchdog: the drain is bounded (≤512 B ≈ 20 frames per pass). `TI_HCI_PASS_BUDGET_MS` untouched.
@@ -70,7 +70,7 @@ config.h `DUNE_FIRMWARE_REV 17072` with the rationale comment.
 3. Register delta == integrated records ±0.5% across a run that contains ≥1 mid-flow session (test: stop pump, wait for RADIO INIT, restart pump 10 s later — flow during the event-end session).
 4. `tiUartFull` flat across ≥3 sessions; `radioQueued` ≈ session seconds; `radioQDrops` 0.
 5. No new hold ENTER/KILL, no framer `bad` increments, `fe/ne/ore` unchanged.
-6. Bench pair ('8549/'4423) after the rig: one PVC 5 gpm run with a forced mid-run session, same criteria.
+6. Bench pair ('8549/'4423) after the rig (Bruce 9/10 12:40: "test on debug bench as well"): FOTA roll of the RELEASE image — TB shared writes gen2fw 17066 -> 17072 and allowTiFotaVer 375 -> 379 on both (preview + go; they never ran 17067-17071, so this also brings the 17067 dedup exemption, 17068 billing gate, 17069 blob-aware hold, 17070 link keys). Then one PVC 3/4 5 gpm run with a forced mid-run session (stop water, wait for RADIO INIT, restart within 10 s), same criteria 1-5 read from TB (tiUartFull flat, radioQueued ~ session seconds, register == integrated, no record gap).
 
 ## 7. Option (b), rejected for now
 TI-side flow control: ST clears the TI's `g_stReady` at RADIO INIT so aggregates stay in the TI's 1,024-packet FRAM buffer, re-arms at RADIO OFF, TI dumps the backlog. Needs a TI release plus an ST drain able to absorb ~60 frames in one burst (~1.5 KB > 512 B ring — would need 4.1 anyway). Keeps the ST FSM untouched but doubles the moving parts. Revisit only if 4.1 shows a concrete problem.
