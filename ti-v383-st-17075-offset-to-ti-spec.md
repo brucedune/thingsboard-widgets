@@ -19,6 +19,7 @@ The legacy channel exists on both ends and both ends neuter it: TI cmd 0x8A `del
   - `dune_meas_flow_active()`: |dz| > 700 ps.
   - v375 still-water streak: |dz| < 2,000 ps.
   - v362 continuity anchor and everything shipped to the ST: UNCHANGED (raw). The ST keeps applying its own offset; no double correction.
+- **Clear on commit (Bruce 9/10 23:20, closes the loop):** at every cal commit (boot cal, resweep/recal, param recal, cluster commit) the TI sets `delta_tof_offset = 0`. The new cell has a new raw zero; keeping the old offset would make `raw + offset` read as permanent flow and block every later recal. With 0 the tests fall back to raw (today's behaviour) until the ST quick-locks the new zero (~32 s on the same still water that permitted the recal) and pushes it.
 - INFO `duneInfo.offset` now reports the value in use (verification on TB via the INFO decode).
 
 ### ST 17075
@@ -38,6 +39,7 @@ The legacy channel exists on both ends and both ends neuter it: TI cmd 0x8A `del
 4. Register == records across a run (billing unaffected).
 
 ## 5. Risks
+- Race considered: recal moves the zero -> stale offset -> TI sees permanent flow -> no further recal. Closed by clear-on-commit above; the ST re-derives and pushes within ~32 s of the recal on the same still water.
 - Sign error would invert every TI judgement: verified against the ST code (`deltaTOF += current_offset()`) and the '3063 numbers; the INFO decode gives a same-day check.
 - The TI applying the offset to SHIPPED data would double-correct on the ST: explicitly excluded; the shipped raw stays raw.
 - Lean image: ST change is ~60 B; 17074 lean has 12 B free -> drop the 17074 print's `x%u` field or quiet one more module in the lean build.
