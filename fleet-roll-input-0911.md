@@ -34,3 +34,4 @@ Source: fw-17047-bugfix-handoff.md (full evidence). Written for the session runn
 
 ## Addendum 17:15 — TI 391 reject rate under turbulent flow
 On the aerated rig 391 ships ~5% of flow aggregates as invalid (tofMarkerRejCnt), no forced walks. Records lose those seconds; the register integrates across them (verification in the handoff). Expect the same on turbulent high-flow sites; it is not a fault unless reacqCnt climbs with it. v392 (median pair, 200 ns) removes it; if the TI roll can wait a day, roll 391 -> 392 instead. ST 17078 is unaffected.
+- 20:40 update: two hours of 10.7 gpm aerated flow on 391 — register +1,324 gal, records integrate -0.4% of that with 5.2% of aggregates invalidated, zero forced walks, offset unchanged. Billing is safe on 391; the reject count is the only visible artefact.
