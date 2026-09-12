@@ -28,3 +28,9 @@ Estimated cost: A ~180 B, B ~50, C ~90, D ~60, E ~80 = ~460 B of 624.
 
 ## 4. Not in 17079
 Crystal Acres 29's 344-era BSL password refusal (separate: BSL password = the 344 image's vector table; needs the 344 build's vectors or a mass-erase entry), pulse 13 vs 9 (policy), fringe data-POST chunking (17051 policy), the 576 B slot headroom (17079 spends ~460 of the 624 left; after this the release image is at the cap — the next ST change needs a diet).
+
+## 6. As built (9/12 10:18) — deltas from §2
+- Boot: TI held in reset from the top of init() through sf_init and the register restore; released by bsl_reset on every boot (17015 alive-probe retired). No boot-time flash access ever happens with the TI in an unknown state.
+- Predicate: held = safe; disturbed or never-heard = refused; heard then 60 s silent = refused. Reads (record ring, meter log, backup) gated too, not only writes.
+- E (driver hard errors) and F (I2C source removal) deferred. 21 finished debug status keys removed for space (radio-session/data-upload keys kept). 17029 BSL activity blink removed.
+- 17080 direction: register checkpoint in BKUP (pack registers) so warm boots need no flash and no TI reset.
