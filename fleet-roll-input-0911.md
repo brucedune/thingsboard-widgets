@@ -31,3 +31,6 @@ Source: fw-17047-bugfix-handoff.md (full evidence). Written for the session runn
 - Group lever census (412 device groups, SERVER_SCOPE): 362/209 = 210 groups, 17037/344 = 41, 16185/314 = 23, none = 20, 16131/296 = 18, 16022/260 = 15, 15154/260 = 12, 363/219 = 11, 16130/296 = 10, 15090/254 = 9, 17028/341 = 7, ... (group_levers_0911.json).
 - Wave 1 (device pins, cache of 9/10 + pins read 16:40): 286 devices at fwVer 17060/17066; pins 17060/368 on 274, 17066/372 on 3, 17066/375 on 2, 17078/391 on 6 (the bench), 17075/383 on 1 (72379322); states: Failed Cal 183, Metering 62, Calibrating 40, TI Silent 1 (wave1_pins_0911.json). These 274 pins are the natural first write: re-pin to 17078/391 (device scope, as they are today).
 - Fleet pair distribution (9/10 cache, Gen2 = 2,772): 17037/344 = 2,207; 17060/368 = 272; 17032/344 = 129; 17040/354 = 67; 17028/341 = 27; the rest < 12 each.
+
+## Addendum 17:15 — TI 391 reject rate under turbulent flow
+On the aerated rig 391 ships ~5% of flow aggregates as invalid (tofMarkerRejCnt), no forced walks. Records lose those seconds; the register integrates across them (verification in the handoff). Expect the same on turbulent high-flow sites; it is not a fault unless reacqCnt climbs with it. v392 (median pair, 200 ns) removes it; if the TI roll can wait a day, roll 391 -> 392 instead. ST 17078 is unaffected.
