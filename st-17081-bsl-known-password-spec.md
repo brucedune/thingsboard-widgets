@@ -90,3 +90,4 @@ Effect on the rig proof: with (1) the 209 round trip proves table A even though 
 - One known-table try: family by resident (>=341 D, 314-340 C, 210-313 B, 208-209 A, 110-207 G, <110 or 0 -> D as the single free guess), then erase_via_wrong_password + default. Log: "BSL kpw <res>" or "BSL ers".
 - Tables: A 209, B 218-302, C 314-325, D 341-392, G 119-194 (E/F/H not carried).
 - Sizes: release 112,252 B (388 free), lean 112,600 B (40 free).
+- **Rig proof 9/12 15:37:** 209 (family A, mute image, never heard) -> 392: "BSL kpw 209", first try. Tables proven on hardware: A, C, D. Pending: B (296 round trip), G (optional), and the non-erasing-BSL field trial (72385774).
