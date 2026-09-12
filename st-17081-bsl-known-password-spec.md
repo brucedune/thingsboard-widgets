@@ -62,3 +62,6 @@ Proposed 17082: four tables + map (v<=209 A; 210–313 B; 314–340 C; >=341 D; 
 | C | 314 | 1,062 | 20.0% |
 | D | 344, 354, 368 | 1,916 | 36.1% |
 17081 (C+D) = 56.1% of 5,313; 17082 with four tables = 100%. One "other" (stuck) unit exists in each of the 344 / 314 / 296 / 209 cohorts.
+
+## 17082 as built (9/12 14:50) — four families, bucket 672132E5/G/17082
+Tables A/B/C/D as in the roll-cohort section; selection from the resident version (<=209 A, 210-313 B, 314-340 C, >=341 D; unknown D,C,B,A); the other families are tried in D,C,B,A order before the erase fallback. Route log: kpw = first try, opw<idx> = table index in D,C,B,A order, ers = erase path. Release 112,192 B (448 free), lean 112,608 B (32 free). Proof pending on the rig for A and B (209 and 296 round trips).
