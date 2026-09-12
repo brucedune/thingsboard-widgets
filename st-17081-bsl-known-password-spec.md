@@ -70,3 +70,17 @@ Tables A/B/C/D as in the roll-cohort section; selection from the resident versio
 1. **Stale resident version.** tiUartVer is set only when a banner is parsed and never cleared. After the ST wrote 209 and the 209 image stayed silent, tiUartVer still read 392, so the retry chose D for a family-A resident. The ST always knows what it just wrote: keep `bslWrittenVer` (set when a BSL write completes, cleared when a banner/INFO arrives) and use it as the resident version ahead of tiUartVer/duneInfo.version. With that, the 209 retry would have unlocked first try even with a mute TI.
 2. **One free guess.** On an auto-erasing BSL the second wrong password erases the part, so any table tried after two misses is wasted and the sequence degrades to the erase path. Ordering: resident known (written/banner/INFO) -> that family only -> erase trick; resident unknown -> D only -> erase trick. Never more than one wrong known-table try.
 Effect on the rig proof: with (1) the 209 round trip proves table A even though the 209 image never banners on this ST; 296 proves B.
+
+## Measured residents (fwVerTi latest, 13,931 devices in the 412 groups, 9/12 14:50) — Claude Data/resident_ti_versions_0912.json
+| family | resident versions (count) | devices |
+|---|---|---|
+| A | 209 | 934 |
+| B | 218-302 (260: 873, 296: 920, 254: 219, 219: 176, 272: 164, 256: 128, 295: 29 ...) | 2,533 |
+| C | 314-325 (314: 1,177) | 1,207 |
+| D | 341-392 (344: 2,365, 391: 242, 354: 66, 368: 58 ...) | 2,794 |
+| G | 119-194 (159: 422, 149: 180, 181: 130, 137: 52, 133: 49, 119: 43, 131: 35, 194: 26 ...) | 959 |
+| F | 13-102 (102: 76 ...) | 122 |
+| E, H | 5; 205, 207 | 3 |
+| TI 0 | resident unknown | 199 |
+| no fwVerTi key | (GenI / never posted status) | 5,174 |
+2,217 of the versioned residents are stale (> 30 d). Four tables (A-D) cover 7,468 of 8,552 versioned residents (87%); adding G covers 98.5%. Tables E-H extracted from the containers (in the JSON); six residents report garbage versions (3392, 3904, 28400, 55936, 57400, 57440: corrupt INFO) with no container. Scope question for the roll: are the G-family units (v119-194 TIs, 959 devices) in the FW-upgrade groups? If yes 17083 carries five tables; F/E/H fall to the erase path (125 devices).

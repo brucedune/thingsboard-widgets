@@ -1,0 +1,3512 @@
+{
+ "swept": "2026-09-12T14:50:13",
+ "groups": 412,
+ "devices": 13931,
+ "errors": 0,
+ "stale_gt_30d": 2217,
+ "resident_fwVerTi": {
+  "none": 5174,
+  "344": 2365,
+  "314": 1177,
+  "209": 934,
+  "296": 920,
+  "260": 873,
+  "159": 422,
+  "391": 242,
+  "254": 219,
+  "0": 199,
+  "149": 180,
+  "219": 176,
+  "272": 164,
+  "181": 130,
+  "256": 128,
+  "102": 76,
+  "354": 66,
+  "368": 58,
+  "137": 52,
+  "133": 49,
+  "119": 43,
+  "131": 35,
+  "295": 29,
+  "194": 26,
+  "341": 23,
+  "320": 23,
+  "255": 19,
+  "146": 10,
+  "365": 10,
+  "84": 10,
+  "22": 9,
+  "343": 8,
+  "20": 8,
+  "176": 7,
+  "364": 7,
+  "372": 6,
+  "13": 5,
+  "325": 4,
+  "70": 3,
+  "348": 3,
+  "302": 3,
+  "99": 2,
+  "55": 2,
+  "90": 2,
+  "180": 2,
+  "375": 2,
+  "355": 1,
+  "207": 1,
+  "193": 1,
+  "218": 1,
+  "23": 1,
+  "3392": 1,
+  "324": 1,
+  "318": 1,
+  "101": 1,
+  "130": 1,
+  "51": 1,
+  "60": 1,
+  "205": 1,
+  "3904": 1,
+  "57440": 1,
+  "57400": 1,
+  "28400": 1,
+  "55936": 1,
+  "173": 1,
+  "392": 1,
+  "5": 1,
+  "387": 1,
+  "315": 1,
+  "69": 1,
+  "383": 1,
+  "265": 1
+ },
+ "per_group": {
+  "Stevens Park MHC": {
+   "lever": 209,
+   "n": 14,
+   "resident": {
+    "260": 1,
+    "159": 2,
+    "272": 2,
+    "0": 3,
+    "133": 6
+   }
+  },
+  "All": {
+   "lever": null,
+   "n": 1000,
+   "resident": {
+    "296": 42,
+    "314": 43,
+    "none": 519,
+    "344": 153,
+    "146": 2,
+    "159": 38,
+    "255": 4,
+    "365": 1,
+    "209": 30,
+    "260": 60,
+    "0": 15,
+    "354": 3,
+    "219": 16,
+    "137": 9,
+    "22": 2,
+    "133": 1,
+    "272": 9,
+    "391": 11,
+    "181": 3,
+    "254": 5,
+    "368": 4,
+    "372": 1,
+    "149": 12,
+    "194": 4,
+    "70": 1,
+    "295": 1,
+    "84": 1,
+    "341": 3,
+    "131": 1,
+    "325": 1,
+    "320": 1,
+    "102": 2,
+    "343": 1,
+    "256": 1
+   }
+  },
+  "Lake Road Village RV Park-Cust": {
+   "lever": 209,
+   "n": 13,
+   "resident": {
+    "209": 9,
+    "391": 1,
+    "260": 1,
+    "296": 1,
+    "320": 1
+   }
+  },
+  "Oakwood MHC GenII": {
+   "lever": 344,
+   "n": 0,
+   "resident": {}
+  },
+  "RMA_GENII": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Stone2620N": {
+   "lever": 219,
+   "n": 13,
+   "resident": {
+    "354": 1,
+    "260": 1,
+    "none": 11
+   }
+  },
+  "TN3200E5Ave": {
+   "lever": 209,
+   "n": 4,
+   "resident": {
+    "none": 4
+   }
+  },
+  "Reserve at Chapel Cove HOA": {
+   "lever": 344,
+   "n": 16,
+   "resident": {
+    "344": 16
+   }
+  },
+  "Sara Drive MHP": {
+   "lever": 209,
+   "n": 43,
+   "resident": {
+    "296": 2,
+    "209": 34,
+    "372": 1,
+    "391": 2,
+    "159": 2,
+    "260": 1,
+    "344": 1
+   }
+  },
+  "Bruce's House": {
+   "lever": 209,
+   "n": 2,
+   "resident": {
+    "none": 2
+   }
+  },
+  "Azulejo": {
+   "lever": 209,
+   "n": 61,
+   "resident": {
+    "209": 27,
+    "0": 2,
+    "344": 1,
+    "296": 5,
+    "260": 1,
+    "181": 1,
+    "354": 1,
+    "272": 2,
+    "none": 21
+   }
+  },
+  "Cedarbrook Estates MHC": {
+   "lever": 314,
+   "n": 3,
+   "resident": {
+    "314": 3
+   }
+  },
+  "Woodland Heights MHC": {
+   "lever": 344,
+   "n": 64,
+   "resident": {
+    "344": 63,
+    "355": 1
+   }
+  },
+  "Parkway MHC": {
+   "lever": 260,
+   "n": 0,
+   "resident": {}
+  },
+  "Swan Lake Estates": {
+   "lever": 314,
+   "n": 0,
+   "resident": {}
+  },
+  "Canada": {
+   "lever": 260,
+   "n": 0,
+   "resident": {}
+  },
+  "Fortune Branch": {
+   "lever": 209,
+   "n": 14,
+   "resident": {
+    "none": 14
+   }
+  },
+  "Northview": {
+   "lever": 209,
+   "n": 65,
+   "resident": {
+    "none": 65
+   }
+  },
+  "GenII Water Flow": {
+   "lever": 219,
+   "n": 8,
+   "resident": {
+    "207": 1,
+    "193": 1,
+    "0": 1,
+    "296": 5
+   }
+  },
+  "935 W 12th St Condominiums": {
+   "lever": 314,
+   "n": 0,
+   "resident": {}
+  },
+  "West Highland": {
+   "lever": 209,
+   "n": 6,
+   "resident": {
+    "none": 6
+   }
+  },
+  "Round Lake MHP": {
+   "lever": 344,
+   "n": 63,
+   "resident": {
+    "344": 59,
+    "260": 3,
+    "0": 1
+   }
+  },
+  "Shirlee's MHP": {
+   "lever": 344,
+   "n": 16,
+   "resident": {
+    "344": 12,
+    "368": 4
+   }
+  },
+  "Engineering M-U2DB": {
+   "lever": 314,
+   "n": 31,
+   "resident": {
+    "314": 11,
+    "260": 1,
+    "218": 1,
+    "256": 1,
+    "219": 2,
+    "159": 6,
+    "0": 1,
+    "209": 2,
+    "149": 2,
+    "137": 1,
+    "99": 2,
+    "119": 1
+   }
+  },
+  "Old RMA": {
+   "lever": 209,
+   "n": 9,
+   "resident": {
+    "23": 1,
+    "159": 1,
+    "102": 3,
+    "84": 2,
+    "181": 1,
+    "0": 1
+   }
+  },
+  "Brian Fries 5YR": {
+   "lever": 209,
+   "n": 2,
+   "resident": {
+    "391": 1,
+    "209": 1
+   }
+  },
+  "FOTA Test": {
+   "lever": 296,
+   "n": 0,
+   "resident": {}
+  },
+  "Red Rhino Test": {
+   "lever": 209,
+   "n": 1,
+   "resident": {
+    "209": 1
+   }
+  },
+  "North Ewing Townhomes": {
+   "lever": 344,
+   "n": 0,
+   "resident": {}
+  },
+  "Testing": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Johnson's Trailer Park": {
+   "lever": 344,
+   "n": 26,
+   "resident": {
+    "344": 7,
+    "391": 1,
+    "none": 18
+   }
+  },
+  "Southern Cross MHC": {
+   "lever": 209,
+   "n": 20,
+   "resident": {
+    "209": 14,
+    "260": 1,
+    "354": 1,
+    "314": 4
+   }
+  },
+  "Highlands MHC": {
+   "lever": 209,
+   "n": 31,
+   "resident": {
+    "209": 17,
+    "314": 6,
+    "194": 1,
+    "344": 3,
+    "391": 2,
+    "260": 1,
+    "102": 1
+   }
+  },
+  "Oak Forest Estate MHC": {
+   "lever": 344,
+   "n": 38,
+   "resident": {
+    "344": 32,
+    "365": 1,
+    "354": 1,
+    "0": 2,
+    "391": 1,
+    "296": 1
+   }
+  },
+  "Blank": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "New RMA Good": {
+   "lever": 209,
+   "n": 1,
+   "resident": {
+    "181": 1
+   }
+  },
+  "524 N Pershing": {
+   "lever": 344,
+   "n": 3,
+   "resident": {
+    "none": 3
+   }
+  },
+  "TN1900-GenII": {
+   "lever": 209,
+   "n": 2,
+   "resident": {
+    "159": 2
+   }
+  },
+  "TRIALS": {
+   "lever": 209,
+   "n": 7,
+   "resident": {
+    "none": 7
+   }
+  },
+  "Brookhaven MF": {
+   "lever": 219,
+   "n": 0,
+   "resident": {}
+  },
+  "Ridgewood Gardens": {
+   "lever": 209,
+   "n": 150,
+   "resident": {
+    "none": 150
+   }
+  },
+  "Wintergreen Apartments": {
+   "lever": 344,
+   "n": 37,
+   "resident": {
+    "344": 35,
+    "296": 1,
+    "314": 1
+   }
+  },
+  "RMA - Bad": {
+   "lever": 314,
+   "n": 449,
+   "resident": {
+    "260": 32,
+    "0": 26,
+    "314": 64,
+    "254": 2,
+    "296": 5,
+    "159": 66,
+    "149": 59,
+    "181": 18,
+    "194": 3,
+    "255": 1,
+    "209": 13,
+    "137": 19,
+    "272": 13,
+    "119": 26,
+    "219": 5,
+    "146": 4,
+    "133": 27,
+    "3392": 1,
+    "131": 24,
+    "320": 1,
+    "295": 1,
+    "102": 35,
+    "22": 3,
+    "20": 1
+   }
+  },
+  "Paola MHC": {
+   "lever": 260,
+   "n": 25,
+   "resident": {
+    "344": 13,
+    "314": 9,
+    "0": 2,
+    "296": 1
+   }
+  },
+  "Flower Mound MHC-CUST": {
+   "lever": 209,
+   "n": 35,
+   "resident": {
+    "344": 3,
+    "209": 24,
+    "314": 5,
+    "159": 1,
+    "260": 1,
+    "296": 1
+   }
+  },
+  "Smitty's MHP": {
+   "lever": 344,
+   "n": 41,
+   "resident": {
+    "344": 40,
+    "none": 1
+   }
+  },
+  "Papa Ken": {
+   "lever": 209,
+   "n": 1,
+   "resident": {
+    "209": 1
+   }
+  },
+  "Parkview MHP": {
+   "lever": 296,
+   "n": 0,
+   "resident": {}
+  },
+  "Pelican Shores North HOA": {
+   "lever": 314,
+   "n": 0,
+   "resident": {}
+  },
+  "Seattle Treehouses": {
+   "lever": 209,
+   "n": 7,
+   "resident": {
+    "none": 7
+   }
+  },
+  "Ontario Place MHC-CUST": {
+   "lever": 344,
+   "n": 103,
+   "resident": {
+    "344": 57,
+    "0": 2,
+    "314": 43,
+    "391": 1
+   }
+  },
+  "FOTA Test-Cust": {
+   "lever": 348,
+   "n": 6,
+   "resident": {
+    "391": 1,
+    "324": 1,
+    "318": 1,
+    "348": 3
+   }
+  },
+  "Willapa Shores": {
+   "lever": 341,
+   "n": 10,
+   "resident": {
+    "341": 9,
+    "none": 1
+   }
+  },
+  "Kay Lou MHC": {
+   "lever": 296,
+   "n": 0,
+   "resident": {}
+  },
+  "GENII Production Failures": {
+   "lever": 314,
+   "n": 669,
+   "resident": {
+    "314": 73,
+    "344": 13,
+    "260": 92,
+    "296": 10,
+    "391": 19,
+    "368": 18,
+    "272": 32,
+    "0": 60,
+    "194": 6,
+    "256": 3,
+    "209": 34,
+    "219": 9,
+    "181": 18,
+    "295": 8,
+    "159": 75,
+    "146": 3,
+    "none": 64,
+    "343": 1,
+    "176": 1,
+    "325": 1,
+    "149": 83,
+    "137": 11,
+    "133": 5,
+    "131": 2,
+    "101": 1,
+    "70": 2,
+    "102": 11,
+    "130": 1,
+    "84": 6,
+    "51": 1,
+    "55": 1,
+    "22": 1,
+    "119": 4
+   }
+  },
+  "Encanto Waterfront": {
+   "lever": 209,
+   "n": 20,
+   "resident": {
+    "none": 20
+   }
+  },
+  "Westmoreland": {
+   "lever": 260,
+   "n": 14,
+   "resident": {
+    "260": 2,
+    "none": 12
+   }
+  },
+  "Island Club MHC": {
+   "lever": 260,
+   "n": 0,
+   "resident": {}
+  },
+  "Bishop 10th St Association": {
+   "lever": 314,
+   "n": 0,
+   "resident": {}
+  },
+  "Production L W1023": {
+   "lever": 209,
+   "n": 2,
+   "resident": {
+    "none": 2
+   }
+  },
+  "Grand Central MHP": {
+   "lever": 254,
+   "n": 16,
+   "resident": {
+    "254": 4,
+    "344": 1,
+    "368": 2,
+    "272": 2,
+    "314": 5,
+    "260": 1,
+    "296": 1
+   }
+  },
+  "Production Inventory M-M8DB RMA": {
+   "lever": 209,
+   "n": 11,
+   "resident": {
+    "none": 11
+   }
+  },
+  "East Barre MHP": {
+   "lever": 209,
+   "n": 6,
+   "resident": {
+    "314": 1,
+    "209": 4,
+    "260": 1
+   }
+  },
+  "Shady Lane MHP-Cust": {
+   "lever": 341,
+   "n": 36,
+   "resident": {
+    "344": 9,
+    "391": 17,
+    "368": 6,
+    "372": 1,
+    "354": 2,
+    "365": 1
+   }
+  },
+  "M-M5 Production Rev8": {
+   "lever": 209,
+   "n": 2,
+   "resident": {
+    "none": 2
+   }
+  },
+  "Aggregation Test": {
+   "lever": 209,
+   "n": 32,
+   "resident": {
+    "none": 32
+   }
+  },
+  "Shady Grove": {
+   "lever": 209,
+   "n": 65,
+   "resident": {
+    "none": 63,
+    "0": 2
+   }
+  },
+  "River Hill MHC": {
+   "lever": 209,
+   "n": 1,
+   "resident": {
+    "159": 1
+   }
+  },
+  "Broadway MHP DesMoines": {
+   "lever": 344,
+   "n": 32,
+   "resident": {
+    "344": 24,
+    "260": 1,
+    "391": 3,
+    "none": 4
+   }
+  },
+  "Center Point": {
+   "lever": 209,
+   "n": 3,
+   "resident": {
+    "none": 3
+   }
+  },
+  "Kay Bee Mobile Villa MHP": {
+   "lever": 296,
+   "n": 106,
+   "resident": {
+    "391": 3,
+    "296": 90,
+    "314": 8,
+    "302": 2,
+    "365": 2,
+    "159": 1
+   }
+  },
+  "501 Main": {
+   "lever": 209,
+   "n": 2,
+   "resident": {
+    "none": 2
+   }
+  },
+  "ADU 5 Year Contracts": {
+   "lever": 209,
+   "n": 1,
+   "resident": {
+    "295": 1
+   }
+  },
+  "Los Robles": {
+   "lever": 209,
+   "n": 4,
+   "resident": {
+    "none": 4
+   }
+  },
+  "Refurb L SB": {
+   "lever": 209,
+   "n": 88,
+   "resident": {
+    "none": 88
+   }
+  },
+  "Highland Terrace": {
+   "lever": 314,
+   "n": 62,
+   "resident": {
+    "314": 10,
+    "296": 1,
+    "none": 51
+   }
+  },
+  "Friendly Village": {
+   "lever": 209,
+   "n": 5,
+   "resident": {
+    "none": 5
+   }
+  },
+  "Ft Lauderdale MHP": {
+   "lever": 209,
+   "n": 2,
+   "resident": {
+    "none": 2
+   }
+  },
+  "Roosevelt MHC": {
+   "lever": 296,
+   "n": 183,
+   "resident": {
+    "354": 3,
+    "296": 83,
+    "344": 16,
+    "314": 39,
+    "260": 4,
+    "391": 4,
+    "0": 3,
+    "272": 1,
+    "137": 1,
+    "none": 29
+   }
+  },
+  "Minot Gardens MHC": {
+   "lever": 296,
+   "n": 0,
+   "resident": {}
+  },
+  "Parkwood": {
+   "lever": 260,
+   "n": 201,
+   "resident": {
+    "260": 62,
+    "344": 12,
+    "314": 34,
+    "391": 5,
+    "272": 9,
+    "159": 5,
+    "0": 1,
+    "181": 1,
+    "296": 3,
+    "354": 1,
+    "209": 1,
+    "none": 67
+   }
+  },
+  "Fair Meadows": {
+   "lever": null,
+   "n": 2,
+   "resident": {
+    "none": 2
+   }
+  },
+  "Sky Stream": {
+   "lever": 344,
+   "n": 2,
+   "resident": {
+    "365": 2
+   }
+  },
+  "Green Forest Estates MHC": {
+   "lever": null,
+   "n": 1,
+   "resident": {
+    "none": 1
+   }
+  },
+  "Backcountry MHC": {
+   "lever": 260,
+   "n": 14,
+   "resident": {
+    "344": 1,
+    "260": 3,
+    "314": 3,
+    "none": 7
+   }
+  },
+  "Kingsbrook MHP": {
+   "lever": null,
+   "n": 2,
+   "resident": {
+    "none": 2
+   }
+  },
+  "Maple Run": {
+   "lever": null,
+   "n": 0,
+   "resident": {}
+  },
+  "Oak Forest MHC": {
+   "lever": null,
+   "n": 1,
+   "resident": {
+    "none": 1
+   }
+  },
+  "Oak Tree MHP": {
+   "lever": 296,
+   "n": 27,
+   "resident": {
+    "296": 14,
+    "344": 2,
+    "320": 1,
+    "none": 10
+   }
+  },
+  "Riley Lane": {
+   "lever": 260,
+   "n": 7,
+   "resident": {
+    "260": 2,
+    "none": 5
+   }
+  },
+  "Removed Shady Grove": {
+   "lever": null,
+   "n": 2,
+   "resident": {
+    "none": 2
+   }
+  },
+  "Sara Drive MHC-Nowi": {
+   "lever": null,
+   "n": 1,
+   "resident": {
+    "none": 1
+   }
+  },
+  "Singing Pines-Nowi": {
+   "lever": null,
+   "n": 1,
+   "resident": {
+    "none": 1
+   }
+  },
+  "Whispering Pines-Nowi": {
+   "lever": null,
+   "n": 1,
+   "resident": {
+    "none": 1
+   }
+  },
+  "Fair Lane MHC": {
+   "lever": 260,
+   "n": 4,
+   "resident": {
+    "296": 1,
+    "260": 1,
+    "0": 1,
+    "none": 1
+   }
+  },
+  "Sunset MHP": {
+   "lever": 209,
+   "n": 31,
+   "resident": {
+    "102": 16,
+    "137": 2,
+    "149": 2,
+    "55": 1,
+    "60": 1,
+    "22": 1,
+    "159": 1,
+    "none": 7
+   }
+  },
+  "Fair Meadows MHC": {
+   "lever": 260,
+   "n": 81,
+   "resident": {
+    "260": 35,
+    "296": 2,
+    "209": 2,
+    "none": 42
+   }
+  },
+  "Oswego MHP": {
+   "lever": 314,
+   "n": 33,
+   "resident": {
+    "314": 17,
+    "344": 14,
+    "391": 2
+   }
+  },
+  "Oaklodge MHP": {
+   "lever": 209,
+   "n": 71,
+   "resident": {
+    "none": 71
+   }
+  },
+  "Production Inventory M-M8DB": {
+   "lever": 209,
+   "n": 247,
+   "resident": {
+    "none": 246,
+    "13": 1
+   }
+  },
+  "1625 Fillmore": {
+   "lever": 209,
+   "n": 4,
+   "resident": {
+    "none": 4
+   }
+  },
+  "Paradise Village Cooperative MHC": {
+   "lever": 260,
+   "n": 40,
+   "resident": {
+    "260": 38,
+    "391": 1,
+    "296": 1
+   }
+  },
+  "Kingsbrook MHC": {
+   "lever": 296,
+   "n": 242,
+   "resident": {
+    "296": 120,
+    "391": 1,
+    "314": 10,
+    "260": 17,
+    "272": 8,
+    "295": 1,
+    "159": 4,
+    "none": 79,
+    "344": 2
+   }
+  },
+  "The Phoenix": {
+   "lever": 209,
+   "n": 22,
+   "resident": {
+    "none": 22
+   }
+  },
+  "Ponderosa MHC": {
+   "lever": 344,
+   "n": 59,
+   "resident": {
+    "344": 43,
+    "391": 10,
+    "0": 2,
+    "368": 3,
+    "314": 1
+   }
+  },
+  "High Plains Ranch": {
+   "lever": 209,
+   "n": 8,
+   "resident": {
+    "90": 1,
+    "none": 7
+   }
+  },
+  "Hydetown Mobile Estates": {
+   "lever": 255,
+   "n": 25,
+   "resident": {
+    "354": 1,
+    "255": 13,
+    "344": 5,
+    "260": 1,
+    "314": 1,
+    "296": 4
+   }
+  },
+  "The Heights MF": {
+   "lever": 344,
+   "n": 0,
+   "resident": {}
+  },
+  "Production M W0723": {
+   "lever": 209,
+   "n": 5,
+   "resident": {
+    "none": 5
+   }
+  },
+  "Titan Middle River": {
+   "lever": 209,
+   "n": 1,
+   "resident": {
+    "159": 1
+   }
+  },
+  "Wildwood Estates MHC": {
+   "lever": 254,
+   "n": 0,
+   "resident": {}
+  },
+  "The Oaks MHC": {
+   "lever": 296,
+   "n": 41,
+   "resident": {
+    "296": 37,
+    "391": 2,
+    "372": 1,
+    "314": 1
+   }
+  },
+  "Forest at Sherman MHC": {
+   "lever": 254,
+   "n": 0,
+   "resident": {}
+  },
+  "Kachina": {
+   "lever": 209,
+   "n": 20,
+   "resident": {
+    "368": 1,
+    "296": 6,
+    "314": 4,
+    "209": 4,
+    "391": 2,
+    "272": 1,
+    "344": 1,
+    "181": 1
+   }
+  },
+  "Utah Labs": {
+   "lever": 209,
+   "n": 7,
+   "resident": {
+    "none": 7
+   }
+  },
+  "Coleman Village MHC": {
+   "lever": 260,
+   "n": 0,
+   "resident": {}
+  },
+  "Ibiza Village": {
+   "lever": 343,
+   "n": 20,
+   "resident": {
+    "343": 4,
+    "344": 14,
+    "205": 1,
+    "none": 1
+   }
+  },
+  "Browns MHP": {
+   "lever": 260,
+   "n": 0,
+   "resident": {}
+  },
+  "Scottsdale MHP": {
+   "lever": 209,
+   "n": 57,
+   "resident": {
+    "none": 57
+   }
+  },
+  "RMA - Battery": {
+   "lever": 320,
+   "n": 0,
+   "resident": {}
+  },
+  "Verandah MHC-Cust": {
+   "lever": null,
+   "n": 28,
+   "resident": {
+    "none": 28
+   }
+  },
+  "Estancia MHP": {
+   "lever": 260,
+   "n": 0,
+   "resident": {}
+  },
+  "Broken Arrow MHP": {
+   "lever": 296,
+   "n": 0,
+   "resident": {}
+  },
+  "10onBroadway": {
+   "lever": 209,
+   "n": 12,
+   "resident": {
+    "none": 12
+   }
+  },
+  "Aurora MHC": {
+   "lever": 344,
+   "n": 189,
+   "resident": {
+    "344": 55,
+    "391": 8,
+    "296": 28,
+    "209": 1,
+    "260": 71,
+    "272": 8,
+    "159": 5,
+    "181": 2,
+    "314": 7,
+    "149": 1,
+    "368": 1,
+    "354": 1,
+    "256": 1
+   }
+  },
+  "Westview Mobile Estates MHC": {
+   "lever": 209,
+   "n": 83,
+   "resident": {
+    "209": 48,
+    "159": 3,
+    "344": 11,
+    "314": 16,
+    "272": 3,
+    "0": 1,
+    "149": 1
+   }
+  },
+  "Production Inventory M-L5SB": {
+   "lever": 209,
+   "n": 1,
+   "resident": {
+    "none": 1
+   }
+  },
+  "Northview 1": {
+   "lever": 209,
+   "n": 16,
+   "resident": {
+    "none": 16
+   }
+  },
+  "Northview 2": {
+   "lever": 209,
+   "n": 27,
+   "resident": {
+    "none": 27
+   }
+  },
+  "Northview 3": {
+   "lever": 209,
+   "n": 17,
+   "resident": {
+    "none": 17
+   }
+  },
+  "U2DB Devices": {
+   "lever": null,
+   "n": 0,
+   "resident": {}
+  },
+  "Stafford MHC": {
+   "lever": 314,
+   "n": 0,
+   "resident": {}
+  },
+  "Sunview MHP": {
+   "lever": 344,
+   "n": 31,
+   "resident": {
+    "344": 18,
+    "354": 1,
+    "391": 1,
+    "none": 11
+   }
+  },
+  "Lazona": {
+   "lever": 209,
+   "n": 8,
+   "resident": {
+    "none": 8
+   }
+  },
+  "Stage 1 - New Install L": {
+   "lever": 209,
+   "n": 1,
+   "resident": {
+    "none": 1
+   }
+  },
+  "L-Factor Test": {
+   "lever": 209,
+   "n": 3,
+   "resident": {
+    "none": 3
+   }
+  },
+  "Crystal River MHC": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Brighton Court MHP": {
+   "lever": 254,
+   "n": 13,
+   "resident": {
+    "254": 9,
+    "314": 3,
+    "391": 1
+   }
+  },
+  "Reman Production": {
+   "lever": 209,
+   "n": 13,
+   "resident": {
+    "none": 13
+   }
+  },
+  "Pace East": {
+   "lever": 296,
+   "n": 131,
+   "resident": {
+    "391": 3,
+    "296": 15,
+    "0": 1,
+    "344": 3,
+    "314": 2,
+    "none": 107
+   }
+  },
+  "Lantana Trail": {
+   "lever": 260,
+   "n": 17,
+   "resident": {
+    "314": 3,
+    "296": 1,
+    "260": 3,
+    "none": 10
+   }
+  },
+  "Rustic Acres MHC": {
+   "lever": 344,
+   "n": 71,
+   "resident": {
+    "344": 48,
+    "none": 1,
+    "391": 6,
+    "354": 1,
+    "314": 12,
+    "149": 1,
+    "159": 2
+   }
+  },
+  "8 OnElaine": {
+   "lever": 260,
+   "n": 12,
+   "resident": {
+    "354": 1,
+    "296": 1,
+    "260": 2,
+    "314": 3,
+    "391": 1,
+    "none": 4
+   }
+  },
+  "Virginia Beach HOA - Cust": {
+   "lever": 344,
+   "n": 251,
+   "resident": {
+    "344": 205,
+    "368": 6,
+    "391": 29,
+    "0": 3,
+    "296": 1,
+    "354": 6,
+    "325": 1
+   }
+  },
+  "Firmware Dev": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Flower Mound MHC": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "176 N Highland Ave": {
+   "lever": 260,
+   "n": 3,
+   "resident": {
+    "260": 3
+   }
+  },
+  "Parkview MHP-Cust": {
+   "lever": 296,
+   "n": 52,
+   "resident": {
+    "344": 23,
+    "314": 14,
+    "296": 11,
+    "391": 4
+   }
+  },
+  "Steve Scheiter 5plex-Cust": {
+   "lever": 341,
+   "n": 5,
+   "resident": {
+    "181": 1,
+    "364": 2,
+    "344": 1,
+    "260": 1
+   }
+  },
+  "Ontario Place MHC": {
+   "lever": 344,
+   "n": 0,
+   "resident": {}
+  },
+  "test bruce": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Shelby's Trailer Park - Cust": {
+   "lever": 296,
+   "n": 34,
+   "resident": {
+    "296": 30,
+    "320": 1,
+    "344": 2,
+    "0": 1
+   }
+  },
+  "Island Club MHC-CUST": {
+   "lever": 260,
+   "n": 2,
+   "resident": {
+    "391": 1,
+    "296": 1
+   }
+  },
+  "Running Springs MHP": {
+   "lever": 314,
+   "n": 19,
+   "resident": {
+    "314": 6,
+    "391": 2,
+    "344": 4,
+    "296": 1,
+    "0": 2,
+    "none": 4
+   }
+  },
+  "Lake of the Pines Community Association - Cust": {
+   "lever": null,
+   "n": 59,
+   "resident": {
+    "344": 45,
+    "364": 5,
+    "260": 9
+   }
+  },
+  "Country Squire MHC": {
+   "lever": 314,
+   "n": 63,
+   "resident": {
+    "314": 27,
+    "344": 2,
+    "none": 34
+   }
+  },
+  "Put In Bay Condos": {
+   "lever": 260,
+   "n": 0,
+   "resident": {}
+  },
+  "Flaherty Plumbing": {
+   "lever": 209,
+   "n": 1,
+   "resident": {
+    "none": 1
+   }
+  },
+  "Refurb M8DB": {
+   "lever": 209,
+   "n": 9,
+   "resident": {
+    "none": 9
+   }
+  },
+  "Production Inventory M-U2DB": {
+   "lever": 344,
+   "n": 1000,
+   "resident": {
+    "344": 441,
+    "354": 2,
+    "314": 6,
+    "296": 2,
+    "260": 225,
+    "0": 9,
+    "256": 9,
+    "none": 2,
+    "320": 5,
+    "194": 10,
+    "254": 2,
+    "341": 7,
+    "209": 14,
+    "219": 15,
+    "181": 65,
+    "3904": 1,
+    "57440": 1,
+    "57400": 1,
+    "28400": 1,
+    "55936": 1,
+    "176": 5,
+    "173": 1,
+    "159": 173,
+    "325": 1,
+    "180": 1
+   }
+  },
+  "Grand Valley Estates MHC": {
+   "lever": 344,
+   "n": 0,
+   "resident": {}
+  },
+  "Backwater MHC": {
+   "lever": 344,
+   "n": 43,
+   "resident": {
+    "354": 2,
+    "344": 40,
+    "391": 1
+   }
+  },
+  "Wyse Eval": {
+   "lever": null,
+   "n": 3,
+   "resident": {
+    "375": 2,
+    "392": 1
+   }
+  },
+  "Production Inventory RMA M-L5": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Hanover MHP": {
+   "lever": 344,
+   "n": 15,
+   "resident": {
+    "none": 15
+   }
+  },
+  "Tuttle Estates MHC-Cust": {
+   "lever": 296,
+   "n": 14,
+   "resident": {
+    "344": 8,
+    "296": 5,
+    "none": 1
+   }
+  },
+  "Production Inventory M-M8DB-3": {
+   "lever": 209,
+   "n": 5,
+   "resident": {
+    "none": 5
+   }
+  },
+  "Production Release M-L5 11_12_22": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Parker MHC": {
+   "lever": 219,
+   "n": 0,
+   "resident": {}
+  },
+  "Casitas": {
+   "lever": 209,
+   "n": 22,
+   "resident": {
+    "none": 22
+   }
+  },
+  "Glenn Dorado": {
+   "lever": 209,
+   "n": 39,
+   "resident": {
+    "209": 3,
+    "391": 1,
+    "159": 1,
+    "272": 1,
+    "none": 33
+   }
+  },
+  "Salem Tennis Village": {
+   "lever": 344,
+   "n": 16,
+   "resident": {
+    "none": 16
+   }
+  },
+  "Desert Homes Dwellings": {
+   "lever": 209,
+   "n": 2,
+   "resident": {
+    "none": 2
+   }
+  },
+  "J&L MHP": {
+   "lever": 344,
+   "n": 6,
+   "resident": {
+    "344": 6
+   }
+  },
+  "Marks Home": {
+   "lever": 209,
+   "n": 1,
+   "resident": {
+    "159": 1
+   }
+  },
+  "Engineering": {
+   "lever": 209,
+   "n": 15,
+   "resident": {
+    "none": 11,
+    "0": 2,
+    "5": 1,
+    "13": 1
+   }
+  },
+  "Terrace on the Greens": {
+   "lever": 209,
+   "n": 37,
+   "resident": {
+    "209": 4,
+    "344": 1,
+    "none": 32
+   }
+  },
+  "Maple Tree": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Hillview MHC": {
+   "lever": 314,
+   "n": 35,
+   "resident": {
+    "344": 9,
+    "391": 3,
+    "314": 8,
+    "296": 10,
+    "368": 3,
+    "260": 1,
+    "354": 1
+   }
+  },
+  "Grove": {
+   "lever": 209,
+   "n": 127,
+   "resident": {
+    "none": 127
+   }
+  },
+  "Mead Manor": {
+   "lever": 209,
+   "n": 42,
+   "resident": {
+    "none": 42
+   }
+  },
+  "Pelican Shores North HOA - Cust": {
+   "lever": 341,
+   "n": 4,
+   "resident": {
+    "344": 1,
+    "341": 2,
+    "343": 1
+   }
+  },
+  "Production Inventory M-M8SB-3": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Rancho MHC": {
+   "lever": 219,
+   "n": 18,
+   "resident": {
+    "none": 18
+   }
+  },
+  "Verandah MHC": {
+   "lever": null,
+   "n": 0,
+   "resident": {}
+  },
+  "Put In Bay Condos-CUST": {
+   "lever": 260,
+   "n": 2,
+   "resident": {
+    "296": 1,
+    "314": 1
+   }
+  },
+  "Production Inventory M-L5DB": {
+   "lever": 209,
+   "n": 67,
+   "resident": {
+    "none": 67
+   }
+  },
+  "Estancia MHP-CUST": {
+   "lever": 256,
+   "n": 168,
+   "resident": {
+    "272": 8,
+    "0": 6,
+    "314": 24,
+    "256": 100,
+    "260": 6,
+    "344": 9,
+    "391": 5,
+    "295": 8,
+    "354": 1,
+    "119": 1
+   }
+  },
+  "Islander MHC": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Country Ridge": {
+   "lever": 209,
+   "n": 33,
+   "resident": {
+    "none": 33
+   }
+  },
+  "Patrick 5YR": {
+   "lever": 209,
+   "n": 3,
+   "resident": {
+    "209": 2,
+    "368": 1
+   }
+  },
+  "Palo Verde": {
+   "lever": 209,
+   "n": 3,
+   "resident": {
+    "none": 3
+   }
+  },
+  "Whispering Pines Mobile Estates-CUST": {
+   "lever": 209,
+   "n": 96,
+   "resident": {
+    "209": 59,
+    "272": 4,
+    "296": 10,
+    "391": 7,
+    "354": 3,
+    "314": 6,
+    "0": 2,
+    "260": 5
+   }
+  },
+  "Virginia Beach": {
+   "lever": 341,
+   "n": 0,
+   "resident": {}
+  },
+  "Piney Park": {
+   "lever": 314,
+   "n": 59,
+   "resident": {
+    "314": 45,
+    "344": 8,
+    "391": 1,
+    "133": 1,
+    "none": 4
+   }
+  },
+  "Sage": {
+   "lever": 209,
+   "n": 94,
+   "resident": {
+    "none": 94
+   }
+  },
+  "Rantoul St MF": {
+   "lever": 260,
+   "n": 10,
+   "resident": {
+    "260": 10
+   }
+  },
+  "Chickadee Lane MHC": {
+   "lever": 314,
+   "n": 90,
+   "resident": {
+    "314": 36,
+    "344": 4,
+    "149": 1,
+    "296": 1,
+    "181": 1,
+    "none": 47
+   }
+  },
+  "Arcadia Views": {
+   "lever": 209,
+   "n": 16,
+   "resident": {
+    "none": 16
+   }
+  },
+  "Circle N Trailer Park": {
+   "lever": 254,
+   "n": 21,
+   "resident": {
+    "354": 1,
+    "254": 4,
+    "344": 1,
+    "314": 1,
+    "none": 14
+   }
+  },
+  "The Lowell": {
+   "lever": 209,
+   "n": 111,
+   "resident": {
+    "none": 111
+   }
+  },
+  "CJ": {
+   "lever": 209,
+   "n": 37,
+   "resident": {
+    "none": 20,
+    "209": 2,
+    "354": 2,
+    "272": 1,
+    "296": 8,
+    "0": 1,
+    "344": 3
+   }
+  },
+  "Broadway GenII": {
+   "lever": 344,
+   "n": 0,
+   "resident": {}
+  },
+  "Flow Testing": {
+   "lever": 344,
+   "n": 6,
+   "resident": {
+    "354": 5,
+    "343": 1
+   }
+  },
+  "test hello": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Hendricks Place Building C": {
+   "lever": 365,
+   "n": 1,
+   "resident": {
+    "365": 1
+   }
+  },
+  "John Alexander-CUST": {
+   "lever": null,
+   "n": 1,
+   "resident": {
+    "344": 1
+   }
+  },
+  "Eastpointe": {
+   "lever": 209,
+   "n": 49,
+   "resident": {
+    "none": 49
+   }
+  },
+  "Country Edge MHC": {
+   "lever": 209,
+   "n": 18,
+   "resident": {
+    "209": 10,
+    "296": 2,
+    "272": 1,
+    "none": 5
+   }
+  },
+  "Carolina Springs MHP": {
+   "lever": 219,
+   "n": 18,
+   "resident": {
+    "159": 6,
+    "219": 3,
+    "272": 7,
+    "181": 1,
+    "391": 1
+   }
+  },
+  "Lakeview MHC-CUST": {
+   "lever": 209,
+   "n": 28,
+   "resident": {
+    "314": 8,
+    "209": 16,
+    "344": 3,
+    "296": 1
+   }
+  },
+  "Tucson East": {
+   "lever": 209,
+   "n": 119,
+   "resident": {
+    "none": 119
+   }
+  },
+  "Parkway MHC-Cust": {
+   "lever": 296,
+   "n": 56,
+   "resident": {
+    "354": 9,
+    "296": 1,
+    "272": 2,
+    "260": 40,
+    "368": 1,
+    "0": 1,
+    "344": 1,
+    "391": 1
+   }
+  },
+  "RMA - Review": {
+   "lever": 320,
+   "n": 12,
+   "resident": {
+    "320": 10,
+    "314": 1,
+    "209": 1
+   }
+  },
+  "Lake of the Pines Community Association": {
+   "lever": 344,
+   "n": 16,
+   "resident": {
+    "344": 16
+   }
+  },
+  "1017Turney": {
+   "lever": 209,
+   "n": 12,
+   "resident": {
+    "none": 12
+   }
+  },
+  "TestInventory": {
+   "lever": null,
+   "n": 0,
+   "resident": {}
+  },
+  "Opekiska St Duplex": {
+   "lever": 209,
+   "n": 2,
+   "resident": {
+    "391": 1,
+    "209": 1
+   }
+  },
+  "RMA GENII": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "L-Factor M8": {
+   "lever": 209,
+   "n": 2,
+   "resident": {
+    "none": 2
+   }
+  },
+  "Pedro's Devices-CUST": {
+   "lever": 219,
+   "n": 2,
+   "resident": {
+    "387": 1,
+    "none": 1
+   }
+  },
+  "Carolina Springs MHP-CUST": {
+   "lever": 209,
+   "n": 100,
+   "resident": {
+    "260": 4,
+    "209": 57,
+    "296": 22,
+    "0": 2,
+    "391": 8,
+    "272": 2,
+    "254": 1,
+    "219": 2,
+    "344": 2
+   }
+  },
+  "La Comunidad MHC": {
+   "lever": 219,
+   "n": 0,
+   "resident": {}
+  },
+  "Stafford MHC-CUST": {
+   "lever": 219,
+   "n": 213,
+   "resident": {
+    "344": 27,
+    "314": 51,
+    "219": 66,
+    "315": 1,
+    "295": 4,
+    "209": 4,
+    "260": 15,
+    "354": 1,
+    "391": 6,
+    "368": 1,
+    "296": 28,
+    "0": 4,
+    "272": 3,
+    "181": 1,
+    "194": 1
+   }
+  },
+  "Bob Muye 5YR": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Mountain View MHC": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "test 123": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Whispering Pines Mobile Estates": {
+   "lever": 219,
+   "n": 16,
+   "resident": {
+    "0": 1,
+    "159": 1,
+    "272": 9,
+    "181": 2,
+    "219": 3
+   }
+  },
+  "Steve Schneiter 5plex-CO": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Production Inventory M-M8DB-2": {
+   "lever": 209,
+   "n": 9,
+   "resident": {
+    "none": 9
+   }
+  },
+  "Production Start M8DB-3": {
+   "lever": 209,
+   "n": 6,
+   "resident": {
+    "none": 6
+   }
+  },
+  "RMA Removed": {
+   "lever": 209,
+   "n": 1000,
+   "resident": {
+    "209": 22,
+    "296": 1,
+    "159": 5,
+    "344": 1,
+    "0": 8,
+    "181": 5,
+    "272": 1,
+    "219": 4,
+    "102": 4,
+    "149": 2,
+    "314": 1,
+    "137": 1,
+    "119": 2,
+    "84": 1,
+    "22": 2,
+    "none": 940
+   }
+  },
+  "Sunview GenII": {
+   "lever": 344,
+   "n": 0,
+   "resident": {}
+  },
+  "GenII Eng": {
+   "lever": 209,
+   "n": 9,
+   "resident": {
+    "69": 1,
+    "none": 1,
+    "13": 3,
+    "0": 3,
+    "20": 1
+   }
+  },
+  "Parker MHC-CUST": {
+   "lever": 209,
+   "n": 43,
+   "resident": {
+    "344": 5,
+    "209": 11,
+    "314": 22,
+    "296": 2,
+    "391": 1,
+    "272": 1,
+    "260": 1
+   }
+  },
+  "6-13-22-L": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "L-Factor L5": {
+   "lever": 209,
+   "n": 3,
+   "resident": {
+    "none": 3
+   }
+  },
+  "Carolina Ave Duplex": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "TI Fota Failure": {
+   "lever": 372,
+   "n": 6,
+   "resident": {
+    "391": 5,
+    "383": 1
+   }
+  },
+  "L Grade M-L5": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Noble Estates MHC-Cust": {
+   "lever": 296,
+   "n": 46,
+   "resident": {
+    "344": 26,
+    "0": 1,
+    "296": 8,
+    "314": 7,
+    "391": 3,
+    "260": 1
+   }
+  },
+  "Production Provisioned": {
+   "lever": 344,
+   "n": 166,
+   "resident": {
+    "344": 166
+   }
+  },
+  "Enertiv": {
+   "lever": 209,
+   "n": 4,
+   "resident": {
+    "none": 4
+   }
+  },
+  "Melvin": {
+   "lever": 209,
+   "n": 11,
+   "resident": {
+    "none": 11
+   }
+  },
+  "Alta Vista MHC-CUST": {
+   "lever": 219,
+   "n": 58,
+   "resident": {
+    "219": 13,
+    "296": 14,
+    "272": 4,
+    "0": 3,
+    "344": 2,
+    "314": 18,
+    "391": 3,
+    "159": 1
+   }
+  },
+  "Eastwood Hills MHC": {
+   "lever": 296,
+   "n": 0,
+   "resident": {}
+  },
+  "Production Failure": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Stage 2 - Recently Installed L Meters": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "050123LRMA": {
+   "lever": 209,
+   "n": 1,
+   "resident": {
+    "none": 1
+   }
+  },
+  "ABT Water Management": {
+   "lever": 209,
+   "n": 1,
+   "resident": {
+    "none": 1
+   }
+  },
+  "Midtown MHP": {
+   "lever": 254,
+   "n": 9,
+   "resident": {
+    "254": 6,
+    "302": 1,
+    "296": 1,
+    "314": 1
+   }
+  },
+  "Mission Apartments": {
+   "lever": 219,
+   "n": 15,
+   "resident": {
+    "296": 3,
+    "none": 12
+   }
+  },
+  "Canyon Heights": {
+   "lever": 209,
+   "n": 259,
+   "resident": {
+    "none": 259
+   }
+  },
+  "1413 S 9th St": {
+   "lever": 314,
+   "n": 1,
+   "resident": {
+    "314": 1
+   }
+  },
+  "Kachina Old": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Broken Arrow MHP - Cust": {
+   "lever": 296,
+   "n": 24,
+   "resident": {
+    "296": 15,
+    "344": 6,
+    "354": 1,
+    "391": 2
+   }
+  },
+  "Production Start U2DB": {
+   "lever": 344,
+   "n": 1,
+   "resident": {
+    "255": 1
+   }
+  },
+  "Oak Grove MHC": {
+   "lever": 209,
+   "n": 34,
+   "resident": {
+    "209": 7,
+    "296": 3,
+    "none": 24
+   }
+  },
+  "Avetis 5YR": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Shenandoah Dr Triplex": {
+   "lever": 209,
+   "n": 2,
+   "resident": {
+    "209": 2
+   }
+  },
+  "Shady Lane MHP": {
+   "lever": 320,
+   "n": 0,
+   "resident": {}
+  },
+  "Selkirk MHC": {
+   "lever": 209,
+   "n": 4,
+   "resident": {
+    "159": 3,
+    "133": 1
+   }
+  },
+  "Usage Pattern": {
+   "lever": 209,
+   "n": 4,
+   "resident": {
+    "none": 4
+   }
+  },
+  "Forest at Sherman MHC-CUST": {
+   "lever": 209,
+   "n": 44,
+   "resident": {
+    "314": 21,
+    "209": 12,
+    "296": 2,
+    "354": 1,
+    "272": 3,
+    "344": 4,
+    "391": 1
+   }
+  },
+  "Lakewood MH Park": {
+   "lever": 344,
+   "n": 116,
+   "resident": {
+    "344": 116
+   }
+  },
+  "Downtown Metro": {
+   "lever": 209,
+   "n": 8,
+   "resident": {
+    "209": 7,
+    "181": 1
+   }
+  },
+  "Laurel Park": {
+   "lever": 209,
+   "n": 2,
+   "resident": {
+    "137": 2
+   }
+  },
+  "Bob Muye 5YR - Cust": {
+   "lever": 320,
+   "n": 3,
+   "resident": {
+    "320": 3
+   }
+  },
+  "Lake Charles Duplexes": {
+   "lever": 260,
+   "n": 17,
+   "resident": {
+    "296": 5,
+    "344": 5,
+    "260": 5,
+    "391": 1,
+    "0": 1
+   }
+  },
+  "Customer Samples": {
+   "lever": 209,
+   "n": 1,
+   "resident": {
+    "119": 1
+   }
+  },
+  "RMA Tremain": {
+   "lever": 260,
+   "n": 18,
+   "resident": {
+    "260": 5,
+    "0": 2,
+    "254": 10,
+    "149": 1
+   }
+  },
+  "Production Start M8DB RMA": {
+   "lever": null,
+   "n": 0,
+   "resident": {}
+  },
+  "Production Release M-L5 12_2_22": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Farmingbury Commons": {
+   "lever": 344,
+   "n": 9,
+   "resident": {
+    "344": 9
+   }
+  },
+  "Coleman Village MHC-CUST": {
+   "lever": 260,
+   "n": 84,
+   "resident": {
+    "260": 38,
+    "314": 31,
+    "344": 10,
+    "295": 1,
+    "391": 2,
+    "354": 1,
+    "0": 1
+   }
+  },
+  "Minot Gardens MHC-Cust": {
+   "lever": 296,
+   "n": 39,
+   "resident": {
+    "260": 9,
+    "344": 10,
+    "296": 13,
+    "354": 1,
+    "256": 2,
+    "0": 1,
+    "295": 2,
+    "209": 1
+   }
+  },
+  "Production Start": {
+   "lever": 209,
+   "n": 1,
+   "resident": {
+    "none": 1
+   }
+  },
+  "Rainbird": {
+   "lever": 209,
+   "n": 2,
+   "resident": {
+    "391": 2
+   }
+  },
+  "Mountain Creek Cabins": {
+   "lever": 344,
+   "n": 36,
+   "resident": {
+    "none": 36
+   }
+  },
+  "Wildwood Estates MHC-CUST": {
+   "lever": 209,
+   "n": 49,
+   "resident": {
+    "344": 6,
+    "391": 1,
+    "209": 10,
+    "296": 3,
+    "314": 26,
+    "272": 3
+   }
+  },
+  "Maple Run MHC": {
+   "lever": 219,
+   "n": 3,
+   "resident": {
+    "none": 1,
+    "272": 1,
+    "260": 1
+   }
+  },
+  "Pleasant View MHP": {
+   "lever": 209,
+   "n": 1,
+   "resident": {
+    "159": 1
+   }
+  },
+  "Spectrum Utilities": {
+   "lever": 209,
+   "n": 4,
+   "resident": {
+    "none": 4
+   }
+  },
+  "W Poplar St Triplex": {
+   "lever": 209,
+   "n": 3,
+   "resident": {
+    "314": 1,
+    "209": 2
+   }
+  },
+  "Mena Estates MHC": {
+   "lever": 314,
+   "n": 48,
+   "resident": {
+    "314": 36,
+    "391": 1,
+    "344": 11
+   }
+  },
+  "La Comunidad MHC-CUST": {
+   "lever": 209,
+   "n": 157,
+   "resident": {
+    "314": 114,
+    "209": 18,
+    "0": 3,
+    "344": 9,
+    "272": 5,
+    "260": 6,
+    "159": 2
+   }
+  },
+  "Lakeview MHC": {
+   "lever": 260,
+   "n": 0,
+   "resident": {}
+  },
+  "Wildwood Village MHC-CUST": {
+   "lever": 209,
+   "n": 25,
+   "resident": {
+    "314": 14,
+    "344": 3,
+    "272": 2,
+    "209": 5,
+    "0": 1
+   }
+  },
+  "TN1901E5": {
+   "lever": 209,
+   "n": 12,
+   "resident": {
+    "none": 12
+   }
+  },
+  "GenII Pilot": {
+   "lever": 209,
+   "n": 7,
+   "resident": {
+    "20": 6,
+    "0": 1
+   }
+  },
+  "The Bakery Complex": {
+   "lever": 344,
+   "n": 0,
+   "resident": {}
+  },
+  "Pedro's Devices": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Broadview PEOIL": {
+   "lever": 209,
+   "n": 1,
+   "resident": {
+    "none": 1
+   }
+  },
+  "Kay Lou-Cust": {
+   "lever": 296,
+   "n": 64,
+   "resident": {
+    "296": 48,
+    "344": 11,
+    "0": 1,
+    "391": 1,
+    "354": 3
+   }
+  },
+  "Board Reproduction": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Maple Run MHC-CUST": {
+   "lever": 209,
+   "n": 144,
+   "resident": {
+    "none": 1,
+    "209": 126,
+    "265": 1,
+    "260": 8,
+    "391": 3,
+    "296": 4,
+    "344": 1
+   }
+  },
+  "Eastwood Hills MHC-CUST": {
+   "lever": 209,
+   "n": 148,
+   "resident": {
+    "209": 94,
+    "296": 10,
+    "314": 27,
+    "272": 3,
+    "391": 3,
+    "260": 4,
+    "0": 2,
+    "344": 4,
+    "146": 1
+   }
+  },
+  "Auburn MHC": {
+   "lever": 344,
+   "n": 0,
+   "resident": {}
+  },
+  "Delaware St Quadplex": {
+   "lever": 209,
+   "n": 2,
+   "resident": {
+    "209": 2
+   }
+  },
+  "Production Inventory M-M8SB": {
+   "lever": 209,
+   "n": 8,
+   "resident": {
+    "none": 8
+   }
+  },
+  "Production Release M-M5 11_12_22": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Rustic Acres MHC-CUST": {
+   "lever": 256,
+   "n": 0,
+   "resident": {}
+  },
+  "New RMA Bad": {
+   "lever": 209,
+   "n": 2,
+   "resident": {
+    "0": 1,
+    "159": 1
+   }
+  },
+  "Blue Sky Village MHC": {
+   "lever": 260,
+   "n": 5,
+   "resident": {
+    "260": 2,
+    "296": 1,
+    "391": 1,
+    "354": 1
+   }
+  },
+  "TN4": {
+   "lever": 209,
+   "n": 5,
+   "resident": {
+    "296": 1,
+    "209": 2,
+    "391": 1,
+    "none": 1
+   }
+  },
+  "Green Acres MHC": {
+   "lever": 209,
+   "n": 21,
+   "resident": {
+    "209": 11,
+    "260": 2,
+    "296": 2,
+    "391": 1,
+    "344": 1,
+    "194": 1,
+    "180": 1,
+    "149": 1,
+    "119": 1
+   }
+  },
+  "Wheeler MHC": {
+   "lever": 209,
+   "n": 10,
+   "resident": {
+    "none": 10
+   }
+  },
+  "Mill Creek Estates": {
+   "lever": 219,
+   "n": 61,
+   "resident": {
+    "219": 15,
+    "296": 2,
+    "none": 44
+   }
+  },
+  "Valencia Village": {
+   "lever": 209,
+   "n": 25,
+   "resident": {
+    "none": 25
+   }
+  },
+  "The O in La Marque": {
+   "lever": 314,
+   "n": 44,
+   "resident": {
+    "344": 10,
+    "314": 34
+   }
+  },
+  "Production Inventory M-M8DB-4": {
+   "lever": 209,
+   "n": 13,
+   "resident": {
+    "none": 13
+   }
+  },
+  "Pleasant Acres": {
+   "lever": 296,
+   "n": 48,
+   "resident": {
+    "296": 21,
+    "344": 3,
+    "314": 9,
+    "354": 1,
+    "391": 1,
+    "none": 13
+   }
+  },
+  "Needham MHP": {
+   "lever": 209,
+   "n": 23,
+   "resident": {
+    "296": 1,
+    "209": 9,
+    "272": 1,
+    "391": 1,
+    "314": 1,
+    "0": 1,
+    "none": 9
+   }
+  },
+  "MMM": {
+   "lever": null,
+   "n": 1,
+   "resident": {
+    "none": 1
+   }
+  },
+  "Highland Hills": {
+   "lever": 209,
+   "n": 2,
+   "resident": {
+    "none": 2
+   }
+  },
+  "South Breeze MHC": {
+   "lever": 209,
+   "n": 37,
+   "resident": {
+    "none": 37
+   }
+  },
+  "Nelson Ledge Estates": {
+   "lever": 209,
+   "n": 136,
+   "resident": {
+    "none": 136
+   }
+  },
+  "Oakwood MHP": {
+   "lever": 344,
+   "n": 121,
+   "resident": {
+    "344": 43,
+    "391": 5,
+    "272": 1,
+    "149": 1,
+    "209": 1,
+    "none": 70
+   }
+  },
+  "Wyse Test": {
+   "lever": 372,
+   "n": 4,
+   "resident": {
+    "372": 1,
+    "344": 3
+   }
+  },
+  "Aero Property": {
+   "lever": 209,
+   "n": 5,
+   "resident": {
+    "none": 5
+   }
+  },
+  "General Device Group": {
+   "lever": 209,
+   "n": 3,
+   "resident": {
+    "none": 3
+   }
+  },
+  "Montgomery St Duplex": {
+   "lever": 209,
+   "n": 2,
+   "resident": {
+    "209": 2
+   }
+  },
+  "Road Runner": {
+   "lever": 209,
+   "n": 3,
+   "resident": {
+    "none": 3
+   }
+  },
+  "Big Country Mobile Home & RV Park-Cust": {
+   "lever": 296,
+   "n": 56,
+   "resident": {
+    "344": 21,
+    "296": 26,
+    "314": 7,
+    "0": 1,
+    "354": 1
+   }
+  },
+  "Refurb M SB": {
+   "lever": 209,
+   "n": 24,
+   "resident": {
+    "none": 24
+   }
+  },
+  "River Bend-Cust": {
+   "lever": 344,
+   "n": 40,
+   "resident": {
+    "344": 29,
+    "368": 3,
+    "260": 1,
+    "219": 4,
+    "159": 1,
+    "181": 1,
+    "209": 1
+   }
+  },
+  "Lafountaine MHC": {
+   "lever": 219,
+   "n": 34,
+   "resident": {
+    "296": 14,
+    "272": 2,
+    "0": 1,
+    "391": 1,
+    "102": 3,
+    "131": 3,
+    "137": 1,
+    "181": 2,
+    "149": 5,
+    "159": 1,
+    "219": 1
+   }
+  },
+  "Trans Canada": {
+   "lever": 209,
+   "n": 146,
+   "resident": {
+    "209": 107,
+    "296": 2,
+    "260": 9,
+    "314": 17,
+    "295": 1,
+    "344": 8,
+    "391": 2
+   }
+  },
+  "Test Read Only": {
+   "lever": 209,
+   "n": 1,
+   "resident": {
+    "none": 1
+   }
+  },
+  "Maple Grove MHC": {
+   "lever": 219,
+   "n": 30,
+   "resident": {
+    "none": 30
+   }
+  },
+  "Turfland MHC": {
+   "lever": 219,
+   "n": 34,
+   "resident": {
+    "none": 34
+   }
+  },
+  "Sky Run": {
+   "lever": 219,
+   "n": 23,
+   "resident": {
+    "176": 1,
+    "296": 10,
+    "159": 2,
+    "119": 6,
+    "102": 1,
+    "149": 1,
+    "90": 1,
+    "none": 1
+   }
+  },
+  "Crystal Acres MHC": {
+   "lever": 344,
+   "n": 42,
+   "resident": {
+    "344": 39,
+    "354": 1,
+    "391": 1,
+    "0": 1
+   }
+  },
+  "Wildwood Village MHC": {
+   "lever": 254,
+   "n": 0,
+   "resident": {}
+  },
+  "N Creek Dr Duplex": {
+   "lever": 209,
+   "n": 2,
+   "resident": {
+    "209": 2
+   }
+  },
+  "Monarch": {
+   "lever": 209,
+   "n": 20,
+   "resident": {
+    "none": 20
+   }
+  },
+  "TestingDeviceGroup": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Kingsport": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Roper Center Commercial Bldg": {
+   "lever": 254,
+   "n": 10,
+   "resident": {
+    "254": 9,
+    "272": 1
+   }
+  },
+  "Aurora MHC-CUST": {
+   "lever": 256,
+   "n": 0,
+   "resident": {}
+  },
+  "Preserve": {
+   "lever": 209,
+   "n": 28,
+   "resident": {
+    "none": 28
+   }
+  },
+  "Radio Test": {
+   "lever": 209,
+   "n": 2,
+   "resident": {
+    "none": 2
+   }
+  },
+  "251-256 Water St": {
+   "lever": 209,
+   "n": 12,
+   "resident": {
+    "none": 12
+   }
+  },
+  "Flow Test": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Deer Lake MHC": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Production L W0823": {
+   "lever": 209,
+   "n": 4,
+   "resident": {
+    "none": 4
+   }
+  },
+  "Jefferson": {
+   "lever": 219,
+   "n": 4,
+   "resident": {
+    "137": 2,
+    "219": 1,
+    "296": 1
+   }
+  },
+  "Haven MHP": {
+   "lever": 296,
+   "n": 24,
+   "resident": {
+    "391": 3,
+    "296": 21
+   }
+  },
+  "Suncrest Dr MF": {
+   "lever": 209,
+   "n": 4,
+   "resident": {
+    "209": 4
+   }
+  },
+  "Sunnyvale MHP": {
+   "lever": 209,
+   "n": 24,
+   "resident": {
+    "209": 14,
+    "314": 2,
+    "296": 6,
+    "368": 1,
+    "391": 1
+   }
+  },
+  "Production Inventory RMA M-M5": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Andrew's Devices": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Singing Pines": {
+   "lever": 209,
+   "n": 38,
+   "resident": {
+    "209": 3,
+    "119": 1,
+    "181": 2,
+    "272": 1,
+    "149": 1,
+    "391": 1,
+    "none": 29
+   }
+  },
+  "Rusk MHC": {
+   "lever": 344,
+   "n": 51,
+   "resident": {
+    "none": 3,
+    "344": 43,
+    "354": 2,
+    "181": 1,
+    "391": 1,
+    "0": 1
+   }
+  },
+  "Heritage Apartments": {
+   "lever": 296,
+   "n": 41,
+   "resident": {
+    "296": 38,
+    "391": 1,
+    "314": 2
+   }
+  },
+  "Big Country Mobile Home & RV Park": {
+   "lever": 296,
+   "n": 0,
+   "resident": {}
+  },
+  "Hoosier Park MHC": {
+   "lever": 344,
+   "n": 17,
+   "resident": {
+    "344": 16,
+    "368": 1
+   }
+  },
+  "Little Acres MHC": {
+   "lever": 341,
+   "n": 9,
+   "resident": {
+    "344": 9
+   }
+  },
+  "Bannock MHP": {
+   "lever": 344,
+   "n": 35,
+   "resident": {
+    "344": 35
+   }
+  },
+  "Shelby's Trailer Park": {
+   "lever": 296,
+   "n": 0,
+   "resident": {}
+  },
+  "Green Grove Trailer Court MHC": {
+   "lever": 296,
+   "n": 21,
+   "resident": {
+    "296": 18,
+    "344": 2,
+    "391": 1
+   }
+  },
+  "Tuttle Estates MHC": {
+   "lever": 296,
+   "n": 0,
+   "resident": {}
+  },
+  "Bench": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "High Street": {
+   "lever": 256,
+   "n": 22,
+   "resident": {
+    "260": 6,
+    "137": 2,
+    "256": 11,
+    "296": 1,
+    "209": 1,
+    "314": 1
+   }
+  },
+  "Stage 2 - Recently Installed M Meters": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Cactus Flower": {
+   "lever": 209,
+   "n": 12,
+   "resident": {
+    "344": 1,
+    "314": 3,
+    "0": 2,
+    "209": 1,
+    "none": 5
+   }
+  },
+  "1107 W King": {
+   "lever": 344,
+   "n": 3,
+   "resident": {
+    "none": 3
+   }
+  },
+  "Harr Town Rd Duplex": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Alta Vista MHC": {
+   "lever": 219,
+   "n": 0,
+   "resident": {}
+  },
+  "Spruce Valley Condominiums": {
+   "lever": 314,
+   "n": 0,
+   "resident": {}
+  },
+  "Kristana Estates": {
+   "lever": 209,
+   "n": 5,
+   "resident": {
+    "none": 5
+   }
+  },
+  "Damaged": {
+   "lever": 209,
+   "n": 10,
+   "resident": {
+    "none": 10
+   }
+  },
+  "Green Forest": {
+   "lever": 209,
+   "n": 24,
+   "resident": {
+    "209": 3,
+    "181": 1,
+    "133": 7,
+    "137": 1,
+    "149": 1,
+    "none": 11
+   }
+  },
+  "Flagstaff Villas": {
+   "lever": 209,
+   "n": 8,
+   "resident": {
+    "none": 8
+   }
+  },
+  "Evercom GenII New RMA": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Lakeroad Village RV Park": {
+   "lever": 209,
+   "n": 2,
+   "resident": {
+    "0": 1,
+    "159": 1
+   }
+  },
+  "Mountaineer Village MHC": {
+   "lever": 254,
+   "n": 31,
+   "resident": {
+    "344": 3,
+    "254": 22,
+    "354": 1,
+    "368": 1,
+    "296": 2,
+    "159": 1,
+    "none": 1
+   }
+  },
+  "Arizona Manor": {
+   "lever": 209,
+   "n": 16,
+   "resident": {
+    "260": 1,
+    "314": 4,
+    "344": 1,
+    "209": 4,
+    "391": 1,
+    "none": 5
+   }
+  },
+  "Ridge Crest MHC": {
+   "lever": 209,
+   "n": 3,
+   "resident": {
+    "209": 2,
+    "159": 1
+   }
+  },
+  "Stage1 - New Install M": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Holly Tree MHP": {
+   "lever": 314,
+   "n": 76,
+   "resident": {
+    "314": 66,
+    "344": 7,
+    "391": 2,
+    "372": 1
+   }
+  },
+  "River Bend": {
+   "lever": 344,
+   "n": 0,
+   "resident": {}
+  },
+  "Biltmore Bungalows": {
+   "lever": 209,
+   "n": 9,
+   "resident": {
+    "none": 9
+   }
+  },
+  "Tremain MHC": {
+   "lever": 254,
+   "n": 0,
+   "resident": {}
+  },
+  "Maple Creek Estates MHC": {
+   "lever": 314,
+   "n": 12,
+   "resident": {
+    "344": 3,
+    "314": 9
+   }
+  },
+  "Taylor St Triplex": {
+   "lever": 209,
+   "n": 3,
+   "resident": {
+    "209": 2,
+    "314": 1
+   }
+  },
+  "Relix Ridge": {
+   "lever": 209,
+   "n": 17,
+   "resident": {
+    "209": 1,
+    "none": 16
+   }
+  },
+  "Shady Grove GenII": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Production M W0523": {
+   "lever": 209,
+   "n": 7,
+   "resident": {
+    "none": 7
+   }
+  },
+  "Pleasant Hill Village": {
+   "lever": 209,
+   "n": 6,
+   "resident": {
+    "none": 6
+   }
+  },
+  "Freedom MHP": {
+   "lever": 219,
+   "n": 27,
+   "resident": {
+    "219": 16,
+    "272": 4,
+    "296": 3,
+    "260": 2,
+    "391": 1,
+    "344": 1
+   }
+  },
+  "Production Start M8SB-3": {
+   "lever": 209,
+   "n": 4,
+   "resident": {
+    "none": 4
+   }
+  },
+  "Riverview Apartments MF": {
+   "lever": 344,
+   "n": 35,
+   "resident": {
+    "344": 29,
+    "272": 1,
+    "159": 1,
+    "391": 3,
+    "365": 1
+   }
+  },
+  "Noble Estates MHC": {
+   "lever": 296,
+   "n": 0,
+   "resident": {}
+  },
+  "Sky Run Old": {
+   "lever": 209,
+   "n": 13,
+   "resident": {
+    "none": 13
+   }
+  },
+  "103 West Broadway": {
+   "lever": 209,
+   "n": 16,
+   "resident": {
+    "none": 12,
+    "209": 3,
+    "391": 1
+   }
+  },
+  "Production L W0623": {
+   "lever": 209,
+   "n": 2,
+   "resident": {
+    "none": 2
+   }
+  },
+  "Oaklawn Park HOA - Cust": {
+   "lever": 254,
+   "n": 167,
+   "resident": {
+    "260": 5,
+    "314": 17,
+    "254": 142,
+    "296": 1,
+    "365": 1,
+    "368": 1
+   }
+  },
+  "John Alexander ADU 5YR": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Sunny Acres MHP": {
+   "lever": 209,
+   "n": 1,
+   "resident": {
+    "none": 1
+   }
+  },
+  "Avante Pointe": {
+   "lever": 209,
+   "n": 2,
+   "resident": {
+    "none": 2
+   }
+  },
+  "Brown's MHP-CUST": {
+   "lever": 260,
+   "n": 10,
+   "resident": {
+    "260": 6,
+    "344": 1,
+    "354": 1,
+    "219": 1,
+    "0": 1
+   }
+  },
+  "Camelback": {
+   "lever": 209,
+   "n": 35,
+   "resident": {
+    "none": 35
+   }
+  },
+  "Fowler Apts MF": {
+   "lever": 209,
+   "n": 19,
+   "resident": {
+    "131": 5,
+    "149": 5,
+    "260": 1,
+    "159": 3,
+    "209": 2,
+    "314": 1,
+    "272": 1,
+    "391": 1
+   }
+  },
+  "Steve Katz 4plex 5YR": {
+   "lever": 341,
+   "n": 4,
+   "resident": {
+    "341": 2,
+    "344": 1,
+    "295": 1
+   }
+  },
+  "Field Failure Dead Battery": {
+   "lever": 209,
+   "n": 0,
+   "resident": {}
+  },
+  "Oaklawn Park HOA": {
+   "lever": 254,
+   "n": 1,
+   "resident": {
+    "254": 1
+   }
+  },
+  "Dorr Drive MHP": {
+   "lever": 254,
+   "n": 14,
+   "resident": {
+    "254": 2,
+    "314": 7,
+    "344": 1,
+    "391": 1,
+    "260": 1,
+    "272": 1,
+    "133": 1
+   }
+  },
+  "Hidden Glenn": {
+   "lever": 209,
+   "n": 17,
+   "resident": {
+    "none": 17
+   }
+  },
+  "RMA - Good": {
+   "lever": 320,
+   "n": 0,
+   "resident": {}
+  },
+  "521 Melba Condominiums": {
+   "lever": 314,
+   "n": 0,
+   "resident": {}
+  }
+ }
+}
