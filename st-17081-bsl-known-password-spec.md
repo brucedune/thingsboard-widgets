@@ -39,3 +39,17 @@ Bruce 9/12 12:30: "So we have the necessary knowns to determine the correct pass
 - Footnote to the BSL overview table: "Some devices can disable mass erase on incorrect password. See the device family user's guide." -> the erase-on-wrong-password is a disableable device feature; a unit with it disabled refuses the default password forever (the 72385774 signature). E2E carries several threads titled exactly this failure ("MSP430FR5969: BSL won't erase memory on failed password", "MSP430FR5994: Unable to Mass Erase with BSL", "MSP430FR5969: BSL mass erase not working"); their bodies are behind a bot check and were not read. A search snippet from E2E attributes the disable to writing 0xAAAA into both BSL Signature words (unverified here; the FR6047 family guide SLAU367 is the authority).
 - Core response 0x05 = "BSL password error" (what bsl_unlock() counts in tifota_bsl_passwd_err).
 Conclusion: the correct password is the primary, documented unlock; the wrong-password erase is a documented consequence that some devices can switch off. 17081 uses the primary path and keeps the erase as the fallback.
+
+## Deployed-set lookup (9/12 14:20, Bruce: "just what's deployed in valid property groups that are part of the fleet FW upgrade")
+From group_levers_0911.json (412 groups) + wave1_pins_0911.json, the resident TI versions in the roll's scope and their vector tables (Claude Data/ti_bsl_password_families_0912.json):
+
+| family | versions | groups | table (first/last bytes) |
+|---|---|---|---|
+| A | 209 | 210 | 4e5abc5a … 5bfe5a |
+| B | 219, 254, 256, 260, 296 | 94 | 1c5a8a5a … 5bcc5a |
+| C | 314, 320, 325 | 28 | 8659b059405a … 5a105a (17081's "A") |
+| D | 341 … 392 | 57 (+ wave-1 368/372/374) | 8659b059505a … 5a105a (17081's "B") |
+
+17081 as built covers C and D only. The two largest cohorts (209 on 210 groups; 219–296 on 94) are NOT covered: on them 17081 tries D then C (two forgiven/erasing strikes) and falls through to the 16017 erase trick — today's behaviour, no regression, no gain. Caveat: the census holds lever TARGETS, not measured residents; a device that never took its lever may run something older (v180-era per the DTHRES history). A telemetry sweep of fwVerTi across the 412 groups would settle the true resident set.
+
+Proposed 17082: four tables + map (v<=209 A; 210–313 B; 314–340 C; >=341 D; unknown: D, C, B, A). Cost ≈ +64 B tables + ~40 B map: release fits (576 free); lean needs ~60 B more trimmed. Rig cannot prove A/B directly unless a 209/296 image is flashed to the rig TI (they exist in the bucket; a 209 leg on the rig is a legitimate test: flash 209, then unlock it with table A to go back to 392).
