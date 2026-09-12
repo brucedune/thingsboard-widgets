@@ -39,3 +39,6 @@ On the aerated rig 391 ships ~5% of flow aggregates as invalid (tofMarkerRejCnt)
 
 ## Addendum 9/12 10:05 — ST 17079 available (TI/flash isolation)
 Bucket 672132E5/G/17079 (112,612 B, fits the slot). Breaks the VB 159 class: no SPI-flash operation until the TI has been heard after any reset/FOTA (register restore exempt), marker health check inconclusive while unstable (no strike, no reboot heal), heal at most once per 6 h across boots, TI-FOTA breaker after 3 failed sessions per version parks the TI in reset until the lever moves (status keys sfGatedUnstable, tiParked). Bench repro pending; for a device already in the loop, pointing gen2fw at 17079 lands it in the boot session (STFOTA runs before TIFOTA). Note VB 159 currently has gen2fw 17060 pinned and has downgraded to 17060.
+
+## Addendum 9/12 10:35 — ST 17080 available (supersedes 17079 for the roll)
+Bucket 672132E5/G/17080 (111,880 B). Same isolation as 17079 plus: an unknown TI is verified by an INFO probe before a flash op instead of the op being refused, and a silent TI is held in reset for the op (ti_monitor releases it). Any valid TI packet counts as alive. Untested on hardware as of this note: rig + bench repro pending Bruce's go. For VB 159 prefer 17080 over 17079 once the rig run is clean; until then keep allowTiFotaVer 0 on VB 159.
