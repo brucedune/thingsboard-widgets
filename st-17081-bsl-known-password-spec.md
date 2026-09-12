@@ -53,3 +53,12 @@ From group_levers_0911.json (412 groups) + wave1_pins_0911.json, the resident TI
 17081 as built covers C and D only. The two largest cohorts (209 on 210 groups; 219–296 on 94) are NOT covered: on them 17081 tries D then C (two forgiven/erasing strikes) and falls through to the 16017 erase trick — today's behaviour, no regression, no gain. Caveat: the census holds lever TARGETS, not measured residents; a device that never took its lever may run something older (v180-era per the DTHRES history). A telemetry sweep of fwVerTi across the 412 groups would settle the true resident set.
 
 Proposed 17082: four tables + map (v<=209 A; 210–313 B; 314–340 C; >=341 D; unknown: D, C, B, A). Cost ≈ +64 B tables + ~40 B map: release fits (576 free); lean needs ~60 B more trimmed. Rig cannot prove A/B directly unless a 209/296 image is flashed to the rig TI (they exist in the bucket; a 209 leg on the rig is a legitimate test: flash 209, then unlock it with table A to go back to 392).
+
+## Roll cohorts (deployment session, 9/12 14:30) — coverage by fleet devices
+| family | start TI versions | fleet devices | share |
+|---|---|---|---|
+| A | 209 | 868 | 16.3% |
+| B | 260, 295, 296 | 1,467 | 27.6% |
+| C | 314 | 1,062 | 20.0% |
+| D | 344, 354, 368 | 1,916 | 36.1% |
+17081 (C+D) = 56.1% of 5,313; 17082 with four tables = 100%. One "other" (stuck) unit exists in each of the 344 / 314 / 296 / 209 cohorts.
