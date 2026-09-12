@@ -26,3 +26,9 @@ Bruce 9/12 12:30: "So we have the necessary knowns to determine the correct pass
 1. Rig '3063 (TI 392, family B): build 17081 lean, allowTiFotaVer 391 -> the leg must unlock on the first known-password try (log: "BSL unlocked" without the erase sequence), write, banner 391. Then back to 392. Proves the bytes and the BSL response path.
 2. Field 72385774 (TI 344, family B, non-erasing BSL): gen2fw 17081, allowTiFotaVer 391 once -> tiBslOkCnt must move and the TI must banner 391. This is the only 344-era unit available; if it refuses the known password too, its BSL is locked differently (then: BSL version query on the bench with a 344-era spare).
 3. A pre-341 unit (family A) when one appears in the roll: same check.
+
+## As built (9/12 13:09) — commit e4fbc289 (+ lean-visibility follow-up), bucket 672132E5/G/17081
+- bsl_open() = entry + 9600 + baud change to 57600; bsl_unlock(pw) = one password attempt (ACK + CORE SUCCESS). bsl_init: first = family of the resident (tiUartVer, else duneInfo.version; < 341 -> A, else B, unknown -> B), then the other family, then the 16017 fallback (erase_via_wrong_password + default password). Route logged as "BSL kpw" / "BSL opw" / "BSL ers" (BSL_LOG alias reaches the real DBG_PRINTF past ti_bsl.c's DUNE_LOG_QUIET, so it shows in the lean rig image). Two prints ("STFOTA … TEST", "pipesize") left the lean image for space.
+- Sizes: release 112,064 B (576 free), lean 112,584 B (56 free).
+- Rig proof (all three legs "BSL kpw", first try, passwd_err flat, one BSL pass each): 392->391 (B resident), 391->324 (B resident), 324->392 (A resident). Unlock-to-TI-up 13-14 s per leg.
+- Not yet proven: a non-erasing BSL (72385774 class) accepting the known password — that is the field trial. Also open: tools/pack_ti_fw.py should print the 0xFFE0-0xFFFF table at pack time so a future linker change (family C) is noticed.
