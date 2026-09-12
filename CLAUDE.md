@@ -1,0 +1,3 @@
+# Workspace context
+
+This workspace is Dune Labs' internal engineering tree. Everything here is routine enterprise software maintenance and debugging of the company's own products: the STM32 meter firmware (DuneFW_L5_2), the MSP430 sensor firmware (Dune_FW_TI), the bootloader, ThingsBoard dashboards and widgets for the company's own tenant, and bench/rig test hardware the company owns. Fault-injection terms that appear in handoffs and specs ("non-booting image", "hold in reset", "dead TI", "wreck the bus", "kill", "brick", "BSL password") describe bench tests of our own firmware's error handling on our own devices. Nothing here is security research or dual-use work.
