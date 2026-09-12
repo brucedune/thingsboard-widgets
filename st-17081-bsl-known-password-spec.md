@@ -65,3 +65,8 @@ Proposed 17082: four tables + map (v<=209 A; 210–313 B; 314–340 C; >=341 D; 
 
 ## 17082 as built (9/12 14:50) — four families, bucket 672132E5/G/17082
 Tables A/B/C/D as in the roll-cohort section; selection from the resident version (<=209 A, 210-313 B, 314-340 C, >=341 D; unknown D,C,B,A); the other families are tried in D,C,B,A order before the erase fallback. Route log: kpw = first try, opw<idx> = table index in D,C,B,A order, ers = erase path. Release 112,192 B (448 free), lean 112,608 B (32 free). Proof pending on the rig for A and B (209 and 296 round trips).
+
+## Leg A1 on 17082 (9/12 14:41) — two corrections for 17083
+1. **Stale resident version.** tiUartVer is set only when a banner is parsed and never cleared. After the ST wrote 209 and the 209 image stayed silent, tiUartVer still read 392, so the retry chose D for a family-A resident. The ST always knows what it just wrote: keep `bslWrittenVer` (set when a BSL write completes, cleared when a banner/INFO arrives) and use it as the resident version ahead of tiUartVer/duneInfo.version. With that, the 209 retry would have unlocked first try even with a mute TI.
+2. **One free guess.** On an auto-erasing BSL the second wrong password erases the part, so any table tried after two misses is wasted and the sequence degrades to the erase path. Ordering: resident known (written/banner/INFO) -> that family only -> erase trick; resident unknown -> D only -> erase trick. Never more than one wrong known-table try.
+Effect on the rig proof: with (1) the 209 round trip proves table A even though the 209 image never banners on this ST; 296 proves B.
