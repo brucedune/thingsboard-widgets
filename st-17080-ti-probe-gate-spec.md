@@ -61,3 +61,6 @@ Recommendation: B + D + E in 17086 (A only if B proves insufficient). Test: rig 
 
 ## 17086 (9/13) — the gate re-scoped to Bruce's three-state model
 TI states = metering / not metering / unresponsive, all encoded by INFO (flags + arrival). Plus one ST-owned condition: a transition the ST started. Gate = defer only during a transition or when unresponsive (no packet for 300 s during/just after a session, 60 s otherwise). No probe, no hold: recovery is ti_monitor's. Watchdog in ti_monitor acts on the TI's own state (not metering after metering; metering but no aggregates): kick at 10 min, reset at 20 min. The 17080 probe/hold is retired; sfProbeOk/sfProbeHeld are gone from status.
+
+## 17087 (9/13) — data is never gated
+TI records are written unconditionally (their arrival is the liveness proof). The register checkpoint is held in RAM while the TI is unknown and written by sf_process once ti_stable() returns; counters sfHeldWrites / sfHeldFlushed. Gating now only defers ST-timed operations (uploads' ring reads, backup, meter-log reads, marker, GC), none of which lose data.
