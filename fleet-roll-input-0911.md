@@ -1,3 +1,6 @@
+# >>> CURRENT TARGET (Bruce 9/13 11:50): ST 17088 + TI 391 for all TI-related failure classes <<<
+17088 = 17079 boot hold/breaker + 17086 three-state gate (defer only, watchdog) + 17087 records never gated + 17088 park at the third failed leg. Proven: rig 12/12 event-end sessions under flow on the gate/watchdog logic (17087, unchanged in 17088); bench six on 17088 since 11:25 clean. Pending before WIDENING: rig to 20 sessions, one bench night. Looping units do not wait. Rules: never allowTiFotaVer 0 (substitutes 320); 344-era units pinned to their own TI version until 17088 is on them; 17085 never on a unit without checkInPeriod; TI-dead units need a session source (checkInPeriod) to fetch anything. Do not roll 17079-17085.
+
 # Fleet roll — critical input from the bench session (2026-09-11 16:45)
 
 Source: fw-17047-bugfix-handoff.md (full evidence). Written for the session running the roll.
