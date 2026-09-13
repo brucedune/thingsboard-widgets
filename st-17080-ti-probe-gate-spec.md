@@ -64,3 +64,6 @@ TI states = metering / not metering / unresponsive, all encoded by INFO (flags +
 
 ## 17087 (9/13) — data is never gated
 TI records are written unconditionally (their arrival is the liveness proof). The register checkpoint is held in RAM while the TI is unknown and written by sf_process once ti_stable() returns; counters sfHeldWrites / sfHeldFlushed. Gating now only defers ST-timed operations (uploads' ring reads, backup, meter-log reads, marker, GC), none of which lose data.
+
+## 17088 (9/13) — park within the same uptime
+Breaker: the third failed leg parks the TI at the failure site, and the breaker gate precedes the RAM blocklist. Motivation: a permanently dead TI on 17086/17087 never parked without a reboot, so the gate deferred every ST flash op indefinitely. A held TI is a known bus.
