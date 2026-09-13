@@ -58,3 +58,6 @@ C. Widen the probe for a pausing TI: 4 x 250 ms -> up to 3 s when a radio sessio
 D. After ANY hold, force the release+config path at once (bsl_reset(false) + ti_update_and_start when the radio goes off) instead of relying on ti_monitor's INFO timeout, which never fires when INFO keeps flowing.
 E. Watchdog for the silent-metering state: INFO alive with metering bit clear for > 5 min while the ST expects metering -> re-issue START/config; > 15 min -> bsl_reset + config. This also covers the earlier "TI-silent class".
 Recommendation: B + D + E in 17086 (A only if B proves insufficient). Test: rig under flow through >= 20 event-end sessions with sfProbeHeld staying 0 and aggregates resuming within 60 s of every RADIO OFF; then the bench six for a night.
+
+## 17086 (9/13) — the gate re-scoped to Bruce's three-state model
+TI states = metering / not metering / unresponsive, all encoded by INFO (flags + arrival). Plus one ST-owned condition: a transition the ST started. Gate = defer only during a transition or when unresponsive (no packet for 300 s during/just after a session, 60 s otherwise). No probe, no hold: recovery is ti_monitor's. Watchdog in ti_monitor acts on the TI's own state (not metering after metering; metering but no aggregates): kick at 10 min, reset at 20 min. The 17080 probe/hold is retired; sfProbeOk/sfProbeHeld are gone from status.
