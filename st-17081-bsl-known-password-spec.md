@@ -91,3 +91,5 @@ Effect on the rig proof: with (1) the 209 round trip proves table A even though 
 - Tables: A 209, B 218-302, C 314-325, D 341-392, G 119-194 (E/F/H not carried).
 - Sizes: release 112,252 B (388 free), lean 112,600 B (40 free).
 - **Rig proof 9/12 15:37:** 209 (family A, mute image, never heard) -> 392: "BSL kpw 209", first try. Tables proven on hardware: A, C, D. Pending: B (296 round trip), G (optional), and the non-erasing-BSL field trial (72385774).
+- **Rig proof 9/12 21:20 (17084):** 296 (family B, mute) -> 392: "BSL kpw 296" first try, resident seeded from the breaker word after a reflash. Leg B1 (17083) had already shown "BSL kpw 296" twice from the RAM written-version. Hardware-proven tables: A, B, C, D. Open: G in the field (~130 live units), non-erasing BSL (72385774).
+- **17084:** success site clears the breaker low half for any verified success (leg B1's first attempt had seeded a stale 209 and tried table A on a 392 resident).
