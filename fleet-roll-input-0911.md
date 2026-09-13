@@ -75,3 +75,6 @@ Bruce's three-state model (metering / not metering / unresponsive, all from INFO
 
 ## Addendum 9/13 10:58 — census + two corrections for the roll
 Full report: Claude Data/ti_health_report_0913.md. (1) 17087 supersedes 17086 for new levers (17086 + records never gated, checkpoint RAM-held). 17087 rig flow test: 7/7 event-end sessions clean so far. (2) VB 159 has gen2fw 17086 but no session source: it needs a checkInPeriod or its daily slot before anything changes; battery 3,487 and falling. (3) Four PIN-only boot loopers on 17037/344 (Roosevelt 72724018 100/day, Aurora 79457667 / 432f1b80 / 75502425) are the magnet-reset class, not TI: exclude from the loop story, schedule site visits. (4) Two ST-362 units with TI 0 (Azulejo 82cfe210, Carolina Springs 7363e670) need the ST roll first. (5) VB 9592ae00: 2,794 mV, go-back.
+
+## Addendum 9/13 11:16 — 17088 for TI-dead units
+Bucket 672132E5/G/17088. 17087 + the TI-FOTA breaker parks the TI at the third failed leg within the same uptime (17086 on 79462923 never parked: the RAM blocklist ran first and no reboot cleared it, so the flash gate deferred every ST operation for hours, sfGatedUnstable 21). Use 17088 for 79462923 and VB 159 (VB 159 still needs a session source: checkInPeriod or its daily slot). Rig flow test on 17087: 9/9 clean at 11:06; 17088 does not change the gate or the watchdog.
