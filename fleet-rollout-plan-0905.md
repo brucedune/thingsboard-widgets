@@ -470,3 +470,48 @@ device, passed or not: >=4 software-reset boots within 20 min => FLAG and a sing
 the fix build (`--loop-fix-st`, currently 17086). Deployment is HELD pending 17084/17086 bench results; resume order =
 thin-cohort ramp (344/314/296/209/260, first 254 crossing) -> Wave 2 levers + pin cleanup -> re-pin day-1 units.
 Gate is regression, not recovery: metering_regression.py (offset, direction, daily gal vs pre-roll median).
+
+### 9/14 — 17088/391 cleared, roll resumed (Bruce: "17088/391 are cleared to continue fleet roll", "Fine with A-C")
+
+17088/391 field-verified before the clear: ST-only crossing on 6 units (Aurora 172 / 155-OLD / 193,
+VB 39, VB 109, VB 159) — bank-swap boot flag only, no TI FOTA, no re-anchor, no loop. VB 39's silent
+TI came back on 391 at the crossing (first field TI recovery on 17088). 17080/17086 loop fixes hold.
+
+**Step A — agent retargeted** to `--target-st 17088 --target-ti 391 --loop-fix-st 17088`, poll 60 s.
+Devices at verdict `pass`/`flagged` are skipped by all roll logic (only the all-roster reboot-loop
+detector runs on them), so retargeting does not re-roll the 243 already passed.
+
+**Step B — roster to 17088 (241 devices, done 11:05-11:08, 241/241 verified).** One shared write per
+device, `gen2fw` 17078 -> 17088, `allowTiFotaVer` left at 391. **No cadence pins** — they land on the
+daily session over ~24 h and stay quiet. Rationale: every 17078 unit is still exposed to the reboot
+loop the moment its TI hiccups (VB 60 showed that happens on units that looked fine). List in
+`stepB_preview.csv`, results in `stepB_results.csv`, audit in `tb_write_log.txt`.
+Excluded: Whispering Pines 317 (Bruce's 17080/392 test unit), Carolina Springs CSP4 + CSP123
+(17080/392, Bruce's — **open: do these go to 17088/391?**), the 16 already on 17088/391.
+Because these devices carry verdict `pass`, `field_roll.py` does not track them: `stepB_track.py`
+(baseline `stepB_baseline.json`, log `stepB_track_log.txt`, every 30 min) reports landings, crash
+increments, state regressions and >=4-boot flag-20 signatures until all 241 have landed.
+
+**Step B2 — the 4 Wave 2 day-1 units** (Shady 152, Holly Tree 64, Oaks 36, Sara 1008) were on
+17066/372; `372 -> 391` is a TI crossing, so they were requeued in `field_roll_state.json`
+(verdict `pass` -> `queued`, landing fields cleared) and re-rolled by the agent with the full pin
+set. State backup: `field_roll_state.json.bak-0914-stepB`.
+
+**Step C — Wave 2 Day 3 (16 devices, pins written 11:09, 16/16 verified).** All 16 re-checked on the
+morning of the roll: Metering, crash 0, TI alive, seen < 30 h (Oaks 26 marginal at 29.8 h). Full pin
+set at 17088/391. Batch `field_roll_batch_day3.json` + `.GO`. Day 3 deliberately includes the
+weakest-signal eligible units (Sara 1029 -122, Holly Tree 37 -120, Shady 144 -118) so the field
+download-failure path is exercised. Per-group gate as in the Wave 2 ramp section, **plus** the
+register-derived gal/day check for two days after landing.
+
+**Billing quarantine.** The Holly Tree 53 phantom (offset -3072 -> -5558 at the 16185/314 crossing,
+110 -> 427/485 gal/d) **self-corrected on 9/14**: offset back to -3089, tnormAvg 130 ps, no attribute
+touched — 17078 re-anchored on its own within two days. ~775 gal of phantom to credit on lot 53 for
+9/12-9/13. Holly Tree 64's "register stopped" was **no water drawn** (weekend), confirmed by the
+tofNorm trace: flow events returned 9/13 ~16:00 and the register followed. Both closed.
+The four Holly Tree Day 3 units therefore carry a **two-day billing quarantine flag** on the same
+16185/314 crossing; bench ask I (offset-neutral crossing) stays open.
+
+**Step D (not started, needs a go):** per-group lever + member pin cleanup once a group's 7 ramp
+units pass; then the untouched thin cohorts — 16022/260 (350 devices) and 15090/254 (168), two
+picks each before any lever.
