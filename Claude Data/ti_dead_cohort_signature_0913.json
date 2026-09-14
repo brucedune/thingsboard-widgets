@@ -1,0 +1,779 @@
+[
+ {
+  "name": "82cfe210",
+  "group": "Azulejo",
+  "class": "ti_dead",
+  "hwRev": "?",
+  "install": "12/30",
+  "codes": [],
+  "maxBanner": 0,
+  "maxTiBoot": 0,
+  "fw": [
+   "362"
+  ],
+  "ti": [
+   "0"
+  ],
+  "pulse": "-",
+  "pipeType": "X"
+ },
+ {
+  "name": "a366d840",
+  "group": "Lafountaine MHC",
+  "class": "ti_dead",
+  "hwRev": "?",
+  "install": "09/19",
+  "codes": [],
+  "maxBanner": 0,
+  "maxTiBoot": 0,
+  "fw": [
+   "16131"
+  ],
+  "ti": [
+   "0",
+   "296"
+  ],
+  "pulse": "-",
+  "pipeType": "X"
+ },
+ {
+  "name": "d05ac350",
+  "group": "Round Lake MHP",
+  "class": "ti_dead",
+  "hwRev": "?",
+  "install": "06/04",
+  "codes": [],
+  "maxBanner": 1,
+  "maxTiBoot": 2,
+  "fw": [
+   "15154",
+   "17037"
+  ],
+  "ti": [
+   "0",
+   "260",
+   "344"
+  ],
+  "pulse": "-",
+  "pipeType": "X"
+ },
+ {
+  "name": "d502fe10",
+  "group": "Roosevelt MHC",
+  "class": "ti_dead",
+  "hwRev": "?",
+  "install": "06/24",
+  "codes": [
+   8,
+   103,
+   107,
+   110,
+   135,
+   136,
+   138
+  ],
+  "maxBanner": 73,
+  "maxTiBoot": 137,
+  "fw": [
+   "16022",
+   "16131",
+   "17040",
+   "17080"
+  ],
+  "ti": [
+   "0",
+   "296",
+   "354",
+   "392"
+  ],
+  "pulse": "-",
+  "pipeType": "M"
+ },
+ {
+  "name": "f8527150",
+  "group": "Ponderosa MHC",
+  "class": "ti_dead",
+  "hwRev": "?",
+  "install": "05/05",
+  "codes": [
+   110,
+   135
+  ],
+  "maxBanner": 0,
+  "maxTiBoot": 0,
+  "fw": [
+   "16022",
+   "16185"
+  ],
+  "ti": [
+   "0",
+   "260"
+  ],
+  "pulse": "-",
+  "pipeType": "X"
+ },
+ {
+  "name": "9b90fef0",
+  "group": "Ontario Place MHC-CUST",
+  "class": "ti_dead",
+  "hwRev": "?",
+  "install": "11/23",
+  "codes": [],
+  "maxBanner": 1,
+  "maxTiBoot": 1,
+  "fw": [
+   "16185",
+   "17078",
+   "17080"
+  ],
+  "ti": [
+   "0",
+   "314"
+  ],
+  "pulse": 9,
+  "pipeType": "X"
+ },
+ {
+  "name": "b7ccad80",
+  "group": "Virginia Beach HOA - C",
+  "class": "ti_dead",
+  "hwRev": "?",
+  "install": "05/22",
+  "codes": [
+   6,
+   8,
+   103,
+   107
+  ],
+  "maxBanner": 2171,
+  "maxTiBoot": 246,
+  "fw": [
+   "16185",
+   "16193",
+   "17021",
+   "17022",
+   "17023",
+   "17028",
+   "17032",
+   "17037",
+   "17060",
+   "17078",
+   "17086",
+   "17088"
+  ],
+  "ti": [
+   "0",
+   "314",
+   "320",
+   "325",
+   "328",
+   "329",
+   "341",
+   "344",
+   "368",
+   "391"
+  ],
+  "pulse": 9,
+  "pipeType": "X"
+ },
+ {
+  "name": "9592ae00",
+  "group": "Virginia Beach HOA - C",
+  "class": "ti_dead",
+  "hwRev": "?",
+  "install": "06/14",
+  "codes": [],
+  "maxBanner": 0,
+  "maxTiBoot": 0,
+  "fw": [
+   "16148",
+   "16193"
+  ],
+  "ti": [
+   "0",
+   "296"
+  ],
+  "pulse": "-",
+  "pipeType": "X"
+ },
+ {
+  "name": "7363e670",
+  "group": "Carolina Springs MHP-C",
+  "class": "ti_dead",
+  "hwRev": "?",
+  "install": "03/27",
+  "codes": [
+   103,
+   109,
+   110,
+   111,
+   135,
+   138
+  ],
+  "maxBanner": 0,
+  "maxTiBoot": 0,
+  "fw": [
+   "362"
+  ],
+  "ti": [
+   "0",
+   "209"
+  ],
+  "pulse": "-",
+  "pipeType": "X"
+ },
+ {
+  "name": "e7a13a10",
+  "group": "Noble Estates MHC-Cust",
+  "class": "ti_dead",
+  "hwRev": "?",
+  "install": "06/16",
+  "codes": [
+   103,
+   109,
+   110,
+   111,
+   138
+  ],
+  "maxBanner": 0,
+  "maxTiBoot": 0,
+  "fw": [
+   "16130",
+   "16185"
+  ],
+  "ti": [
+   "0",
+   "296"
+  ],
+  "pulse": 9,
+  "pipeType": "X"
+ },
+ {
+  "name": "432f1b80",
+  "group": "Aurora MHC",
+  "class": "boot_looper",
+  "hwRev": "?",
+  "install": "09/13",
+  "codes": [
+   107,
+   110
+  ],
+  "maxBanner": 1,
+  "maxTiBoot": 6,
+  "fw": [
+   "16048",
+   "17037"
+  ],
+  "ti": [
+   "0",
+   "272",
+   "344"
+  ],
+  "pulse": "-",
+  "pipeType": "X"
+ },
+ {
+  "name": "639de2e0",
+  "group": "Aurora MHC",
+  "class": "boot_looper",
+  "hwRev": "?",
+  "install": "09/13",
+  "codes": [
+   103,
+   107,
+   109,
+   110,
+   111,
+   135,
+   136,
+   137,
+   138
+  ],
+  "maxBanner": 1,
+  "maxTiBoot": 11,
+  "fw": [
+   "10300",
+   "17037"
+  ],
+  "ti": [
+   "0",
+   "344"
+  ],
+  "pulse": "-",
+  "pipeType": "X"
+ },
+ {
+  "name": "90cbff50",
+  "group": "Roosevelt MHC",
+  "class": "boot_looper",
+  "hwRev": "?",
+  "install": "02/16",
+  "codes": [
+   8,
+   103,
+   107,
+   110,
+   111,
+   135,
+   138
+  ],
+  "maxBanner": 966,
+  "maxTiBoot": 197,
+  "fw": [
+   "16185",
+   "17037"
+  ],
+  "ti": [
+   "0",
+   "314",
+   "344"
+  ],
+  "pulse": "-",
+  "pipeType": "M"
+ },
+ {
+  "name": "9eda8510",
+  "group": "Crystal Acres MHC",
+  "class": "boot_looper",
+  "hwRev": "?",
+  "install": "08/11",
+  "codes": [
+   6,
+   8,
+   14,
+   103,
+   107,
+   109,
+   110,
+   111,
+   135,
+   136,
+   137,
+   138
+  ],
+  "maxBanner": 1354,
+  "maxTiBoot": 255,
+  "fw": [
+   "16193",
+   "17018",
+   "17021",
+   "17028",
+   "17032",
+   "17060",
+   "17078",
+   "17080",
+   "17085"
+  ],
+  "ti": [
+   "0",
+   "320",
+   "325",
+   "341",
+   "344"
+  ],
+  "pulse": 9,
+  "pipeType": "X"
+ },
+ {
+  "name": "c1f100a0",
+  "group": "Aurora MHC",
+  "class": "boot_looper",
+  "hwRev": "?",
+  "install": "09/12",
+  "codes": [
+   103,
+   109,
+   110,
+   111,
+   135,
+   136,
+   138
+  ],
+  "maxBanner": 1,
+  "maxTiBoot": 6,
+  "fw": [
+   "10300",
+   "17037"
+  ],
+  "ti": [
+   "0",
+   "344"
+  ],
+  "pulse": "-",
+  "pipeType": "X"
+ },
+ {
+  "name": "9b90fef0",
+  "group": "Ontario Place MHC-CUST",
+  "class": "boot_looper",
+  "hwRev": "?",
+  "install": "11/23",
+  "codes": [],
+  "maxBanner": 1,
+  "maxTiBoot": 1,
+  "fw": [
+   "16185",
+   "17078",
+   "17080"
+  ],
+  "ti": [
+   "0",
+   "314"
+  ],
+  "pulse": 9,
+  "pipeType": "X"
+ },
+ {
+  "name": "b7ccad80",
+  "group": "Virginia Beach HOA - C",
+  "class": "boot_looper",
+  "hwRev": "?",
+  "install": "05/22",
+  "codes": [
+   6,
+   8,
+   103,
+   107
+  ],
+  "maxBanner": 2171,
+  "maxTiBoot": 246,
+  "fw": [
+   "16185",
+   "16193",
+   "17021",
+   "17022",
+   "17023",
+   "17028",
+   "17032",
+   "17037",
+   "17060",
+   "17078",
+   "17086",
+   "17088"
+  ],
+  "ti": [
+   "0",
+   "314",
+   "320",
+   "325",
+   "328",
+   "329",
+   "341",
+   "344",
+   "368",
+   "391"
+  ],
+  "pulse": 9,
+  "pipeType": "X"
+ },
+ {
+  "name": "ad379e60",
+  "group": "Virginia Beach HOA - C",
+  "class": "boot_looper",
+  "hwRev": "?",
+  "install": "10/01",
+  "codes": [
+   6,
+   8,
+   103,
+   107,
+   135
+  ],
+  "maxBanner": 2305,
+  "maxTiBoot": 181,
+  "fw": [
+   "16131",
+   "17018",
+   "17021",
+   "17022",
+   "17023",
+   "17028",
+   "17032",
+   "17037",
+   "17058",
+   "17060",
+   "17078"
+  ],
+  "ti": [
+   "0",
+   "320",
+   "325",
+   "328",
+   "329",
+   "341",
+   "344",
+   "365",
+   "368"
+  ],
+  "pulse": 9,
+  "pipeType": "X"
+ },
+ {
+  "name": "82cfe210",
+  "group": "Azulejo",
+  "class": "tifota_fail",
+  "hwRev": "?",
+  "install": "12/30",
+  "codes": [],
+  "maxBanner": 0,
+  "maxTiBoot": 0,
+  "fw": [
+   "362"
+  ],
+  "ti": [
+   "0"
+  ],
+  "pulse": "-",
+  "pipeType": "X"
+ },
+ {
+  "name": "9eda8510",
+  "group": "Crystal Acres MHC",
+  "class": "tifota_fail",
+  "hwRev": "?",
+  "install": "08/11",
+  "codes": [
+   6,
+   8,
+   14,
+   103,
+   107,
+   109,
+   110,
+   111,
+   135,
+   136,
+   137,
+   138
+  ],
+  "maxBanner": 1354,
+  "maxTiBoot": 255,
+  "fw": [
+   "16193",
+   "17018",
+   "17021",
+   "17028",
+   "17032",
+   "17060",
+   "17078",
+   "17080",
+   "17085"
+  ],
+  "ti": [
+   "0",
+   "320",
+   "325",
+   "341",
+   "344"
+  ],
+  "pulse": 9,
+  "pipeType": "X"
+ },
+ {
+  "name": "a366d840",
+  "group": "Lafountaine MHC",
+  "class": "tifota_fail",
+  "hwRev": "?",
+  "install": "09/19",
+  "codes": [],
+  "maxBanner": 0,
+  "maxTiBoot": 0,
+  "fw": [
+   "16131"
+  ],
+  "ti": [
+   "0",
+   "296"
+  ],
+  "pulse": "-",
+  "pipeType": "X"
+ },
+ {
+  "name": "e703e200",
+  "group": "Aurora MHC",
+  "class": "tifota_fail",
+  "hwRev": "?",
+  "install": "04/15",
+  "codes": [
+   103,
+   109,
+   110,
+   111,
+   135
+  ],
+  "maxBanner": 0,
+  "maxTiBoot": 0,
+  "fw": [
+   "16022"
+  ],
+  "ti": [
+   "260"
+  ],
+  "pulse": "-",
+  "pipeType": "X"
+ },
+ {
+  "name": "dfe22720",
+  "group": "Ontario Place MHC-CUST",
+  "class": "tifota_fail",
+  "hwRev": "?",
+  "install": "09/03",
+  "codes": [
+   103,
+   107,
+   109,
+   110,
+   111,
+   135,
+   136,
+   137,
+   138
+  ],
+  "maxBanner": 196,
+  "maxTiBoot": 202,
+  "fw": [
+   "15147",
+   "16193",
+   "17018",
+   "17021",
+   "17028",
+   "17037"
+  ],
+  "ti": [
+   "0",
+   "256",
+   "320",
+   "325",
+   "341",
+   "344"
+  ],
+  "pulse": "-",
+  "pipeType": "X"
+ },
+ {
+  "name": "b7ccad80",
+  "group": "Virginia Beach HOA - C",
+  "class": "tifota_fail",
+  "hwRev": "?",
+  "install": "05/22",
+  "codes": [
+   6,
+   8,
+   103,
+   107
+  ],
+  "maxBanner": 2171,
+  "maxTiBoot": 246,
+  "fw": [
+   "16185",
+   "16193",
+   "17021",
+   "17022",
+   "17023",
+   "17028",
+   "17032",
+   "17037",
+   "17060",
+   "17078",
+   "17086",
+   "17088"
+  ],
+  "ti": [
+   "0",
+   "314",
+   "320",
+   "325",
+   "328",
+   "329",
+   "341",
+   "344",
+   "368",
+   "391"
+  ],
+  "pulse": 9,
+  "pipeType": "X"
+ },
+ {
+  "name": "95712650",
+  "group": "Virginia Beach HOA - C",
+  "class": "tifota_fail",
+  "hwRev": "?",
+  "install": "10/01",
+  "codes": [
+   109,
+   110
+  ],
+  "maxBanner": 58,
+  "maxTiBoot": 92,
+  "fw": [
+   "16128",
+   "16193",
+   "17018",
+   "17021",
+   "17022",
+   "17023",
+   "17028",
+   "17037",
+   "17040",
+   "17060"
+  ],
+  "ti": [
+   "0",
+   "295",
+   "325"
+  ],
+  "pulse": "-",
+  "pipeType": "X"
+ },
+ {
+  "name": "c814e6a0",
+  "group": "Estancia MHP-CUST",
+  "class": "tifota_fail",
+  "hwRev": "?",
+  "install": "03/26",
+  "codes": [
+   103,
+   109,
+   110,
+   111,
+   135,
+   138
+  ],
+  "maxBanner": 0,
+  "maxTiBoot": 0,
+  "fw": [
+   "15147"
+  ],
+  "ti": [
+   "256"
+  ],
+  "pulse": "-",
+  "pipeType": "P"
+ },
+ {
+  "name": "7363e670",
+  "group": "Carolina Springs MHP-C",
+  "class": "tifota_fail",
+  "hwRev": "?",
+  "install": "03/27",
+  "codes": [
+   103,
+   109,
+   110,
+   111,
+   135,
+   138
+  ],
+  "maxBanner": 0,
+  "maxTiBoot": 0,
+  "fw": [
+   "362"
+  ],
+  "ti": [
+   "0",
+   "209"
+  ],
+  "pulse": "-",
+  "pipeType": "X"
+ }
+]
