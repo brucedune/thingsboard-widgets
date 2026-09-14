@@ -500,6 +500,14 @@ Their real status differs and neither is a clean test unit:
 - **CSP4 '5542** — never took 17078 at all: still **running 17037/344**, Calibrating, rsrp **-125**,
   last post 9/12 07:44 (~51 h dark), already flagged "no uptake 30 h" + fallback pin removal.
   At -125 this is a fringe-signal casualty, not a firmware question.
+
+**Resolved 9/14 (Bruce: "please write 17088/391 to both").** Both Carolina Springs units written to
+`gen2fw=17088, allowTiFotaVer=391`, verified, audited — no cadence pins, since both are fringe-signal
+and an hourly pin would burn the radio-overuse budget. Only Whispering Pines 317 remains on 17080/392
+as a test unit. Both were appended to `stepB_results.csv` / `stepB_baseline.json` so the Step B
+tracker follows them (243 tracked), because `field_roll.py` skips their `pass`/`flagged` verdicts.
+CSP123 should land on its next daily session; CSP4 may never land at -125 and stays a go-back
+candidate rather than a firmware item.
 Because these devices carry verdict `pass`, `field_roll.py` does not track them: `stepB_track.py`
 (baseline `stepB_baseline.json`, log `stepB_track_log.txt`, every 30 min) reports landings, crash
 increments, state regressions and >=4-boot flag-20 signatures until all 241 have landed.
