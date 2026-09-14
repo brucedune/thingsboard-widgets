@@ -535,3 +535,43 @@ The four Holly Tree Day 3 units therefore carry a **two-day billing quarantine f
 **Step D (not started, needs a go):** per-group lever + member pin cleanup once a group's 7 ramp
 units pass; then the untouched thin cohorts — 16022/260 (350 devices) and 15090/254 (168), two
 picks each before any lever.
+
+### 9/14 — check-in cadence measured; 13 of 21 "flagged" devices were never faulty
+
+Bruce: *"We have devices that can miss up to 5-6 consecutive days."* Measured (`gap_census.py`,
+90 roster devices x 30 d, 2,530 scheduled gaps):
+
+| metric | value |
+|---|---|
+| gap p50 / p90 / p95 / p99 | 23.8 / 25.9 / 26.5 / 50.1 h |
+| longest gap observed | 191 h (8 d) |
+| gaps <= 30 h | 97.0% |
+| **devices with >= one gap > 48 h in 30 d** | **29%** |
+| per-device max gap p50 / p75 / p90 | 26.8 / 48.8 / 68.4 h |
+
+Long gaps are rare per gap but common per device. **A missed session is not a fault, and recency is
+not a health signal.** Roll-pick eligibility gates on health only (Metering/Calibrating, crash 0,
+TI alive); `roll_eligibility.likely_gone()` now needs a **30-day** window and calls a device gone
+only past `max(72 h, 1.25 x its own worst observed gap)`.
+
+**Retraction.** My 11:30 claim that two Day 3 picks (The Oaks 26, Holly Tree 63) were "already dark
+when pinned" was wrong, built on a 14-day window. Oaks 26's own 30-day history holds 48 h and 72 h
+gaps, so 30 h of silence is ordinary for it; Holly Tree 63 was 2 h past its 30-day max. Both are
+valid picks and Day 3 is 4 of 4 per group. Annotations corrected.
+
+**Re-judging the 21 flagged roster devices** against each device's own 30-day history:
+
+- **13 were mis-flagged on recency alone** and are healthy — most have since checked in (VB 243-OLD,
+  Grand Valley 2, Ponderosa 50 + 48, Carolina Springs CSP98, Parkview 47, VB 107, Oaklawn 3405SOC all
+  posted within ~5 h). Singing Pines 2 (40 h), Maple Run 110 (29 h), Noble 544 (33 h), Minot Gardens
+  (98 h vs its own 195 h max) and Carolina Springs CSP4 (52 h vs its own 191 h max) are all inside
+  their normal range. Their `flagged` verdict is stale bookkeeping, not a fault; Step B moved them to
+  17088 and `stepB_track.py` follows them, so no re-roll is needed.
+- **2 are genuinely off the air:** Aurora 258 (148.7 h vs own 26.7 h max) and Crystal Acres 13
+  (99 h vs own 33.2 h max, `VddAdc` 2696 mV = battery, not firmware).
+- **6 carry real symptoms** and stand unchanged, all TI-side: Crystal Acres 29, Highlands 9, VB 159,
+  Ontario 91, VB 60, VB 117.
+
+The agent's 30 h "no uptake" fallback stays as designed — it strips only *cadence* pins so a
+forgotten `checkInPeriod=60` cannot burn the radio budget; FW pins survive and the device still
+lands on its own schedule. Only its FLAG wording overstated the case.
