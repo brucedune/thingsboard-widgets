@@ -1,0 +1,859 @@
+<title>Rustic Acres Go-Back</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+  :root {
+    --ground:      #EDEFF1;
+    --surface:     #FFFFFF;
+    --surface-2:   #F5F7F8;
+    --line:        #D3D9DD;
+    --line-strong: #B4BEC4;
+    --ink:         #151C21;
+    --ink-2:       #3D4A52;
+    --ink-3:       #66757E;
+    --accent:      #A45F2B;
+    --accent-soft: #F0E2D6;
+    --critical:    #A82D22;
+    --critical-bg: #F7E2DF;
+    --warning:     #9A6608;
+    --warning-bg:  #F7EBD5;
+    --ok:          #216A55;
+    --ok-bg:       #DCEDE7;
+    --info:        #2C5F80;
+    --info-bg:     #DEEAF1;
+    --shadow:      0 1px 2px rgba(21,28,33,.07), 0 4px 16px rgba(21,28,33,.05);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:      #10161A;
+      --surface:     #182126;
+      --surface-2:   #1E282E;
+      --line:        #2C3940;
+      --line-strong: #41525B;
+      --ink:         #E6EBEE;
+      --ink-2:       #B0BDC4;
+      --ink-3:       #7E8F99;
+      --accent:      #D89052;
+      --accent-soft: #33241A;
+      --critical:    #E98A7C;
+      --critical-bg: #3A1E1A;
+      --warning:     #DCAA4C;
+      --warning-bg:  #352815;
+      --ok:          #6FC0A4;
+      --ok-bg:       #14302A;
+      --info:        #7FB2D4;
+      --info-bg:     #152A38;
+      --shadow:      0 1px 2px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.3);
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground:      #10161A;
+    --surface:     #182126;
+    --surface-2:   #1E282E;
+    --line:        #2C3940;
+    --line-strong: #41525B;
+    --ink:         #E6EBEE;
+    --ink-2:       #B0BDC4;
+    --ink-3:       #7E8F99;
+    --accent:      #D89052;
+    --accent-soft: #33241A;
+    --critical:    #E98A7C;
+    --critical-bg: #3A1E1A;
+    --warning:     #DCAA4C;
+    --warning-bg:  #352815;
+    --ok:          #6FC0A4;
+    --ok-bg:       #14302A;
+    --info:        #7FB2D4;
+    --info-bg:     #152A38;
+    --shadow:      0 1px 2px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.3);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px 96px; }
+
+  .eyebrow {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: .14em; text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  /* ---------- masthead ---------- */
+  .masthead {
+    border-bottom: 2px solid var(--ink);
+    padding: 44px 0 20px;
+    margin-bottom: 28px;
+  }
+  .masthead h1 {
+    font-family: "Zilla Slab", Georgia, serif;
+    font-weight: 700;
+    font-size: clamp(34px, 6vw, 54px);
+    line-height: 1.02;
+    letter-spacing: -.015em;
+    margin: 10px 0 12px;
+    text-wrap: balance;
+  }
+  .masthead h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+  .standfirst {
+    font-size: 17px; color: var(--ink-2);
+    max-width: 62ch; margin: 0 0 20px;
+  }
+  .meta-strip {
+    display: flex; flex-wrap: wrap; gap: 6px 28px;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 12px; color: var(--ink-3);
+  }
+  .meta-strip b { color: var(--ink-2); font-weight: 500; }
+
+  /* ---------- stat row ---------- */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .stat {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 16px 16px 14px;
+    box-shadow: var(--shadow);
+  }
+  .stat .n {
+    font-family: "Zilla Slab", Georgia, serif;
+    font-size: 38px; font-weight: 600; line-height: 1;
+    font-variant-numeric: tabular-nums;
+    display: block; margin-bottom: 6px;
+  }
+  .stat .lbl {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .stat.is-critical .n { color: var(--critical); }
+  .stat.is-warning  .n { color: var(--warning); }
+  .stat.is-ok       .n { color: var(--ok); }
+  .stat.is-accent   .n { color: var(--accent); }
+
+  /* ---------- sections ---------- */
+  section { margin-bottom: 44px; }
+  h2 {
+    font-family: "Zilla Slab", Georgia, serif;
+    font-size: 26px; font-weight: 600; letter-spacing: -.01em;
+    margin: 0 0 6px; padding-top: 4px;
+    text-wrap: balance;
+  }
+  .sec-note { color: var(--ink-2); max-width: 68ch; margin: 0 0 20px; }
+  .rule { height: 1px; background: var(--line-strong); margin: 0 0 18px; border: 0; }
+
+  /* ---------- headline callout ---------- */
+  .callout {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 5px solid var(--critical);
+    border-radius: 3px;
+    padding: 22px 24px;
+    box-shadow: var(--shadow);
+  }
+  .callout h3 {
+    font-family: "Zilla Slab", Georgia, serif;
+    font-size: 21px; font-weight: 600; margin: 8px 0 12px;
+  }
+  .callout p { margin: 0 0 12px; color: var(--ink-2); max-width: 70ch; }
+  .callout p:last-child { margin-bottom: 0; }
+  .figures {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    margin: 18px 0;
+  }
+  .fig { background: var(--surface-2); padding: 12px 14px; }
+  .fig .v {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 19px; font-weight: 600; font-variant-numeric: tabular-nums;
+    display: block; color: var(--ink);
+  }
+  .fig .k {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--ink-3); display: block; margin-top: 3px;
+  }
+  .fig.hot .v { color: var(--critical); }
+
+  /* ---------- work order groups ---------- */
+  .group { margin-bottom: 26px; }
+  .group-head {
+    display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px;
+    padding: 9px 0 8px;
+    border-bottom: 2px solid var(--line-strong);
+    margin-bottom: 14px;
+  }
+  .prio {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px; font-weight: 600; letter-spacing: .06em;
+    padding: 2px 7px; border-radius: 2px;
+  }
+  .prio.p1 { background: var(--critical-bg); color: var(--critical); }
+  .prio.p2 { background: var(--warning-bg);  color: var(--warning); }
+  .prio.p3 { background: var(--info-bg);     color: var(--info); }
+  .prio.p4 { background: var(--ok-bg);       color: var(--ok); }
+  .group-head h3 {
+    font-family: "Zilla Slab", Georgia, serif;
+    font-size: 19px; font-weight: 600; margin: 0;
+  }
+  .group-head .count {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 12px; color: var(--ink-3); margin-left: auto;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--line-strong);
+    border-radius: 3px;
+    padding: 15px 18px;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow);
+  }
+  .card.sev-critical { border-left-color: var(--critical); }
+  .card.sev-warning  { border-left-color: var(--warning); }
+  .card.sev-info     { border-left-color: var(--info); }
+  .card.sev-ok       { border-left-color: var(--ok); }
+
+  .card-head {
+    display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px;
+    margin-bottom: 9px;
+  }
+  .lot {
+    font-family: "Zilla Slab", Georgia, serif;
+    font-size: 19px; font-weight: 700; letter-spacing: -.01em;
+  }
+  .dev {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 12px; color: var(--ink-3);
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; margin-left: auto; }
+  .chip {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 10.5px; font-weight: 500; letter-spacing: .03em;
+    padding: 2px 7px; border-radius: 2px;
+    background: var(--surface-2); color: var(--ink-2);
+    border: 1px solid var(--line);
+    white-space: nowrap;
+  }
+  .chip.c-critical { background: var(--critical-bg); color: var(--critical); border-color: transparent; }
+  .chip.c-warning  { background: var(--warning-bg);  color: var(--warning);  border-color: transparent; }
+  .chip.c-ok       { background: var(--ok-bg);       color: var(--ok);       border-color: transparent; }
+  .chip.c-info     { background: var(--info-bg);     color: var(--info);     border-color: transparent; }
+  .card p { margin: 0; color: var(--ink-2); font-size: 14px; max-width: 78ch; }
+  .card p + p { margin-top: 8px; }
+
+  /* ---------- tables ---------- */
+  .tscroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  th, td {
+    text-align: left; padding: 9px 13px;
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+  }
+  th {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 10.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--ink-3); background: var(--surface-2);
+    position: sticky; top: 0;
+  }
+  td.num {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-variant-numeric: tabular-nums; text-align: right;
+  }
+  tbody tr:last-child td { border-bottom: 0; }
+  tbody tr:hover td { background: var(--surface-2); }
+  td.verdict-pass { color: var(--ok); font-weight: 600; }
+  td.verdict-fail { color: var(--critical); font-weight: 600; }
+
+  /* ---------- ruled-out list ---------- */
+  .ruled { display: grid; gap: 10px; }
+  .ruled-item {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 14px 17px;
+    box-shadow: var(--shadow);
+  }
+  .ruled-item h4 {
+    font-family: "IBM Plex Sans", sans-serif;
+    font-size: 14.5px; font-weight: 600; margin: 0 0 5px;
+    display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap;
+  }
+  .verdict-tag {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
+    padding: 2px 7px; border-radius: 2px;
+    background: var(--ok-bg); color: var(--ok);
+  }
+  .verdict-tag.open { background: var(--warning-bg); color: var(--warning); }
+  .ruled-item p { margin: 0; font-size: 13.5px; color: var(--ink-2); max-width: 78ch; }
+
+  /* ---------- provenance ---------- */
+  .prov { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+  .prov-col {
+    background: var(--surface); border: 1px solid var(--line);
+    border-top: 3px solid var(--line-strong);
+    border-radius: 3px; padding: 14px 17px;
+  }
+  .prov-col.v { border-top-color: var(--ok); }
+  .prov-col.i { border-top-color: var(--warning); }
+  .prov-col.n { border-top-color: var(--ink-3); }
+  .prov-col h4 {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
+    margin: 0 0 9px; color: var(--ink-3);
+  }
+  .prov-col ul { margin: 0; padding-left: 17px; }
+  .prov-col li { font-size: 13.5px; color: var(--ink-2); margin-bottom: 6px; }
+
+  .parts {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .part {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 3px; padding: 15px 17px;
+  }
+  .part .q {
+    font-family: "Zilla Slab", Georgia, serif;
+    font-size: 30px; font-weight: 600; line-height: 1; color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+  .part .d { font-size: 13.5px; color: var(--ink-2); margin-top: 6px; }
+
+  .footnote {
+    border-top: 1px solid var(--line);
+    padding-top: 18px; margin-top: 8px;
+    font-size: 12.5px; color: var(--ink-3); max-width: 76ch;
+  }
+  code {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .9em; background: var(--surface-2);
+    border: 1px solid var(--line); border-radius: 2px; padding: .5px 4px;
+  }
+  a { color: var(--accent); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="eyebrow">Customer go-back triage &middot; 2026-08-31</div>
+    <h1>Rustic Acres is not a radio problem &mdash; it's a <em>register</em> problem</h1>
+    <p class="standfirst">
+      Every meter that can talk, is talking. Forty-nine of fifty-three checked in within five hours of the pull, none
+      of them anywhere near the cadence bound. What the trip is actually for is nine doors where the meter is online,
+      attached and on a healthy battery &mdash; and the register has stopped moving anyway. Every planned swap goes in with an
+      external antenna.
+    </p>
+    <div class="meta-strip">
+      <span><b>Group</b> Rustic Acres MHC-CUST</span>
+      <span><b>Meters</b> 53</span>
+      <span><b>Pulled</b> 2026-08-31 17:34 UTC</span>
+      <span><b>Access</b> read-only, no writes made</span>
+    </div>
+  </header>
+
+  <div class="stats">
+    <div class="stat is-ok"><span class="n">49</span><span class="lbl">Online</span></div>
+    <div class="stat is-critical"><span class="n">4</span><span class="lbl">Dark</span></div>
+    <div class="stat is-warning"><span class="n">9</span><span class="lbl">Not metering</span></div>
+    <div class="stat is-accent"><span class="n">13</span><span class="lbl">Doors to visit</span></div>
+    <div class="stat"><span class="n">38</span><span class="lbl">No action</span></div>
+  </div>
+
+  <section>
+    <div class="eyebrow">Finding that outranks the trip</div>
+    <h2>Lot 21 booked 63,164 gallons in a single step, then stopped counting</h2>
+    <p class="sec-note">
+      This one is a billing exposure before it is a service call. Do not let it invoice on the current register value.
+    </p>
+    <div class="callout">
+      <div class="eyebrow">Device 79466270 &middot; billable &middot; radio is the best on the property</div>
+      <h3>The meter was already faulty when it produced the number</h3>
+      <p>
+        On 2026-08-13 the register reported <strong>69,917.000</strong> &mdash; a single jump of <strong>+63,164 gal</strong>
+        from its previous reading of 6,753 on 07-10. It has not moved since: 18.7 days, 37 consecutive reports, every one
+        the identical whole number.
+      </p>
+      <div class="figures">
+        <div class="fig hot"><span class="v">+63,164</span><span class="k">gal in one step</span></div>
+        <div class="fig hot"><span class="v">1,879</span><span class="k">implied gal/day</span></div>
+        <div class="fig"><span class="v">72</span><span class="k">its own baseline gal/day</span></div>
+        <div class="fig"><span class="v">134</span><span class="k">site p90 gal/day</span></div>
+        <div class="fig"><span class="v">18.7 d</span><span class="k">frozen since</span></div>
+      </div>
+      <p>
+        That implied rate is <strong>26&times; the lot's own pre-gap baseline</strong> and <strong>14&times; the site p90</strong>
+        of the twenty-two other meters that also caught up across a long individual gap. It is the single largest catch-up
+        on the property by a factor of twelve &mdash; the runner-up, lot 38, implies 155 gal/day.
+      </p>
+      <p>
+        The sequence rules out a clean read: <code>failedCal</code> fired 07-22 and flowRate telemetry stopped 07-23, so the
+        meter had already faulted <em>before</em> the window that the 08-13 value claims to cover. Radio, battery and rejection
+        rate are all excellent (RSRP &minus;103, the best on site; rejPct 0; 3,666 mV), which is exactly why nothing else flagged it.
+      </p>
+      <p>
+        <strong>I am not calling the 63,164 gal phantom from telemetry alone</strong> &mdash; the register is normally the arbiter,
+        and here the register is the suspect quantity. Read the physical head on the go-back and compare. If it disagrees, the
+        over-read is on the order of 60,700 gal for this lot.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Work order</div>
+    <h2>Nine Dune doors, four blocked by site access</h2>
+    <p class="sec-note">
+      Grouped by action and ordered by priority. Hardware decided first, variant second. Every meter that is metering,
+      attaching and on a healthy battery stays on the no-action list regardless of RSRP.
+    </p>
+
+    <div class="group">
+      <div class="group-head">
+        <span class="prio p1">P1</span>
+        <h3>Replace &mdash; whole new meter</h3>
+        <span class="count">3 doors &middot; all three external antenna</span>
+      </div>
+
+      <div class="card sev-critical">
+        <div class="card-head">
+          <span class="lot">Lot 45</span>
+          <span class="dev">Device 68612744</span>
+          <span class="chips">
+            <span class="chip c-critical">ext antenna</span>
+            <span class="chip">RSRP &minus;122.5 &middot; site p14</span>
+            <span class="chip c-warning">3592 mV &mdash; lowest</span>
+            <span class="chip">Replace already set</span>
+          </span>
+        </div>
+        <p>
+          Never entered metering at all: <code>meteringEntered=0</code>, <code>dia=0</code>, <code>offset=0</code>,
+          <code>meterVal=0</code>, register unchanged for 59 days. Non-billable, MeteringState false. It also carries the
+          longest silence of any live meter (27.0 h, still only 0.53&times; bound) and the lowest battery on the property.
+          Worst radio of the three hardware doors at &minus;122.5 median, site p14, worst-decile &minus;125.
+        </p>
+      </div>
+
+      <div class="card sev-critical">
+        <div class="card-head">
+          <span class="lot">Lot 56</span>
+          <span class="dev">Device 70263486</span>
+          <span class="chips">
+            <span class="chip c-critical">terminal FOTA</span>
+            <span class="chip c-critical">billable, not metering</span>
+            <span class="chip c-critical">ext antenna</span>
+            <span class="chip">RSRP &minus;121.0 &middot; site p22</span>
+          </span>
+        </div>
+        <p>
+          A meter in a retry loop that never exits: <strong>5,948</strong> <code>tifota_hard_reset_cnt</code>, 26
+          <code>tifota_fetch_err</code>, 10 <code>stFotaHttpFail</code>, plus <code>bCrash=190</code> against
+          <code>bBootCount=426</code>. Stuck on 16185 against a 17040 pin, so it cannot be repaired over the air.
+          No flowRate telemetry has ever arrived and the register has been frozen 55 days &mdash; while the lot is billable.
+        </p>
+        <p>
+          <strong>External antenna.</strong> The failed-FOTA rule is an independent trigger and this is a terminal case, so the
+          &minus;122 line does not get to veto it. The signal corroborates rather than decides: &minus;121.0 median is site p22
+          with a worst-decile of &minus;125.
+        </p>
+      </div>
+
+      <div class="card sev-critical">
+        <div class="card-head">
+          <span class="lot">Lot 36</span>
+          <span class="dev">Device 72387366</span>
+          <span class="chips">
+            <span class="chip c-critical">terminal FOTA</span>
+            <span class="chip c-critical">billable, not metering</span>
+            <span class="chip c-critical">ext antenna</span>
+            <span class="chip">RSRP &minus;120.0 &middot; site p27</span>
+          </span>
+        </div>
+        <p>
+          <strong>1,225</strong> hard resets, 28 fetch errors and <strong>242</strong> <code>stFotaHttpFail</code> against 243
+          attempts &mdash; it has essentially never completed an update. Stuck on 16185 against a 17037 pin.
+        </p>
+        <p>
+          Distinct from lot 56 in one way worth knowing before you open it: <strong>flowRate is still streaming</strong>, so the
+          transducer is alive &mdash; it is the register that has not committed in 52 days. Try a mag reset on site first; it is
+          the one replacement here that might not need to be one. External antenna if it does get swapped: terminal FOTA, and the
+          install note already suspected the radio &mdash; &ldquo;Try verizon &mdash; TMO failed &mdash; no insulation.&rdquo;
+        </p>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-head">
+        <span class="prio p2">P2</span>
+        <h3>Mag reset and verify &mdash; online but the register stopped</h3>
+        <span class="count">6 doors</span>
+      </div>
+
+      <div class="card sev-critical">
+        <div class="card-head">
+          <span class="lot">Lot 21</span>
+          <span class="dev">Device 79466270</span>
+          <span class="chips">
+            <span class="chip c-critical">read the physical head</span>
+            <span class="chip c-critical">billing risk</span>
+            <span class="chip c-ok">RSRP &minus;103 &mdash; best on site</span>
+          </span>
+        </div>
+        <p>
+          Detailed above. Record the physical register reading before touching anything, then mag reset. This is the only
+          door on the property where the visit produces a billing answer as well as a repair.
+        </p>
+      </div>
+
+      <div class="card sev-warning">
+        <div class="card-head">
+          <span class="lot">Lot 61</span>
+          <span class="dev">Device 79462741</span>
+          <span class="chips">
+            <span class="chip c-warning">register went backwards</span>
+            <span class="chip">frozen 18.1 d</span>
+            <span class="chip">RSRP &minus;118</span>
+          </span>
+        </div>
+        <p>
+          Reported <strong>6,230.230</strong> on 07-22 and then <strong>6,220.000</strong> on 08-13 &mdash; a decrease of 10.2 gal,
+          snapped to a whole number, and nothing since. A register that moves backwards is not a usage question; check the
+          offset and the head.
+        </p>
+      </div>
+
+      <div class="card sev-warning">
+        <div class="card-head">
+          <span class="lot">Lot 12</span>
+          <span class="dev">Device 70262348</span>
+          <span class="chips"><span class="chip c-warning">frozen 24.2 d</span><span class="chip c-critical">ext antenna if reset fails</span><span class="chip">RSRP &minus;122.0 &middot; site p16</span></span>
+        </div>
+        <p>
+          Longest freeze of the reset group &mdash; last register change 08-07, only 884 gal across the whole 60-day window.
+          Never took the August roll. At &minus;122.0 median (site p16, worst-decile &minus;125) it is the one reset-group door
+          that converts to an ext-antenna swap if the reset does not take &mdash; carry one for it. The other five reset doors run
+          &minus;103 to &minus;118 (site p43 to p98) and take standard units on that path.
+        </p>
+      </div>
+
+      <div class="card sev-warning">
+        <div class="card-head">
+          <span class="lot">Lot 19</span>
+          <span class="dev">Device 72380973</span>
+          <span class="chips"><span class="chip c-warning">frozen 19.1 d</span><span class="chip">RSRP &minus;116</span><span class="chip">offset history</span></span>
+        </div>
+        <p>
+          Last register change 08-12, and only five register changes in sixty days. Notes show the offset has been reset
+          three separate times &mdash; worth confirming the install is sound rather than resetting it a fourth time.
+        </p>
+      </div>
+
+      <div class="card sev-warning">
+        <div class="card-head">
+          <span class="lot">Lot 29</span>
+          <span class="dev">Device 70264211</span>
+          <span class="chips"><span class="chip c-warning">frozen 19.1 d</span><span class="chip">RSRP &minus;113</span><span class="chip">prior leak</span></span>
+        </div>
+        <p>
+          Last change 08-12, itself a +908 gal catch-up. Carries a note reading &ldquo;Large leak offset was good at &minus;258
+          before leak started&rdquo; and is already flagged for recalibration &mdash; treat the offset as unproven.
+        </p>
+      </div>
+
+      <div class="card sev-warning">
+        <div class="card-head">
+          <span class="lot">Lot 47</span>
+          <span class="dev">Device 70272313</span>
+          <span class="chips"><span class="chip c-warning">frozen 14.1 d</span><span class="chip">RSRP &minus;114</span></span>
+        </div>
+        <p>
+          Last change 08-17. Shows an earlier burst of +2,932 gal across two days on 07-11 that then went quiet, so this
+          door may be a fixed leak plus a stalled register rather than one fault.
+        </p>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-head">
+        <span class="prio p3">P3</span>
+        <h3>Site access &mdash; the install never happened</h3>
+        <span class="count">4 doors &middot; not meter faults</span>
+      </div>
+      <div class="card sev-info">
+        <div class="card-head">
+          <span class="lot">Lots 2, 40, 42, 51</span>
+          <span class="chips">
+            <span class="chip c-info">GEN1</span>
+            <span class="chip">dark 280&ndash;293 d</span>
+            <span class="chip">non-billable</span>
+            <span class="chip">Replace already set</span>
+          </span>
+        </div>
+        <p>
+          All four are GEN1 units that never came online after the April attempt &mdash; their last radio contact
+          (Nov 2025) predates their own install date, and each carries an April 2026 note explaining why:
+          <strong>lot 2</strong> &ldquo;can't find main&rdquo;, <strong>lot 40</strong> missing meter, gray poly needs upgrading
+          to PEX, <strong>lot 42</strong> no trailer on a previously occupied lot, <strong>lot 51</strong> no access due to
+          siding over skirting. Lots 2 and 40 are explicitly waiting on the local contact.
+        </p>
+        <p>
+          Their radio was never the problem &mdash; RSRP ran &minus;108 to &minus;115, better than eleven meters that are online
+          today. Decide whether this trip absorbs them or whether they stay with the local contact; lot 42 probably needs
+          nothing at all unless the lot is now occupied.
+        </p>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-head">
+        <span class="prio p4">P4</span>
+        <h3>Billing review &mdash; no truck required</h3>
+        <span class="count">2 lots</span>
+      </div>
+      <div class="card sev-ok">
+        <div class="card-head">
+          <span class="lot">Lot 1</span>
+          <span class="dev">Device 79465835</span>
+          <span class="chips"><span class="chip c-ok">meter exonerated</span><span class="chip">leak resolved 08-25</span></span>
+        </div>
+        <p>
+          Highest consumption on the property (24,637 gal in 45 days) and 93% median sample rejection &mdash; which reads alarming
+          until the two are lined up in time. Usage climbed from ~100 gal/day in early July to a peak near 2,900 gal/day, stopped
+          dead at 08-25 16:04, and has run 88&ndash;137 gal/day since. Rejection tracked it exactly: 91&ndash;97% during the high-flow
+          window, 0&ndash;3% from 08-25 onward.
+        </p>
+        <p>
+          That is a real leak that got fixed, not a meter fault &mdash; the same shape as 126 Shady. <strong>No visit.</strong>
+          One caveat for billing: at 91&ndash;97% rejection the volume captured <em>during</em> the leak is uncertain and, per the
+          Shady Lane precedent, most likely <strong>understated</strong> rather than inflated.
+        </p>
+      </div>
+      <div class="card sev-ok">
+        <div class="card-head">
+          <span class="lot">Lot 48</span>
+          <span class="dev">Device 72384793</span>
+          <span class="chips"><span class="chip c-warning">flag mismatch</span></span>
+        </div>
+        <p>
+          Marked <code>Billable=False</code> while metering normally and registering <strong>4,520 gal</strong> over 45 days with
+          <code>MeteringState=True</code>. Either the flag is stale or this door is being given away. Worth a look before the next
+          cycle; nothing to do in the field.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Liveness</div>
+    <h2>Cadence bound, and why nothing online is borderline</h2>
+    <p class="sec-note">
+      Generation-stratified, 30-day window, gaps taken from clustered check-in events, outliers trimmed at modified
+      z-score 3.5. Liveness is read from <code>rsrp / rssi / status / fwVer / sinr / rsrq</code> only &mdash;
+      never <code>meterValUpdated</code>.
+    </p>
+    <div class="tscroll">
+      <table>
+        <thead>
+          <tr><th>Cohort</th><th>Devices</th><th>Nominal</th><th>Cohort median p90</th><th>Bound</th><th>Basis</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>GEN2</td><td class="num">49</td><td class="num">24 h</td><td class="num">25.59 h</td><td class="num">51.18 h</td><td>2&times; cohort median p90 &mdash; cohort has not drifted</td></tr>
+          <tr><td>GEN1</td><td class="num">4</td><td class="num">120 h</td><td class="num">&mdash;</td><td class="num">240.00 h</td><td>No gap data in window &mdash; fell back to 2&times; nominal</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sec-note" style="margin-top:16px">
+      The GEN2 cohort sits within 7% of its 24-hour nominal, so the measured bound and the fallback would have agreed anyway.
+      Worst silence among the 49 online meters is lot 45 at 27.0 h &mdash; <strong>0.53&times; bound</strong>. Nothing else
+      exceeds 0.14&times;. <strong>Zero false positives on the online population</strong>, and no meter sits close enough to the
+      line for the threshold choice to matter.
+    </p>
+    <div class="tscroll" style="margin-top:16px">
+      <table>
+        <thead>
+          <tr><th>Lot</th><th>Gen</th><th>Silence</th><th>Bound</th><th>&times; bound</th><th>Verdict</th><th>Last radio contact</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>51 &mdash; siding over skirting</td><td>GEN1</td><td class="num">no data in 300 d</td><td class="num">240 h</td><td class="num">&mdash;</td><td class="verdict-fail">DARK</td><td class="num">none in window</td></tr>
+          <tr><td>42 &mdash; empty lot</td><td>GEN1</td><td class="num">7,040 h</td><td class="num">240 h</td><td class="num">29.33</td><td class="verdict-fail">DARK</td><td class="num">2025-11-11</td></tr>
+          <tr><td>2 &mdash; can't find main</td><td>GEN1</td><td class="num">6,744 h</td><td class="num">240 h</td><td class="num">28.10</td><td class="verdict-fail">DARK</td><td class="num">2025-11-23</td></tr>
+          <tr><td>40 &mdash; missing meter</td><td>GEN1</td><td class="num">6,728 h</td><td class="num">240 h</td><td class="num">28.03</td><td class="verdict-fail">DARK</td><td class="num">2025-11-24</td></tr>
+          <tr><td>45 &mdash; worst online</td><td>GEN2</td><td class="num">27.0 h</td><td class="num">51.2 h</td><td class="num">0.53</td><td class="verdict-pass">OK</td><td class="num">2026-08-30</td></tr>
+          <tr><td>All other 48 online</td><td>GEN2</td><td class="num">&le; 7.2 h</td><td class="num">51.2 h</td><td class="num">&le; 0.14</td><td class="verdict-pass">OK</td><td class="num">2026-08-31</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Hypotheses tested</div>
+    <h2>Four explanations that did not survive the data</h2>
+    <p class="sec-note">
+      Each of these was worth checking because it was true somewhere else. None of them explains Rustic Acres.
+    </p>
+    <div class="ruled">
+      <div class="ruled-item">
+        <h4>The August firmware roll broke the registers <span class="verdict-tag">ruled out</span></h4>
+        <p>
+          Tempting: four of the frozen meters last moved on the exact day they took 17032/17037. But the base rates flatten it &mdash;
+          <strong>6 of 32</strong> updated meters are frozen &ge;14 d (19%) against <strong>3 of 17</strong> that never took the roll
+          (18%). The update day is simply when a device that had been quiet checked in and flushed one register report. No signal.
+        </p>
+      </div>
+      <div class="ruled-item">
+        <h4>16185 is killing meters here the way it did at Ontario Place <span class="verdict-tag">ruled out</span></h4>
+        <p>
+          <strong>48 meters ran 16185 and none went silent on it.</strong> Sixteen are still running it today and all sixteen are
+          online. Against 4 of 73 at Ontario Place, this site simply did not reproduce it. Worth carrying forward: the danger there
+          was the <em>pending</em> cohort, and there are only two pending devices here &mdash; lots 36 and 56 &mdash; so n is far too
+          small to either confirm or refute that finding.
+        </p>
+      </div>
+      <div class="ruled-item">
+        <h4>A platform-side telemetry outage produced the catch-up lumps <span class="verdict-tag">ruled out</span></h4>
+        <p>
+          Twenty-two meters show a 20&ndash;38 day gap followed by a jump, which looks like one outage. Day-by-day coverage says
+          otherwise: <strong>every day from 07-02 to 08-31 carries 33&ndash;103 device reports</strong>, with no gap anywhere. These
+          are individual per-device reporting gaps. That distinction is what makes lot 21 an outlier instead of one row in a crowd.
+        </p>
+      </div>
+      <div class="ruled-item">
+        <h4>Cell coverage explains the dark meters <span class="verdict-tag">ruled out</span></h4>
+        <p>
+          The four dark meters ran RSRP &minus;108 to &minus;115 while they were alive &mdash; <strong>better than eleven meters that
+          are online right now</strong>, the worst of which sits at &minus;128. Their install notes say what actually happened, and
+          none of it is radio. Carrier splits the same way: online meters spread across AT&amp;T, Verizon and T&#8209;Mobile with no
+          dark-rate difference.
+        </p>
+      </div>
+      <div class="ruled-item">
+        <h4>Raw <code>fsm_fail_TIFOTA</code> identifies the failed-FOTA meters <span class="verdict-tag open">confirmed useless again</span></h4>
+        <p>
+          Non-zero on <strong>47 of 49</strong> live meters here, exactly as at Ontario Place. The counters that actually separated the
+          two terminal cases were <code>tifota_hard_reset_cnt</code> (5,948 and 1,225 against a site norm of 0&ndash;2) and
+          <code>stFotaHttpFail</code>. One refinement worth keeping: lot 31 carries 6 <code>tifota_fetch_err</code> but is fully in sync
+          on both ST and TI &mdash; it recovered, so the counter is historical. Terminal means <em>still out of sync</em>, not merely non-zero.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Truck</div>
+    <h2>Parts and doors</h2>
+    <div class="parts">
+      <div class="part"><div class="q">3</div><div class="d"><strong>External-antenna meters</strong> &mdash; firm, lots 45, 56 and 36</div></div>
+      <div class="part"><div class="q">1</div><div class="d"><strong>Ext-antenna spare</strong> &mdash; lot 12 if its reset fails</div></div>
+      <div class="part"><div class="q">3</div><div class="d"><strong>Standard spares</strong> &mdash; the other five reset doors, &minus;103 to &minus;118</div></div>
+      <div class="part"><div class="q">0</div><div class="d"><strong>Standard meters firm</strong> &mdash; every planned swap takes an antenna</div></div>
+      <div class="part"><div class="q">9</div><div class="d"><strong>Dune doors</strong> &mdash; 3 replace, 6 reset and verify</div></div>
+      <div class="part"><div class="q">4</div><div class="d"><strong>Access-blocked doors</strong> &mdash; your call whether this trip takes them</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Provenance</div>
+    <h2>What is measured, what is inferred, what I did not check</h2>
+    <div class="prov">
+      <div class="prov-col v">
+        <h4>Verified from telemetry</h4>
+        <ul>
+          <li>All liveness, silence and cadence figures</li>
+          <li>Register values, deltas, freeze durations and the lot 21 step</li>
+          <li>Firmware and TI versions, pins, and every transition date</li>
+          <li>FOTA error counters, boot and crash counts, battery, RSRP, carrier</li>
+          <li>The four rejected hypotheses, each with its own base rates</li>
+        </ul>
+      </div>
+      <div class="prov-col i">
+        <h4>Inferred, not proven</h4>
+        <ul>
+          <li>That lot 21's 63,164 gal is not real water &mdash; strongly indicated, but only a physical read settles it</li>
+          <li>That lot 36 may survive a mag reset because flowRate still streams</li>
+          <li>Which of the six reset doors will actually need hardware</li>
+          <li>That lot 1's leak volume is understated rather than inflated &mdash; from the Shady Lane precedent, not from this site</li>
+        </ul>
+      </div>
+      <div class="prov-col n">
+        <h4>Not checked</h4>
+        <ul>
+          <li>Whether any of this was already invoiced &mdash; no billing system was consulted</li>
+          <li>Physical register readings at any door</li>
+          <li>Whether lots 2 and 40 have since been handled by the local contact</li>
+          <li>Occupancy &mdash; no lot carries a <code>No Water</code> or <code>Vacant</code> flag, so frozen registers could not be checked against known vacancy</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Waiting on you</div>
+    <h2>Open items</h2>
+    <div class="ruled">
+      <div class="ruled-item">
+        <h4>Lot 21 billing hold <span class="verdict-tag open">decision</span></h4>
+        <p>Confirm whether the 63,164 gal has been billed, and hold it if it has not. This is the one item with a deadline attached.</p>
+      </div>
+      <div class="ruled-item">
+        <h4>Ext-antenna threshold, as a standing rule <span class="verdict-tag open">confirm</span></h4>
+        <p>
+          Rev 1 had lots 56 and 36 down as standard because their medians (&minus;121.0, &minus;120.0) sat inside the &minus;122
+          line. That was wrong: the failed-FOTA rule is an independent trigger and both are terminal cases. Corrected here &mdash;
+          all three hardware doors take antennas. Confirm you want that recorded as standing: <strong>at a door already getting
+          hardware, terminal FOTA failure earns the antenna on its own, and the &minus;122 line only decides doors whose variant
+          question is purely signal.</strong>
+        </p>
+      </div>
+      <div class="ruled-item">
+        <h4>Stale device pin on lot 52 <span class="verdict-tag open">no action taken</span></h4>
+        <p>
+          Sitting on 16131/296 and in sync with its own pin while the rest of the property runs 17037/344. It is the only meter on the
+          property still on that branch. Per the pin-cleanup rule I have not touched it &mdash; say the word and I will show the exact
+          before/after list first.
+        </p>
+      </div>
+      <div class="ruled-item">
+        <h4>Ontario Place, still outstanding <span class="verdict-tag open">carried over</span></h4>
+        <p>
+          Seven dark lots there (11, 12, 43, 49, 92, 100, 132) remain pinned to <code>gen2fw = 16185</code> awaiting your approval to
+          repoint at 17037/344. Rustic Acres did not reproduce the pattern, so nothing here changes that ask.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <p class="footnote">
+    Read-only throughout &mdash; no ThingsBoard attribute, telemetry or pin was written. Source: 53 devices in
+    <code>Rustic Acres MHC-CUST</code>, attributes plus 300 days of radio history and 60 days of metering history, pulled
+    2026-08-31 17:34 UTC. The identically-named tenant-level group holds one phantom placeholder and no real devices.
+    Row-level detail for all 53 meters is in <code>rustic-acres-go-back-workorder-rev2.csv</code>.
+  </p>
+
+</div>

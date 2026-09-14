@@ -44,6 +44,9 @@ E. Driver hygiene (at25sf321b_driver.c): spi_tx/spi_rx cap exhaustion (SPI_POLL_
    error callers handle, not silently skip the byte; feed IWDG inside the long byte-wise loops (sf_ti_backup_read/
    write spi_flash.c:1043/1152, GC) so a dead bus yields an error, not a watchdog reset.
 F. Remove dead I2C code (ti_hci_impl.c:57-200, 366/378/521 and MX_I2C1_Init) under TIUART_ONLY.
+H. Explicit TI-FOTA-off sentinel (allowTiFotaVer = -1 or `tiFotaDisable` attr): skip TIFOTA and park the TI. Today
+   every non-zero value is flashed and 0 takes the 17002 bootstrap to TI 320 (bg95.c:1654-1666) — no remote way to
+   leave a dead TI alone.
 G. Bench repro: TI Fota Failure group, hold a unit's TI in reset or flash a non-booting image, run a session with
    allowTiFotaVer set, confirm: no reboot, one blocklisted fetch per N sessions, meterVal intact, no heal.
 

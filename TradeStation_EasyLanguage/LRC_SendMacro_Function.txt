@@ -1,0 +1,76 @@
+{ LRC_SendMacro  --  build a TradeStation command-line order macro from a template and either
+  PRINT it (dry run) or EXECUTE it with RunCommand.  Appends every built command to an audit log.
+  FUNCTION, return type: numeric.   v0.1 2026-09-06
+  Create in TSDev: File > New > Function, name LRC_SendMacro, Return Type = Numeric,
+  Function Storage = Simple.  Requires function LRC_StrReplace.
+
+  Returns:  1 = sent via RunCommand,  0 = dry run (printed only),  -1 = blocked (bad inputs).
+
+  Template tokens: {ACTION} {SYMBOL} {QTY} {TYPE} {PRICE} {DURATION} {ACCT}
+  Default template (UNVERIFIED against the TS Command Line reference -- confirm in a SIM account by
+  pasting the printed dry-run string into the Command Line, then edit the template if rejected):
+     ".{ACTION} {SYMBOL} Q={QTY} {TYPE}{PRICE} {DURATION} ACCT={ACCT}"
+  {PRICE} expands to "" for MARKET orders, or " <price>" otherwise, so "LIMIT 72.50" / "MARKET".
+
+  Why macros: orders exist only when the strategy fires them; no stop or target rests on the
+  TradeStation or broker servers between signals.  The strategy keeps its stop logic local. }
+
+inputs:
+	sAction( string ),        { "BUY" | "SELL" | "SELLSHORT" | "BUYTOCOVER" }
+	sSymbol( string ),
+	nQty( numericsimple ),
+	sOrderType( string ),     { "MARKET" | "LIMIT" | "STOP" ... per TS macro reference }
+	nPrice( numericsimple ),  { ignored for MARKET }
+	sDuration( string ),      { "DAY" }
+	sAccount( string ),
+	sTemplate( string ),
+	bDryRun( truefalsesimple ),
+	sLogFile( string );       { "" = no file log }
+
+variables:
+	sCmd( "" ),
+	sPx( "" ),
+	sStamp( "" ),
+	result( -1 );
+
+result = -1;
+if nQty <= 0 or StrLen( sSymbol ) = 0 or StrLen( sAction ) = 0 then begin
+	Print( "LRC_SendMacro BLOCKED: qty/symbol/action missing" );
+	LRC_SendMacro = -1;
+end else begin
+	if UpperStr( sOrderType ) = "MARKET" or UpperStr( sOrderType ) = "M" then
+		sPx = ""
+	else
+		sPx = " " + NumToStr( nPrice, 2 );
+
+	sCmd = sTemplate;
+	sCmd = LRC_StrReplace( sCmd, "{ACTION}",   UpperStr( sAction ) );
+	sCmd = LRC_StrReplace( sCmd, "{SYMBOL}",   sSymbol );
+	sCmd = LRC_StrReplace( sCmd, "{QTY}",      NumToStr( nQty, 0 ) );
+	sCmd = LRC_StrReplace( sCmd, "{TYPE}",     UpperStr( sOrderType ) );
+	sCmd = LRC_StrReplace( sCmd, "{PRICE}",    sPx );
+	sCmd = LRC_StrReplace( sCmd, "{DURATION}", UpperStr( sDuration ) );
+	sCmd = LRC_StrReplace( sCmd, "{ACCT}",     sAccount );
+
+	sStamp = NumToStr( CurrentDate, 0 ) + " " + NumToStr( CurrentTime_s, 0 );
+
+	if bDryRun then begin
+		Print( "[DRY RUN] ", sStamp, "  ", sCmd );
+		result = 0;
+	end else begin
+		RunCommand( sCmd );
+		Print( "[SENT]    ", sStamp, "  ", sCmd );
+		result = 1;
+	end;
+
+	if StrLen( sLogFile ) > 0 then begin
+		try
+			FileAppend( sLogFile, sStamp + "," + IffString( bDryRun, "DRY", "SENT" ) + ","
+				+ GetSymbolName + "," + sCmd + NewLine );
+		catch ( elsystem.Exception ex )
+			Print( "LRC_SendMacro: audit log write failed: ", ex.Message );
+		end;
+	end;
+
+	LRC_SendMacro = result;
+end;

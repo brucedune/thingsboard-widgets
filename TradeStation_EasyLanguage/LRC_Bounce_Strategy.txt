@@ -1,0 +1,304 @@
+{ =====================================================================================
+  LRC_Bounce  --  intraday long-only "trade against support" strategy, multi-timeframe.
+  v0.1 2026-09-07.  Requires functions LRC_PairFanCluster (series), LRC_SendMacro, LRC_StrReplace.
+
+  CHART LAYOUT (fixed roles; the code references DataN literally):
+    Data1 = execution bar      live: 15 sec        backtest: 5 min
+    Data2 = confirmation bar   5 min               backtest: 5 min AGAIN (duplicate of Data1)
+    Data3 = trend + levels     10 min
+    Data4 = trend + levels     30 min
+    Data5 = trend + levels     60 min
+  Same symbol on all streams.  Run TQQQ and SQQQ as two separate charts, identical rules.
+
+  RULES (spec 3.D, Bruce 2026-09-07):
+    Trend gate  : Data5 up AND Data4 up AND Data3 not down (swing structure HH+HL), inputs.
+    Support zone: densest level cluster of the consecutive-pair fan BELOW price on Data3/4/5,
+                  cluster count >= MinLines and density >= MinDensity, within ZoneMaxATR of price;
+                  the nearest qualifying cluster is the zone; clusters from other streams within
+                  ZoneTolATR of it add strength; at least MinZoneStreams streams must agree.
+    Entry       : confirmed bounce on completed Data2 bars -- a bar trades into the zone
+                  (Low <= ZoneHigh), then within TouchBars bars a bar closes above ZoneHigh with
+                  Close > Open.  Both may happen on the same bar.  Buy next Data1 bar at market.
+                  Time window EntryStart..LastEntry.  One attempt per zone; cooldown after a fail.
+    Exits       : initial stop ZoneLow - InitStopATR x ATR2; trail = highest Data1 high since entry
+                  - TrailATRMult x ATR2, ratchets up; scale out half at the nearest resistance
+                  cluster / upper line above price (target), remainder rides the trail; flat at FlatTime.
+    Range mode  : (v0.2, Bruce 9/9) when the trend gate is NOT met and no trend stream is down,
+                  and a support cluster AND a resistance cluster bracket price with a gap of at
+                  least RangeMinATR x ATR2 and RangeMinPts, the bounce confirms on Data1 bars
+                  (15 sec live) and the WHOLE position exits at the resistance cluster; stop
+                  RangeStopATR under the zone, fallback trail RangeTrailATR.  Signals LRC_R / LRC_RT.
+    Swing layout: same code; Data1 30-60 min, Data2 daily, Data3-5 daily/weekly variants; set
+                  FlatTime 2400, EntryStart 0, LastEntry 2400 to hold overnight.
+    Execution   : ExecMode 0 = strategy orders (backtest).  ExecMode 1 = shadow: strategy orders
+                  still fill a PAPER position (automation OFF) and every event also fires a
+                  command-line macro via LRC_SendMacro (DryRun prints instead of sending).
+  ===================================================================================== }
+
+inputs:
+	{ geometry (per trend stream) }
+	Strength( 1 ),
+	MaxPairs( 8 ),
+	ATRLen( 14 ),
+	LevelTolATR( 0.35 ),
+	LevelRangeATR( 3.0 ),
+	{ trend gate }
+	Need60Up( true ),
+	Need30Up( true ),
+	Need10NotDown( true ),
+	{ zone }
+	MinLines( 3 ),
+	MinDensity( 0.25 ),
+	ZoneMaxATR( 2.5 ),          { zone must be within this many Data2 ATR below price to be tradable }
+	ZoneTolATR( 0.5 ),          { clusters from different streams within this are one zone }
+	ZoneHalfATR( 0.25 ),        { zone half-width around the cluster price }
+	MinZoneStreams( 1 ),
+	{ entry }
+	TouchBars( 3 ),             { confirmation must come within this many Data2 bars of the touch }
+	InvalidATR( 0.5 ),          { close below ZoneLow - this => zone failed }
+	CooldownBars( 6 ),          { Data2 bars to wait after a failed zone }
+	EntryStart( 945 ),
+	LastEntry( 1500 ),
+	FlatTime( 1555 ),
+	{ exits }
+	InitStopATR( 0.5 ),
+	TrailATRMult( 2.0 ),
+	UseTarget( true ),
+	MinTargetATR( 1.0 ),        { target must be at least this far above entry, else trail only }
+	{ range scalping mode: higher TFs mixed, a support AND a resistance cluster bracket price,
+	  bounce confirms on Data1 bars (15 sec live), full exit at the resistance cluster }
+	AllowRangeMode( true ),
+	RangeNoDownTrend( true ),   { no range longs while any trend stream is down }
+	RangeMinATR( 1.0 ),         { resistance - support gap >= this many Data2 ATR ... }
+	RangeMinPts( 0.10 ),        { ... AND this many price points (spread + commissions) }
+	RangeTouchBars( 8 ),        { Data1 bars allowed between touch and confirmation }
+	RangeStopATR( 0.25 ),       { initial stop below the zone, tighter than trend mode }
+	RangeTrailATR( 1.0 ),       { fallback trail while waiting for the target }
+	{ sizing / execution }
+	Shares( 100 ),
+	ExecMode( 0 ),              { 0 = strategy orders, 1 = shadow macros }
+	DryRun( true ),
+	Account( "" ),
+	MacroTemplate( ".{ACTION} {SYMBOL} Q={QTY} {TYPE}{PRICE} {DURATION} ACCT={ACCT}" ),
+	AuditLog( "" );
+
+variables:
+	{ per-stream outputs }
+	tr3( 0 ), tr4( 0 ), tr5( 0 ),
+	sup3( 0 ), supC3( 0 ), res3( 0 ), resC3( 0 ), nl3( 0 ), lo3( 0 ), up3( 0 ), atr3( 0 ),
+	sup4( 0 ), supC4( 0 ), res4( 0 ), resC4( 0 ), nl4( 0 ), lo4( 0 ), up4( 0 ), atr4( 0 ),
+	sup5( 0 ), supC5( 0 ), res5( 0 ), resC5( 0 ), nl5( 0 ), lo5( 0 ), up5( 0 ), atr5( 0 ),
+	atr2( 0 ), px( 0 ),
+	trendOK( false ),
+	{ zone }
+	zonePx( 0 ), zoneHigh( 0 ), zoneLow( 0 ), zoneStreams( 0 ), zoneLines( 0 ), zoneOK( false ),
+	cand( 0 ), candOK( false ), j( 0 ),
+	{ target }
+	targetPx( 0 ), r( 0 ),
+	{ Data2 bar detection + state machine }
+	lastT2( -1 ), lastD2( -1 ), newBar2( false ),
+	state( 0 ),                 { 0 idle, 1 touched, 2 armed }
+	touchBar2( 0 ), bar2( 0 ), cooldownUntil( 0 ), armedZoneLow( 0 ), armedZonePx( 0 ),
+	inWindow( false ),
+	{ range mode state machine (Data1 bars) }
+	rangeOK( false ), rstate( 0 ), rTouchBar( 0 ), rZoneLow( 0 ), rZonePx( 0 ), rTarget( 0 ),
+	rCooldownUntil( 0 ),
+	{ position mgmt }
+	mode( 0 ),                  { 1 = trend bounce (half at target + trail), 2 = range scalp (all at target) }
+	trailMult( 0 ),
+	hh( 0 ), stopPx( 0 ), initStop( 0 ), halfShares( 0 ), halfDone( false ), tgt( 0 ),
+	{ macro latches }
+	macEntry( false ), macHalf( false ), macExit( false ), rc( 0 );
+
+{ ---------- per-stream geometry (functions evaluate on their own stream) ---------- }
+tr3 = LRC_PairFanCluster( Strength, MaxPairs, ATRLen, LevelTolATR, LevelRangeATR,
+	sup3, supC3, res3, resC3, nl3, lo3, up3, atr3 ) of Data3;
+tr4 = LRC_PairFanCluster( Strength, MaxPairs, ATRLen, LevelTolATR, LevelRangeATR,
+	sup4, supC4, res4, resC4, nl4, lo4, up4, atr4 ) of Data4;
+tr5 = LRC_PairFanCluster( Strength, MaxPairs, ATRLen, LevelTolATR, LevelRangeATR,
+	sup5, supC5, res5, resC5, nl5, lo5, up5, atr5 ) of Data5;
+
+atr2 = AvgTrueRange( ATRLen ) of Data2;
+px   = Close of Data2;
+
+trendOK = true;
+if Need60Up     and tr5 <> 1 then trendOK = false;
+if Need30Up     and tr4 <> 1 then trendOK = false;
+if Need10NotDown and tr3 = -1 then trendOK = false;
+
+{ ---------- support zone: nearest qualifying cluster below price, other streams add strength ---------- }
+zoneOK = false;
+zonePx = 0; zoneStreams = 0; zoneLines = 0;
+for j = 3 to 5 begin
+	if j = 3 then begin cand = sup3; candOK = supC3 >= MinLines and nl3 > 0 and supC3 / MaxList( nl3, 1 ) >= MinDensity; end;
+	if j = 4 then begin cand = sup4; candOK = supC4 >= MinLines and nl4 > 0 and supC4 / MaxList( nl4, 1 ) >= MinDensity; end;
+	if j = 5 then begin cand = sup5; candOK = supC5 >= MinLines and nl5 > 0 and supC5 / MaxList( nl5, 1 ) >= MinDensity; end;
+	if candOK and cand > 0 and cand < px and px - cand <= ZoneMaxATR * atr2 then begin
+		if zonePx = 0 or cand > zonePx then zonePx = cand;   { nearest below price }
+	end;
+end;
+if zonePx > 0 then begin
+	for j = 3 to 5 begin
+		if j = 3 then begin cand = sup3; candOK = supC3 >= MinLines; end;
+		if j = 4 then begin cand = sup4; candOK = supC4 >= MinLines; end;
+		if j = 5 then begin cand = sup5; candOK = supC5 >= MinLines; end;
+		if candOK and cand > 0 and AbsValue( cand - zonePx ) <= ZoneTolATR * atr2 then begin
+			zoneStreams = zoneStreams + 1;
+			if j = 3 then zoneLines = zoneLines + supC3;
+			if j = 4 then zoneLines = zoneLines + supC4;
+			if j = 5 then zoneLines = zoneLines + supC5;
+		end;
+	end;
+	zoneOK   = zoneStreams >= MinZoneStreams;
+	zoneHigh = zonePx + ZoneHalfATR * atr2;
+	zoneLow  = zonePx - ZoneHalfATR * atr2;
+end;
+
+{ ---------- resistance target: nearest cluster / upper line above price ---------- }
+targetPx = 0;
+for j = 3 to 5 begin
+	if j = 3 then begin r = res3; candOK = resC3 >= MinLines; end;
+	if j = 4 then begin r = res4; candOK = resC4 >= MinLines; end;
+	if j = 5 then begin r = res5; candOK = resC5 >= MinLines; end;
+	if candOK and r > px and ( targetPx = 0 or r < targetPx ) then targetPx = r;
+end;
+if targetPx = 0 then begin
+	if up3 > px then targetPx = up3;
+	if up4 > px and ( targetPx = 0 or up4 < targetPx ) then targetPx = up4;
+	if up5 > px and ( targetPx = 0 or up5 < targetPx ) then targetPx = up5;
+end;
+
+{ ---------- completed Data2 bar detection ---------- }
+newBar2 = false;
+if Time of Data2 <> lastT2 or Date of Data2 <> lastD2 then begin
+	newBar2 = true;
+	lastT2  = Time of Data2;
+	lastD2  = Date of Data2;
+	bar2    = bar2 + 1;
+end;
+
+inWindow = Time >= EntryStart and Time <= LastEntry;
+
+{ ---------- bounce state machine on completed Data2 bars ---------- }
+if newBar2 and MarketPosition = 0 then begin
+	if bar2 < cooldownUntil then state = 0;
+
+	if state = 1 then begin
+		{ waiting for confirmation of an earlier touch }
+		if Close of Data2 < armedZoneLow - InvalidATR * atr2 then begin
+			state = 0;
+			cooldownUntil = bar2 + CooldownBars;
+		end else if bar2 - touchBar2 > TouchBars then
+			state = 0
+		else if Close of Data2 > armedZoneLow + 2 * ZoneHalfATR * atr2 and Close of Data2 > Open of Data2 then
+			state = 2;
+	end;
+
+	if state = 0 and trendOK and zoneOK and inWindow and bar2 >= cooldownUntil then begin
+		if Low of Data2 <= zoneHigh then begin
+			touchBar2    = bar2;
+			armedZoneLow = zoneLow;
+			armedZonePx  = zonePx;
+			state = 1;
+			if Close of Data2 > zoneHigh and Close of Data2 > Open of Data2 then state = 2;
+		end;
+	end;
+end;
+
+{ ---------- range scalping state machine on Data1 bars (trend gate NOT met) ---------- }
+rangeOK = AllowRangeMode and trendOK = false and zoneOK and targetPx > 0 and inWindow
+	and ( targetPx - zonePx ) >= MaxList( RangeMinATR * atr2, RangeMinPts );
+if RangeNoDownTrend and ( tr3 = -1 or tr4 = -1 or tr5 = -1 ) then rangeOK = false;
+
+if MarketPosition = 0 and state <> 2 then begin
+	if CurrentBar < rCooldownUntil then rstate = 0;
+
+	if rstate = 1 then begin
+		if Close < rZoneLow - InvalidATR * atr2 then begin
+			rstate = 0;
+			rCooldownUntil = CurrentBar + CooldownBars;
+		end else if CurrentBar - rTouchBar > RangeTouchBars then
+			rstate = 0
+		else if Close > rZoneLow + 2 * ZoneHalfATR * atr2 and Close > Open then
+			rstate = 2;
+	end;
+
+	if rstate = 0 and rangeOK and CurrentBar >= rCooldownUntil then begin
+		if Low <= zoneHigh then begin
+			rTouchBar = CurrentBar;
+			rZoneLow  = zoneLow;
+			rZonePx   = zonePx;
+			rTarget   = targetPx;
+			rstate = 1;
+			if Close > zoneHigh and Close > Open then rstate = 2;
+		end;
+	end;
+end else if MarketPosition <> 0 then
+	rstate = 0;
+
+{ ---------- entry on Data1 ---------- }
+halfShares = Floor( Shares / 2 );
+if MarketPosition = 0 and inWindow and ( state = 2 or rstate = 2 ) then begin
+	if state = 2 then begin
+		Buy ( "LRC_L" ) Shares shares next bar at market;
+		mode = 1;
+		initStop = armedZoneLow - InitStopATR * atr2;
+		tgt = 0;
+		if UseTarget and targetPx > px + MinTargetATR * atr2 then tgt = targetPx;
+	end else begin
+		Buy ( "LRC_R" ) Shares shares next bar at market;
+		mode = 2;
+		initStop = rZoneLow - RangeStopATR * atr2;
+		tgt = rTarget;
+	end;
+	if ExecMode = 1 and macEntry = false then begin
+		rc = LRC_SendMacro( "BUY", GetSymbolName, Shares, "MARKET", 0, "DAY", Account, MacroTemplate, DryRun, AuditLog );
+		macEntry = true;
+	end;
+	state  = 0;
+	rstate = 0;
+	hh = High;
+	halfDone = false;
+	macHalf  = false;
+	macExit  = false;
+end;
+
+{ ---------- position management on Data1 bars ---------- }
+if MarketPosition = 1 then begin
+	if High > hh then hh = High;
+	trailMult = IFF( mode = 2, RangeTrailATR, TrailATRMult );
+	stopPx = MaxList( initStop, hh - trailMult * atr2 );
+	if CurrentShares < Shares then halfDone = true;
+
+	if Time >= FlatTime then begin
+		Sell ( "LRC_EOD" ) next bar at market;
+		if ExecMode = 1 and macExit = false then begin
+			rc = LRC_SendMacro( "SELL", GetSymbolName, CurrentShares, "MARKET", 0, "DAY", Account, MacroTemplate, DryRun, AuditLog );
+			macExit = true;
+		end;
+	end else begin
+		Sell ( "LRC_Stop" ) next bar at stopPx stop;
+		if mode = 2 and tgt > 0 then
+			Sell ( "LRC_RT" ) next bar at tgt limit                       { range: all out at resistance }
+		else if tgt > 0 and halfDone = false then
+			Sell ( "LRC_T1" ) halfShares shares next bar at tgt limit;   { trend: half at resistance }
+		if ExecMode = 1 then begin
+			{ shadow: fire the exit macros when the paper condition is met on this bar }
+			if Low <= stopPx and macExit = false then begin
+				rc = LRC_SendMacro( "SELL", GetSymbolName, CurrentShares, "MARKET", 0, "DAY", Account, MacroTemplate, DryRun, AuditLog );
+				macExit = true;
+			end else if tgt > 0 and High >= tgt and macExit = false then begin
+				if mode = 2 then begin
+					rc = LRC_SendMacro( "SELL", GetSymbolName, CurrentShares, "MARKET", 0, "DAY", Account, MacroTemplate, DryRun, AuditLog );
+					macExit = true;
+				end else if halfDone = false and macHalf = false then begin
+					rc = LRC_SendMacro( "SELL", GetSymbolName, halfShares, "MARKET", 0, "DAY", Account, MacroTemplate, DryRun, AuditLog );
+					macHalf = true;
+				end;
+			end;
+		end;
+	end;
+end else begin
+	macEntry = false;
+	mode = 0;
+end;

@@ -1,0 +1,27 @@
+09/13 09:29:32 verdict watcher started (17086 rig flow test)
+09:40:06.105 session 1: aggregates resumed 2 s after RADIO OFF -> PASS (agg 42->58) | pass 1/1
+09:49:10.576 session 2: aggregates resumed 13 s after RADIO OFF -> PASS (agg 584->600) | pass 2/2
+09:59:01.605 session 3: aggregates resumed 14 s after RADIO OFF -> PASS (agg 1150->1166) | pass 3/3
+10:06:25.316 session 4: aggregates resumed 21 s after RADIO OFF -> PASS (agg 1565->1581) | pass 4/4
+10:15:51.119 session 5: aggregates resumed 20 s after RADIO OFF -> PASS (agg 2112->2128) | pass 5/5
+10:25:17.915 session 6: aggregates resumed 17 s after RADIO OFF -> PASS (agg 2659->2675) | pass 6/6
+10:35:57.524 session 7: aggregates resumed 5 s after RADIO OFF -> PASS (agg 3284->3300) | pass 7/7
+10:56:29.189 session 8: aggregates resumed 11 s after RADIO OFF -> PASS (agg 4497->4513) | pass 8/8
+11:05:55.136 session 9: aggregates resumed 8 s after RADIO OFF -> PASS (agg 5039->5055) | pass 9/9
+11:14:56.904 session 10: aggregates resumed 15 s after RADIO OFF -> PASS (agg 5555->5571) | pass 10/10
+11:26:26.103 session 11: aggregates resumed 5 s after RADIO OFF -> PASS (agg 6228->6244) | pass 11/11
+11:37:55.234 session 12: aggregates resumed 6 s after RADIO OFF -> PASS (agg 6916->6932) | pass 12/12
+11:49:00.257 session 13: aggregates resumed 15 s after RADIO OFF -> PASS (agg 7572->7588) | pass 13/13
+12:13:13.158 session 14: aggregates resumed 11 s after RADIO OFF -> PASS (agg 8990->9006) | pass 14/14
+12:55:54.746 session 15: aggregates resumed 33 s after RADIO OFF -> PASS (agg 11440->11466) | pass 15/15
+13:58:09.402 session 16: aggregates resumed 56 s after RADIO OFF -> PASS (agg 15008->15027) | pass 16/16
+14:36:33.211 session 17: aggregates resumed 36 s after RADIO OFF -> PASS (agg 17178->17194) | pass 17/17
+16:49:28.692 session 18: aggregates resumed 6 s after RADIO OFF -> PASS (agg 24825->24841) | pass 18/18
+16:54:24.774 session 19: aggregates resumed 13 s after RADIO OFF -> PASS (agg 25111->25127) | pass 19/19
+17:16:10.353 session 20: aggregates resumed 11 s after RADIO OFF -> PASS (agg 26367->26383) | pass 20/20
+17:36:17.695 session 21: aggregates resumed 19 s after RADIO OFF -> PASS (agg 27497->27513) | pass 21/21
+17:58:28.065 session 22: aggregates resumed 10 s after RADIO OFF -> PASS (agg 28803->28819) | pass 22/22
+18:22:02.690 session 23: aggregates resumed 11 s after RADIO OFF -> PASS (agg 30200->30216) | pass 23/23
+19:04:29.015 session 24: aggregates resumed 20 s after RADIO OFF -> PASS (agg 32675->32691) | pass 24/24
+20:06:03.579 session 25: aggregates resumed 19 s after RADIO OFF -> PASS (agg 36261->36277) | pass 25/25
+09/13 21:34:05 watcher done: 25/25 sessions passed, 0 events

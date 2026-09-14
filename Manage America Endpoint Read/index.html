@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manage America — ThingsBoard API Test</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+         background: #f4f6f9; color: #333; padding: 24px; }
+  h1 { font-size: 22px; margin-bottom: 20px; color: #1a237e; }
+  .card { background: #fff; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,.12);
+          padding: 20px; margin-bottom: 20px; max-width: 900px; }
+  .card h2 { font-size: 16px; margin-bottom: 14px; color: #37474f;
+             border-bottom: 2px solid #e0e0e0; padding-bottom: 6px; }
+  label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; color: #555; }
+  input, select { width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 4px;
+                  font-size: 14px; margin-bottom: 12px; }
+  input:focus, select:focus { outline: none; border-color: #5c6bc0; box-shadow: 0 0 0 2px rgba(92,107,192,.2); }
+  button { padding: 9px 20px; border: none; border-radius: 4px; font-size: 14px; font-weight: 600;
+           cursor: pointer; color: #fff; margin-right: 8px; }
+  button:disabled { opacity: .5; cursor: not-allowed; }
+  .btn-login { background: #3949ab; }
+  .btn-login:hover:not(:disabled) { background: #303f9f; }
+  .btn-fetch { background: #00897b; }
+  .btn-fetch:hover:not(:disabled) { background: #00796b; }
+  .btn-csv { background: #ef6c00; }
+  .btn-csv:hover:not(:disabled) { background: #e65100; }
+  .row { display: flex; gap: 12px; }
+  .row > div { flex: 1; }
+  .row3 > div { flex: 1; }
+  .status { margin-top: 10px; padding: 8px 12px; border-radius: 4px; font-size: 13px;
+            white-space: pre-wrap; word-break: break-all; display: none; }
+  .status.ok  { display: block; background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+  .status.err { display: block; background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
+  .token-box { margin-top: 10px; padding: 8px 12px; background: #e3f2fd; border: 1px solid #90caf9;
+               border-radius: 4px; font-size: 12px; font-family: monospace;
+               word-break: break-all; display: none; }
+  .response-box { margin-top: 12px; max-height: 500px; overflow: auto; background: #263238;
+                  color: #e0e0e0; padding: 14px; border-radius: 6px; font-size: 12px;
+                  font-family: "Consolas", "Courier New", monospace;
+                  white-space: pre-wrap; word-break: break-word; display: none; }
+  .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.4);
+             border-top-color: #fff; border-radius: 50%; animation: spin .6s linear infinite;
+             vertical-align: middle; margin-right: 6px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  table.results { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13px; }
+  table.results th { background: #37474f; color: #fff; padding: 8px 10px; text-align: left;
+                     position: sticky; top: 0; }
+  table.results td { padding: 7px 10px; border-bottom: 1px solid #e0e0e0; }
+  table.results tr:nth-child(even) { background: #f5f5f5; }
+  .table-wrap { max-height: 500px; overflow: auto; margin-top: 12px; display: none;
+                border: 1px solid #e0e0e0; border-radius: 6px; }
+</style>
+</head>
+<body>
+
+<h1>Manage America — ThingsBoard API Test</h1>
+
+<!-- ── Step 1: Login ─────────────────────────── -->
+<div class="card">
+  <h2>Step 1 — Get Access Token</h2>
+
+  <label for="tbUrl">ThingsBoard URL (leave blank when using proxy server)</label>
+  <input id="tbUrl" value="" placeholder="https://thingsboard.example.com (blank = use proxy)">
+
+  <div class="row">
+    <div>
+      <label for="tbUser">Username (email)</label>
+      <input id="tbUser" type="email" value="aaaa@example.com" placeholder="user@example.com">
+    </div>
+    <div>
+      <label for="tbPass">Password</label>
+      <input id="tbPass" type="password" value="passwd" placeholder="password">
+    </div>
+  </div>
+
+  <button class="btn-login" id="btnLogin" onclick="doLogin()">Login</button>
+  <div class="status" id="loginStatus"></div>
+  <div class="token-box" id="tokenBox"></div>
+</div>
+
+<!-- ── Step 2: Fetch & Compare ───────────────── -->
+<div class="card">
+  <h2>Step 2 — Fetch Usage Data</h2>
+
+  <label for="profileName">Profile Name</label>
+  <input id="profileName" list="profileList" value="Maple Run MHC" placeholder="Select or type a profile name">
+  <datalist id="profileList">
+    <option value="Maple Run MHC">
+    <option value="Coleman Village MHC">
+  </datalist>
+
+  <label for="numDays">Number of Days Window</label>
+  <select id="numDays">
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10" selected>10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
+    <option value="13">13</option>
+    <option value="14">14</option>
+    <option value="15">15</option>
+    <option value="16">16</option>
+    <option value="17">17</option>
+    <option value="18">18</option>
+    <option value="19">19</option>
+    <option value="20">20</option>
+    <option value="21">21</option>
+    <option value="22">22</option>
+    <option value="23">23</option>
+    <option value="24">24</option>
+    <option value="25">25</option>
+    <option value="26">26</option>
+    <option value="27">27</option>
+    <option value="28">28</option>
+    <option value="29">29</option>
+    <option value="30">30</option>
+  </select>
+
+  <div class="row">
+    <div>
+      <label for="startDate">Start Read Date</label>
+      <input id="startDate" type="date" value="2026-02-05">
+    </div>
+    <div>
+      <label for="endDate">End Read Date</label>
+      <input id="endDate" type="date" value="2026-03-05">
+    </div>
+  </div>
+
+  <button class="btn-fetch" id="btnFetch" onclick="doFetch()" disabled>Fetch Data</button>
+  <button class="btn-csv" id="btnCsv" onclick="downloadCsv()" disabled>Download CSV</button>
+  <div class="status" id="fetchStatus"></div>
+  <div class="table-wrap" id="tableWrap"></div>
+  <div class="response-box" id="responseBox"></div>
+</div>
+
+<script>
+var accessToken = '';
+var csvData = '';
+
+/* ── Login ──────────────────────────────────── */
+async function doLogin() {
+  var btn       = document.getElementById('btnLogin');
+  var statusEl  = document.getElementById('loginStatus');
+  var tokenEl   = document.getElementById('tokenBox');
+  var baseUrl   = document.getElementById('tbUrl').value.replace(/\/+$/, '');
+  var username  = document.getElementById('tbUser').value.trim();
+  var password  = document.getElementById('tbPass').value;
+
+  if (!username || !password) {
+    showStatus(statusEl, 'err', 'Please fill in username and password.');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Logging in…';
+  statusEl.className = 'status';
+  statusEl.style.display = 'none';
+  tokenEl.style.display = 'none';
+
+  try {
+    var resp = await fetch(baseUrl + '/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: username, password: password })
+    });
+
+    var text = await resp.text();
+    if (!resp.ok) throw new Error('HTTP ' + resp.status + ': ' + text);
+
+    var data = JSON.parse(text);
+    accessToken = data.token || '';
+
+    if (!accessToken) throw new Error('No token in response:\n' + JSON.stringify(data, null, 2));
+
+    showStatus(statusEl, 'ok', 'Login successful!');
+    tokenEl.style.display = 'block';
+    tokenEl.textContent = 'Token: ' + accessToken;
+    document.getElementById('btnFetch').disabled = false;
+
+  } catch (e) {
+    accessToken = '';
+    showStatus(statusEl, 'err', 'Login failed: ' + e.message);
+    document.getElementById('btnFetch').disabled = true;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Login';
+  }
+}
+
+/* ── Helper: format date input (YYYY-MM-DD) to MM/DD/YYYY ── */
+function fmtDate(isoStr) {
+  var p = isoStr.split('-');
+  return p.length === 3 ? p[1] + '/' + p[2] + '/' + p[0] : isoStr;
+}
+
+/* ── Helper: call ExportProfile ─────────────── */
+async function callExport(baseUrl, profile, days, billingDate) {
+  var url = baseUrl + '/api/BillingImportExport/ExportProfile'
+          + '?profileName=' + encodeURIComponent(profile)
+          + '&numberDaysWindow=' + encodeURIComponent(days)
+          + '&billingDate=' + encodeURIComponent(billingDate);
+
+  var resp = await fetch(url, {
+    method: 'GET',
+    headers: { 'Authorization': 'Bearer ' + accessToken }
+  });
+
+  var ct   = resp.headers.get('content-type') || '';
+  var text = await resp.text();
+
+  if (ct.indexOf('html') !== -1) throw new Error('Received HTML — session may have expired.');
+  if (!resp.ok) throw new Error('HTTP ' + resp.status + ':\n' + text);
+
+  return JSON.parse(text);
+}
+
+/* ── Fetch & Merge ──────────────────────────── */
+async function doFetch() {
+  var btn       = document.getElementById('btnFetch');
+  var btnCsv    = document.getElementById('btnCsv');
+  var statusEl  = document.getElementById('fetchStatus');
+  var tableWrap = document.getElementById('tableWrap');
+  var respEl    = document.getElementById('responseBox');
+  var baseUrl   = document.getElementById('tbUrl').value.replace(/\/+$/, '');
+  var profile   = document.getElementById('profileName').value.trim();
+  var days      = document.getElementById('numDays').value.trim();
+  var startDate = fmtDate(document.getElementById('startDate').value);
+  var endDate   = fmtDate(document.getElementById('endDate').value);
+
+  if (!accessToken) { showStatus(statusEl, 'err', 'No access token — please login first.'); return; }
+  if (!profile || !days || !startDate || !endDate) { showStatus(statusEl, 'err', 'Please fill in all fields.'); return; }
+
+  btn.disabled = true;
+  btnCsv.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Fetching…';
+  statusEl.className = 'status'; statusEl.style.display = 'none';
+  tableWrap.style.display = 'none';
+  respEl.style.display = 'none';
+  csvData = '';
+
+  try {
+    // Two parallel API calls — start date and end date
+    var results = await Promise.all([
+      callExport(baseUrl, profile, days, startDate),
+      callExport(baseUrl, profile, days, endDate)
+    ]);
+
+    var startRecords = extractRecords(results[0]);
+    var endRecords   = extractRecords(results[1]);
+
+    // Index end records by Consumer_ID
+    var endMap = {};
+    endRecords.forEach(function (r) { endMap[r.Consumer_ID] = r; });
+
+    // Build merged rows
+    var rows = [];
+    startRecords.forEach(function (s) {
+      var e = endMap[s.Consumer_ID];
+      var name = (s.Consumer_Name || '').split(':');
+      var consumerName = name.length > 1 ? name.slice(1).join(':') : name[0];
+
+      var startUsage = parseFloat(s.LCD_Read) || 0;
+      var endUsage   = e ? (parseFloat(e.LCD_Read) || 0) : 0;
+      var usage      = endUsage - startUsage;
+
+      rows.push({
+        Consumer_Name:  consumerName,
+        Meter_ID:        s.Meter_ID || '',
+        Start_Read_Date: s.Read_Date || '',
+        Start_Read:     startUsage,
+        End_Read_Date:   e ? (e.Read_Date || '') : '',
+        End_Read:       endUsage,
+        Usage_Period:    usage
+      });
+    });
+
+    // Sort by Consumer_Name (numeric if possible)
+    rows.sort(function (a, b) {
+      var na = parseFloat(a.Consumer_Name), nb = parseFloat(b.Consumer_Name);
+      if (!isNaN(na) && !isNaN(nb)) return na - nb;
+      return a.Consumer_Name.localeCompare(b.Consumer_Name);
+    });
+
+    // Build HTML table
+    var html = '<table class="results"><thead><tr>'
+      + '<th>Consumer_Name</th><th>Meter_ID</th><th>Start_Read_Date</th><th>Start_Read</th>'
+      + '<th>End_Read_Date</th><th>End_Read</th><th>Usage_Period</th>'
+      + '</tr></thead><tbody>';
+    rows.forEach(function (r) {
+      html += '<tr>'
+        + '<td>' + esc(r.Consumer_Name) + '</td>'
+        + '<td>' + esc(r.Meter_ID) + '</td>'
+        + '<td>' + esc(r.Start_Read_Date) + '</td>'
+        + '<td>' + r.Start_Read + '</td>'
+        + '<td>' + esc(r.End_Read_Date) + '</td>'
+        + '<td>' + r.End_Read + '</td>'
+        + '<td>' + r.Usage_Period + '</td>'
+        + '</tr>';
+    });
+    html += '</tbody></table>';
+    tableWrap.innerHTML = html;
+    tableWrap.style.display = 'block';
+
+    // Build CSV
+    var csvLines = ['Consumer_Name,Meter_ID,Start_Read_Date,Start_Read,End_Read_Date,End_Read,Usage_Period'];
+    rows.forEach(function (r) {
+      csvLines.push(
+        csvVal(r.Consumer_Name) + ',' + csvVal(r.Meter_ID) + ',' + csvVal(r.Start_Read_Date) + ',' + r.Start_Read + ','
+        + csvVal(r.End_Read_Date) + ',' + r.End_Read + ',' + r.Usage_Period
+      );
+    });
+    csvData = csvLines.join('\n');
+
+    showStatus(statusEl, 'ok', 'Loaded ' + rows.length + ' consumers (start: ' + startRecords.length + ', end: ' + endRecords.length + ' records).');
+    btnCsv.disabled = false;
+
+
+  } catch (e) {
+    showStatus(statusEl, 'err', 'Request failed: ' + e.message);
+    tableWrap.style.display = 'none';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Fetch Data';
+  }
+}
+
+/* ── Download CSV ───────────────────────────── */
+function downloadCsv() {
+  if (!csvData) return;
+  var blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+  var url  = URL.createObjectURL(blob);
+  var a    = document.createElement('a');
+  a.href   = url;
+  a.download = 'usage_report.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/* ── Helpers ─────────────────────────────────── */
+function showStatus(el, type, msg) {
+  el.className = 'status ' + type;
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+function extractRecords(data) {
+  if (Array.isArray(data)) return data;
+  if (data && data.ArrayOfBillingProfileExportViewModel) {
+    var inner = data.ArrayOfBillingProfileExportViewModel.BillingProfileExportViewModel;
+    if (Array.isArray(inner)) return inner;
+    if (inner) return [inner];
+  }
+  return [];
+}
+function esc(s) {
+  var d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+function csvVal(s) {
+  s = String(s);
+  if (s.indexOf(',') !== -1 || s.indexOf('"') !== -1 || s.indexOf('\n') !== -1) {
+    return '"' + s.replace(/"/g, '""') + '"';
+  }
+  return s;
+}
+</script>
+
+</body>
+</html>

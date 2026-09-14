@@ -1,0 +1,56 @@
+﻿st,ti,devices,reachable_48h,share_pct,class,st_source,ti_source
+17037,344,1134,1088,21.13,clean,git tag v17037,git tag v344
+16185,314,1027,1004,19.13,clean,bucket / commit by date,bucket msp314.bin
+362,209,838,777,15.61,two-step estate (362/363-era ST),git tag v362,git tag v209
+16131,296,797,757,14.85,pre-v304 TI: wedge + self-heal,bucket / commit by date,bucket msp296.bin
+16022,260,350,326,6.52,pre-v304 TI: wedge + self-heal,bucket / commit by date,bucket msp260.bin
+17060,368,234,234,4.36,clean,bucket / commit by date,git tag v368
+15090,254,168,167,3.13,pre-v304 TI: wedge + self-heal,bucket / commit by date,bucket msp254.bin
+363,219,119,111,2.22,two-step estate (362/363-era ST),git tag v363,git tag v219
+16048,272,112,0,2.09,pre-v304 TI: wedge + self-heal,bucket / commit by date,bucket msp272.bin
+15147,256,111,108,2.07,pre-v304 TI: wedge + self-heal,bucket / commit by date,bucket msp256.bin
+15154,260,106,96,1.97,pre-v304 TI: wedge + self-heal,bucket / commit by date,bucket msp260.bin
+17032,344,99,93,1.84,clean,bucket / commit by date,git tag v344
+17040,354,73,61,1.36,clean,bucket / commit by date,git tag v354
+16130,296,51,44,0.95,pre-v304 TI: wedge + self-heal,bucket / commit by date,bucket msp296.bin
+15085,254,28,26,0.52,pre-v304 TI: wedge + self-heal,bucket / commit by date,bucket msp254.bin
+16128,295,21,14,0.39,pre-v304 TI: wedge + self-heal,bucket / commit by date,bucket msp295.bin
+15091,255,13,13,0.24,pre-v304 TI: wedge + self-heal,bucket / commit by date,bucket msp255.bin
+17028,341,10,10,0.19,clean,bucket / commit by date,git tag v341
+16193,320,9,5,0.17,clean,bucket / commit by date,bucket msp320.bin
+17050,364,7,6,0.13,clean,bucket / commit by date,bucket msp364.bin
+17028,343,6,5,0.11,clean,bucket / commit by date,git tag v343
+15019,219,5,0,0.09,pre-v304 TI: wedge + self-heal,bucket / commit by date,git tag v219
+15155,260,5,2,0.09,pre-v304 TI: wedge + self-heal,bucket / commit by date,bucket msp260.bin
+17058,365,4,4,0.07,clean,bucket / commit by date,git tag v365
+16048,260,3,0,0.06,pre-v304 TI: wedge + self-heal,bucket / commit by date,bucket msp260.bin
+16165,302,3,2,0.06,pre-v304 TI: wedge + self-heal,bucket / commit by date,bucket msp302.bin
+17055,365,3,3,0.06,clean,bucket / commit by date,git tag v365
+17066,372,3,3,0.06,clean,bucket / commit by date,git tag v372
+16022,209,2,0,0.04,pre-v304 TI: wedge + self-heal,bucket / commit by date,git tag v209
+16185,344,2,2,0.04,clean,bucket / commit by date,git tag v344
+16193,364,1,1,0.02,clean,bucket / commit by date,bucket msp364.bin
+15114,256,1,0,0.02,pre-v304 TI: wedge + self-heal,bucket / commit by date,bucket msp256.bin
+16116,260,1,0,0.02,pre-v304 TI: wedge + self-heal,bucket / commit by date,bucket msp260.bin
+16128,260,1,0,0.02,pre-v304 TI: wedge + self-heal,bucket / commit by date,bucket msp260.bin
+16187,318,1,0,0.02,clean,bucket / commit by date,bucket msp318.bin
+16161,296,1,1,0.02,pre-v304 TI: wedge + self-heal,bucket / commit by date,bucket msp296.bin
+16148,296,1,0,0.02,pre-v304 TI: wedge + self-heal,bucket / commit by date,bucket msp296.bin
+17060,344,1,1,0.02,clean,bucket / commit by date,git tag v344
+15091,254,1,0,0.02,pre-v304 TI: wedge + self-heal,bucket / commit by date,bucket msp254.bin
+15012,219,1,0,0.02,pre-v304 TI: wedge + self-heal,bucket / commit by date,git tag v219
+16048,254,1,0,0.02,pre-v304 TI: wedge + self-heal,bucket / commit by date,bucket msp254.bin
+17037,368,1,1,0.02,clean,git tag v17037,git tag v368
+362,205,1,1,0.02,two-step estate (362/363-era ST),git tag v362,git tag v205
+16184,314,1,1,0.02,clean,bucket / commit by date,bucket msp314.bin
+11361,209,1,0,0.02,pre-v304 TI: wedge + self-heal,git tag v11361,git tag v209
+16048,209,1,0,0.02,pre-v304 TI: wedge + self-heal,bucket / commit by date,git tag v209
+17037,354,1,1,0.02,clean,git tag v17037,git tag v354
+15154,256,1,0,0.02,pre-v304 TI: wedge + self-heal,bucket / commit by date,bucket msp256.bin
+362,265,1,1,0.02,two-step estate (362/363-era ST),git tag v362,bucket msp265.bin
+15090,260,1,1,0.02,pre-v304 TI: wedge + self-heal,bucket / commit by date,bucket msp260.bin
+16185,315,1,1,0.02,clean,bucket / commit by date,bucket msp315.bin
+363,296,1,0,0.02,two-step estate (362/363-era ST),git tag v363,bucket msp296.bin
+17040,325,1,1,0.02,clean,bucket / commit by date,git tag v325
+17018,325,1,0,0.02,clean,bucket / commit by date,git tag v325
+15130,256,1,0,0.02,pre-v304 TI: wedge + self-heal,bucket / commit by date,bucket msp256.bin

@@ -1,0 +1,507 @@
+<title>Ontario Place Go-Back</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#F1F5F6; --surface:#FFFFFF; --sunk:#E7EEF0;
+  --ink:#0F2129; --ink2:#3C5560; --ink3:#6C8590; --line:#D2DFE3;
+  --accent:#0E6E7D;
+  --critical:#A93226; --warn:#9C6212; --info:#1F6091; --ok:#2C6E4E;
+  --crit-bg:#FBEDEB; --warn-bg:#FBF3E4; --info-bg:#EAF2F9; --ok-bg:#E9F3ED;
+}
+:root:not([data-theme="light"]){@media (prefers-color-scheme:dark){
+  --ground:#0B171C; --surface:#12242B; --sunk:#0E1E24;
+  --ink:#E4EEF1; --ink2:#A9C0C8; --ink3:#7A959F; --line:#22414C;
+  --accent:#54B4C4;
+  --critical:#E8796B; --warn:#DFA652; --info:#6FAEDC; --ok:#6DBF95;
+  --crit-bg:#2A1815; --warn-bg:#28200F; --info-bg:#12222E; --ok-bg:#122318;
+}}
+:root[data-theme="dark"]{
+  --ground:#0B171C; --surface:#12242B; --sunk:#0E1E24;
+  --ink:#E4EEF1; --ink2:#A9C0C8; --ink3:#7A959F; --line:#22414C;
+  --accent:#54B4C4;
+  --critical:#E8796B; --warn:#DFA652; --info:#6FAEDC; --ok:#6DBF95;
+  --crit-bg:#2A1815; --warn-bg:#28200F; --info-bg:#12222E; --ok-bg:#122318;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:15px;line-height:1.55;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:40px 22px 80px;display:flex;flex-direction:column;gap:34px}
+h1,h2,h3{font-family:Archivo,"IBM Plex Sans",sans-serif;margin:0;text-wrap:balance;letter-spacing:-.015em}
+h1{font-size:clamp(28px,4.4vw,42px);font-weight:700;line-height:1.08}
+h2{font-size:19px;font-weight:600}
+h3{font-size:16px;font-weight:600}
+p{margin:0}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.eyebrow{font-size:11.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--accent)}
+/* masthead */
+.mast{display:flex;flex-direction:column;gap:12px;border-bottom:2px solid var(--ink);padding-bottom:20px}
+.mast .sub{color:var(--ink2);max-width:66ch}
+.meta{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:12.5px;color:var(--ink3);
+  font-family:"IBM Plex Mono",monospace}
+/* parts strip */
+.parts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.part{background:var(--surface);padding:16px 18px;display:flex;flex-direction:column;gap:3px}
+.part b{font-family:Archivo,sans-serif;font-size:30px;font-weight:700;line-height:1;
+  font-variant-numeric:tabular-nums}
+.part span{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);font-weight:600}
+.part small{font-size:12px;color:var(--ink2)}
+.part.c b{color:var(--critical)} .part.w b{color:var(--warn)}
+.part.i b{color:var(--info)} .part.o b{color:var(--ok)}
+/* findings */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:22px 24px;
+  display:flex;flex-direction:column;gap:14px}
+.card.flag{border-left:3px solid var(--warn)}
+.fw-tab{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:3px;
+  overflow:hidden;font-size:13.5px}
+.fw-tab>div{background:var(--surface);padding:9px 13px;display:grid;
+  grid-template-columns:78px 108px 1fr;gap:14px;align-items:baseline}
+.fw-tab>div.hd{background:var(--sunk);font-size:11px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--ink3);font-weight:600}
+.kill{font-family:"IBM Plex Mono",monospace;font-weight:500}
+.kill.hi{color:var(--critical)} .kill.mid{color:var(--warn)}
+ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:7px;color:var(--ink2)}
+li strong{color:var(--ink);font-weight:600}
+ol.proc{margin:0;padding-left:0;list-style:none;counter-reset:s;display:flex;flex-direction:column;gap:10px}
+ol.proc li{counter-increment:s;display:grid;grid-template-columns:26px 1fr;gap:12px;color:var(--ink2)}
+ol.proc li::before{content:counter(s);font-family:"IBM Plex Mono",monospace;font-size:12px;
+  color:var(--accent);font-weight:500;border:1px solid var(--line);border-radius:2px;
+  height:22px;display:grid;place-items:center;background:var(--sunk)}
+/* action groups */
+.grp{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--ink3);
+  border-radius:4px;overflow:hidden}
+.grp.critical{border-left-color:var(--critical)} .grp.warn{border-left-color:var(--warn)}
+.grp.info{border-left-color:var(--info)} .grp.ok{border-left-color:var(--ok)}
+.ghead{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;
+  padding:17px 20px;border-bottom:1px solid var(--line)}
+.critical .ghead{background:var(--crit-bg)} .warn .ghead{background:var(--warn-bg)}
+.info .ghead{background:var(--info-bg)} .ok .ghead{background:var(--ok-bg)}
+.ghead p{font-size:13.5px;color:var(--ink2);margin-top:3px;max-width:70ch}
+.count{font-family:Archivo,sans-serif;font-size:26px;font-weight:700;line-height:1;text-align:right;
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+.count span{display:block;font-size:10.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--ink3);margin-top:3px}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px;min-width:900px}
+th,td{text-align:left;padding:8px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--sunk);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--ink3);font-weight:600;line-height:1.3;white-space:nowrap}
+th small{font-weight:400;letter-spacing:.03em;text-transform:none;opacity:.8}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--sunk)}
+.num,th.num{text-align:right}
+td.apt{font-family:Archivo,sans-serif;font-weight:700;font-size:15px;white-space:nowrap}
+td.dim{color:var(--ink3)}
+td.why{color:var(--ink2);font-size:12.5px;min-width:230px}
+td.bad{color:var(--critical);font-weight:500} td.mid{color:var(--warn)}
+.pill{display:inline-block;font-size:11px;font-weight:600;padding:2px 7px;border-radius:2px;
+  white-space:nowrap;font-family:"IBM Plex Mono",monospace}
+.pill.dark{background:var(--crit-bg);color:var(--critical);border:1px solid currentColor}
+.pill.live{background:var(--ok-bg);color:var(--ok);border:1px solid currentColor}
+footer{border-top:1px solid var(--line);padding-top:18px;font-size:12.5px;color:var(--ink3);
+  display:flex;flex-direction:column;gap:7px}
+@media (max-width:600px){.wrap{padding:26px 14px 60px}.ghead{flex-direction:column}}
+</style>
+<div class="wrap">
+
+<header class="mast">
+  <span class="eyebrow">Customer go-back &middot; work order &middot; rev 5</span>
+  <h1>Ontario Place MHC &mdash; which meters get replaced, reset, or an antenna</h1>
+  <p class="sub">92 installed meters pulled live from ThingsBoard. 18 are dark, 23 doors need a visit,
+  17 need hardware. One test settles most of it: every meter waiting on a firmware update is dark, and
+  every meter in sync with its pin is online. Seven of the dark lots are still pinned to 16185 &mdash;
+  the version that terminally bricked 4 meters here.</p>
+  <div class="meta">
+    <span>Pulled 2026-08-31</span><span>Group: Ontario Place MHC-CUST</span>
+    <span>92 devices &middot; 300-day history</span><span>All figures from device telemetry</span>
+  </div>
+</header>
+
+<div class="parts">
+  <div class="part c"><b>14</b><span>Ext-antenna meters</span><small>+2 contingent</small></div>
+  <div class="part c"><b>3</b><span>Standard meters</span><small>no FOTA failure</small></div>
+  <div class="part w"><b>7</b><span>Pins to clear</span><small>still set to 16185</small></div>
+  <div class="part o"><b>4</b><span>Check only</span><small>metering side</small></div>
+  <div class="part i"><b>18/18</b><span>Cadence spec</span><small>dark caught, 0 false pos</small></div>
+  <div class="part"><b>23</b><span>Doors to visit</span><small>of 92 installed</small></div>
+</div>
+
+<section class="card flag">
+  <span class="eyebrow">The test you asked for</span>
+  <h2>Current firmware against the pinned firmware separates the fleet almost perfectly</h2>
+  <p>Comparing each meter's running <span class="mono">fwVer</span> to the
+  <span class="mono">gen2fw</span> version it is pinned to splits 92 meters into four states, and the
+  split lines up with life and death almost exactly:</p>
+  <div class="fw-tab">
+    <div class="hd"><span>State</span><span>Count</span><span>Dark / online</span></div>
+    <div><span class="mono">in sync</span><span class="kill">76</span><span><strong>74 online</strong>, 2 dark &mdash; and both of those went quiet only 3&ndash;4 days ago</span></div>
+    <div><span class="mono">pending 16185</span><span class="kill hi">7</span><span><strong>7 dark, 0 online</strong> &mdash; lots 11, 12, 43, 49, 92, 100, 132</span></div>
+    <div><span class="mono">pending 17037</span><span class="kill hi">6</span><span><strong>6 dark, 0 online</strong> &mdash; lots 15, 95, 102, 130, 134, 147</span></div>
+    <div><span class="mono">no pin set</span><span class="kill mid">3</span><span><strong>3 dark, 0 online</strong> &mdash; lots 31, 89, 153</span></div>
+  </div>
+  <p>13 of 13 meters awaiting an update are dark. 74 of 74 online meters are in sync. Nothing else I
+  measured &mdash; RSRP, carrier, battery &mdash; separates this cleanly.</p>
+  <p><strong>The direction of causality is not uniform, though, and it matters for the truck.</strong> A
+  meter that went dark for any reason will also read as pending, because it never received the update.
+  Splitting the 13 by whether the update came before or after the silence:</p>
+  <ul>
+    <li><strong>The update killed it &mdash; 7 lots.</strong> Silence began 0 to 3.3 days after
+    <span class="mono">fwVer</span> changed, with healthy reporting right up to it. Lots 49, 132 and 11 on
+    16048; lots 134, 15, 130 and 95 on 16185.</li>
+    <li><strong>It died first, and pending is a symptom &mdash; 6 lots.</strong> No update event near the
+    silence; these faded or failed their downloads over weeks. Lots 43, 92, 12, 100, 102 and 147.</li>
+  </ul>
+</section>
+
+<section class="card flag">
+  <span class="eyebrow">Cadence spec &mdash; and a correction to rev 4</span>
+  <h2>Stratify by generation and sample 30 days; the per-device machinery buys nothing here</h2>
+  <p>Rev 4 built this as a per-device baseline over 300 days and reported two headline numbers that were
+  artifacts of that window. With the design cadences you supplied &mdash; <strong>GEN1 5 day, GEN2 1
+  day</strong> &mdash; and a 30-day sample, both numbers are wrong and the conclusion reverses.</p>
+  <div class="fw-tab">
+    <div class="hd"><span>Claim</span><span>Rev 4 said</span><span>Correct figure, 30-day window</span></div>
+    <div><span class="mono">healthy p95 gap</span><span class="kill hi">120 h</span><span>25.7 h &mdash; matches the GEN2 1-day nominal at 1.07&times;</span></div>
+    <div><span class="mono">flat 48h rule</span><span class="kill hi">flags 71 of 74</span><span><strong>flags 0 of 74</strong>, and catches all 16 dark GEN2 meters</span></div>
+  </div>
+  <p>The 120 h figure came from a 300-day baseline that swept in older eras when these meters genuinely
+  behaved worse. Sampling only the last 30 days &mdash; as you specified &mdash; the site sits right on
+  its design cadence, and the case I made against a flat threshold collapses with it. Any cut between
+  <span class="mono">30 h</span> and <span class="mono">72 h</span> separates this site perfectly: the
+  worst healthy meter has been silent 28.1 h, the nearest dark one 76 h. Your existing rule of thumb
+  &mdash; GEN2 over 48 h, GEN1 over 6 days &mdash; is well inside that band.</p>
+  <p><strong>What does matter is the generation split.</strong> The two nominals differ 5&times;, so a
+  single site-wide bound would flag every healthy GEN1 meter as dead. That is the one part of the
+  machinery that is load-bearing.</p>
+
+  <h3 style="margin-top:6px">The spec as it now stands</h3>
+  <ol class="proc">
+    <li><strong>Window.</strong> Last 30 days of radio contacts per device, per site. Contacts within
+    20 minutes collapse into one check-in. Liveness comes only from keys the radio must transmit &mdash;
+    never <span class="mono">meterValUpdated</span>, which carries server-side stamps.</li>
+    <li><strong>Stratify.</strong> Split the site by generation. GEN2 reports
+    <span class="mono">VddAdc</span>; GEN1 reports <span class="mono">Vdda</span> only. Nominal check-in
+    24 h and 120 h respectively.</li>
+    <li><strong>Throw out the outliers.</strong> Iterative robust trim on per-device p90 gaps, modified
+    z-score cut at 3.5, so already-failing meters cannot inflate the bound they are about to be judged
+    against.</li>
+    <li><strong>Bound.</strong> 2&times; the surviving cohort's median p90 gap &mdash; but only while that
+    cohort still tracks nominal within 1.5&times;. If a whole site has drifted, the site term is
+    distrusted and the bound falls back to 2&times; nominal, so a sick site cannot normalise its own
+    sickness.</li>
+    <li><strong>Flag.</strong> <span class="mono">SILENT</span> if trailing silence exceeds the bound;
+    <span class="mono">ERRATIC</span> if the device's own p90 gap exceeds it;
+    <span class="mono">SPARSE</span> if there are fewer than 4 contacts to judge.</li>
+  </ol>
+  <div class="fw-tab">
+    <div class="hd"><span>Cohort</span><span>Bound</span><span>Derivation and result at this site</span></div>
+    <div><span class="mono">GEN2 &times;90</span><span class="kill">51.4 h</span><span>cohort median p90 25.7 h, 11 outliers trimmed, drift 1.07&times; &mdash; site term trusted</span></div>
+    <div><span class="mono">GEN1 &times;2</span><span class="kill">240 h</span><span>both members dark, so no cohort &mdash; fell back to 2&times; nominal, as designed</span></div>
+    <div><span class="mono">result</span><span class="kill">18 / 18</span><span>dark meters caught, at 1.5&times; to 74&times; their bound</span></div>
+    <div><span class="mono">result</span><span class="kill">0 / 74</span><span>online meters falsely flagged</span></div>
+  </div>
+  <p>So the honest value of the auto-calibrated version is not accuracy &mdash; a hand-set per-generation
+  constant matches it here. It is that the bound is derived per site rather than hand-tuned, it reports
+  when a site drifts off nominal, and it degrades safely when a cohort is too small or too sick to trust.
+  Whether that is worth the complexity over your 48 h / 6 day rule is your call; the numbers say the
+  simple rule is sufficient at Ontario Place.</p>
+  <p>Two dispositions still rest on it, and both hold: <strong>lots 62 and 137</strong> are silent 99 h and
+  76 h against a 51.4 h bound, so they are genuinely flagged &mdash; but at only 1.9&times; and 1.5&times;,
+  by far the mildest breaches on the property, which is why they stay on a morning re-check rather than the
+  replacement list. <strong>Lot 89</strong> is silent 318 h at 6.2&times; bound, so unlike rev 4's
+  per-device version this spec does flag it outright.</p>
+</section>
+
+<section class="card flag">
+  <span class="eyebrow">Do this before the truck rolls</span>
+  <h2>Seven dark lots are still pinned to gen2fw 16185</h2>
+  <p>Lots <strong>11, 12, 43, 49, 92, 100 and 132</strong> carry
+  <span class="mono">gen2fw = 16185</span> with <span class="mono">allowTiFotaVer = 314</span>. Three of
+  them are sitting on 16048 right now. Attach any of them &mdash; or drop in a replacement that inherits
+  the pin &mdash; and they are handed 16185 in a single hop.</p>
+  <p>Lot 100 is proof this is already doing damage: <span class="mono">stFotaHttpFail = 83</span> across
+  <span class="mono">71</span> attempts, every one targeting 16185. That meter has been stuck in a failing
+  update loop, not sitting in a coverage hole.</p>
+  <p>The other six dark lots are pinned to <span class="mono">17037 / ti 344</span>, which is correct.
+  Lots 31, 89 and 153 have no pin at all and will not update until they get one.</p>
+  <p><strong>These are writes, so I have not made them.</strong> Say go and I will show you the exact
+  before-and-after for all seven pins first.</p>
+</section>
+
+<section class="card flag">
+  <span class="eyebrow">Your rule, applied &mdash; with one adjustment</span>
+  <h2>A raw FOTA-failure counter cannot be the trigger; terminal failure can</h2>
+  <p>Treating failed-FOTA meters as external-antenna candidates is applied below. But taken literally the
+  rule selects the whole property: <strong>90 of 92 meters carry a non-zero
+  <span class="mono">fsm_fail_TIFOTA</span></strong>, including healthy ones &mdash; lot 6 sits at
+  &minus;107 dBm reporting 28 of 28 days with a count of 113. Update retries are normal background
+  behaviour here.</p>
+  <p>So the trigger is <em>terminal</em> failure &mdash; the update never completed and the meter did not
+  come back:</p>
+  <ul>
+    <li><strong>Download never completed</strong> &mdash; <span class="mono">tifota_fetch_err</span> of 3 to
+    63. Lots 11, 12, 89, 92, 102, 132, 147.</li>
+    <li><strong>TI version latched at 0 on the update day and never returned.</strong> Lots 15, 95, 130, 134.</li>
+    <li><strong>Retry loop that never exited</strong> &mdash; lot 100 at 71 attempts; lots 95 and 130 with
+    <span class="mono">tifota_hard_reset_cnt</span> of 3740 and 1054.</li>
+    <li><strong>BSL handshake failing</strong> &mdash; lot 43, with 84 init errors plus 46 password and 46 baud.</li>
+    <li><strong>Died on the update itself</strong> with healthy cadence right up to it &mdash; lots 49 and 132.</li>
+  </ul>
+  <p>That catches 14 of the 18 dark lots. Lots 31 and 153 do not qualify &mdash; dark 6 and 9 months on
+  GenI-era firmware with no FOTA evidence &mdash; so they take standard units.</p>
+</section>
+
+<section class="card">
+  <span class="eyebrow">On the coverage hypothesis</span>
+  <h2>Coverage does not explain the 16185 failures &mdash; the signal ranges overlap almost completely</h2>
+  <p>You flagged that 16048 has a known issue and that FOTA failures can be coverage-driven. That
+  mechanism is real, and lot 100 plus the high-<span class="mono">fetch_err</span> lots look exactly like
+  it. But it does not explain <em>who died</em> here, and the 16185 rollout is a big enough sample to say
+  so. Measuring each meter's RSRP in the 10 days <em>before</em> its own update:</p>
+  <div class="fw-tab">
+    <div class="hd"><span>Version</span><span>Outcome</span><span>RSRP at the moment of update</span></div>
+    <div><span class="mono">16185</span><span class="kill hi">4 bricked</span><span class="mono">&minus;113.5 &middot; &minus;115 &middot; &minus;118 &middot; &minus;122</span></div>
+    <div><span class="mono">16185</span><span class="kill">69 survived</span><span>median &minus;114 &mdash; and 38 of them sat at or below &minus;122; one survived at &minus;127</span></div>
+    <div><span class="mono">16048</span><span class="kill hi">3 bricked</span><span class="mono">&minus;115 &middot; &minus;119 &middot; &minus;120.5</span></div>
+    <div><span class="mono">16048</span><span class="kill">2 survived</span><span>&minus;105 and &minus;115 &mdash; n too small to separate</span></div>
+  </div>
+  <p>A meter bricked at &minus;113.5 dBm while another survived the same update at &minus;127. If signal
+  were the deciding factor those numbers would not cross. The 16048 sample is only 5 meters so it settles
+  nothing either way &mdash; but lot 49 died on the 16048 update at &minus;115 dBm with a 27-of-28 day
+  cadence and a sound battery, which is hard to pin on coverage.</p>
+  <p>This does not change the work order &mdash; the antennas go on either way, and at these lots they can
+  only help the next download complete. It changes what to expect from them: an antenna should not be
+  assumed to prevent the next 16185 brick. Clearing the pins is what does that.</p>
+</section>
+
+<section class="card">
+  <span class="eyebrow">Firmware kill rates at this site</span>
+  <h2>16048 is confirmed, and 16185 bricked more meters than 16048 did</h2>
+  <p>Only 5 meters here ever ran 16048 and 3 died the same day it landed &mdash; the highest rate of any
+  version by a wide margin. But 16185 carries the same signature at far larger exposure, so it produced
+  more total casualties: 4 against 3. You have confirmed 16185 is live in the field.</p>
+  <div class="fw-tab">
+    <div class="hd"><span>Version</span><span>Died / ran it</span><span>Lots, and days from update to silence</span></div>
+    <div><span class="mono">16048</span><span class="kill hi">3 / 5 &nbsp;60%</span><span class="mono">49 (0.0d) &middot; 132 (0.0d) &middot; 11 (0.0d)</span></div>
+    <div><span class="mono">16185</span><span class="kill mid">4 / 73 &nbsp;5.5%</span><span class="mono">134 (0.0d) &middot; 15 (0.0d) &middot; 130 (2.2d) &middot; 95 (3.3d)</span></div>
+    <div><span class="mono">16022</span><span class="kill">0 / 84</span><span class="mono">no same-day deaths</span></div>
+    <div><span class="mono">17037</span><span class="kill">0 / 26</span><span class="mono">no same-day deaths</span></div>
+  </div>
+</section>
+
+<section class="card">
+  <span class="eyebrow">On site</span>
+  <h2>Order of operations</h2>
+  <ol class="proc">
+    <li>Clear the seven 16185 pins before anyone leaves the shop. A replacement meter that attaches and
+    pulls 16185 can fail the same way the old one did.</li>
+    <li>At the 14 ext-antenna lots, swap the meter. At lots 11, 15, 43, 49, 92, 102, 132, 134 and 147 the
+    battery was still sound, so a mag reset is a free shot first if you want to bring hardware home
+    unused &mdash; but the update already failed at these doors, so do not count on it.</li>
+    <li>Confirm every meter you touch reaches 17037+ before you leave the lot. In-sync-and-online is the
+    only state that survives at this property.</li>
+    <li>Lots 62 and 137: check the dashboard that morning. They breach the cadence bound, but at only 1.5&times; and
+    1.9&times; &mdash; the mildest on the property &mdash; and both are in sync with their pins. If they are
+    back up, skip them.</li>
+    <li>Do not touch the 10 no-action lots. They are metering and attaching on healthy batteries.</li>
+  </ol>
+</section>
+<section class="card">
+  <span class="eyebrow">Reading the tables</span>
+  <h2>Column notes</h2>
+  <ul>
+    <li><strong>Last radio contact</strong> is the last time the meter actually transmitted &mdash; RSRP, RSSI,
+    status or firmware version. It is deliberately <em>not</em> based on
+    <span class="mono">meterValUpdated</span>, which carries server-side stamps: eight of these dark meters
+    show a <span class="mono">meterValUpdated</span> write at 19:00 on 12&ndash;13 Aug, weeks after the radio
+    went quiet. Using that key would have made half the dark list look alive.</li>
+    <li><strong>RSRP final 30d</strong> is the median over the meter's last 30 days of contact, not a single
+    last gasp. Fleet median for working meters is &minus;112 dBm; for dark meters, &minus;118.</li>
+    <li><strong>VddAdc</strong> below roughly 3400 mV is abnormal &mdash; the 10th percentile across the 74
+    working meters here is 3605 mV.</li>
+    <li><strong>Report days final 4wk</strong> is out of 28. A meter that held 24&ndash;28 right up to the day it
+    died was healthy and then stopped; one that decayed to single digits was failing gradually.</li>
+  </ul>
+</section>
+
+<section class="card"><span class="eyebrow">Dispositions</span><h2>Every lot needing a decision</h2></section>
+<section class="grp critical">
+<header class="ghead"><div><h3>New meter &mdash; external antenna</h3><p>Every one of these failed a firmware update terminally: the download never completed, the BSL handshake failed, the retry loop never exited, or the TI version latched at 0 and stayed there. Per your call, a failed FOTA makes the lot an external-antenna candidate.</p></div>
+<div class="count">14<span>lots</span></div></header>
+<div class="tw"><table><thead><tr><th>Lot</th><th>Device</th><th>State</th>
+<th>Last radio contact</th><th>FW</th><th>TI</th><th>Carrier</th>
+<th class="num">RSRP<br><small>final 30d</small></th><th class="num">VddAdc<br><small>mV</small></th>
+<th>gen2fw<br><small>pin</small></th><th>Basis</th></tr></thead><tbody><tr><td class="apt">11</td><td class="mono dim">65829833</td>
+<td><span class="pill dark">dark 82d</span></td><td class="mono">2026-06-10</td><td class="mono">16048</td>
+<td class="mono">209</td><td>AT&amp;T</td>
+<td class="mono num bad">-123.0</td><td class="mono num ">3613</td>
+<td><span class="pill dark">16185</span></td><td class="why">tifota_fetch_err=3 + died on the 16048 update</td></tr><tr><td class="apt">102</td><td class="mono dim">72391244</td>
+<td><span class="pill dark">dark 54d</span></td><td class="mono">2026-07-08</td><td class="mono">16022</td>
+<td class="mono">260</td><td>AT&amp;T</td>
+<td class="mono num mid">-122.0</td><td class="mono num ">3641</td>
+<td><span class="dim">&mdash;</span></td><td class="why">tifota_fetch_err=10</td></tr><tr><td class="apt">134</td><td class="mono dim">70267776</td>
+<td><span class="pill dark">dark 49d</span></td><td class="mono">2026-07-13</td><td class="mono">16185</td>
+<td class="mono">0</td><td>AT&amp;T</td>
+<td class="mono num mid">-122.0</td><td class="mono num ">3554</td>
+<td><span class="dim">&mdash;</span></td><td class="why">TI version latched 0 at the 16185 update</td></tr><tr><td class="apt">89</td><td class="mono dim">70264732</td>
+<td><span class="pill dark">dark 13d</span></td><td class="mono">2026-08-18</td><td class="mono">15147</td>
+<td class="mono">209</td><td>AT&amp;T</td>
+<td class="mono num mid">-121.0</td><td class="mono num bad">3128</td>
+<td><span class="dim">&mdash;</span></td><td class="why">tifota_fetch_err=42 - download never completed</td></tr><tr><td class="apt">12</td><td class="mono dim">70261068</td>
+<td><span class="pill dark">dark 54d</span></td><td class="mono">2026-07-08</td><td class="mono">15147</td>
+<td class="mono">209</td><td>AT&amp;T</td>
+<td class="mono num mid">-121.0</td><td class="mono num ">3618</td>
+<td><span class="pill dark">16185</span></td><td class="why">tifota_fetch_err=63</td></tr><tr><td class="apt">147</td><td class="mono dim">70271968</td>
+<td><span class="pill dark">dark 53d</span></td><td class="mono">2026-07-09</td><td class="mono">16022</td>
+<td class="mono">260</td><td>AT&amp;T</td>
+<td class="mono num mid">-121.0</td><td class="mono num ">3640</td>
+<td><span class="dim">&mdash;</span></td><td class="why">tifota_fetch_err=27</td></tr><tr><td class="apt">132</td><td class="mono dim">70270309</td>
+<td><span class="pill dark">dark 87d</span></td><td class="mono">2026-06-05</td><td class="mono">16048</td>
+<td class="mono">209</td><td>AT&amp;T</td>
+<td class="mono num ">-118.5</td><td class="mono num ">3484</td>
+<td><span class="pill dark">16185</span></td><td class="why">tifota_fetch_err=6 + died on the 16048 update</td></tr><tr><td class="apt">43</td><td class="mono dim">72381864</td>
+<td><span class="pill dark">dark 158d</span></td><td class="mono">2026-03-26</td><td class="mono">362</td>
+<td class="mono">0</td><td>Verizon</td>
+<td class="mono num ">-118.0</td><td class="mono num ">3620</td>
+<td><span class="dim">&mdash;</span></td><td class="why">tifota_bsl_init_err=84, passwd=46, baud=46</td></tr><tr><td class="apt">15</td><td class="mono dim">70260904</td>
+<td><span class="pill dark">dark 52d</span></td><td class="mono">2026-07-10</td><td class="mono">16185</td>
+<td class="mono">0</td><td>AT&amp;T</td>
+<td class="mono num ">-118.0</td><td class="mono num ">3590</td>
+<td><span class="dim">&mdash;</span></td><td class="why">TI version latched 0 at the 16185 update</td></tr><tr><td class="apt">95</td><td class="mono dim">70259112</td>
+<td><span class="pill dark">dark 33d</span></td><td class="mono">2026-07-29</td><td class="mono">16185</td>
+<td class="mono">0</td><td>AT&amp;T</td>
+<td class="mono num ">-117.0</td><td class="mono num bad">3091</td>
+<td><span class="dim">&mdash;</span></td><td class="why">tifota_hard_reset_cnt=3740, TI latched 0</td></tr><tr><td class="apt">92</td><td class="mono dim">70267768</td>
+<td><span class="pill dark">dark 115d</span></td><td class="mono">2026-05-08</td><td class="mono">15154</td>
+<td class="mono">209</td><td>AT&amp;T</td>
+<td class="mono num ">-116.0</td><td class="mono num ">3583</td>
+<td><span class="dim">&mdash;</span></td><td class="why">tifota_fetch_err=28</td></tr><tr><td class="apt">100</td><td class="mono dim">70260581</td>
+<td><span class="pill dark">dark 22d</span></td><td class="mono">2026-08-09</td><td class="mono">16022</td>
+<td class="mono">260</td><td>AT&amp;T</td>
+<td class="mono num ">-116.0</td><td class="mono num ">3593</td>
+<td><span class="pill dark">16185</span></td><td class="why">stFotaHttpFail=83 over 71 tries, all at 16185</td></tr><tr><td class="apt">130</td><td class="mono dim">70264260</td>
+<td><span class="pill dark">dark 47d</span></td><td class="mono">2026-07-15</td><td class="mono">16185</td>
+<td class="mono">0</td><td>AT&amp;T</td>
+<td class="mono num ">-115.0</td><td class="mono num bad">3231</td>
+<td><span class="dim">&mdash;</span></td><td class="why">tifota_hard_reset_cnt=1054, TI latched 0</td></tr><tr><td class="apt">49</td><td class="mono dim">70264476</td>
+<td><span class="pill dark">dark 90d</span></td><td class="mono">2026-06-02</td><td class="mono">16048</td>
+<td class="mono">272</td><td>AT&amp;T</td>
+<td class="mono num ">-114.0</td><td class="mono num ">3438</td>
+<td><span class="pill dark">16185</span></td><td class="why">died on the 16048 update, 27/28 cadence right up to it</td></tr></tbody></table></div></section>
+<section class="grp critical">
+<header class="ghead"><div><h3>New meter &mdash; standard</h3><p>No FOTA-failure evidence. Two have simply been dark for months on GenI-era firmware; one is online with a stopped register.</p></div>
+<div class="count">3<span>lots</span></div></header>
+<div class="tw"><table><thead><tr><th>Lot</th><th>Device</th><th>State</th>
+<th>Last radio contact</th><th>FW</th><th>TI</th><th>Carrier</th>
+<th class="num">RSRP<br><small>final 30d</small></th><th class="num">VddAdc<br><small>mV</small></th>
+<th>gen2fw<br><small>pin</small></th><th>Basis</th></tr></thead><tbody><tr><td class="apt">31</td><td class="mono dim">65824487</td>
+<td><span class="pill dark">dark 185d</span></td><td class="mono">2026-02-27</td><td class="mono">10322</td>
+<td class="mono">181</td><td>AT&amp;T</td>
+<td class="mono num ">-118.0</td><td class="mono num ">&mdash;</td>
+<td><span class="dim">&mdash;</span></td><td class="why">dark 185d on obsolete fw 10322, no FOTA-failure evidence</td></tr><tr><td class="apt">153</td><td class="mono dim">70265127</td>
+<td><span class="pill dark">dark 288d</span></td><td class="mono">2025-11-17</td><td class="mono">10295</td>
+<td class="mono">159</td><td>AT&amp;T</td>
+<td class="mono num ">-111.0</td><td class="mono num ">&mdash;</td>
+<td><span class="dim">&mdash;</span></td><td class="why">dark 288d on obsolete fw 10295, no FOTA-failure evidence</td></tr><tr><td class="apt">66</td><td class="mono dim">72383407</td>
+<td><span class="pill live">28/28</span></td><td class="mono">2026-08-31</td><td class="mono">17040</td>
+<td class="mono">354</td><td>AT&amp;T</td>
+<td class="mono num ">-108.0</td><td class="mono num ">3635</td>
+<td><span class="dim">&mdash;</span></td><td class="why">register flat 45d + failed cal - metering fault, not signal</td></tr></tbody></table></div></section>
+<section class="grp info">
+<header class="ghead"><div><h3>Re-check the morning of the trip</h3><p>Only 3&ndash;4 days quiet against a 23&ndash;25 of 28 day cadence &mdash; too early to call dead. Both carry FOTA-retry evidence and weak signal, so if either is still down it takes an ext-antenna meter. Carry two spares.</p></div>
+<div class="count">2<span>lots</span></div></header>
+<div class="tw"><table><thead><tr><th>Lot</th><th>Device</th><th>State</th>
+<th>Last radio contact</th><th>FW</th><th>TI</th><th>Carrier</th>
+<th class="num">RSRP<br><small>final 30d</small></th><th class="num">VddAdc<br><small>mV</small></th>
+<th>gen2fw<br><small>pin</small></th><th>Basis</th></tr></thead><tbody><tr><td class="apt">62</td><td class="mono dim">79462774</td>
+<td><span class="pill dark">dark 4d</span></td><td class="mono">2026-08-27</td><td class="mono">17037</td>
+<td class="mono">344</td><td>Verizon</td>
+<td class="mono num bad">-128.0</td><td class="mono num ">3650</td>
+<td><span class="dim">&mdash;</span></td><td class="why">only 4d quiet after 23/28 cadence; fsm_fail_TIFOTA=12 - ext-ant meter if still down</td></tr><tr><td class="apt">137</td><td class="mono dim">70268626</td>
+<td><span class="pill dark">dark 3d</span></td><td class="mono">2026-08-28</td><td class="mono">16185</td>
+<td class="mono">314</td><td>Verizon</td>
+<td class="mono num bad">-123.0</td><td class="mono num ">3629</td>
+<td><span class="dim">&mdash;</span></td><td class="why">only 3d quiet after 25/28 cadence; tifota_hard_reset_cnt=2, fsm_fail_TIFOTA=48 - ext-ant meter if still down</td></tr></tbody></table></div></section>
+<section class="grp ok">
+<header class="ghead"><div><h3>Check on site, no parts assumed</h3><p>Comms are fine and no terminal FOTA failure. These are metering-side faults &mdash; calibration or acoustic coupling.</p></div>
+<div class="count">4<span>lots</span></div></header>
+<div class="tw"><table><thead><tr><th>Lot</th><th>Device</th><th>State</th>
+<th>Last radio contact</th><th>FW</th><th>TI</th><th>Carrier</th>
+<th class="num">RSRP<br><small>final 30d</small></th><th class="num">VddAdc<br><small>mV</small></th>
+<th>gen2fw<br><small>pin</small></th><th>Basis</th></tr></thead><tbody><tr><td class="apt">58</td><td class="mono dim">70262256</td>
+<td><span class="pill live">27/28</span></td><td class="mono">2026-08-31</td><td class="mono">16185</td>
+<td class="mono">314</td><td>Verizon</td>
+<td class="mono num ">-118.0</td><td class="mono num ">3641</td>
+<td><span class="dim">&mdash;</span></td><td class="why">failed calibration flag</td></tr><tr><td class="apt">74</td><td class="mono dim">70261316</td>
+<td><span class="pill live">24/28</span></td><td class="mono">2026-08-31</td><td class="mono">17040</td>
+<td class="mono">354</td><td>T-Mobile</td>
+<td class="mono num ">-114.0</td><td class="mono num ">3603</td>
+<td><span class="dim">&mdash;</span></td><td class="why">failed calibration flag</td></tr><tr><td class="apt">9</td><td class="mono dim">75360303</td>
+<td><span class="pill live">28/28</span></td><td class="mono">2026-08-31</td><td class="mono">17037</td>
+<td class="mono">344</td><td>Verizon</td>
+<td class="mono num ">-114.0</td><td class="mono num ">3647</td>
+<td><span class="dim">&mdash;</span></td><td class="why">high ToF rejection - acoustic/coupling</td></tr><tr><td class="apt">18</td><td class="mono dim">70271380</td>
+<td><span class="pill live">27/28</span></td><td class="mono">2026-08-31</td><td class="mono">17040</td>
+<td class="mono">354</td><td>T-Mobile</td>
+<td class="mono num ">-112.0</td><td class="mono num ">3491</td>
+<td><span class="dim">&mdash;</span></td><td class="why">failed calibration flag</td></tr></tbody></table></div></section>
+<section class="grp info">
+<header class="ghead"><div><h3>No action &mdash; marginal signal but working</h3><p>Metering, attaching, healthy battery. Weak RSRP alone does not earn a meter. Every one of these also shows FOTA-retry counters, which is exactly why the raw counter cannot be the trigger.</p></div>
+<div class="count">10<span>lots</span></div></header>
+<div class="tw"><table><thead><tr><th>Lot</th><th>Device</th><th>State</th>
+<th>Last radio contact</th><th>FW</th><th>TI</th><th>Carrier</th>
+<th class="num">RSRP<br><small>final 30d</small></th><th class="num">VddAdc<br><small>mV</small></th>
+<th>gen2fw<br><small>pin</small></th><th>Basis</th></tr></thead><tbody><tr><td class="apt">135</td><td class="mono dim">65825286</td>
+<td><span class="pill live">14/28</span></td><td class="mono">2026-08-31</td><td class="mono">17037</td>
+<td class="mono">344</td><td>T-Mobile</td>
+<td class="mono num bad">-125.5</td><td class="mono num ">3640</td>
+<td><span class="dim">&mdash;</span></td><td class="why">RSRP -125.5 dBm but metering, attaching 14/28, battery 3640mV</td></tr><tr><td class="apt">148</td><td class="mono dim">70265135</td>
+<td><span class="pill live">26/28</span></td><td class="mono">2026-08-31</td><td class="mono">17037</td>
+<td class="mono">344</td><td>AT&amp;T</td>
+<td class="mono num bad">-124.0</td><td class="mono num ">3607</td>
+<td><span class="dim">&mdash;</span></td><td class="why">RSRP -124.0 dBm but metering, attaching 26/28, battery 3607mV</td></tr><tr><td class="apt">101</td><td class="mono dim">70266489</td>
+<td><span class="pill live">28/28</span></td><td class="mono">2026-08-31</td><td class="mono">17037</td>
+<td class="mono">344</td><td>Verizon</td>
+<td class="mono num bad">-123.0</td><td class="mono num ">3640</td>
+<td><span class="dim">&mdash;</span></td><td class="why">RSRP -123.0 dBm but metering, attaching 28/28, battery 3640mV</td></tr><tr><td class="apt">50</td><td class="mono dim">70267925</td>
+<td><span class="pill live">27/28</span></td><td class="mono">2026-08-31</td><td class="mono">16185</td>
+<td class="mono">314</td><td>Verizon</td>
+<td class="mono num bad">-123.0</td><td class="mono num ">3641</td>
+<td><span class="dim">&mdash;</span></td><td class="why">RSRP -123.0 dBm but metering, attaching 27/28, battery 3641mV</td></tr><tr><td class="apt">68</td><td class="mono dim">70267735</td>
+<td><span class="pill live">27/28</span></td><td class="mono">2026-08-31</td><td class="mono">17037</td>
+<td class="mono">344</td><td>T-Mobile</td>
+<td class="mono num mid">-122.0</td><td class="mono num ">3649</td>
+<td><span class="dim">&mdash;</span></td><td class="why">RSRP -122.0 dBm but metering, attaching 27/28, battery 3649mV</td></tr><tr><td class="apt">85</td><td class="mono dim">72382094</td>
+<td><span class="pill live">26/28</span></td><td class="mono">2026-08-31</td><td class="mono">17037</td>
+<td class="mono">344</td><td>T-Mobile</td>
+<td class="mono num mid">-122.0</td><td class="mono num ">3643</td>
+<td><span class="dim">&mdash;</span></td><td class="why">RSRP -122.0 dBm but metering, attaching 26/28, battery 3643mV</td></tr><tr><td class="apt">63</td><td class="mono dim">72381419</td>
+<td><span class="pill live">25/28</span></td><td class="mono">2026-08-31</td><td class="mono">17037</td>
+<td class="mono">344</td><td>Verizon</td>
+<td class="mono num mid">-121.0</td><td class="mono num ">3638</td>
+<td><span class="dim">&mdash;</span></td><td class="why">RSRP -121.0 dBm but metering, attaching 25/28, battery 3638mV</td></tr><tr><td class="apt">104</td><td class="mono dim">70259054</td>
+<td><span class="pill live">22/28</span></td><td class="mono">2026-08-31</td><td class="mono">17037</td>
+<td class="mono">344</td><td>T-Mobile</td>
+<td class="mono num mid">-120.5</td><td class="mono num ">3623</td>
+<td><span class="dim">&mdash;</span></td><td class="why">RSRP -120.5 dBm but metering, attaching 22/28, battery 3623mV</td></tr><tr><td class="apt">2</td><td class="mono dim">70265796</td>
+<td><span class="pill live">28/28</span></td><td class="mono">2026-08-31</td><td class="mono">16022</td>
+<td class="mono">260</td><td>Verizon</td>
+<td class="mono num mid">-120.0</td><td class="mono num ">3647</td>
+<td><span class="dim">&mdash;</span></td><td class="why">RSRP -120.0 dBm but metering, attaching 28/28, battery 3647mV</td></tr><tr><td class="apt">88</td><td class="mono dim">70261142</td>
+<td><span class="pill live">25/28</span></td><td class="mono">2026-08-31</td><td class="mono">17037</td>
+<td class="mono">344</td><td>T-Mobile</td>
+<td class="mono num mid">-120.0</td><td class="mono num ">3495</td>
+<td><span class="dim">&mdash;</span></td><td class="why">RSRP -120.0 dBm but metering, attaching 25/28, battery 3495mV</td></tr></tbody></table></div></section>
+<footer>
+  <p><strong>Verified from telemetry:</strong> device liveness, last radio contact, firmware and TI version
+  timelines, RSRP and carrier history, battery voltages, register movement, calibration and rejection flags.</p>
+  <p><strong>Inferred, not proven:</strong> that a mag reset recovers the 11 reset candidates; that an
+  external antenna's 10&ndash;12 dB is enough at the weakest lots; that the 16185 same-day deaths share one
+  root cause with the 16048 deaths rather than merely one signature. Attribution of each death to firmware
+  versus coverage rests on update-to-silence timing plus pre-death report cadence, which is strong evidence
+  but not a bench reproduction.</p>
+  <p><strong>Not checked:</strong> whether 16185 is bricking meters at other properties &mdash; this pull covers
+  Ontario Place only. No writes were made to ThingsBoard.</p>
+</footer>
+</div>

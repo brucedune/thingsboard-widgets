@@ -8,6 +8,19 @@ read from `DuneFW_L5_2` @ `stuck-event-fix`/`main` (17056) and `Dune_FW_TI` @
 
 ---
 
+> **STATUS 2026-09-06 (eve) — WAVE 1 NOW TARGETS ST 17060 / TI v368.** All 251
+> Wave-1 devices re-pointed (`gen2fw=17060`, `allowTiFotaVer=368`; the one unit
+> still on 362 got gen2fw only), `recalibrate` attribute DELETED on 164 (the
+> 17059+/v366+ stack restarts cal on a pulse change by itself and the attr now
+> sends 0xAD on every fetch), `pulse=6` left on the 131 PEX 3/4 units. 251/251
+> verified, 0 failures. Earlier: 17058/365 roll 9/5 (251/251), pulse=6 +
+> recalibrate=true on PEX 3/4 9/6 (131/131), acceptance at T+42h: offset
+> cleanup passes, direction retained on all >=16190 devices, 11 recoveries
+> (6.6% of clean broken), 3 Shady regressions (1 loud-flat reject, 1 in-flight,
+> 1 my stray device). v368's gain-17 frame shift is the direct fix for the
+> loud-flat class. **FIFO/flash gate RETRACTED** (was `adcCapture=true` on
+> bench units). Open: 19 field devices still carry `adcCapture=true`.
+
 ## 1. Objective
 
 Converge the installed Gen2 fleet from its current 17037/16185/362-era spread onto
@@ -211,18 +224,19 @@ recal event with a transient Failed Cal bulge.
    but they should be named): meter-log **compaction path never run on hardware**;
    30/40 gpm **flow ceiling never exercised** (`maxFlowRate` unset, peak seen 8 gpm);
    overnight thermal soak still outstanding.
-3b. **OPEN BENCH BUG — this one may genuinely gate the bulk waves.** Rev 17057's
-   changelog records that on 17055, after every full drain, `bytesToSend` re-grew to
-   **~2.6× the records written** and hit the ring size on two units (flash-full
-   sessions, **~90 dropped records/h**), with the post-drain remainder always an
-   exact 64 KB multiple. 17057 adds the forensics (`tofHead`/`tofTail`/`tofFree`/
-   `tofRing`/`tofAvail`) but no fix. Rolling record-loss behavior to 5,000 devices
-   before this is understood would re-create the "usage but no records" class the
-   campaign is partly meant to end. **Recommend: hold Waves 3–5 until the forensics
-   land a verdict.** Waves 1–2 are small enough to proceed and will add field data.
-4. Brief billing/support: expected Failed Cal bulge, wedge/self-heal signature,
-   noise-gate and signed-flow effects.
-5. Campaign freeze — no unrelated attribute campaigns while this runs.
+3b. ~~OPEN BENCH BUG~~ **RETRACTED 9/5 by the bench session.** The 2.6x pending
+   re-growth on 17055 was `adcCapture=true` (installer live-waveform mode) left on
+   all four bench units from 9/4 — a capture pair every 20 s, ~5,400 records/h on
+   top of normal sampling. 17057's pointer keys showed head advancing by exactly
+   the uploaded amount every post. **No record-loss behaviour exists in
+   17055-17058** beyond the designed struck-chunk drop and the 60-min keep on a
+   data-phase punt. **Waves 3-5 are unblocked.**
+3c. **NEW — clear `adcCapture`:** 19 devices fleet-wide still carry
+   `adcCapture=true`, including field units (Ponderosa 45, VB 74, Brian Fries,
+   Stafford 227, Sky Stream x2, Hendricks, Woodland Heights, Crystal Acres,
+   Coleman, Highlands, Freedom, Kachina, Whispering Pines, 103 W Broadway).
+   Each burns ~86 KB/h of flash and long data phases. Needs a clear-attr
+   campaign — preview + Bruce's OK, not yet approved.
 
 ### Wave 1 — Nothing-to-lose cohort (235 devices, ~2 cycles)
 The 235 installed+reachable devices **not currently metering** (171 Failed Cal,
@@ -237,21 +251,44 @@ field proof of the new cal stack at scale.
 zero salvage-zeros; `calSurf*` telemetry shows commits inside the gain 23–38 ×
 env 30–50 envelope; no new failure mode.
 
-### Wave 2 — Pilot properties (~3 properties, ~150–250 meters, ~1 week)
-One property per transition class, so all three shapes are exercised at property
-scale before the bulk:
-- **Clean (v304+):** Ponderosa MHC (56) or Holly Tree MHP (76, 16185)
-- **Wedge + self-heal:** Kay Bee Mobile Villa MHP (97, mostly 1613x — and it
-  already has 4 units on 17055 as an accidental head start) or Kingsbrook (144)
-- **Two-step 362/363:** Maple Run MHP (106) or Westview (74)
+### Wave 2 — Pilot properties (**re-picked 9/5 by GROUP**, ~171 devices)
 
-**Also propose Shady Lane early** (36 PEX-A units): its 21 Maple phantom
-(~677 gal/d, over-billing since 8/24) is exactly what v357 fixes, and two units
-are already on 17050. Caveat: it's PEX-A, so if you choose 17056 the +9% lands
-there first, on a property with an active billing conversation.
+**Methodology correction (Bruce 9/5): scan by DEVICE GROUP, not the `Property`
+attribute.** The Property attr is unreliable and splits real properties in two —
+`Maple Run MHC-CUST` is ONE group of 143 live members carrying two Property values
+(`Maple Run MHC` 38 + `Maple Run MHP` 105). **22 groups span more than one Property
+value**, including outright typos (`Virgina Beach`, `Rush MHC`) and same-property
+aliases (`PW2`/`Parkwood`, `Canada`/`Trans Canada`, `Coleman Village`±`MHC`). The
+"165 properties" figure in §4 is therefore inflated; the real unit of rollout is the
+**181 groups holding Gen2 members**. Group census cached in
+`group_census.json` / `group_members.json`.
 
-Method per property: set **group** levers → verify uptake on check-in → 48 h watch →
-then propose pin deletions per the standing site-pin-cleanup rule.
+**Gate: Wave 1 acceptance first** — on those 251 devices' FOTA posts confirm `offset`
+0 with `offsetSet` false exactly once, offset re-promotes on next water,
+`flowDirection` unchanged, `deltaMeterVal` in (-1, 0]. Also finish the **6 two-step
+devices** (`allowTiFotaVer=365` once `fwVer` moves) before a whole group depends on
+that mechanism.
+
+| Sub-wave | Group | live | Class | Pipe / billing | Why |
+|---|---|---|---|---|---|
+| **2a** | **Shady Lane MHP-Cust** | 36 (15 left) | clean | 12 X 3/4 step +9%, 3 flat | Closes the discontinuity opened 9/5. **Its group lever is stale at `17028/341`** — move it to 17058/365, which is also why 18 units sat on 17028. Then delete the 21 device pins per the site-pin-cleanup rule |
+| **2b** | **Holly Tree MHP** | 76 | clean | X 3/4 x76 uniform, all step +9% | Cleanest pilot available: **zero** not-metering, so any failure is attributable. 23 pins to clean |
+| **2c** | **The Oaks MHC** | 41 | **wedge + self-heal** | P 3/4 x32 = PVC, **no billing step** | The important one. First property-scale wedge/self-heal test on 17058, with **no simultaneous L-factor variable**. 3 pins, zero not-metering |
+| **2d** | **Sara Drive MHP** | 39 | two-step 362/363 | P 3/4 x27 = PVC, **no billing step** | Replaces the invalid "Maple Run MHC" pick. 4 pins, zero not-metering, and PVC again isolates mechanism risk from billing |
+
+Both risky-mechanism pilots (2c wedge, 2d two-step) are **PVC and billing-neutral**
+by design — if numbers move there it is the mechanism, not the tables.
+
+**Sequencing:** 2a + 2b together (clean class, low risk). Then 2c and 2d once those
+read green.
+
+**Explicitly NOT pilots:** `Maple Run MHC-CUST` (143 live, 128 two-step) is the
+two-step **bulk** for Wave 5. `Oaklawn Park HOA - Cust` (167) and `Kingsbrook MHC`
+(144) are the wedge bulk. `La Comunidad MHC-CUST` (145) is 127/145 device-pinned.
+
+**Method per group:** set the **group** lever (SERVER_SCOPE) -> verify uptake on
+check-in -> 48 h watch -> propose member pin deletions. Always enumerate the cohort
+from GROUP membership.
 
 ### Wave 3 — Clean-transition estate (2,480 devices)
 Group levers, both attrs at once. Pace ~10 properties/day after the pilot readout is
@@ -339,3 +376,97 @@ load: 771 on the 16185 band, 614 on 17037, 429 on 1602x, 360 on 1613x.
    `wave1_cohort.csv` / `.json` in the session scratchpad.
 6. **Pilot property picks** — and whether Shady Lane goes early.
 7. **Verdict on the 17057 FIFO investigation** before Waves 3–5 (§6 W0.3b).
+
+### Wave 2 validation ramp (added 9/9, Bruce's design) — bench first, then 1-2-4 per group
+
+**Target rev = parameter** (`TARGET_ST / TARGET_TI`), set the day the ramp starts; Bruce
+expects it may still move. Same target for bench and field.
+
+**Step 1 — bench matrix, 6 units minimum per starting pair** (24 unit-runs): 362/209,
+16131/296, 16185/314, 17037/344 -> target, both attributes set together; fault injection
+(bogus `gen2fw` + real `allowTiFotaVer`) on >= 2 of the 362 units. Spec:
+`fw-wave2-crossing-regression-prompt.md`. Bench verdict per pair gates step 2.
+
+**Step 2 — field ramp, per group: 1 device day 1, 2 on day 2, 4 on day 3** (7 per group,
+28 total), by DEVICE PIN, both attributes in one write. Day 1 = best-signal unit; day 2 =
+median; day 3 = two median + the two weakest-signal eligible units, so the download-failure
+path is exercised in the field too. Eligibility: Metering, seen < 30 h, TI alive, crash 0,
+no non-transient TI outage in 90 d, No Water false, on the group's dominant starting pair.
+Picks (from the 9/9 sweep, `wave2_ramp_picks.csv`; re-check state on the morning of each day):
+
+| Group (start pair) | Day 1 | Day 2 | Day 3 |
+|---|---|---|---|
+| 2a Shady Lane (17037/344) | 152 Shady '6953 (-108) | 148 Shady '6029, 29 Maple '6938 (-111) | 75 Shady '3901 (-115), 15 Maple '1115, 144 Shady '8777, 5013 Spruce '9098 (-118) |
+| 2b Holly Tree (16185/314) | lot 64 '6069 (-101) | lot 58 '1388, lot 53 '4379 (-111) | lot 69 '2199, lot 55 '2382 (-111), lot 63 '8688 (-119), lot 37 '6657 (-120) |
+| 2c The Oaks (16131/296) | lot 36 '3700 (-90) | lot 31 '6630 (-100), lot 32 '2358 (-101) | lot 33 '0143 (-99), lot 16 '9228 (-101), lot 26 '1658 (-113), 11 Oaks '2127 (-114) |
+| 2d Sara Drive (362/209) | lot 1008 '1133 (-97) | lot 1040 '0617, lot 1010 '9130 (-110) | lot 1038 '3042, lot 1014 '2283 (-111), lot 1027 '2200 (-121), lot 1029 '0855 (-123) |
+
+**Gate to advance a day (per group):** every prior-day device checked in on the target
+pair; ST-first ordering on its posts; fwVerTi 0 did not persist past its second session;
+`deltaMeterVal` in (-1, 0]; `flowDirection` unchanged; `bCrashCount` unchanged; still
+Metering (or Calibrating < 24 h). One miss = hold that group, autopsy before continuing.
+
+**Gate to the group lever (day 4+):** all 7 pass, then set the group lever and delete the
+member pins per the site-pin-cleanup rule (Bruce's OK on the list). Excluded from the
+lever until hand-rolled: 2a 5019 Spruce / 5027 Spruce / 58 Shady / 66 Shady; 2b lot 27
+(chronic TI looper) and lot 72 (crash 9); 2c 11 Laurel (dark); 2d lots 1037, 1020, 1003,
+1019 (long dead) and 1043 / 1016 (crash-prone) — 1043/1016 go in a watched hand-roll.
+
+**Two-step question:** if bench run A shows ST-first on all 6 and the fault-injection
+case does not brick, 2d and the 898-device 362/363 estate go both-attributes-at-once and
+the "TWO-STEP strictly" rule above is retired. Otherwise keep two-step with the TI
+attribute set in the same session the ST image lands, not the next day.
+
+### Bench FOTA matrix — DONE 9/9 (see `fw-matrix-results-0909.md`)
+
+13 starting pairs x 6 units = 84 crossings to 17066/372, group lever, both attributes in one
+write: **ST-first 84/84, 0 TI bricks, 0 crashes on a crossing.** Covers every pair with >= 25
+field-group devices (~94% of installed Gen2). Wave 2 pairs (17037/344, 16185/314, 362/209,
+16131/296) all clean.
+
+**TWO-STEP RULE RETIRED (9/9).** 362/209 and 363/219 crossed 6/6 each with `gen2fw` and
+`allowTiFotaVer` written together; plus 4/5 in Wave 1 and 69/69 at Holly Tree (362->16185).
+Mechanism verified on tag v363: ST FOTA runs first and skips TI FOTA in any session where an
+ST image flashed. The §Wave 5 "TWO-STEP strictly" text above is superseded: set both attrs
+at once. Residual untested path: ST download failure on the old ST falling through to its own
+TI FOTA — not observed in 81 crossings; keep an eye on `tifota_config_err` in the 362/363 wave.
+
+**Field timing expectation from the bench:** a property lands its ST images spread over one
+check-in interval after the lever (no retries), TI follows in the boot session 2–4 min later;
+pre-v304 TIs show the boot-flag-20 self-heal reboot on every unit — normal, not a fault.
+
+### Roll-day procedure (Bruce 9/9 evening) — device pins + hourly check-in, agent-managed
+
+Per device, ONE shared-scope write: `gen2fw=TARGET_ST`, `allowTiFotaVer=TARGET_TI`,
+`checkInPeriod=60`, `radioOveruseMax=15`. Written with the lever, never earlier (cap-4 firmware:
+362/363, 15xxx, 16022 burns one of four activations per pre-lever session). Landing still follows
+the daily cadence (up to 24 h); after first contact the TI lands in 2-4 min and the verdict is
+visible within ~2 h instead of the next day.
+
+Agent `field_roll.py` (scratchpad; state/ledger/results alongside) watches each device: ST-first,
+TI back, >=2 check-ins after ST, state Metering/Calibrating, crash flat -> PASS -> deletes the two
+cadence pins immediately. Fallback deletes them 8 h after landing (30 h after the write if never
+landed) regardless, and flags the device. Flags: TI not back after 2 check-ins, crash increment,
+TI Silent / Not Metering after TI landed, dark 30 h pre-landing / 3.5 h post, no uptake 30 h.
+FW pins stay until the group lever moves (site-pin-cleanup rule). Devices enter the agent only via
+`field_roll_batch_*.json` files created after Bruce's explicit go per batch; `--dry-run` for
+rehearsal; `--report` for the per-group table. Every write/delete audited in tb_write_log.txt.
+**A forgotten checkInPeriod=60 pin = 24 sessions/day forever and a daily overuse blackout from
+~10 h into each UTC day — the ledger + fallback exist for exactly that.**
+Dry run 9/9 19:56 on the Wave 2 day-1 picks: loads, tracks, would-write correct — no writes made.
+
+**9/12 addendum — `pulse=9` is part of the roll pin set.** Every field group carries a group attr `pulse=13`
+(set at group creation since Dec 2024), which the ST pushes to the TI each session (`hci.c:237`), so the TI's
+9 default never applies in the field and deleting the attr does not revert it (Rev 17065 backup mirror +
+TI FRAM keep the last value until a mag reset). Per Bruce 9/12 ("set pulse to 9 - the roll is a la carte")
+the device pin set is now `gen2fw, allowTiFotaVer, checkInPeriod=60, radioOveruseMax=15, recordNoneventFlow=true, pulse=9`.
+`pulse` stays with the FW pins (not deleted at PASS). Never write `pulse=0` (parser pushes 0 pulses). `tiPulse`
+reads 0 on TI 390-399 by design, so 391 cannot confirm the pulse count from TB. Fleet-wide group `pulse=9`
+pending Bruce's decision.
+
+**9/13 addendum — reboot-loop rule (Bruce).** 17078 with an unstable TI enters a software-reset loop every ~4 min
+(17036 wedge heal x RAM blocklist; details in fw-17078-field-flags-0912.md). The field agent now watches every roster
+device, passed or not: >=4 software-reset boots within 20 min => FLAG and a single verified, audited `gen2fw` write to
+the fix build (`--loop-fix-st`, currently 17086). Deployment is HELD pending 17084/17086 bench results; resume order =
+thin-cohort ramp (344/314/296/209/260, first 254 crossing) -> Wave 2 levers + pin cleanup -> re-pin day-1 units.
+Gate is regression, not recovery: metering_regression.py (offset, direction, daily gal vs pre-roll median).

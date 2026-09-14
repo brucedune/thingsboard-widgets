@@ -1,0 +1,418 @@
+bars: 479  2024-10-08 .. 2026-09-04
+kept lines per bar: min 1  max 86  median 34
+X: 708 records on 286 bars (59.7% of bars)
+Q: 262 records on 262 bars (54.7% of bars)
+K: 422 records on 422 bars (88.1% of bars)
+
+BASELINE  (all bars)
+  horizon   n   mean%   median%   %up
+      1    478    0.23     0.38    55.9
+      3    476    0.65     1.31    58.8
+      5    474    1.05     1.63    57.6
+     10    469    2.05     1.85    56.3
+  5-bar direction reversal rate: 52.5%  (n=467)
+
+X  crossing bars
+  horizon   n   mean%   median%   %up
+      1    285    0.33     0.44    57.9
+      3    283    0.78     1.31    60.1
+      5    282    0.78     1.72    58.5
+     10    278    1.56     1.68    55.4
+  5-bar direction reversal rate: 47.5%  (n=280)
+
+Q  convergence-cluster bars
+  horizon   n   mean%   median%   %up
+      1    261    0.26     0.38    57.1
+      3    259    0.62     1.24    59.1
+      5    258    0.56     1.63    57.4
+     10    254    1.31     1.41    55.1
+  5-bar direction reversal rate: 44.9%  (n=256)
+
+K  level-cluster bars
+  horizon   n   mean%   median%   %up
+      1    421    0.18     0.36    54.9
+      3    419    0.63     1.24    57.8
+      5    417    0.79     1.36    55.9
+     10    412    1.93     1.69    55.1
+  5-bar direction reversal rate: 52.3%  (n=415)
+
+X  event price BELOW close (support-type)
+  horizon   n   mean%   median%   %up
+      1    185    0.05     0.29    55.7
+      3    184    0.31     0.84    57.6
+      5    183    0.41     1.14    56.3
+     10    181    0.38    -0.47    48.6
+  5-bar direction reversal rate: 46.4%  (n=181)
+
+X  event price ABOVE close (resistance-type)
+  horizon   n   mean%   median%   %up
+      1    168    0.42     0.64    58.9
+      3    167    1.11     1.63    61.1
+      5    166    1.35     2.37    62.0
+     10    163    2.08     2.78    60.7
+  5-bar direction reversal rate: 46.7%  (n=165)
+
+Q  event price BELOW close (support-type)
+  horizon   n   mean%   median%   %up
+      1    131    0.03     0.28    55.7
+      3    130    0.10     0.67    56.2
+      5    130   -0.18     0.52    53.1
+     10    128    0.24    -0.52    48.4
+  5-bar direction reversal rate: 43.0%  (n=128)
+
+Q  event price ABOVE close (resistance-type)
+  horizon   n   mean%   median%   %up
+      1    130    0.49     0.58    58.5
+      3    129    1.15     2.13    62.0
+      5    128    1.32     2.51    61.7
+     10    126    2.40     3.11    61.9
+  5-bar direction reversal rate: 46.9%  (n=128)
+
+K  event price BELOW close (support-type)
+  horizon   n   mean%   median%   %up
+      1    210   -0.05     0.25    53.3
+      3    209   -0.19     0.32    52.2
+      5    208   -0.41    -0.36    49.0
+     10    206   -0.46    -1.21    44.7
+  5-bar direction reversal rate: 55.3%  (n=206)
+
+K  event price ABOVE close (resistance-type)
+  horizon   n   mean%   median%   %up
+      1    211    0.41     0.40    56.4
+      3    210    1.44     2.08    63.3
+      5    209    1.99     2.49    62.7
+     10    206    4.33     3.64    65.5
+  5-bar direction reversal rate: 49.3%  (n=209)
+
+X  event price within 2% of close
+  horizon   n   mean%   median%   %up
+      1     93    0.50     0.49    62.4
+      3     92    0.79     1.20    60.9
+      5     92    1.63     1.38    58.7
+     10     90    2.62     3.35    61.1
+  5-bar direction reversal rate: 43.3%  (n=90)
+
+Q  event price within 2% of close
+  horizon   n   mean%   median%   %up
+      1     61    0.41     0.36    63.9
+      3     60    0.69     1.33    60.0
+      5     60    1.90     0.84    55.0
+     10     58    2.00     2.95    60.3
+  5-bar direction reversal rate: 44.8%  (n=58)
+
+K  event price within 2% of close
+  horizon   n   mean%   median%   %up
+      1     94    0.10     0.26    56.4
+      3     93    0.55     0.82    57.0
+      5     92    1.01     0.34    53.3
+     10     89    1.14     2.34    61.8
+  5-bar direction reversal rate: 47.3%  (n=91)
+K count=3: bars=95 5-bar mean 1.09% up 58%  reversal 52%
+K count=4: bars=92 5-bar mean 2.34% up 67%  reversal 52%
+K count=5+: bars=235 5-bar mean 0.06% up 51%  reversal 53%
+Q count=2: bars=42 5-bar mean 2.04% up 61%  reversal 39%
+Q count=3: bars=52 5-bar mean 1.94% up 70%  reversal 46%
+Q count=4: bars=42 5-bar mean -2.32% up 43%  reversal 51%
+Q count=5+: bars=126 5-bar mean 0.49% up 56%  reversal 44%
+
+ATTRACTOR TEST  K
+  horizon   n   %toward   (baseline %toward for a level on a random side = ~50)
+      1    419    51.3
+      3    419    55.6
+      5    416    56.7
+     10    412    60.4
+  reached the event price within 10 bars: 69.2%  (n=412)   control: mirrored level at the same distance reached 55.8%
+  distance of event price from close: median 5.00%  max 22.24%
+
+ATTRACTOR TEST  Q
+  horizon   n   %toward   (baseline %toward for a level on a random side = ~50)
+      1    260    51.2
+      3    259    52.9
+      5    257    54.1
+     10    254    56.7
+  reached the event price within 10 bars: 59.1%  (n=254)   control: mirrored level at the same distance reached 55.1%
+  distance of event price from close: median 5.20%  max 42.81%
+
+ATTRACTOR TEST  X
+  horizon   n   %toward   (baseline %toward for a level on a random side = ~50)
+      1    703    52.1
+      3    699    48.8
+      5    695    50.1
+     10    688    55.8
+  reached the event price within 10 bars: 54.8%  (n=688)   control: mirrored level at the same distance reached 55.7%
+  distance of event price from close: median 5.47%  max 47.90%
+
+K LEVEL CLUSTERS BY DENSITY (count / active lines on that bar)
+  bucket            n   %toward5   reach10   mirror10   5-bar mean%
+  count 3            93     60.2     73.1      51.6       1.08
+  count 4            91     47.3     68.1      58.2       2.34
+  count 5-6         135     61.9     74.1      57.8       0.50
+  count 7+           93     55.9     59.1      54.8      -0.56
+  density <0.33     385     55.7     67.8      56.1       0.80
+  density 0.33-0.5   16     75.0     81.2      43.8      -1.24
+  density >=0.5      11     72.7    100.0      63.6       3.63
+  ALL K             412     56.9     69.2      55.8       0.80
+
+Q clusters (date, close, cluster px, count, +5 bar %):
+  2024-10-24  close   36.75  px   36.98  n=2  +5b  -5.50%
+  2024-10-25  close   37.37  px   36.76  n=3  +5b  -5.08%
+  2024-11-21  close   38.98  px   41.06  n=2  +5b   2.49%
+  2024-11-25  close   39.31  px   37.25  n=3  +5b   5.85%
+  2024-11-27  close   38.95  px   40.28  n=3  +5b   9.81%
+  2024-11-29  close   39.95  px   35.44  n=2  +5b   9.81%
+  2024-12-02  close   41.24  px   40.59  n=3  +5b   3.90%
+  2024-12-03  close   41.61  px   37.70  n=3  +5b   1.85%
+  2024-12-04  close   43.13  px   37.41  n=3  +5b   3.52%
+  2024-12-27  close   42.33  px   39.57  n=4  +5b   0.66%
+  2024-12-30  close   40.63  px   38.78  n=4  +5b  -0.79%
+  2024-12-31  close   39.57  px   43.78  n=3  +5b   1.95%
+  2025-01-02  close   39.32  px   36.27  n=2  +5b  -2.29%
+  2025-01-15  close   40.44  px   40.64  n=2  +5b   9.22%
+  2025-01-16  close   39.62  px   40.32  n=3  +5b   9.49%
+  2025-01-17  close   41.57  px   40.07  n=3  +5b  -4.81%
+  2025-01-21  close   42.26  px   39.82  n=4  +5b  -2.20%
+  2025-01-22  close   43.90  px   40.98  n=4  +5b  -6.45%
+  2025-01-23  close   44.17  px   40.66  n=5  +5b  -5.84%
+  2025-01-24  close   43.38  px   40.41  n=4  +5b  -4.66%
+  2025-01-27  close   39.57  px   40.16  n=5  +5b   2.00%
+  2025-01-29  close   41.07  px   39.44  n=3  +5b   3.17%
+  2025-01-31  close   41.36  px   37.15  n=3  +5b   0.02%
+  2025-02-03  close   40.36  px   40.92  n=3  +5b   6.10%
+  2025-02-04  close   41.83  px   40.67  n=3  +5b   1.65%
+  2025-02-10  close   42.82  px   43.16  n=2  +5b   5.56%
+  2025-02-11  close   42.52  px   43.28  n=3  +5b   6.30%
+  2025-02-12  close   42.60  px   43.37  n=4  +5b   4.81%
+  2025-02-13  close   44.40  px   42.56  n=4  +5b  -5.72%
+  2025-02-14  close   44.92  px   39.15  n=2  +5b -10.17%
+  2025-02-18  close   45.20  px   42.66  n=3  +5b -14.14%
+  2025-02-19  close   45.20  px   42.27  n=4  +5b -13.58%
+  2025-02-20  close   44.65  px   42.90  n=5  +5b -19.78%
+  2025-02-21  close   41.86  px   42.04  n=5  +5b -10.51%
+  2025-02-24  close   40.35  px   42.52  n=8  +5b -13.16%
+  2025-02-25  close   38.81  px   42.62  n=9  +5b -10.69%
+  2025-02-26  close   39.06  px   42.29  n=9  +5b  -7.81%
+  2025-02-27  close   35.82  px   42.40  n=12  +5b  -7.82%
+  2025-02-28  close   37.46  px   42.32  n=11  +5b -10.01%
+  2025-03-03  close   35.04  px   41.98  n=9  +5b -14.64%
+  2025-03-04  close   34.66  px   42.17  n=8  +5b -14.71%
+  2025-03-20  close   30.80  px   29.91  n=2  +5b   1.14%
+  2025-03-24  close   33.07  px   29.66  n=3  +5b -13.37%
+  2025-03-25  close   33.66  px   30.88  n=4  +5b -12.92%
+  2025-03-27  close   31.15  px   30.20  n=4  +5b -19.26%
+  2025-03-28  close   28.67  px   30.34  n=4  +5b -28.32%
+  2025-04-24  close   26.07  px   24.29  n=4  +5b   8.90%
+  2025-04-28  close   26.91  px   25.20  n=5  +5b   8.51%
+  2025-04-30  close   27.44  px   26.45  n=2  +5b   4.59%
+  2025-05-01  close   28.39  px   22.43  n=2  +5b   4.12%
+  2025-05-02  close   29.72  px   22.69  n=4  +5b  -0.77%
+  2025-05-05  close   29.20  px   28.21  n=2  +5b  13.22%
+  2025-05-07  close   28.70  px   23.44  n=3  +5b  22.58%
+  2025-05-08  close   29.56  px   27.65  n=6  +5b  19.38%
+  2025-05-09  close   29.49  px   30.35  n=3  +5b  21.16%
+  2025-05-13  close   34.57  px   29.00  n=2  +5b   2.55%
+  2025-05-14  close   35.18  px   29.74  n=5  +5b  -3.44%
+  2025-05-15  close   35.29  px   29.98  n=4  +5b  -3.23%
+  2025-05-19  close   35.82  px   35.64  n=2  +5b  -0.98%
+  2025-05-20  close   35.45  px   35.90  n=4  +5b  -1.21%
+  2025-05-21  close   33.97  px   35.43  n=7  +5b   3.59%
+  2025-05-22  close   34.15  px   35.91  n=14  +5b   2.49%
+  2025-05-23  close   33.16  px   36.26  n=12  +5b   7.99%
+  2025-05-27  close   35.47  px   35.09  n=11  +5b   3.30%
+  2025-05-28  close   35.02  px   35.60  n=14  +5b   5.48%
+  2025-05-29  close   35.19  px   35.97  n=8  +5b   2.53%
+  2025-05-30  close   35.00  px   35.11  n=13  +5b   6.03%
+  2025-06-02  close   35.81  px   34.66  n=14  +5b   4.08%
+  2025-06-03  close   36.64  px   34.93  n=15  +5b   3.68%
+  2025-06-04  close   36.94  px   35.17  n=18  +5b   1.79%
+  2025-06-05  close   36.08  px   35.03  n=14  +5b   4.91%
+  2025-06-06  close   37.11  px   35.40  n=16  +5b  -1.86%
+  2025-06-09  close   37.27  px   35.92  n=13  +5b   1.69%
+  2025-06-10  close   37.99  px   43.12  n=2  +5b  -3.19%
+  2025-06-11  close   37.60  px   37.57  n=3  +5b  -2.31%
+  2025-06-12  close   37.85  px   37.49  n=5  +5b  -4.28%
+  2025-06-13  close   36.42  px   37.44  n=4  +5b   2.55%
+  2025-06-16  close   37.90  px   38.37  n=3  +5b   3.03%
+  2025-06-17  close   36.78  px   38.32  n=4  +5b   6.69%
+  2025-06-18  close   36.73  px   37.16  n=2  +5b   9.77%
+  2025-06-23  close   37.35  px   37.88  n=3  +5b  11.11%
+  2025-06-24  close   39.05  px   42.84  n=3  +5b   3.59%
+  2025-06-25  close   39.24  px   33.00  n=2  +5b   5.12%
+  2025-06-26  close   40.32  px   33.28  n=4  +5b   5.18%
+  2025-06-27  close   40.71  px   33.53  n=4  +5b   1.84%
+  2025-06-30  close   41.50  px   33.91  n=4  +5b   0.05%
+  2025-07-01  close   40.45  px   37.48  n=3  +5b   4.77%
+  2025-07-02  close   41.25  px   42.67  n=4  +5b   2.25%
+  2025-07-09  close   42.38  px   41.53  n=3  +5b   0.38%
+  2025-07-10  close   42.18  px   42.68  n=3  +5b   3.20%
+  2025-07-11  close   41.86  px   42.50  n=5  +5b   3.63%
+  2025-07-14  close   42.31  px   42.61  n=9  +5b   4.09%
+  2025-07-15  close   42.42  px   36.81  n=2  +5b   2.19%
+  2025-07-16  close   42.54  px   37.01  n=3  +5b   3.24%
+  2025-07-17  close   43.53  px   42.33  n=5  +5b   1.56%
+  2025-07-18  close   43.38  px   42.50  n=3  +5b   2.49%
+  2025-07-21  close   44.04  px   42.31  n=5  +5b   1.93%
+  2025-07-22  close   43.35  px   42.43  n=9  +5b   3.09%
+  2025-07-24  close   44.21  px   43.18  n=4  +5b  -0.23%
+  2025-07-29  close   44.69  px   44.40  n=3  +5b  -4.18%
+  2025-07-30  close   44.85  px   44.39  n=4  +5b  -0.96%
+  2025-08-04  close   43.73  px   46.38  n=4  +5b   4.46%
+  2025-08-05  close   42.82  px   45.78  n=5  +5b  10.60%
+  2025-08-06  close   44.42  px   46.37  n=7  +5b   6.78%
+  2025-08-07  close   44.87  px   42.06  n=5  +5b   5.42%
+  2025-08-08  close   46.08  px   42.04  n=6  +5b   1.19%
+  2025-08-12  close   47.36  px   42.85  n=2  +5b  -5.68%
+  2025-08-13  close   47.43  px   42.84  n=3  +5b  -7.53%
+  2025-08-25  close   44.80  px   45.47  n=2  +5b  -2.81%
+  2025-08-29  close   44.68  px   46.54  n=2  +5b   4.23%
+  2025-09-04  close   45.76  px   46.02  n=3  +5b   4.44%
+  2025-09-09  close   46.95  px   45.58  n=2  +5b   5.39%
+  2025-09-12  close   48.38  px   46.82  n=2  +5b   6.43%
+  2025-09-16  close   49.48  px   46.72  n=2  +5b   3.70%
+  2025-10-07  close   52.66  px   51.73  n=2  +5b  -3.97%
+  2025-10-08  close   54.44  px   51.63  n=4  +5b  -5.22%
+  2025-10-17  close   52.00  px   52.90  n=2  +5b   6.31%
+  2025-10-21  close   53.89  px   54.19  n=2  +5b  10.50%
+  2025-10-23  close   53.61  px   53.99  n=4  +5b   7.35%
+  2025-10-24  close   55.28  px   51.06  n=4  +5b   5.57%
+  2025-10-27  close   58.22  px   50.52  n=5  +5b   1.61%
+  2025-11-05  close   56.62  px   60.03  n=2  +5b  -1.48%
+  2025-11-10  close   56.36  px   59.44  n=2  +5b  -9.46%
+  2025-11-11  close   55.89  px   59.29  n=3  +5b -12.01%
+  2025-11-12  close   55.78  px   59.22  n=5  +5b -10.31%
+  2025-11-14  close   52.37  px   58.90  n=6  +5b  -9.34%
+  2025-11-17  close   51.03  px   54.18  n=5  +5b   0.10%
+  2025-11-18  close   49.18  px   55.33  n=8  +5b   5.75%
+  2025-11-19  close   50.03  px   55.01  n=9  +5b   6.68%
+  2025-11-20  close   46.45  px   54.74  n=7  +5b  17.42%
+  2025-11-25  close   52.01  px   52.47  n=2  +5b   7.08%
+  2025-11-26  close   53.37  px   50.90  n=3  +5b   4.01%
+  2025-11-28  close   54.54  px   52.83  n=2  +5b   2.95%
+  2025-12-01  close   54.05  px   51.27  n=4  +5b   3.24%
+  2025-12-02  close   55.30  px   57.03  n=4  +5b   1.28%
+  2025-12-03  close   55.69  px   51.67  n=3  +5b   1.72%
+  2025-12-04  close   55.51  px   56.84  n=5  +5b   1.08%
+  2025-12-08  close   55.80  px   50.32  n=2  +5b  -6.77%
+  2025-12-11  close   56.11  px   47.45  n=2  +5b  -8.20%
+  2025-12-16  close   52.33  px   47.95  n=2  +5b   5.12%
+  2025-12-17  close   49.40  px   55.32  n=2  +5b  12.06%
+  2025-12-18  close   51.51  px   55.93  n=3  +5b   7.38%
+  2025-12-19  close   53.52  px   56.25  n=5  +5b   1.81%
+  2025-12-23  close   55.01  px   56.08  n=4  +5b  -4.16%
+  2025-12-26  close   55.31  px   55.16  n=3  +5b  -3.09%
+  2025-12-29  close   54.49  px   54.28  n=3  +5b   0.95%
+  2025-12-30  close   54.10  px   55.54  n=3  +5b   1.98%
+  2025-12-31  close   52.72  px   54.78  n=6  +5b   2.79%
+  2026-01-02  close   52.35  px   53.69  n=3  +5b   6.51%
+  2026-01-05  close   53.60  px   55.19  n=6  +5b   4.27%
+  2026-01-06  close   55.01  px   54.74  n=5  +5b   1.07%
+  2026-01-07  close   55.17  px   54.97  n=7  +5b  -2.43%
+  2026-01-08  close   54.19  px   54.42  n=8  +5b   0.35%
+  2026-01-09  close   55.76  px   54.67  n=7  +5b  -2.91%
+  2026-01-12  close   55.89  px   53.80  n=3  +5b  -9.23%
+  2026-01-13  close   55.60  px   54.00  n=5  +5b  -5.16%
+  2026-01-14  close   53.83  px   54.24  n=5  +5b   0.13%
+  2026-01-15  close   54.38  px   54.26  n=4  +5b   0.00%
+  2026-01-16  close   54.14  px   56.33  n=4  +5b   1.74%
+  2026-01-20  close   50.73  px   53.51  n=5  +5b  11.45%
+  2026-01-21  close   52.73  px   53.32  n=8  +5b   8.21%
+  2026-01-22  close   53.90  px   53.26  n=8  +5b   3.97%
+  2026-01-23  close   54.38  px   53.55  n=11  +5b  -0.70%
+  2026-01-26  close   55.08  px   52.53  n=7  +5b   0.04%
+  2026-01-27  close   56.54  px   55.76  n=4  +5b  -7.11%
+  2026-01-28  close   57.06  px   52.76  n=6  +5b -12.79%
+  2026-01-29  close   56.04  px   53.06  n=4  +5b -14.99%
+  2026-01-30  close   54.00  px   54.97  n=3  +5b  -6.31%
+  2026-02-02  close   55.10  px   54.60  n=4  +5b  -6.10%
+  2026-02-03  close   52.52  px   54.77  n=7  +5b  -2.86%
+  2026-02-05  close   47.64  px   55.67  n=8  +5b   1.30%
+  2026-02-09  close   51.74  px   55.49  n=7  +5b  -6.55%
+  2026-02-10  close   51.02  px   54.33  n=8  +5b  -3.19%
+  2026-02-12  close   48.26  px   54.78  n=8  +5b   3.73%
+  2026-02-17  close   48.35  px   55.10  n=5  +5b   2.96%
+  2026-02-18  close   49.39  px   53.82  n=6  +5b   5.02%
+  2026-02-23  close   48.24  px   57.28  n=2  +5b   3.03%
+  2026-02-24  close   49.78  px   57.25  n=3  +5b  -3.37%
+  2026-02-25  close   51.87  px   54.64  n=2  +5b  -3.10%
+  2026-03-02  close   49.70  px   49.29  n=2  +5b  -0.62%
+  2026-03-04  close   50.26  px   49.49  n=4  +5b  -1.81%
+  2026-03-05  close   49.80  px   48.75  n=6  +5b  -5.96%
+  2026-03-06  close   47.54  px   49.76  n=5  +5b  -3.39%
+  2026-03-09  close   49.39  px   49.01  n=8  +5b  -3.91%
+  2026-03-10  close   49.40  px   49.05  n=8  +5b  -2.51%
+  2026-03-11  close   49.35  px   49.28  n=11  +5b  -6.59%
+  2026-03-12  close   46.83  px   49.42  n=12  +5b  -2.43%
+  2026-03-13  close   45.93  px   49.45  n=11  +5b  -6.21%
+  2026-03-16  close   47.46  px   48.92  n=8  +5b  -6.09%
+  2026-03-17  close   48.16  px   49.79  n=11  +5b  -9.43%
+  2026-03-19  close   45.69  px   50.03  n=7  +5b  -9.76%
+  2026-03-20  close   43.08  px   49.44  n=7  +5b  -9.98%
+  2026-03-23  close   44.57  px   49.50  n=4  +5b -14.99%
+  2026-03-24  close   43.62  px   49.69  n=5  +5b  -4.45%
+  2026-03-25  close   44.39  px   46.94  n=6  +5b  -2.61%
+  2026-03-26  close   41.23  px   46.71  n=5  +5b   5.09%
+  2026-03-27  close   38.78  px   47.85  n=9  +5b  13.72%
+  2026-03-30  close   37.89  px   46.99  n=12  +5b  16.52%
+  2026-03-31  close   41.68  px   47.04  n=10  +5b  15.16%
+  2026-04-01  close   43.23  px   47.47  n=11  +5b  13.25%
+  2026-04-02  close   43.33  px   47.30  n=13  +5b  13.48%
+  2026-04-06  close   44.10  px   47.48  n=11  +5b  14.88%
+  2026-04-07  close   44.15  px   48.66  n=9  +5b  20.97%
+  2026-04-08  close   48.00  px   48.02  n=11  +5b  15.94%
+  2026-04-09  close   48.96  px   48.09  n=6  +5b  15.26%
+  2026-04-10  close   49.17  px   48.29  n=7  +5b  19.16%
+  2026-04-13  close   50.66  px   43.85  n=5  +5b  14.65%
+  2026-04-14  close   53.41  px   48.12  n=7  +5b   7.47%
+  2026-04-15  close   55.65  px   48.28  n=7  +5b   8.19%
+  2026-04-16  close   56.43  px   44.88  n=4  +5b   4.94%
+  2026-04-17  close   58.59  px   49.64  n=3  +5b   6.78%
+  2026-04-20  close   58.08  px   42.67  n=3  +5b   7.85%
+  2026-04-21  close   57.40  px   45.12  n=6  +5b   5.82%
+  2026-04-22  close   60.21  px   49.30  n=3  +5b   2.74%
+  2026-04-23  close   59.22  px   41.68  n=3  +5b   7.29%
+  2026-04-24  close   62.56  px   45.36  n=7  +5b   4.38%
+  2026-06-10  close   69.27  px   78.57  n=3  +5b  11.94%
+  2026-06-11  close   76.01  px   76.15  n=6  +5b   9.03%
+  2026-06-12  close   77.52  px   73.56  n=7  +5b   6.53%
+  2026-06-15  close   84.59  px   72.40  n=6  +5b -12.00%
+  2026-06-16  close   79.93  px   70.41  n=5  +5b  -8.29%
+  2026-06-17  close   77.54  px   67.80  n=6  +5b  -3.34%
+  2026-06-18  close   82.87  px   65.74  n=8  +5b -13.32%
+  2026-06-22  close   82.58  px   63.91  n=8  +5b  -6.53%
+  2026-06-23  close   74.44  px   61.36  n=6  +5b   8.81%
+  2026-06-24  close   73.30  px   84.84  n=5  +5b   5.68%
+  2026-06-25  close   74.95  px   84.39  n=5  +5b  -2.13%
+  2026-06-26  close   71.83  px   82.25  n=6  +5b   6.39%
+  2026-06-29  close   77.19  px   51.63  n=4  +5b  -6.43%
+  2026-06-30  close   81.00  px   76.55  n=5  +5b -10.22%
+  2026-07-01  close   77.46  px   81.22  n=5  +5b  -1.45%
+  2026-07-02  close   73.35  px   75.27  n=6  +5b   5.02%
+  2026-07-06  close   76.42  px   43.71  n=3  +5b  -4.95%
+  2026-07-07  close   72.23  px   73.90  n=3  +5b   3.86%
+  2026-07-09  close   76.34  px   72.69  n=3  +5b  -7.34%
+  2026-07-10  close   77.03  px   72.29  n=6  +5b -12.33%
+  2026-07-13  close   72.64  px   77.29  n=6  +5b  -6.87%
+  2026-07-14  close   75.02  px   78.29  n=11  +5b  -4.87%
+  2026-07-15  close   74.44  px   77.64  n=11  +5b  -5.59%
+  2026-07-16  close   70.74  px   76.38  n=11  +5b  -6.28%
+  2026-07-17  close   67.53  px   76.88  n=12  +5b  -5.23%
+  2026-07-20  close   67.65  px   77.11  n=8  +5b  -6.28%
+  2026-07-21  close   71.37  px   74.91  n=7  +5b -13.75%
+  2026-07-22  close   70.28  px   75.49  n=8  +5b -17.83%
+  2026-07-23  close   66.30  px   75.84  n=7  +5b  -4.52%
+  2026-07-24  close   64.00  px   74.95  n=7  +5b   0.97%
+  2026-07-27  close   63.40  px   75.31  n=6  +5b   7.19%
+  2026-08-03  close   67.96  px   77.98  n=2  +5b   8.59%
+  2026-08-06  close   72.03  px   69.95  n=2  +5b   7.11%
+  2026-08-10  close   73.80  px   70.70  n=4  +5b   3.52%
+  2026-08-11  close   73.06  px   71.13  n=5  +5b  -0.73%
+  2026-08-18  close   72.53  px   73.98  n=2  +5b  -3.12%
+  2026-08-19  close   72.06  px   73.20  n=4  +5b  -2.21%
+  2026-08-20  close   70.48  px   73.55  n=7  +5b   4.00%
+  2026-08-24  close   69.01  px   74.35  n=7  +5b   4.22%
+  2026-08-26  close   70.47  px   71.02  n=2  +5b  -1.23%
+  2026-08-27  close   73.30  px   71.33  n=3  +5b  -1.73%
+  2026-08-28  close   71.85  px   71.70  n=4  +5b   0.72%
+  2026-08-31  close   71.92  px   76.09  n=3  +5b    nan%
+  2026-09-02  close   69.60  px   69.77  n=2  +5b    nan%
+  2026-09-03  close   72.03  px   70.09  n=3  +5b    nan%
+  2026-09-04  close   72.37  px   69.01  n=5  +5b    nan%

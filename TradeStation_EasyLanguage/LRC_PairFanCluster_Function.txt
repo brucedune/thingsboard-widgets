@@ -1,0 +1,127 @@
+{ LRC_PairFanCluster  --  per-stream support/resistance from the consecutive-pair trendline fan.
+  FUNCTION, Return Type: Numeric, Function Storage: SERIES (keeps swing history per data stream).
+  v0.1 2026-09-07.  Call as  LRC_PairFanCluster( ... ) of DataN  to evaluate on stream N.
+
+  Returns the swing-structure trend of the stream: +1 up (higher high AND higher low),
+  -1 down (lower high AND lower low), 0 mixed.  Outputs via numericref:
+    oSupPx / oSupCnt  densest cluster of stepped-forward line levels BELOW Close (0 if none)
+    oResPx / oResCnt  densest cluster ABOVE Close (0 if none)
+    oNLines           active lines (for density = cnt / nLines)
+    oLowerNow         newest lower trendline value at this bar (0 if none)
+    oUpperNow         newest upper trendline value at this bar (0 if none)
+    oATR              AvgTrueRange( ATRLen ) of this stream
+
+  Geometry = LRC_Trendlines FanMode 2 (validated against Python port 9/6): 3-bar swings,
+  line through each consecutive swing pair, newest MaxPairs per side, levels within
+  LevelRangeATR x ATR of Close clustered at LevelTolATR x ATR, best cluster = most members. }
+
+inputs:
+	Strength( numericsimple ),
+	MaxPairs( numericsimple ),
+	ATRLen( numericsimple ),
+	LevelTolATR( numericsimple ),
+	LevelRangeATR( numericsimple ),
+	oSupPx( numericref ), oSupCnt( numericref ),
+	oResPx( numericref ), oResCnt( numericref ),
+	oNLines( numericref ),
+	oLowerNow( numericref ), oUpperNow( numericref ),
+	oATR( numericref );
+
+variables:
+	mp( 0 ), NumHi( 0 ), NumLo( 0 ), nU( 0 ), nL( 0 ),
+	isHi( false ), isLo( false ), dd( 0 ), j( 0 ), k( 0 ),
+	m( 0 ), val( 0 ), atr( 0 ), tol( 0 ),
+	nLv( 0 ), cnt( 0 ), sumLv( 0 ), bestCnt( 0 ), bestPx( 0 ),
+	trend( 0 );
+
+arrays:
+	HiBar[60]( 0 ), HiPx[60]( 0 ), LoBar[60]( 0 ), LoPx[60]( 0 ),
+	Lv[120]( 0 ), LvSide[120]( 0 );      { side: 1 = below close, 2 = above close }
+
+mp  = MinList( MaxList( MaxPairs, 1 ), 50 );
+atr = AvgTrueRange( ATRLen );
+tol = LevelTolATR * atr;
+
+{ swing detection, confirmed Strength bars late }
+isHi = false;
+isLo = false;
+if CurrentBar > 2 * Strength then begin
+	isHi = true;
+	isLo = true;
+	for dd = 1 to Strength begin
+		if High[Strength] <= High[Strength + dd] or High[Strength] <= High[Strength - dd] then isHi = false;
+		if Low[Strength]  >= Low[Strength + dd]  or Low[Strength]  >= Low[Strength - dd]  then isLo = false;
+	end;
+end;
+if isHi then begin
+	for j = 59 downto 1 begin HiBar[j] = HiBar[j-1]; HiPx[j] = HiPx[j-1]; end;
+	HiBar[0] = BarNumber - Strength;
+	HiPx[0]  = High[Strength];
+	NumHi = NumHi + 1;
+end;
+if isLo then begin
+	for j = 59 downto 1 begin LoBar[j] = LoBar[j-1]; LoPx[j] = LoPx[j-1]; end;
+	LoBar[0] = BarNumber - Strength;
+	LoPx[0]  = Low[Strength];
+	NumLo = NumLo + 1;
+end;
+nU = MinList( MinList( NumHi, 60 ) - 1, mp );
+nL = MinList( MinList( NumLo, 60 ) - 1, mp );
+
+{ step every pair line forward to this bar; keep levels near price, tagged by side }
+nLv = 0;
+oUpperNow = 0;
+oLowerNow = 0;
+for j = 0 to nU - 1 begin
+	m   = ( HiPx[j] - HiPx[j+1] ) / ( HiBar[j] - HiBar[j+1] );
+	val = HiPx[j] + m * ( BarNumber - HiBar[j] );
+	if j = 0 then oUpperNow = val;
+	if AbsValue( val - Close ) <= LevelRangeATR * atr and nLv < 120 then begin
+		Lv[nLv] = val;
+		if val < Close then LvSide[nLv] = 1 else LvSide[nLv] = 2;
+		nLv = nLv + 1;
+	end;
+end;
+for j = 0 to nL - 1 begin
+	m   = ( LoPx[j] - LoPx[j+1] ) / ( LoBar[j] - LoBar[j+1] );
+	val = LoPx[j] + m * ( BarNumber - LoBar[j] );
+	if j = 0 then oLowerNow = val;
+	if AbsValue( val - Close ) <= LevelRangeATR * atr and nLv < 120 then begin
+		Lv[nLv] = val;
+		if val < Close then LvSide[nLv] = 1 else LvSide[nLv] = 2;
+		nLv = nLv + 1;
+	end;
+end;
+oNLines = nU + nL;
+
+{ densest cluster below close (support) and above close (resistance), members counted on all levels }
+oSupPx = 0; oSupCnt = 0; oResPx = 0; oResCnt = 0;
+for k = 0 to nLv - 1 begin
+	cnt   = 0;
+	sumLv = 0;
+	for j = 0 to nLv - 1 begin
+		if AbsValue( Lv[j] - Lv[k] ) <= tol then begin
+			cnt   = cnt + 1;
+			sumLv = sumLv + Lv[j];
+		end;
+	end;
+	if LvSide[k] = 1 and cnt > oSupCnt then begin
+		oSupCnt = cnt;
+		oSupPx  = sumLv / cnt;
+	end;
+	if LvSide[k] = 2 and cnt > oResCnt then begin
+		oResCnt = cnt;
+		oResPx  = sumLv / cnt;
+	end;
+end;
+
+oATR = atr;
+
+{ swing-structure trend }
+trend = 0;
+if NumHi >= 2 and NumLo >= 2 then begin
+	if HiPx[0] > HiPx[1] and LoPx[0] > LoPx[1] then trend = 1
+	else if HiPx[0] < HiPx[1] and LoPx[0] < LoPx[1] then trend = -1;
+end;
+
+LRC_PairFanCluster = trend;

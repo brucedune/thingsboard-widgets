@@ -1,0 +1,27 @@
+{ LRC_StrReplace  --  replace every occurrence of sTok in sSrc with sVal.
+  FUNCTION, return type: string.   v0.1 2026-09-06
+  Create in TSDev: File > New > Function, name LRC_StrReplace, Return Type = String,
+  Function Storage = Simple.  Paste this text. }
+
+inputs:
+	sSrc( string ),
+	sTok( string ),
+	sVal( string );
+
+variables:
+	pos( 0 ),
+	sOut( "" ),
+	guard( 0 );
+
+sOut = sSrc;
+if StrLen( sTok ) > 0 then begin
+	pos = InStr( sOut, sTok );
+	while pos > 0 and guard < 100 begin
+		sOut = LeftStr( sOut, pos - 1 ) + sVal
+			+ MidStr( sOut, pos + StrLen( sTok ), StrLen( sOut ) - pos - StrLen( sTok ) + 1 );
+		pos = InStr( sOut, sTok );
+		guard = guard + 1;
+	end;
+end;
+
+LRC_StrReplace = sOut;

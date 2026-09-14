@@ -19,3 +19,13 @@ L5_Core/
 
 # Other non-widget files
 *.ely
+
+# Nested repos / worktrees (separate git remotes)
+L5Boot_loader/
+Meter_Installer_App/
+Thingsboard_Widget_Dev/
+DuneFW_L5_2-eprod-led/
+
+# Live rig UART capture (appended continuously) and >50 MB raw dumps
+3063-uart-0909.log
+Claude Data/Tnorm offset sample device - 72382714 - FW 16185-314 072726 002.csv

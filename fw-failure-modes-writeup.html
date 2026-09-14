@@ -1,0 +1,367 @@
+<title>Gen2 FW Failure Modes &amp; Corrective Actions — Aug 2026</title>
+<style>
+  :root {
+    --paper: #FAFBFC;
+    --ink: #1C2430;
+    --ink-soft: #46586A;
+    --accent: #0E6E8C;
+    --accent-ink: #0A5068;
+    --rule: #D8E0E6;
+    --card: #FFFFFF;
+    --card-tint: #F1F6F8;
+    --critical: #B3392E;
+    --resolved: #2E7D4F;
+    --caution: #A9761C;
+    --mono-bg: #EDF2F5;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #10161D;
+      --ink: #D9E2E8;
+      --ink-soft: #93A5B3;
+      --accent: #4FB3D4;
+      --accent-ink: #7CC8E0;
+      --rule: #26313C;
+      --card: #161E27;
+      --card-tint: #1A242F;
+      --critical: #E06B5F;
+      --resolved: #5FBF8A;
+      --caution: #D9A94E;
+      --mono-bg: #1E2933;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #10161D;
+    --ink: #D9E2E8;
+    --ink-soft: #93A5B3;
+    --accent: #4FB3D4;
+    --accent-ink: #7CC8E0;
+    --rule: #26313C;
+    --card: #161E27;
+    --card-tint: #1A242F;
+    --critical: #E06B5F;
+    --resolved: #5FBF8A;
+    --caution: #D9A94E;
+    --mono-bg: #1E2933;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Segoe UI", -apple-system, "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    margin: 0;
+    padding: 0 20px 80px;
+  }
+  main { max-width: 74ch; margin: 0 auto; }
+  code, .mono {
+    font-family: Consolas, "SF Mono", "Cascadia Code", Menlo, monospace;
+    font-size: 0.86em;
+    background: var(--mono-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+  header { padding: 48px 0 20px; border-bottom: 2px solid var(--ink); margin-bottom: 8px; }
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent-ink);
+    margin: 0 0 10px;
+  }
+  h1 {
+    font-size: clamp(26px, 4.5vw, 36px);
+    line-height: 1.15;
+    margin: 0 0 12px;
+    font-weight: 650;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+  .meta { color: var(--ink-soft); font-size: 14px; margin: 0; }
+  h2 {
+    font-size: 20px;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+    margin: 44px 0 12px;
+    padding-top: 18px;
+    border-top: 1px solid var(--rule);
+    text-wrap: balance;
+  }
+  h2 .sec { color: var(--accent-ink); margin-right: 10px; font-variant-numeric: tabular-nums; }
+  p { margin: 0 0 14px; }
+  .lede { font-size: 17.5px; color: var(--ink); }
+  .soft { color: var(--ink-soft); }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+  }
+  .tablewrap { overflow-x: auto; margin: 14px 0 20px; }
+  th {
+    text-align: left;
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--ink-soft);
+    font-weight: 650;
+    padding: 8px 12px 6px 0;
+    border-bottom: 1.5px solid var(--ink);
+    white-space: nowrap;
+  }
+  td {
+    padding: 8px 12px 8px 0;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  td.num { text-align: right; padding-right: 20px; }
+  th.num { text-align: right; padding-right: 20px; }
+  .fm {
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--critical);
+    border-radius: 6px;
+    padding: 20px 22px 8px;
+    margin: 20px 0;
+  }
+  .fm.resolved-stripe { border-left-color: var(--resolved); }
+  .fm.caution-stripe { border-left-color: var(--caution); }
+  .fm-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; margin-bottom: 4px; }
+  .fm-id {
+    font-family: Consolas, Menlo, monospace;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--accent-ink);
+    letter-spacing: 0.04em;
+  }
+  .fm-title { font-size: 17px; font-weight: 650; margin: 0; }
+  .pill {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 2px 9px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .pill.fixed { color: var(--resolved); border: 1.5px solid var(--resolved); }
+  .pill.watch { color: var(--caution); border: 1.5px solid var(--caution); }
+  .fm dl { margin: 10px 0 14px; }
+  .fm dt {
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    font-weight: 650;
+    color: var(--ink-soft);
+    margin-top: 12px;
+  }
+  .fm dd { margin: 3px 0 0; }
+  .callout {
+    background: var(--card-tint);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 15px;
+  }
+  .callout strong:first-child { color: var(--accent-ink); }
+  ul { margin: 0 0 14px; padding-left: 22px; }
+  li { margin-bottom: 6px; }
+  .timeline { list-style: none; padding: 0; margin: 14px 0 20px; font-size: 14.5px; }
+  .timeline li {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    gap: 14px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--rule);
+    margin: 0;
+  }
+  .timeline .d {
+    font-family: Consolas, Menlo, monospace;
+    font-size: 12.5px;
+    color: var(--accent-ink);
+    font-weight: 700;
+    padding-top: 2px;
+    white-space: nowrap;
+  }
+  .ok { color: var(--resolved); font-weight: 650; }
+  .bad { color: var(--critical); font-weight: 650; }
+  .warn { color: var(--caution); font-weight: 650; }
+  footer {
+    margin-top: 56px;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule);
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+<body>
+<main>
+<header>
+  <p class="eyebrow">Dune Labs · Gen2 Firmware · Engineering Brief</p>
+  <h1>Firmware Failure Modes &amp; Corrective Actions</h1>
+  <p class="meta">Campaign of Aug 3–15, 2026 · Production target <code>ST 17037 / TI 344</code> · Prepared from bench validation (Flow Testing rig) and fleet telemetry (14,597 devices) · <strong>Status: deployment complete, regression matrix T1–T7 fully passed</strong></p>
+</header>
+
+<p class="lede">Between early July and mid-August 2026, three interlocking firmware defects around the Gen2 meter's shared SPI flash caused <strong>591 field devices to silently stop recording water usage</strong> while continuing to check in as healthy. All three were root-caused, fixed in firmware Rev 17037, validated on the bench across every firmware crossing the fleet will make, and deployed to every affected reachable device. Final tallies: <strong>~1,500 devices converged on 17037/344, a 92% same-day recalibration success rate, zero update-caused wedges</strong>, and a failure tail fully decomposed into pre-existing conditions the update surfaced rather than caused. Meter totalizers survived on ~99% of healed devices (the ~1% salvage exceptions are flagged for billing correction); usage accumulated during the blackout is recovered as a catch-up reading, not lost.</p>
+
+<div class="callout"><strong>Architecture in one line:</strong> each Gen2 meter pairs an ST host MCU (radio, storage, reporting) with a TI ultrasonic metering MCU, sharing one SPI flash chip that stores meter totals and flow records. Firmware for both is delivered over-the-air, steered by two ThingsBoard attributes (<code>gen2fw</code>, <code>allowTiFotaVer</code>) set per device or per property group.</div>
+
+<h2><span class="sec">1</span>Failure-mode summary</h2>
+<div class="tablewrap">
+<table>
+  <thead><tr><th>ID</th><th>Failure mode</th><th class="num">Devices</th><th>User-visible effect</th><th>Status</th></tr></thead>
+  <tbody>
+    <tr><td class="mono">FM-1</td><td>Flash migration brick (v1→v2 layout)</td><td class="num">8+</td><td>Usage recording permanently dead after update</td><td class="ok">Fixed 17035+</td></tr>
+    <tr><td class="mono">FM-2</td><td>Flash read-path wedge ("phantom metering")</td><td class="num">591</td><td>Device reports Metering; no usage recorded</td><td class="ok">Self-healing 17037</td></tr>
+    <tr><td class="mono">FM-3</td><td>Clock fallback ×1000 (fossil timestamps)</td><td class="num">fleet-wide</td><td>Corrupt far-future timestamps pinned in dashboards</td><td class="ok">Fixed 17035+</td></tr>
+    <tr><td class="mono">FM-4</td><td>Install-time regression in 17036</td><td class="num">0 fielded</td><td>Install (mag-to-Metering) time nearly doubled</td><td class="ok">Fixed 17037</td></tr>
+    <tr><td class="mono">FM-5</td><td>Stuck-calibration TI laggards</td><td class="num">~8</td><td>Device camps in Calibrating, TI stays on old rev</td><td class="warn">Contained</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2><span class="sec">2</span>How it unfolded</h2>
+<ul class="timeline">
+  <li><span class="d">Jul 9–18</span><span>First wedge wave: 250 devices on <code>16185/314</code> freeze across ~68 properties. Undetected — devices keep reporting "Metering."</span></li>
+  <li><span class="d">Aug 3</span><span>Fleet roll to <code>17021</code> wedges 119 of Grand Valley's 147 reporting devices overnight (82% of the property).</span></li>
+  <li><span class="d">Aug 6–10</span><span>The <code>17028</code> wave wedges 203 more, including 141 uninstalled warehouse units.</span></li>
+  <li><span class="d">Aug 11</span><span>Little Acres usage blackout traced to the v1→v2 flash migration (FM-1). Hardened fix built as Rev 17035.</span></li>
+  <li><span class="d">Aug 12</span><span>Bench work overturns the initial theory: flash <em>content</em> is intact — the wedge is a stuck read path that any ST reset clears (FM-2). Self-heal built (17036), install regression found and fixed (FM-4), <strong>17037 becomes the production target</strong>. First cohorts deployed; fleet census finds the full 591.</span></li>
+  <li><span class="d">Aug 12–13</span><span>Regression matrix T1–T5 passes on the rig. All reachable wedged devices (323 device writes) plus two whole properties (Virginia Beach, Grand Valley group levers) pointed at 17037/344. First 156 field conversions: zero update-caused failures.</span></li>
+  <li><span class="d">Aug 13–14</span><span>Rollback drill (T7) passes both directions. Fleet-wide pin sweep (180 devices) and Roosevelt triage complete the deployment. Failure tail decomposed: 92% re-cal convergence; residual failures traced to no-water lots, pre-existing dead meters, and a post-heal re-cal defect class.</span></li>
+  <li><span class="d">Aug 15</span><span>Legacy-estate tests (T6: 363/219, T6b: 362/209) pass three-for-three each — the ~930-device legacy estate's exact upgrade path proven end-to-end. 512K hardware question closed (no fielded E-variants). <strong>Regression matrix complete.</strong></span></li>
+</ul>
+
+<h2><span class="sec">3</span>The failure modes</h2>
+
+<article class="fm resolved-stripe">
+  <div class="fm-head"><span class="fm-id">FM-1</span><h3 class="fm-title">Flash migration brick (v1&rarr;v2 layout)</h3><span class="pill fixed">Fixed in 17035+</span></div>
+  <dl>
+    <dt>Mechanism</dt>
+    <dd>Devices updating from pre-16023 firmware must migrate the flash chip from the old (v1) to the new (v2) storage layout. The original migration ran a full-chip erase with no watchdog feeding and no verification, then rewrote the layout marker without first erasing its block. If the erase train stalled (this flash part mutes its status lines during block erases), the marker could be left in a state that is neither v1 nor v2 — and the device concluded its storage was uninitialized, <em>forever</em>, while a latch bug prevented any retry. Result: meter values and flow records silently vanish from every report.</dd>
+    <dt>Blast radius</dt>
+    <dd>8 devices at Little Acres (the discovery site) with permanent recording loss; every fleet device that ever crosses from pre-16023 firmware is exposed.</dd>
+    <dt>Corrective action</dt>
+    <dd>Rev 17035 hardened the entire path: watchdog fed and each block verified during erase; the marker block is explicitly erased, written, and read back; and a failed migration now leaves the retry mechanism armed instead of latching it off. Bench-proven from three different v1-era revs (<code>15090</code>, <code>15147</code>, <code>16022</code>). Standing fleet rule: pre-16023 devices FOTA <em>directly</em> to 17037+, never through the 16023–17032 range.</dd>
+  </dl>
+</article>
+
+<article class="fm resolved-stripe">
+  <div class="fm-head"><span class="fm-id">FM-2</span><h3 class="fm-title">Flash read-path wedge — "phantom metering"</h3><span class="pill fixed">Self-healing in 17037</span></div>
+  <dl>
+    <dt>Mechanism</dt>
+    <dd>The dominant failure. During a live update session with an older TI firmware on the bus (any TI below v304, which predates the TI's UART link), the shared flash's <em>read path</em> wedges: contents remain intact, but every read fails until the ST resets. The device keeps checking in daily and reporting "Metering," while recording nothing — hence phantom metering. Bench characterization made it deterministic: sessions with TI 254/256/260/295/296 minted the wedge every time; sessions with TI 314/320 never did.</dd>
+    <dt>Blast radius</dt>
+    <dd>591 devices in three waves (mid-July: 250; Aug 3 Grand Valley: 119; Aug 6–10: 203 including 141 warehouse units). Weeks of daily-usage history gaps — though totalizers kept counting underneath, so lifetime usage survives as a catch-up delta once healed.</dd>
+    <dt>Corrective action</dt>
+    <dd>Two layers in 17037. <strong>Heal:</strong> any ST reset clears the wedge — so the update itself heals every wedged device it reaches, with the meter total salvaged at boot. <strong>Self-heal:</strong> if a wedge ever mints again, the device detects two consecutive bad storage reads and performs one controlled reboot when the radio is idle — about 90 seconds from wedge to healed, no human involved. Exercised 9-for-9 on freshly minted wedges during bench runs; field yield shows zero wedged devices on 17037.</dd>
+  </dl>
+</article>
+
+<article class="fm resolved-stripe">
+  <div class="fm-head"><span class="fm-id">FM-3</span><h3 class="fm-title">Clock fallback ×1000 — fossil timestamps</h3><span class="pill fixed">Fixed in 17035+</span></div>
+  <dl>
+    <dt>Mechanism</dt>
+    <dd>When internet time sync failed, the modem-clock fallback multiplied an already-milliseconds timestamp by 1000 again, stamping records with dates centuries in the future. ThingsBoard's "latest value" views keep the highest timestamp — so these fossil rows permanently mask real current data for the affected keys. Latent in every build since before 15090.</dd>
+    <dt>Corrective action</dt>
+    <dd>Arithmetic fixed in 17035+; no new fossils are minted. Existing fossils cannot be aged out of latest-value views, so all dashboards and analysis tools must treat suspicious far-future timestamps as fossils and range-query real time windows instead. Our fleet tooling now does this by default.</dd>
+  </dl>
+</article>
+
+<article class="fm resolved-stripe">
+  <div class="fm-head"><span class="fm-id">FM-4</span><h3 class="fm-title">Install-time regression in 17036</h3><span class="pill fixed">Caught on bench; fixed in 17037</span></div>
+  <dl>
+    <dt>Mechanism</dt>
+    <dd>17036's new bus-quiesce logic (added to protect the shared flash during TI resets) ran its idle-wait against a flash chip that was power-parked — an 8-second dead spin per TI reset that nearly doubled installer-visible time from mag-swipe to Metering.</dd>
+    <dt>Corrective action</dt>
+    <dd>17037 skips the idle-wait when the chip is parked and releases the quiesce window early on the TI's first message (~2.5 min installs restored, verified on the rig). Never reached a field device — the bench gate did its job. An earlier 17036 candidate with a riskier runtime self-heal (it could have erased a healthy chip on garbage reads) was likewise replaced before any device ran it.</dd>
+  </dl>
+</article>
+
+<article class="fm caution-stripe">
+  <div class="fm-head"><span class="fm-id">FM-5</span><h3 class="fm-title">Stuck-calibration TI laggards</h3><span class="pill watch">Contained — verify in sweep</span></div>
+  <dl>
+    <dt>Mechanism</dt>
+    <dd>A handful of devices (seven at Virginia Beach plus one at Little Acres' lot 13) camped in Calibrating with TI stuck on v320, ignoring the newer TI firmware. Bench testing ruled out the obvious theory: a v320 device on 17037 takes the TI 344 update immediately and cleanly — so the stall is specific to the older 17032 host firmware or to the individual devices, not to v320.</dd>
+    <dt>Corrective action</dt>
+    <dd>The property-level move to 17037 routes these devices through the host update first, after which the TI update is expected to follow on its own (exactly what the bench reproduced). Any device still stuck on TI 320 <em>after</em> reaching 17037 is a genuine hardware anomaly and goes to the replace list.</dd>
+  </dl>
+</article>
+
+<h2><span class="sec">4</span>Validation before deployment</h2>
+<p>Every firmware crossing the fleet will make was reproduced on the three-unit Flow Testing rig with live water flow — seed the old firmware pair, then hop to <code>17037/344</code> and watch the full transition, including deliberately minting the wedge where the old TI would do so in the field.</p>
+<div class="tablewrap">
+<table>
+  <thead><tr><th>Test</th><th>Seed pair</th><th>Represents</th><th class="num">Fleet devices</th><th>Result</th></tr></thead>
+  <tbody>
+    <tr><td class="mono">T1</td><td class="mono">16185 / 314</td><td>Largest single crossing</td><td class="num">~1,690</td><td class="ok">Pass — clean, no wedge</td></tr>
+    <tr><td class="mono">T2</td><td class="mono">16131 / 296</td><td>Largest healthy v2 estate</td><td class="num">~900</td><td class="ok">Pass — wedge minted &amp; self-healed, 3/3</td></tr>
+    <tr><td class="mono">T3</td><td class="mono">16022 / 260</td><td>v1-layout migration (highest risk)</td><td class="num">~720</td><td class="ok">Pass — migration clean + self-heal</td></tr>
+    <tr><td class="mono">T4a</td><td class="mono">15147 / 256</td><td>Oldest practical v1 + TI era</td><td class="num">~280</td><td class="ok">Pass — same pattern as T3</td></tr>
+    <tr><td class="mono">T5</td><td class="mono">16193 / 320</td><td>Stuck-cal laggard class</td><td class="num">~20</td><td class="ok">Pass — 320 takes 344 first session</td></tr>
+    <tr><td class="mono">—</td><td class="mono">15090 / 254</td><td>Original blackout crossing</td><td class="num">~170</td><td class="ok">Pass (validated Aug 12 AM)</td></tr>
+    <tr><td class="mono">T6</td><td class="mono">363 / 219</td><td>Legacy estate (Mar 2026 rev)</td><td class="num">~120</td><td class="ok">Pass — legacy FOTA + migration + TI hop, 3/3</td></tr>
+    <tr><td class="mono">T6b</td><td class="mono">362 / 209</td><td>Legacy estate (Feb 2026 rev)</td><td class="num">~810</td><td class="ok">Pass — identical, 3/3</td></tr>
+    <tr><td class="mono">T7</td><td class="mono">17037 ⇄ 17032</td><td>Rollback escape hatch</td><td class="num">fleet</td><td class="ok">Pass — clean both directions</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Nine of nine deliberately minted wedges self-healed with meter continuity. Calibration behavior through the transition was verified separately: devices keep their known-good stored calibration, re-run the offset stage with a fresh ADC waveform capture, and return to Metering — no fleet-wide recalibration storm.</p>
+
+<h2><span class="sec">5</span>Corrective deployment &amp; results so far</h2>
+<div class="tablewrap">
+<table>
+  <thead><tr><th>Action</th><th>Scope</th><th class="num">Devices</th><th>Method</th></tr></thead>
+  <tbody>
+    <tr><td>Little Acres wedged cohort</td><td>Discovery site</td><td class="num">8</td><td>Device-scope writes</td></tr>
+    <tr><td>Virginia Beach wedged + property</td><td>Whole property funnels to 17037</td><td class="num">262</td><td>Group lever + pin cleanup (29 pins deleted)</td></tr>
+    <tr><td>Aurora / Ontario / Rustic wedged</td><td>Three-property wedge pockets</td><td class="num">27</td><td>Device-scope writes</td></tr>
+    <tr><td>Grand Valley Estates</td><td>Worst-hit property (82% wedged)</td><td class="num">141</td><td>Group lever + pin cleanup</td></tr>
+    <tr><td>Fleet-wide wedged remainder</td><td>~65 properties</td><td class="num">288</td><td>Device-scope writes, 288/288 verified</td></tr>
+    <tr><td>Roosevelt Not-Metering (M-U2DB)</td><td>Dead-meter triage via 17037's cal attempt</td><td class="num">9</td><td>Device-scope writes</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Every write was previewed, read-back verified, and logged to an audit trail (~520 device writes + 4 group levers, zero write failures). Final field results after full convergence: <strong>~846 installed field devices on 17037, 92% recalibrated successfully</strong> (median same-session, 90th percentile ~26 hours), zero wedged devices on the new firmware, and a failure tail that decomposed almost entirely into conditions that predated the update: 26 no-water lots (vacant/shutoff — calibration correctly impossible), ~24 meters provably dead for weeks before any update, ~10 pulled meters with stale records, a handful of cal-hostile small-bore pipe configs, and roughly two dozen genuine casualties under investigation as a post-heal recalibration defect (see below). Five devices with actively failing flash hardware were identified for physical replacement — the update didn't break them; it found them.</p>
+
+<div class="callout"><strong>The one true residual defect — post-heal recalibration:</strong> crossing TI firmware versions forces a fresh calibration, and in a reboot window the ST can push a default gain over the TI's calibrated value before the TI has reported in. A small number of devices then promoted to Metering out of signal-search at maximum gain without running the calibration sweep — one confirmed case counted phantom water at ~35× its normal rate before the quality machinery demoted it. Roughly two dozen recovered devices sitting at gain ≥50 are queued for an overcount audit, and the config-push stomp window is the top firmware fix for the next revision.</div>
+
+<div class="callout"><strong>Expected side effects worth telling support and billing:</strong> during each property's convergence, devices on old TI firmware show a normal ~6–10 minute transition signature (brief silence &rarr; one self-reboot &rarr; Calibrating &rarr; Metering); previously-silent dead meters will surface as "Failed Cal" (a diagnosis, not an update casualty); and healed meters report the blackout period's accumulated usage as one catch-up lump, which billing should expect rather than flag.</div>
+
+<h2><span class="sec">6</span>Findings &amp; confidence assessment</h2>
+<div class="tablewrap">
+<table>
+  <thead><tr><th>Finding</th><th>Confidence</th><th>Basis</th></tr></thead>
+  <tbody>
+    <tr><td>Wedge root cause (stuck read path; any ST reset heals; content intact)</td><td class="ok">High</td><td>12+ bench reproductions, 750+ field heals, totalizer continuity verified</td></tr>
+    <tr><td>Self-heal efficacy (~90 s autonomous recovery)</td><td class="ok">High</td><td>12/12 bench mints healed; 212 field self-heal events; 0 wedged on 17037 at scale</td></tr>
+    <tr><td>Wedge trigger boundary (pre-v304 TI sessions mint it; later TIs don't)</td><td class="ok">High for tested revs</td><td>254/256/260/295/296 minted 12/12; 314/320/344 clean — untested TI revs inferred</td></tr>
+    <tr><td>v1→v2 migration safety (hardened path)</td><td class="ok">High</td><td>~20 clean crossings from 4 source layouts incl. genuine 362/363-written flash</td></tr>
+    <tr><td>Legacy-estate upgrade path (362/209, 363/219 → 17037/344)</td><td class="ok">High</td><td>6/6 end-to-end on real firmware pairs; 5-chunk image fit verified against prod bucket</td></tr>
+    <tr><td>Rollback safety (17037 ⇄ 17032)</td><td class="ok">High</td><td>T7, both directions, meter continuity</td></tr>
+    <tr><td>No fielded 512K (E-variant) hardware</td><td class="ok">High</td><td>Manufacturing/BOM statement (B. Dune, Aug 15)</td></tr>
+    <tr><td>Failure taxonomy (no-water / pre-existing / pulled / pipe-config / residual)</td><td class="warn">Medium-High</td><td>Attribute + 90-day-history verification; classifications re-checked across 3 daily scans</td></tr>
+    <tr><td>Post-heal re-cal defect mechanism (gain stomp → search promotion, no sweep)</td><td class="warn">Medium</td><td>ST-side chain verified in source; TI-side promotion logic not yet inspected</td></tr>
+    <tr><td>Cal-hold transients self-correct (slow-network theory)</td><td class="warn">Medium</td><td>Strong correlation (48/67 vs 1% healthy) + ~9 observed recoveries; counter can't isolate cause</td></tr>
+    <tr><td>Salvage-failure mechanism (~1% of heals zero the totalizer)</td><td class="bad">Low (occurrence: High)</td><td>5 measured cases, prior values preserved in TB history; root cause not yet found</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2><span class="sec">7</span>Suggested deployment plan — remaining fleet</h2>
+<p><strong>Phase A — legacy estate (~930 devices on 362/363), highest data-quality payoff.</strong> Stage property-by-property using group levers with pin cleanup (confirmed list per property). <strong>Two-step lever sequence per property:</strong> set <code>gen2fw=17037</code> alone → verify <code>fwVer</code> flips on the daily check-in → then set <code>allowTiFotaVer=344</code>. The bench ran both-at-once six-for-six with correct self-ordering, but a field session that ordered TI-first would run the TI flash under the legacy firmware's pre-15007 BSL (the 2–3% TI-brick era); two-step costs one extra daily cycle and eliminates that class entirely. Pilot one mid-size property, verify yield, then roll ~5 properties/day.</p>
+<p><strong>Phase B — healthy modern fleet (~3,900 reporting devices: 16185 ≈1.7k, 16131 ≈900, 16022 ≈720, 15xxx ≈500).</strong> Property-by-property group levers, largest estates first. Both levers together are fine here (all post-15007 firmware). Expect the pre-v304-TI estates (16131/296, 16022/260, 15xxx) to wedge-and-self-heal in transit — the ~8-minute signature is normal; the 16185/314 and 16193/320 estates transition clean. Keep 17032 in the buckets as the proven rollback target throughout.</p>
+<p><strong>Phase C — edges.</strong> Warehouse pools continue self-healing via the Production group levers (verify shelf units cal at install). The stale fleet (~1,360 Gen2 that never check in, incl. the uninvestigated rev-16048 pocket of 203) is a field-ops/replacement track — no firmware reaches it. Physical dispatch list: ~5 units with failing flash or dead TIs.</p>
+<p><strong>Monitoring &amp; halt criteria per wave:</strong> daily yield scan + casualty diff against the prior day (tooling in place). Halt a wave if wedged-on-17037 exceeds 1% of converts, salvage-zeroed totalizers exceed 2%, or any device fails to complete the two-step sequence within two daily cycles. Notify support (transition signature, dry lots surfacing as Failed Cal) and billing (catch-up usage lumps; ~1% baseline corrections) before each phase.</p>
+<p><strong>Next firmware revision (before any new rev ships):</strong> fix the reboot-window config/gain stomp; revisit the cal-hold window for slow networks; report bootloader version in status telemetry; investigate the salvage-failure gate; and add a <strong>build-time chunk-count check</strong> — the current image fits the 256K FOTA erase ceiling with only ~1.8 KB to spare, and a rev that silently grows past 5 chunks would break OTA for every 256K device in the fleet.</p>
+
+<footer>
+  <p>Sources: bench logs (Flow Testing rig, T1–T7 + T6b), ThingsBoard fleet telemetry, write audit trail (<span class="mono">tb_write_log.txt</span>), firmware source verification (DuneFW repo, branch <span class="mono">sf-migration-fix</span>; git tags for rev dating). Device counts as of Aug 15, 2026. Deep technical detail lives in the session memory notes (<span class="mono">little-acres-sf-migration</span>). Failure tally workbook: <span class="mono">17037-failure-tally-by-property.xlsx</span>.</p>
+</footer>
+</main>
+</body>

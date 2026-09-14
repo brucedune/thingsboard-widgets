@@ -1,0 +1,74 @@
+{ LRC_MacroHarness  --  STRATEGY that fires ONE test order macro on demand, to verify the
+  RunCommand order path end to end in a SIMULATED account before any signal is wired in.
+  v0.1 2026-09-06.  Requires functions LRC_SendMacro and LRC_StrReplace.
+
+  How to use (sim account only):
+    1. Insert on a live intraday chart of the symbol.  Leave DryRun = true.
+    2. Set FireTest = 1.  On the next real-time tick the strategy builds the BUY command, PRINTS it
+       to the Print Log, logs it to AuditLog, and latches so it fires once.
+    3. Copy the printed command, paste it into TradeStation's Command Line (Order Bar), press Enter.
+       If TS rejects it, edit the MacroTemplate input until it is accepted.  This is the syntax check.
+    4. Set FireTest back to 0 (unlatches).  Set FireTest = -1 for a SELL test the same way.
+    5. Only when the template is confirmed: DryRun = false, FireTest = 1 -> a real sim order is sent.
+  Safety: real-time bars only, one fire per FireTest change, MaxOrdersPerDay cap, dry run default.
+
+  Strategy automation must stay OFF for the shadow pattern: this strategy sends orders itself via
+  macros; TS strategy automation would send a second set. }
+
+[IntrabarOrderGeneration = true]
+
+inputs:
+	DryRun( true ),
+	Account( "" ),               { e.g. "SIM123456" }
+	Qty( 100 ),
+	FireTest( 0 ),               { 0 = idle, 1 = fire a BUY once, -1 = fire a SELL once }
+	OrderType( "MARKET" ),
+	LimitPrice( 0 ),
+	Duration( "DAY" ),
+	MacroTemplate( ".{ACTION} {SYMBOL} Q={QTY} {TYPE}{PRICE} {DURATION} ACCT={ACCT}" ),
+	AuditLog( "" ),              { e.g. "C:\Users\Bruce\Documents\GitHub\TradeStation_EasyLanguage\macro_audit.csv" }
+	MaxOrdersPerDay( 4 ),
+	AllowOfflineDryRun( false );  { true = let a DRY RUN fire on the last historical bar when the
+	                                market is closed (no real-time ticks).  Ignored unless DryRun = true,
+	                                so nothing can ever be sent from a historical bar. }
+
+variables:
+	intrabarpersist latched( false ),
+	intrabarpersist lastFire( 0 ),
+	intrabarpersist ordersToday( 0 ),
+	intrabarpersist orderDate( 0 ),
+	intrabarpersist rc( 0 ),
+	isLive( false );
+
+isLive = GetAppInfo( aiRealTimeCalc ) = 1 and LastBarOnChartEx;
+if DryRun and AllowOfflineDryRun and LastBarOnChartEx then isLive = true;
+
+{ unlatch when the operator returns FireTest to 0 or changes its sign }
+if FireTest = 0 or FireTest <> lastFire then latched = false;
+lastFire = FireTest;
+
+if orderDate <> CurrentDate then begin
+	orderDate   = CurrentDate;
+	ordersToday = 0;
+end;
+
+if isLive and FireTest <> 0 and latched = false then begin
+	if ordersToday >= MaxOrdersPerDay then begin
+		Print( "LRC_MacroHarness: MaxOrdersPerDay reached, not firing" );
+		latched = true;
+	end else begin
+		if FireTest > 0 then
+			rc = LRC_SendMacro( "BUY", GetSymbolName, Qty, OrderType, LimitPrice, Duration, Account,
+				MacroTemplate, DryRun, AuditLog )
+		else
+			rc = LRC_SendMacro( "SELL", GetSymbolName, Qty, OrderType, LimitPrice, Duration, Account,
+				MacroTemplate, DryRun, AuditLog );
+		latched = true;
+		if rc = 1 then ordersToday = ordersToday + 1;
+		Print( "LRC_MacroHarness: rc=", rc:0:0, "  ordersToday=", ordersToday:0:0 );
+	end;
+end;
+
+{ no strategy orders on purpose; a dummy condition keeps the verifier happy about a strategy
+  with no Buy/Sell statements in some TS versions }
+if false then Buy next bar at market;

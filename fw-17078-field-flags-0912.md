@@ -54,7 +54,16 @@ Residual hazards even with every loop bounded:
 
 **Refined principle (Bruce 9/12): the SPI flash exists to serve TI output; if the TI is not functioning, the flash is irrelevant.** Verified against spi_flash.c:44-101 and the writer list: the chip holds (a) the init marker, (b) the meter-entry log = meterVal checkpoints, (c) the TI backup image, (d) the flow/TOF record ring. The ST image goes to internal flash banks (fota.c), not SPI. Every writer (measure.c x6, analytics.c, meter.c x3, ti_hci_impl.c) is TI-data-derived, and meterVal only changes with TI data. Therefore with the TI unstable or dead there is exactly one legitimate flash operation: the boot-time meterVal restore (a read; on failure carry the last known value, never erase, never heal). Everything else - record writes, marker health checks, wedge strikes, heals, GC, backup saves - should be skipped until the TI is healthy again. This removes the whole class of "SPI-dependent function hangs or misjudges because the TI wrecked the bus" rather than bounding it loop by loop.
 
-## 2. TI on v344 rejects BSL password for both 368 and 391 (Crystal Acres 29, 72385774)
+
+Field follow-up 09:35-09:56: Bruce reverted VB 159 to gen2fw 17060 (bank swap, boot flag 6 at 09:41), set checkInPeriod 10 and allowTiFotaVer 0 (09:47). The loop continued on 17060 (17036 heal is in 17060 too) until 09:56, then the device went silent (VddAdc 3511, falling). NOTE: allowTiFotaVer=0 on a device with lastver 0, tiUartVer 0, tiBackupVer 0 takes the Rev 17002 factory-bootstrap path (bg95.c:1654-1666) and flashes TI_DEFAULT_FW_VER 320; msp320.bin is live in the bucket. There is NO remote way to tell the ST "leave a dead TI alone": every non-zero value is flashed, zero bootstraps 320.
+Ask H: an explicit TI-FOTA-off sentinel (e.g. allowTiFotaVer = -1 or a `tiFotaDisable` attr) that skips TIFOTA entirely and parks the TI in reset.
+
+**17080 first result (Ontario Place 91, 11:27):** ST boot count flat at 1230 from 11:31 through 11:52 with the TI still dead and the TI monitor hard-resetting it every ~60 s (hard_reset_cnt 5 -> 11 -> 19). No heal reboot. VddAdc 3533 -> 3545. The reboot loop is closed on this specimen; TI recovery behaviour unchanged as expected.
+**Crystal Acres 29 variant:** with the TI ALIVE on 344 and NO TI-FOTA attempt in the session (blocklisted), 17078 still heal-rebooted every ~5 min from 10:26 (17 boots in 90 min, Vdd -93 mV). The legacy-TI session alone wrecks the marker read. Same window 17061-17078; 17060/344 ran for weeks without it.
+**Pleasant Acres 44** (dead TI on 17037 for weeks) landed 17078/391 at 11:23 and the TI came back: Metering, gain 28. Revival count for the pre-dead class now 5 of 8.
+
+## 2. TI rejects the BSL password for 391 — Crystal Acres 29 (TI 344) AND Pace East 11 (75369502, TI 368)
+Pace East 11: tifota_bsl_passwd_err 6, lastFailedVer 391, TI intact on 368, not looping (17078, boot flag 6). So it is not only the 344-era image; a 368 TI also refuses the 391 password. 2 of 242 landed.
 tifota_bsl_passwd_err 3-6, baud 3-6, init 3 per attempt; TI survives intact on 344 (fwVerTi 344 for 60+ days; 17060/368 roll failed the same way 9/11 09:24). Only 1 of 105 landed roster devices with a TI-FOTA failure record. Points at the password/vector-table scheme for the 344-era image, not this board.
 
 ## 3. `pulse`: group attr 13 fleet-wide overrides the TI 9 default
@@ -64,3 +73,11 @@ tifota_bsl_passwd_err 3-6, baud 3-6, init 3 per attempt; TI survives intact on 3
 
 ## 5. Fringe-site data POSTs (CSP150, 72383795)
 RSRP -117..-121: hourly data POSTs fail ERROR-class every session (Rev 17051 policy keeps the backlog), status posts succeed, records never reach TB. Pre-existing on 17060. Question for the policy: at fringe RSRP, is a smaller chunk or a per-session byte cap better than retrying the same 118 KB every hour?
+
+## 6. Accuracy regression on metering devices after landing (9/13 evening) — the gate Bruce cares about
+Register-derived gal/day (meterVal at midnight) and status-post tnorm stats, pre vs post landing:
+- **Holly Tree 53 (77054379, 16185/314 -> 17078/391, 9/12 09:30): NEW PHANTOM.** ~100-138 gal/d pre -> 449 / 472 gal/d post. Status tnormAvg 371 -> -1702 ps with stddev unchanged (42 -> 49): the no-flow level moved ~2 ns (offset median -2.5 ns), and the records now show 100% flow>0 at median 0.6 gpm through the night. Fringe RSRP -113 (upload struggler), so records are thin, but the register is unambiguous. Over-billing since landing.
+- **Holly Tree 64 (77056069, 16185/314 -> 17066/372, day 1, 9/10 08:39): register STOPPED.** 123/118/173 gal/d pre -> 11.6 / 0.0 post. tnormAvg 384 (sd 108) -> 24 (sd 30). Two readings: (a) 372 removed a ~380 ps phantom and the site is genuinely near zero, or (b) the register is being held. Records still show flow>0 73% at ~1 gpm, which argues for (b) or for event-snapshot bias. Needs a water-on confirmation.
+- **Shady Lane 76 (79455422, 17060/368 -> 17078/391, 9/12 07:04): PHANTOM REMOVED (probable).** ~105 gal/d pre -> 15 post; tnormAvg 250 -> 14, records flow>0 95% -> 7%. Consistent with the Shady Lane phantom history; a billing correction, not a regression.
+- Direction changes UNKNOWN -> FLIPPED on 4 of 32 (Oaks 36, Oaks 31, Sara Drive 1008, 1010); Sara Drive offsets re-anchored 1-2.3 ns (from ST 362).
+Ask I: the offset re-anchor at TI FOTA is not neutral on metering devices; both signs appear. Before Wave 2 (metering population) the crossing must be shown offset-neutral on the bench for 17060/368 -> new pair, and the ST should carry the pre-FOTA zero across (Rev 16123 intent) unless the TI cal explicitly re-derives it.

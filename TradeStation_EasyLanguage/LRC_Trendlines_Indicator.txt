@@ -1,0 +1,501 @@
+{ =====================================================================================
+  LRC_Trendlines  --  Anchored trendline fans, projected intercepts, convergence clusters
+  v0.5  2026-09-05   Indicator.  Scaling: "Same as Symbol" so plots overlay the candles.
+
+  Swing points (Bruce): 3-bar sequence, middle bar greater than both neighbors = swing high,
+  less than both = swing low.  Confirmed Strength bars late.
+
+  FanMode 1 (Bruce's original model, recalled 9/5 late):
+    Upper: anchor at the HIGHEST swing high (within AnchorLookback bars, 0 = all history);
+           one trendline from the anchor through EACH later swing high.  A new higher high
+           moves the anchor and starts a new fan.  Old fan lines stay drawn if KeepOldLines.
+    Lower: inverse, anchored at the LOWEST swing low, through each later swing low.
+  FanMode 2 (v0.1-v0.4 construction): one line through each consecutive swing pair,
+    newest MaxPairs per side.
+
+  Common downstream (unchanged from v0.4):
+    A. every active line is stepped forward to the current bar; levels within LevelRangeATR
+       of Close are clustered (LevelTolATR); densest cluster = Plot5, width = line count.
+    B. upper x lower intercepts: crossings on this bar are clustered (ClusterBars, ClusterTolATR)
+       and labeled with their count; projected future intercepts drawn as cyan rays (last bar).
+    C. optional CSV export (LogFile).
+
+  Plots (price scale):
+    Plot1 UpperNow   newest upper line value at this bar
+    Plot2 LowerNow   newest lower line value at this bar
+    Plot3 NearIcpt   nearest future upper x lower intercept price (within LookAhead)
+    Plot4 ConvPt     first upper x lower crossing occurring on this bar
+    Plot5 LvlCluster densest level cluster near price (>= ClusterMinLines), width = lines (max 5)
+    Plot6 ConvClust  largest convergence-point cluster on this bar (>= ClusterMin)
+
+  CSV (LogFile <> ""), TS date YYYMMDD (1260904 = 2026-09-04):
+    L,date,time,bar,close,high,low,side(U/L),lineIdx(0=newest),value
+    X,date,time,bar,close,high,low,price                 crossing this bar
+    K,date,time,bar,close,high,low,price,count           level cluster (Plot5)
+    Q,date,time,bar,close,high,low,price,count           convergence cluster (Plot6)
+    A,date,time,bar,close,high,low,side,anchorBar,anchorPx   anchor change (FanMode 1)
+  Rebuilt at the first bar of every calculation.  Keep the file closed while TS calculates.
+
+  TS10 notes: TL_New_BN/Text_New_BN not in this build -> Date/Time forms.  Editor error
+  lines are +1 vs this file.  Never name variables d, l, o, h, c, v, t.
+  ===================================================================================== }
+
+using elsystem;
+
+inputs:
+	FanMode( 1 ),            { 1 = anchored fans (Bruce), 2 = consecutive swing pairs }
+	Strength( 1 ),
+	AnchorLookback( 0 ),     { FanMode 1: anchor = extreme swing within this many bars; 0 = all }
+	StartDate( 0 ),          { YYYYMMDD, e.g. 20260511; swing points before this date are ignored; 0 = none }
+	MaxPairs( 12 ),          { FanMode 2: consecutive-pair lines kept per side, 1..50 }
+	KeepOldLines( true ),    { leave superseded fans drawn (if ShowLines) }
+	LookAhead( 40 ),
+	ATRLen( 14 ),
+	LevelTolATR( 0.35 ),
+	LevelRangeATR( 3.0 ),
+	ClusterMinLines( 3 ),
+	ClusterBars( 3 ),
+	ClusterTolATR( 0.5 ),
+	ClusterMin( 2 ),
+	ShowLines( true ),
+	ShowIntercepts( true ),
+	ShowConvergence( true ),
+	UpperColor( Yellow ),
+	LowerColor( Red ),
+	InterceptColor( Cyan ),
+	ConvColor( Magenta ),
+	ConvMark( "x" ),
+	LineSize( 1 ),
+	LogFile( "" );
+
+variables:
+	mp( 0 ),
+	NumHi( 0 ), NumLo( 0 ), nHiS( 0 ), nLoS( 0 ),   { total swings / stored swings (<= 60) }
+	nU( 0 ), nL( 0 ),                                 { active lines per side }
+	isHi( false ), isLo( false ),
+	dd( 0 ), j( 0 ), u( 0 ), li( 0 ), k( 0 ), qq( 0 ),
+	aIdxU( 0 ), aIdxL( 0 ), aPx( 0 ),
+	prevAnchorU( -1 ), prevAnchorL( -1 ), anchorChanged( false ),
+	mU( 0 ), mL( 0 ), bX( 0 ), pX( 0 ),
+	upAtNow( 0 ), loAtNow( 0 ),
+	atr( 0 ), tolLv( 0 ), tolCv( 0 ),
+	nIcpt( 0 ), nearBars( 0 ), nearPx( 0 ),
+	nConv( 0 ), convPx( 0 ), nNow( 0 ),
+	nLv( 0 ), cnt( 0 ), sumLv( 0 ), bestCnt( 0 ), bestPx( 0 ),
+	cvHead( 0 ), cvCount( 0 ),
+	bestQ( 0 ), bestQPx( 0 ), nLab( 0 ), dup( false ),
+	nOldMarks( 0 ), nDrawnU( 0 ), nDrawnL( 0 ),
+	tlID( 0 ), txtID( 0 ),
+	UpperNow( 0 ), LowerNow( 0 ),
+	doLog( false ), logFailed( false ), rowPfx( "" ),
+	sdTS( 0 );               { StartDate converted to TradeStation YYYMMDD }
+
+arrays:
+	{ swing history, index 0 = most recent }
+	HiBar[60]( 0 ), HiPx[60]( 0 ), HiDate[60]( 0 ), HiTime[60]( 0 ),
+	LoBar[60]( 0 ), LoPx[60]( 0 ), LoDate[60]( 0 ), LoTime[60]( 0 ),
+	{ active lines: point A (anchor / older swing) and point B (newer swing), slope per bar }
+	UAb[60]( 0 ), UAp[60]( 0 ), UBb[60]( 0 ), UBp[60]( 0 ), Um[60]( 0 ),
+	UAd[60]( 0 ), UAt[60]( 0 ), UBd[60]( 0 ), UBt[60]( 0 ),
+	LAb[60]( 0 ), LAp[60]( 0 ), LBb[60]( 0 ), LBp[60]( 0 ), Lm[60]( 0 ),
+	LAd[60]( 0 ), LAt[60]( 0 ), LBd[60]( 0 ), LBt[60]( 0 ),
+	UpTL[60]( -1 ), LoTL[60]( -1 ),        { drawing ids of the active fan }
+	Lv[120]( 0 ),
+	NowPx[400]( 0 ),
+	CvBar[400]( 0 ), CvPx[400]( 0 ),
+	LabPx[50]( 0 ),
+	MarkID[120]( -1 ), MarkIsText[120]( false );
+
+mp    = MinList( MaxList( MaxPairs, 1 ), 50 );
+atr   = AvgTrueRange( ATRLen );
+tolLv = LevelTolATR   * atr;
+tolCv = ClusterTolATR * atr;
+doLog = StrLen( LogFile ) > 0 and BarStatus( 1 ) = 2;
+
+{ ---------- 0. start clean ---------- }
+if CurrentBar = 1 then begin
+	tlID = TL_GetFirst( 1 );
+	while tlID > 0 begin
+		j = TL_GetNext( tlID, 1 );
+		TL_Delete( tlID );
+		tlID = j;
+	end;
+	txtID = Text_GetFirst( 1 );
+	while txtID > 0 begin
+		j = Text_GetNext( txtID, 1 );
+		Text_Delete( txtID );
+		txtID = j;
+	end;
+	logFailed = false;
+	if StrLen( LogFile ) > 0 then begin
+		try
+			FileDelete( LogFile );
+			FileAppend( LogFile, "rec,date,time,bar,close,high,low,f1,f2,f3" + NewLine );
+		catch ( elsystem.Exception ex )
+			logFailed = true;
+			Print( "LRC_Trendlines: cannot write ", LogFile, " -- is it open in Excel? Export disabled. ", ex.Message );
+		end;
+	end;
+end;
+if logFailed then doLog = false;
+
+rowPfx = NumToStr( Date, 0 ) + "," + NumToStr( Time, 0 ) + "," + NumToStr( BarNumber, 0 ) + ","
+	+ NumToStr( Close, 2 ) + "," + NumToStr( High, 2 ) + "," + NumToStr( Low, 2 );
+
+{ ---------- 1. swing detection ---------- }
+isHi = false;
+isLo = false;
+if CurrentBar > 2 * Strength then begin
+	isHi = true;
+	isLo = true;
+	for dd = 1 to Strength begin
+		if High[Strength] <= High[Strength + dd] or High[Strength] <= High[Strength - dd] then isHi = false;
+		if Low[Strength]  >= Low[Strength + dd]  or Low[Strength]  >= Low[Strength - dd]  then isLo = false;
+	end;
+	{ fixed lower bound on the time window: ignore swing points before StartDate }
+	if StartDate > 0 then begin
+		sdTS = StartDate - 19000000;
+		if Date[Strength] < sdTS then begin
+			isHi = false;
+			isLo = false;
+		end;
+	end;
+end;
+
+if isHi then begin
+	for j = 59 downto 1 begin
+		HiBar[j] = HiBar[j-1]; HiPx[j] = HiPx[j-1]; HiDate[j] = HiDate[j-1]; HiTime[j] = HiTime[j-1];
+	end;
+	HiBar[0] = BarNumber - Strength; HiPx[0] = High[Strength]; HiDate[0] = Date[Strength]; HiTime[0] = Time[Strength];
+	NumHi = NumHi + 1;
+end;
+if isLo then begin
+	for j = 59 downto 1 begin
+		LoBar[j] = LoBar[j-1]; LoPx[j] = LoPx[j-1]; LoDate[j] = LoDate[j-1]; LoTime[j] = LoTime[j-1];
+	end;
+	LoBar[0] = BarNumber - Strength; LoPx[0] = Low[Strength]; LoDate[0] = Date[Strength]; LoTime[0] = Time[Strength];
+	NumLo = NumLo + 1;
+end;
+nHiS = MinList( NumHi, 60 );
+nLoS = MinList( NumLo, 60 );
+
+{ ---------- 2. rebuild the active UPPER line set when a swing high confirmed ---------- }
+if isHi and nHiS >= 2 then begin
+	nU = 0;
+	anchorChanged = false;
+	if FanMode = 1 then begin
+		{ anchor = highest stored swing high within the lookback }
+		aIdxU = -1;
+		aPx   = -999999999;
+		for j = 0 to nHiS - 1 begin
+			if ( AnchorLookback = 0 or BarNumber - HiBar[j] <= AnchorLookback ) and HiPx[j] > aPx then begin
+				aPx   = HiPx[j];
+				aIdxU = j;
+			end;
+		end;
+		if aIdxU >= 0 then begin
+			anchorChanged = HiBar[aIdxU] <> prevAnchorU;
+			if anchorChanged and doLog then
+				FileAppend( LogFile, "A," + rowPfx + ",U," + NumToStr( HiBar[aIdxU], 0 ) + "," + NumToStr( HiPx[aIdxU], 4 ) + NewLine );
+			prevAnchorU = HiBar[aIdxU];
+			{ one line from the anchor through each later (more recent) swing high; idx 0 = newest }
+			for j = 0 to aIdxU - 1 begin
+				if nU < 60 then begin
+					UAb[nU] = HiBar[aIdxU]; UAp[nU] = HiPx[aIdxU]; UAd[nU] = HiDate[aIdxU]; UAt[nU] = HiTime[aIdxU];
+					UBb[nU] = HiBar[j];     UBp[nU] = HiPx[j];     UBd[nU] = HiDate[j];     UBt[nU] = HiTime[j];
+					Um[nU]  = ( UBp[nU] - UAp[nU] ) / ( UBb[nU] - UAb[nU] );
+					nU = nU + 1;
+				end;
+			end;
+		end;
+	end else begin
+		anchorChanged = false;
+		for j = 0 to MinList( nHiS - 1, mp ) - 1 begin
+			UAb[nU] = HiBar[j+1]; UAp[nU] = HiPx[j+1]; UAd[nU] = HiDate[j+1]; UAt[nU] = HiTime[j+1];
+			UBb[nU] = HiBar[j];   UBp[nU] = HiPx[j];   UBd[nU] = HiDate[j];   UBt[nU] = HiTime[j];
+			Um[nU]  = ( UBp[nU] - UAp[nU] ) / ( UBb[nU] - UAb[nU] );
+			nU = nU + 1;
+		end;
+	end;
+
+	{ drawing: anchor moved -> old fan is history (delete unless KeepOldLines) and redraw all;
+	  anchor same -> only the newest line (index 0) is new }
+	if ShowLines then begin
+		if anchorChanged or FanMode = 2 then begin
+			if anchorChanged and KeepOldLines = false then begin
+				for j = 0 to nDrawnU - 1 begin
+					if UpTL[j] >= 0 then TL_Delete( UpTL[j] );
+					UpTL[j] = -1;
+				end;
+			end;
+			if FanMode = 2 and KeepOldLines = false and nDrawnU >= mp then begin
+				{ pair mode: drop the oldest drawn line to keep only mp }
+				if UpTL[nDrawnU-1] >= 0 then TL_Delete( UpTL[nDrawnU-1] );
+				nDrawnU = nDrawnU - 1;
+			end;
+		end;
+		if anchorChanged then begin
+			nDrawnU = 0;
+			for j = 0 to nU - 1 begin
+				tlID = TL_New( UAd[j], UAt[j], UAp[j], UBd[j], UBt[j], UBp[j] );
+				TL_SetExtRight( tlID, true );
+				TL_SetColor( tlID, UpperColor );
+				TL_SetSize( tlID, LineSize );
+				UpTL[nDrawnU] = tlID;
+				nDrawnU = nDrawnU + 1;
+			end;
+		end else if nU >= 1 then begin
+			{ shift ids, draw the new newest line at slot 0 }
+			for j = 59 downto 1 begin UpTL[j] = UpTL[j-1]; end;
+			tlID = TL_New( UAd[0], UAt[0], UAp[0], UBd[0], UBt[0], UBp[0] );
+			TL_SetExtRight( tlID, true );
+			TL_SetColor( tlID, UpperColor );
+			TL_SetSize( tlID, LineSize );
+			UpTL[0] = tlID;
+			if nDrawnU < 60 then nDrawnU = nDrawnU + 1;
+		end;
+	end;
+end;
+
+{ ---------- 3. rebuild the active LOWER line set when a swing low confirmed ---------- }
+if isLo and nLoS >= 2 then begin
+	nL = 0;
+	anchorChanged = false;
+	if FanMode = 1 then begin
+		aIdxL = -1;
+		aPx   = 999999999;
+		for j = 0 to nLoS - 1 begin
+			if ( AnchorLookback = 0 or BarNumber - LoBar[j] <= AnchorLookback ) and LoPx[j] < aPx then begin
+				aPx   = LoPx[j];
+				aIdxL = j;
+			end;
+		end;
+		if aIdxL >= 0 then begin
+			anchorChanged = LoBar[aIdxL] <> prevAnchorL;
+			if anchorChanged and doLog then
+				FileAppend( LogFile, "A," + rowPfx + ",L," + NumToStr( LoBar[aIdxL], 0 ) + "," + NumToStr( LoPx[aIdxL], 4 ) + NewLine );
+			prevAnchorL = LoBar[aIdxL];
+			for j = 0 to aIdxL - 1 begin
+				if nL < 60 then begin
+					LAb[nL] = LoBar[aIdxL]; LAp[nL] = LoPx[aIdxL]; LAd[nL] = LoDate[aIdxL]; LAt[nL] = LoTime[aIdxL];
+					LBb[nL] = LoBar[j];     LBp[nL] = LoPx[j];     LBd[nL] = LoDate[j];     LBt[nL] = LoTime[j];
+					Lm[nL]  = ( LBp[nL] - LAp[nL] ) / ( LBb[nL] - LAb[nL] );
+					nL = nL + 1;
+				end;
+			end;
+		end;
+	end else begin
+		for j = 0 to MinList( nLoS - 1, mp ) - 1 begin
+			LAb[nL] = LoBar[j+1]; LAp[nL] = LoPx[j+1]; LAd[nL] = LoDate[j+1]; LAt[nL] = LoTime[j+1];
+			LBb[nL] = LoBar[j];   LBp[nL] = LoPx[j];   LBd[nL] = LoDate[j];   LBt[nL] = LoTime[j];
+			Lm[nL]  = ( LBp[nL] - LAp[nL] ) / ( LBb[nL] - LAb[nL] );
+			nL = nL + 1;
+		end;
+	end;
+
+	if ShowLines then begin
+		if anchorChanged or FanMode = 2 then begin
+			if anchorChanged and KeepOldLines = false then begin
+				for j = 0 to nDrawnL - 1 begin
+					if LoTL[j] >= 0 then TL_Delete( LoTL[j] );
+					LoTL[j] = -1;
+				end;
+			end;
+			if FanMode = 2 and KeepOldLines = false and nDrawnL >= mp then begin
+				if LoTL[nDrawnL-1] >= 0 then TL_Delete( LoTL[nDrawnL-1] );
+				nDrawnL = nDrawnL - 1;
+			end;
+		end;
+		if anchorChanged then begin
+			nDrawnL = 0;
+			for j = 0 to nL - 1 begin
+				tlID = TL_New( LAd[j], LAt[j], LAp[j], LBd[j], LBt[j], LBp[j] );
+				TL_SetExtRight( tlID, true );
+				TL_SetColor( tlID, LowerColor );
+				TL_SetSize( tlID, LineSize );
+				LoTL[nDrawnL] = tlID;
+				nDrawnL = nDrawnL + 1;
+			end;
+		end else if nL >= 1 then begin
+			for j = 59 downto 1 begin LoTL[j] = LoTL[j-1]; end;
+			tlID = TL_New( LAd[0], LAt[0], LAp[0], LBd[0], LBt[0], LBp[0] );
+			TL_SetExtRight( tlID, true );
+			TL_SetColor( tlID, LowerColor );
+			TL_SetSize( tlID, LineSize );
+			LoTL[0] = tlID;
+			if nDrawnL < 60 then nDrawnL = nDrawnL + 1;
+		end;
+	end;
+end;
+
+{ ---------- A. step every active line forward to this bar; cluster the levels ---------- }
+nLv = 0;
+for u = 0 to nU - 1 begin
+	upAtNow = UBp[u] + Um[u] * ( BarNumber - UBb[u] );
+	if doLog then FileAppend( LogFile, "L," + rowPfx + ",U," + NumToStr( u, 0 ) + "," + NumToStr( upAtNow, 4 ) + NewLine );
+	if AbsValue( upAtNow - Close ) <= LevelRangeATR * atr and nLv < 120 then begin
+		Lv[nLv] = upAtNow;
+		nLv = nLv + 1;
+	end;
+end;
+for li = 0 to nL - 1 begin
+	loAtNow = LBp[li] + Lm[li] * ( BarNumber - LBb[li] );
+	if doLog then FileAppend( LogFile, "L," + rowPfx + ",L," + NumToStr( li, 0 ) + "," + NumToStr( loAtNow, 4 ) + NewLine );
+	if AbsValue( loAtNow - Close ) <= LevelRangeATR * atr and nLv < 120 then begin
+		Lv[nLv] = loAtNow;
+		nLv = nLv + 1;
+	end;
+end;
+
+bestCnt = 0;
+bestPx  = 0;
+for k = 0 to nLv - 1 begin
+	cnt   = 0;
+	sumLv = 0;
+	for j = 0 to nLv - 1 begin
+		if AbsValue( Lv[j] - Lv[k] ) <= tolLv then begin
+			cnt   = cnt + 1;
+			sumLv = sumLv + Lv[j];
+		end;
+	end;
+	if cnt > bestCnt then begin
+		bestCnt = cnt;
+		bestPx  = sumLv / cnt;
+	end;
+end;
+
+{ ---------- B. intercepts: crossings now and projected ahead ---------- }
+nIcpt    = 0;
+nearBars = 999999;
+nearPx   = 0;
+nConv    = 0;
+convPx   = 0;
+nNow     = 0;
+
+if LastBarOnChart and ShowIntercepts then begin
+	for j = 0 to nOldMarks - 1 begin
+		if MarkID[j] >= 0 then begin
+			if MarkIsText[j] then Text_Delete( MarkID[j] ) else TL_Delete( MarkID[j] );
+		end;
+		MarkID[j] = -1;
+	end;
+	nOldMarks = 0;
+end;
+
+for u = 0 to nU - 1 begin
+	upAtNow = UBp[u] + Um[u] * ( BarNumber - UBb[u] );
+	for li = 0 to nL - 1 begin
+		loAtNow = LBp[li] + Lm[li] * ( BarNumber - LBb[li] );
+		if Um[u] <> Lm[li] then begin
+			{ solve UBp + Um*(b - UBb) = LBp + Lm*(b - LBb) }
+			bX = ( LBp[li] - UBp[u] + Um[u] * UBb[u] - Lm[li] * LBb[li] ) / ( Um[u] - Lm[li] );
+			pX = UBp[u] + Um[u] * ( bX - UBb[u] );
+
+			if bX > BarNumber - 1 and bX <= BarNumber then begin
+				nConv = nConv + 1;
+				if nConv = 1 then convPx = pX;
+				if nNow < 400 then begin
+					NowPx[nNow] = pX;
+					nNow = nNow + 1;
+				end;
+				if doLog then FileAppend( LogFile, "X," + rowPfx + "," + NumToStr( pX, 4 ) + NewLine );
+			end;
+
+			if upAtNow > loAtNow and bX > BarNumber and bX <= BarNumber + LookAhead then begin
+				nIcpt = nIcpt + 1;
+				if bX - BarNumber < nearBars then begin
+					nearBars = bX - BarNumber;
+					nearPx   = pX;
+				end;
+				if LastBarOnChart and ShowIntercepts and nOldMarks < 119 and CurrentBar > 1 then begin
+					tlID = TL_New( Date[1], Time[1], pX, Date, Time, pX );
+					TL_SetExtRight( tlID, true );
+					TL_SetColor( tlID, InterceptColor );
+					TL_SetStyle( tlID, Tool_Dotted );
+					MarkID[nOldMarks]     = tlID;
+					MarkIsText[nOldMarks] = false;
+					nOldMarks = nOldMarks + 1;
+				end;
+			end;
+		end;
+	end;
+end;
+
+{ cluster the crossings occurring now against the recent-crossing ring buffer }
+for k = 0 to nNow - 1 begin
+	CvBar[cvHead] = BarNumber;
+	CvPx[cvHead]  = NowPx[k];
+	cvHead = Mod( cvHead + 1, 400 );
+	if cvCount < 400 then cvCount = cvCount + 1;
+end;
+
+bestQ   = 0;
+bestQPx = 0;
+nLab    = 0;
+for k = 0 to nNow - 1 begin
+	cnt = 0;
+	for j = 0 to cvCount - 1 begin
+		if BarNumber - CvBar[j] <= ClusterBars and AbsValue( CvPx[j] - NowPx[k] ) <= tolCv then cnt = cnt + 1;
+	end;
+	if cnt > bestQ then begin
+		bestQ   = cnt;
+		bestQPx = NowPx[k];
+	end;
+	if ShowConvergence then begin
+		if cnt >= ClusterMin then begin
+			dup = false;
+			for qq = 0 to nLab - 1 begin
+				if AbsValue( LabPx[qq] - NowPx[k] ) <= tolCv then dup = true;
+			end;
+			if dup = false and nLab < 50 then begin
+				txtID = Text_New( Date, Time, NowPx[k], NumToStr( cnt, 0 ) );
+				Text_SetColor( txtID, ConvColor );
+				Text_SetStyle( txtID, 2, 2 );
+				LabPx[nLab] = NowPx[k];
+				nLab = nLab + 1;
+			end;
+		end else begin
+			txtID = Text_New( Date, Time, NowPx[k], ConvMark );
+			Text_SetColor( txtID, ConvColor );
+			Text_SetStyle( txtID, 2, 2 );
+		end;
+	end;
+end;
+
+if doLog and bestCnt >= ClusterMinLines then
+	FileAppend( LogFile, "K," + rowPfx + "," + NumToStr( bestPx, 4 ) + "," + NumToStr( bestCnt, 0 ) + NewLine );
+if doLog and bestQ >= ClusterMin then
+	FileAppend( LogFile, "Q," + rowPfx + "," + NumToStr( bestQPx, 4 ) + "," + NumToStr( bestQ, 0 ) + NewLine );
+
+{ last-bar summary label }
+if LastBarOnChart and ShowIntercepts and nOldMarks < 120 then begin
+	txtID = Text_New( Date, Time, High, " U" + NumToStr( nU, 0 ) + "/L" + NumToStr( nL, 0 )
+		+ " icpt=" + NumToStr( nIcpt, 0 ) + " near=" + NumToStr( nearBars, 0 ) + "b @" + NumToStr( nearPx, 2 )
+		+ " lvl=" + NumToStr( bestCnt, 0 ) + "@" + NumToStr( bestPx, 2 ) );
+	Text_SetColor( txtID, InterceptColor );
+	Text_SetStyle( txtID, 1, 1 );
+	MarkID[nOldMarks]     = txtID;
+	MarkIsText[nOldMarks] = true;
+	nOldMarks = nOldMarks + 1;
+end;
+
+{ ---------- plots ---------- }
+if nU >= 1 then begin
+	UpperNow = UBp[0] + Um[0] * ( BarNumber - UBb[0] );
+	Plot1( UpperNow, "UpperNow" );
+end else NoPlot( 1 );
+
+if nL >= 1 then begin
+	LowerNow = LBp[0] + Lm[0] * ( BarNumber - LBb[0] );
+	Plot2( LowerNow, "LowerNow" );
+end else NoPlot( 2 );
+
+if nIcpt > 0 then Plot3( nearPx, "NearIcpt" ) else NoPlot( 3 );
+if nConv > 0 then Plot4( convPx, "ConvPt" )  else NoPlot( 4 );
+
+if bestCnt >= ClusterMinLines then begin
+	Plot5( bestPx, "LvlCluster" );
+	SetPlotWidth( 5, MinList( bestCnt, 5 ) );
+end else NoPlot( 5 );
+
+if bestQ >= ClusterMin then Plot6( bestQPx, "ConvClust" ) else NoPlot( 6 );

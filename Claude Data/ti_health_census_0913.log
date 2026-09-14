@@ -1,0 +1,46 @@
+09:56:39 groups 1/412 unique devices 14
+09:56:53 groups 51/412 unique devices 12103
+09:57:01 groups 101/412 unique devices 12157
+09:57:08 groups 151/412 unique devices 12493
+09:57:16 groups 201/412 unique devices 12875
+09:57:24 groups 251/412 unique devices 13434
+09:57:31 groups 301/412 unique devices 14215
+09:57:38 groups 351/412 unique devices 14462
+09:57:45 groups 401/412 unique devices 14629
+09:57:47 unique devices: 14639
+09:57:47 devices 1/14639 errors 0
+09:59:32 devices 501/14639 errors 0
+10:01:14 devices 1001/14639 errors 0
+10:02:59 devices 1501/14639 errors 0
+10:04:39 devices 2001/14639 errors 0
+10:06:25 devices 2501/14639 errors 0
+10:08:11 devices 3001/14639 errors 0
+10:09:50 devices 3501/14639 errors 0
+10:11:29 devices 4001/14639 errors 0
+10:13:16 devices 4501/14639 errors 0
+10:15:02 devices 5001/14639 errors 0
+10:16:57 devices 5501/14639 errors 0
+10:18:46 devices 6001/14639 errors 0
+10:20:32 devices 6501/14639 errors 0
+10:22:18 devices 7001/14639 errors 0
+10:24:02 devices 7501/14639 errors 0
+10:25:49 devices 8001/14639 errors 0
+10:27:31 devices 8501/14639 errors 0
+10:29:10 devices 9001/14639 errors 0
+10:30:50 devices 9501/14639 errors 0
+10:32:29 devices 10001/14639 errors 0
+10:35:58 devices 11001/14639 errors 0
+10:37:41 devices 11501/14639 errors 0
+10:38:55 devices 12001/14639 errors 0
+10:41:11 devices 12501/14639 errors 0
+10:43:26 devices 13001/14639 errors 0
+10:45:41 devices 13501/14639 errors 0
+10:47:54 devices 14001/14639 errors 0
+10:50:08 devices 14501/14639 errors 0
+10:50:46 DONE devices 14639 errors 0
+10:50:46 classes: [('stale', 6394), ('ok', 5182), ('ti_dead', 1462), ('failed_cal', 996), ('ti_dead+failed_cal', 405), ('no_status', 180), ('boot_looper', 4), ('ti_recovery_exhausted', 4), ('tifota_fail', 4), ('ti_dead+tifota_fail', 3), ('boot_looper+failed_cal', 1), ('boot_looper+tifota_fail', 1), ('ti_dead+ti_parked', 1), ('ti_dead+boot_looper', 1), ('ti_dead+boot_looper+tifota_fail+ti_recovery_exhausted', 1)]
+10:50:46   ti_dead: 1873 devices (1670 in property groups)
+10:50:46   boot_looper: 8 devices (8 in property groups)
+10:50:46   tifota_fail: 9 devices (9 in property groups)
+10:50:46   failed_cal: 1402 devices (609 in property groups)
+10:50:46   ti_parked: 1 devices (1 in property groups)

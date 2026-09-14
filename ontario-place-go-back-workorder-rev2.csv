@@ -1,0 +1,30 @@
+Action,Lot,Device,State,DaysDark,LastRadioContact,FW,TI,Carrier,RSRP_final30,VddAdc_mV,ReportDays_final4wk,Basis
+"Mag reset, ext-antenna meter as backup",11,65829833,DARK,82.2,2026-06-10,16048,209,AT&T,-123.0,3613,5,silent 0.0d after fw->16048; RSRP -123.0 so carry an ext-ant meter
+"Mag reset, ext-antenna meter as backup",102,72391244,DARK,54.3,2026-07-08,16022,260,AT&T,-122.0,3641,17,"faded out on weak signal, no update involved; carry an ext-ant meter"
+"Mag reset, ext-antenna meter as backup",134,70267776,DARK,49.3,2026-07-13,16185,0,AT&T,-122.0,3554,19,silent 0.0d after fw->16185; RSRP -122.0 so carry an ext-ant meter
+New meter - standard,89,70264732,DARK,13.2,2026-08-18,15147,209,AT&T,-121.0,3128,14,"battery 3128mV, hardware spent"
+New meter - standard,31,65824487,DARK,185.2,2026-02-27,10322,181,AT&T,-118.0,,6,dark 185d on obsolete fw 10322
+New meter - standard,43,72381864,DARK,158.2,2026-03-26,362,0,Verizon,-118.0,3620,25,dark 158d on obsolete fw 362
+New meter - standard,95,70259112,DARK,33.0,2026-07-29,16185,0,AT&T,-117.0,3091,10,"battery 3091mV, hardware spent"
+New meter - standard,92,70267768,DARK,115.3,2026-05-08,15154,209,AT&T,-116.0,3583,18,dark 115d on obsolete fw 15154
+New meter - standard,130,70264260,DARK,47.1,2026-07-15,16185,0,AT&T,-115.0,3231,23,"battery 3231mV, hardware spent"
+New meter - standard,153,70265127,DARK,287.5,2025-11-17,10295,159,AT&T,-111.0,,11,dark 288d on obsolete fw 10295
+New meter - standard,66,72383407,online,0,2026-08-31,17040,354,AT&T,-108.0,3635,28,"register flat 45d + failed cal - metering fault, not signal"
+"Mag reset only, no hardware",12,70261068,DARK,54.3,2026-07-08,15147,209,AT&T,-121.0,3618,18,faded out with no update involved; signal adequate
+"Mag reset only, no hardware",147,70271968,DARK,53.2,2026-07-09,16022,260,AT&T,-121.0,3640,24,faded out with no update involved; signal adequate
+"Mag reset only, no hardware",132,70270309,DARK,87.2,2026-06-05,16048,209,AT&T,-118.5,3484,3,silent 0.0d after fw->16048; battery + signal sound
+"Mag reset only, no hardware",15,70260904,DARK,52.2,2026-07-10,16185,0,AT&T,-118.0,3590,24,silent 0.0d after fw->16185; battery + signal sound
+"Mag reset only, no hardware",100,70260581,DARK,22.2,2026-08-09,16022,260,AT&T,-116.0,3593,0,faded out with no update involved; signal adequate
+"Mag reset only, no hardware",49,70264476,DARK,90.2,2026-06-02,16048,272,AT&T,-114.0,3438,27,silent 0.0d after fw->16048; battery + signal sound
+Re-check before the trip - not yet proven dead,62,79462774,DARK,4.1,2026-08-27,17037,344,Verizon,-128.0,3650,23,only 4d quiet after 23/28-day cadence - confirm before spending a meter
+Re-check before the trip - not yet proven dead,137,70268626,DARK,3.1,2026-08-28,16185,314,Verizon,-123.0,3629,25,only 3d quiet after 25/28-day cadence - confirm before spending a meter
+"Check on site, no parts assumed",58,70262256,online,0,2026-08-31,16185,314,Verizon,-118.0,3641,27,failed calibration flag
+"Check on site, no parts assumed",74,70261316,online,0,2026-08-31,17040,354,T-Mobile,-114.0,3603,24,failed calibration flag
+"Check on site, no parts assumed",9,75360303,online,0,2026-08-31,17037,344,Verizon,-114.0,3647,28,high ToF rejection - acoustic/coupling
+"Check on site, no parts assumed",18,70271380,online,0,2026-08-31,17040,354,T-Mobile,-112.0,3491,27,failed calibration flag
+No action - marginal signal but working,135,65825286,online,0,2026-08-31,17037,344,T-Mobile,-125.5,3640,14,"RSRP -125.5 dBm but metering, attaching 14/28 days, battery 3640mV - no hardware"
+No action - marginal signal but working,148,70265135,online,0,2026-08-31,17037,344,AT&T,-124.0,3607,26,"RSRP -124.0 dBm but metering, attaching 26/28 days, battery 3607mV - no hardware"
+No action - marginal signal but working,101,70266489,online,0,2026-08-31,17037,344,Verizon,-123.0,3640,28,"RSRP -123.0 dBm but metering, attaching 28/28 days, battery 3640mV - no hardware"
+No action - marginal signal but working,50,70267925,online,0,2026-08-31,16185,314,Verizon,-123.0,3641,27,"RSRP -123.0 dBm but metering, attaching 27/28 days, battery 3641mV - no hardware"
+No action - marginal signal but working,68,70267735,online,0,2026-08-31,17037,344,T-Mobile,-122.0,3649,27,"RSRP -122.0 dBm but metering, attaching 27/28 days, battery 3649mV - no hardware"
+No action - marginal signal but working,85,72382094,online,0,2026-08-31,17037,344,T-Mobile,-122.0,3643,26,"RSRP -122.0 dBm but metering, attaching 26/28 days, battery 3643mV - no hardware"

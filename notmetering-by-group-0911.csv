@@ -1,0 +1,375 @@
+﻿group,serial,id,apt,state,fw,fwti,gain,tiPulse,crash,seen_h,nowater,pipe
+103 West Broadway,72718887,45ad5320-d4c8-11f0-b691-d965a62fa4fa,113-4,Failed Cal,17060,368,55,13,0,7.3,false,M ¾
+8 OnElaine,72720263,ed003220-c431-11f0-9842-6d029661c338,"2314-1102,1202",Failed Cal,17037,344,26,,45,7.9,false,M 1
+Alta Vista MHC-CUST,77061143,13be6920-26b4-11f0-8272-45e3ef110760,28,Failed Cal,17060,368,55,13,0,9.7,false,C ¾
+Alta Vista MHC-CUST,65831581,12317560-cf71-11ef-8f43-73c96c0de66f,4,Failed Cal,17060,368,55,13,0,9.4,false,P ¾
+Alta Vista MHC-CUST,70263098,9607ac20-62a0-11f0-8658-7f4e94e41769,45,Failed Cal,17060,368,55,6,0,9.4,false,X ¾
+Alta Vista MHC-CUST,79456529,1ae91ac0-47f5-11f1-969c-6109d9dfb138,18,Not Metering,16048,272,45,,0,2439.5,true,X ¾
+Alta Vista MHC-CUST,65832035,40fb5330-c93f-11ef-8f43-73c96c0de66f,24,Not Metering,16048,0,0,,6,2438.4,false,C ¾
+Alta Vista MHC-CUST,79466189,0c76d4f0-47f5-11f1-969c-6109d9dfb138,31,Not Metering,16048,0,0,,0,2342.8,false,X ¾
+Alta Vista MHC-CUST,70269749,0170a030-6133-11f0-9fcd-87e94e720126,32,Not Metering,16048,0,0,,0,2460.9,false,P ¾
+Arizona Manor,77054429,57792140-26ce-11f0-8272-45e3ef110760,3,Failed Cal,17060,368,55,6,0,7.7,false,X ¾
+Aurora MHC,72392556,dcd93400-82e1-11f0-8b4a-0d0197d44616,105,Failed Cal,17060,368,55,6,0,10.7,false,X ¾
+Aurora MHC,70266596,90af2940-5c21-11f0-9fcd-87e94e720126,117B,Failed Cal,17060,368,55,13,0,8.6,,X ¾
+Aurora MHC,70261761,6f0acba0-5c21-11f0-9fcd-87e94e720126,159,Failed Cal,17060,368,55,13,0,9.5,false,M ½
+Aurora MHC,72389412,ff256a60-82e1-11f0-8b4a-0d0197d44616,172,Failed Cal,17060,368,55,13,0,9.6,false,X ½
+Aurora MHC,77042093,9b727000-269b-11f0-8272-45e3ef110760,224,Failed Cal,17040,354,55,,0,11.4,false,P ⅜
+Aurora MHC,70264302,fdcf84e0-5bb1-11f0-9fcd-87e94e720126,258,Failed Cal,17060,368,55,6,2837,83.8,false,X ¾
+Aurora MHC,77057885,15becd00-26b4-11f0-8272-45e3ef110760,33,Failed Cal,17040,354,55,,0,177.0,false,X ½
+Aurora MHC,70263353,ab932bf0-5c0b-11f0-9fcd-87e94e720126,108,Not Metering,16048,272,45,,0,2439.4,false,X ¾
+Aurora MHC,70263015,0c361cd0-5bb0-11f0-9fcd-87e94e720126,119,Not Metering,16048,272,45,,0,2437.8,false,X ½
+Aurora MHC,65823745,29f05660-be5c-11ef-8f43-73c96c0de66f,120-OLD,Not Metering,15114,256,35,,0,3541.8,false,X ½
+Aurora MHC,65830450,31587d30-01d5-11f0-92a4-09772dfb61f8,128,Not Metering,16048,272,45,,0,2439.5,false,X ¾
+Aurora MHC,70273477,099dbeb0-5bb0-11f0-9fcd-87e94e720126,154,Not Metering,16048,272,45,,0,2439.3,false,X ¾
+Aurora MHC,70259120,98e3bbf0-666f-11f0-8658-7f4e94e41769,155-OLD,Not Metering,16131,296,55,,1,4.1,false,X ½
+Aurora MHC,72384371,fe7aab70-82e1-11f0-8b4a-0d0197d44616,16,Not Metering,16048,272,45,,0,2438.5,false,X ¾
+Aurora MHC,70270895,f598f820-5bb0-11f0-9fcd-87e94e720126,164,Not Metering,16048,272,45,,0,2439.7,false,P ¾
+Aurora MHC,72389040,0df68a50-82e8-11f0-8b4a-0d0197d44616,169,Not Metering,362,209,0,,0,3850.0,false,X ¾
+Aurora MHC,70264005,046895a0-5bb0-11f0-9fcd-87e94e720126,193,Not Metering,16022,260,35,,0,14.0,false,X ¾
+Aurora MHC,72388109,03d006b0-82e2-11f0-8b4a-0d0197d44616,228,Not Metering,16048,272,45,,1,2439.3,false,X ¾
+Azulejo,72716964,13ed4600-d7a8-11f0-b691-d965a62fa4fa,1103,Not Metering,15001,0,0,,0,3985.2,false,X ¾
+Azulejo,72717582,99e8d100-d79b-11f0-b691-d965a62fa4fa,201,Not Metering,16048,272,45,,0,2438.3,false,L ¾
+Backwater MHC,72718044,a351dfc0-d79b-11f0-b691-d965a62fa4fa,25,Calibrating,17040,354,40,,0,298.0,false,P ¾
+Backwater MHC,72389479,9f06c220-82e4-11f0-8b4a-0d0197d44616,45,Calibrating,17037,344,40,,0,10.9,false,P ¾
+Big Country Mobile Home & RV Park-Cust,72718838,dd0230d0-0c3e-11f1-8768-5551e7a34f27,3600-D,Not Metering,16130,0,0,,20,1332.3,false,X ½
+Blue Sky Village MHC,79461628,eab0dcc0-39d6-11f1-b198-172a4a9f25c9,28,Failed Cal,17060,368,55,13,0,8.3,false,X ½
+Brian Fries 5YR,72723424,03eff120-01de-11f1-af1d-29d4205d602a,,Failed Cal,17060,368,55,13,0,1.3,false,L ¾
+Brighton Court MHP,72380411,d08e2f60-ad30-11f0-98a7-c3bc57f9afe3,11,Failed Cal,17060,368,55,13,0,9.6,true,X ½
+Broadway MHP DesMoines,72382516,7b3ed530-9a72-11f0-b5af-5dfa9891b485,1,Failed Cal,17037,344,55,,0,532.6,false,X ½
+Broadway MHP DesMoines,72383191,c9e9c100-9328-11f0-ac3b-59f8170a8dd3,18,Failed Cal,17037,344,35,,0,104.2,false,X ½
+Broadway MHP DesMoines,75367704,a81c1e20-5483-11f1-b1bb-f3574cce671d,4,Failed Cal,17060,368,55,13,0,9.6,false,X ½
+Broadway MHP DesMoines,70262025,65d805a0-a971-11f0-98a7-c3bc57f9afe3,9,Failed Cal,17060,368,55,13,0,8.0,false,X ½
+Broadway MHP DesMoines,72379884,a1e1d1a0-9a69-11f0-b5af-5dfa9891b485,HOUSE-NEW,Failed Cal,17060,368,55,13,0,8.0,false, 
+Broken Arrow MHP - Cust,75368272,a2b2dc30-4d71-11f1-b1bb-f3574cce671d,6101-198TH-ST,Calibrating,17060,368,40,13,34,9.3,false,P ¾
+Broken Arrow MHP - Cust,70269897,dead07a0-5223-11f0-acb1-514e01860b07,6111-197TH-ST,Failed Cal,17060,368,55,13,0,10.0,false,P ¾
+Broken Arrow MHP - Cust,79462030,1132d2f0-4d72-11f1-b1bb-f3574cce671d,6111-198TH-ST,Not Metering,16131,296,55,,0,1272.8,false,P ¾
+Brown's MHP-CUST,65831466,12094ed0-bda8-11ef-8f43-73c96c0de66f,20,Not Metering,16131,0,0,,2,2017.7,false,L ½
+Brown's MHP-CUST,65824255,b0665520-d0b1-11ef-8e78-557cf2ce39c0,26,Not Metering,15019,219,0,,0,3915.4,false,L ½
+CJ,75371193,22245b10-0e70-11f1-85e5-65eb60735c3d,106,Not Metering,16048,272,45,,0,2438.0,false,L 1
+CJ,75374122,480f4df0-0e6e-11f1-85e5-65eb60735c3d,116,TI Silent,17037,0,0,,0,699.4,false,L 1
+Cactus Flower,75361244,934cae80-f653-11f0-b153-63024d3301e1,Laundry,Failed Cal,17037,344,55,,2,329.8,false,L ¾
+Cactus Flower,75362028,cf589bc0-f651-11f0-b153-63024d3301e1,4,Not Metering,16131,0,0,,2,1408.0,false,L ¾
+Cactus Flower,75362382,cebde260-f651-11f0-b153-63024d3301e1,9 and Laundry,TI Silent,17037,0,0,,0,536.0,false,L ¾
+Carolina Springs MHP,72388042,4ca317e0-9fd6-11f0-b5af-5dfa9891b485,1795-GIBSONST-DUPLICATE-OLD,Failed Cal,17060,368,26,6,1,9.9,false,X ¾
+Carolina Springs MHP,70272594,26b32e30-9e73-11f0-b5af-5dfa9891b485,CSP 85 (1724-GILMOREST)-OLD,Not Metering,363,219,0,,0,3892.8,false,X ¾
+Carolina Springs MHP,70272529,242ca930-9e59-11f0-b5af-5dfa9891b485,CSP106-390-RIDGELINECT-OLD,Not Metering,16048,272,45,,0,2438.0,false,X ¾
+Carolina Springs MHP,72383183,36a1d490-9a72-11f0-b5af-5dfa9891b485,CSP116-395-BAINBRIDGECT-OLD,Not Metering,16048,272,45,,3,2438.1,false,X ¾
+Carolina Springs MHP,72388679,832d2970-9a33-11f0-b5af-5dfa9891b485,CSP119-398-RIVERBASINCT-PLACEHOLDER,Not Metering,16048,272,45,,15,2437.8,false,X ¾
+Carolina Springs MHP,70262330,84e65c50-9e7f-11f0-b5af-5dfa9891b485,CSP32-1709-GIBSONST-OLD,Not Metering,16048,272,45,,0,2439.3,false,X ¾
+Carolina Springs MHP,70262140,4e549790-9e59-11f0-b5af-5dfa9891b485,CSP41-1737-GIBSONST-OLD,Not Metering,16048,272,45,,0,2437.9,false,X ¾
+Carolina Springs MHP,72378803,7d55a5d0-9fd9-11f0-b5af-5dfa9891b485,CSP52-1781-GIBSONST-OLD,Not Metering,16048,272,45,,0,2438.1,false,X ¾
+Carolina Springs MHP,72385410,d9ea2af0-8f85-11f0-8b4a-0d0197d44616,CSP62-OR-CSP143-1828-GILMOREST-OLD,Not Metering,16048,272,45,,0,2439.0,false,X ¾
+Carolina Springs MHP-CUST,77054627,c9bd1220-35a6-11f0-8e55-b138a1c03c8e,CSP106-390-RIDGELINECT-2OF2,Calibrating,17037,344,40,,0,11.6,false,X ¾
+Carolina Springs MHP-CUST,65825542,b97830a0-01dc-11f0-92a4-09772dfb61f8,CSP4-1788-GIBSONST,Calibrating,17037,344,40,,18,10.8,false,X ¾
+Carolina Springs MHP-CUST,70265655,785690f0-9e65-11f0-b5af-5dfa9891b485,CSP123-385-RIVERBASINCT,Failed Cal,17037,344,26,,0,10.8,false,X ¾
+Carolina Springs MHP-CUST,72388513,9445c530-9a35-11f0-b5af-5dfa9891b485,CSP113-394-BAINBRIDGECT,Not Metering,16048,0,0,,134,2462.0,false,X ¾
+Carolina Springs MHP-CUST,72392192,5746c980-9fd6-11f0-b5af-5dfa9891b485,CSP120-394-RIVERBASINCT,Not Metering,362,209,41,,0,13.2,false,X ¾
+Carolina Springs MHP-CUST,72383795,2964fa80-9fa1-11f0-b5af-5dfa9891b485,CSP150-1860-BLAKEST,Not Metering,16131,0,0,,9,15.6,false,X ¾
+Carolina Springs MHP-CUST,70265689,d106c850-9e6a-11f0-b5af-5dfa9891b485,CSP160-1888-BLAKEST,Not Metering,362,209,41,,0,14.6,false,X ¾
+Carolina Springs MHP-CUST,72384843,495f0f90-9e59-11f0-b5af-5dfa9891b485,CSP46-1757-GIBSONST,Not Metering,362,209,41,,0,13.4,false,X ¾
+Carolina Springs MHP-CUST,72386459,d1ebf830-9e6a-11f0-b5af-5dfa9891b485,CSP95-1721-GILMOREST,Not Metering,362,209,41,,0,13.4,false,X ¾
+Carolina Springs MHP-CUST,70259260,2b09d0e0-9fa1-11f0-b5af-5dfa9891b485,CSP98-1733-GILMOREST,Not Metering,362,209,41,,0,37.8,false,X ¾
+Coleman Village MHC-CUST,75371920,f695ab00-01dd-11f1-af1d-29d4205d602a,182,Calibrating,17060,368,40,13,0,10.4,true,X ¾
+Coleman Village MHC-CUST,70261902,0a504720-6677-11f0-8658-7f4e94e41769,179,Failed Cal,17060,368,55,6,1,9.5,true,X ¾
+Coleman Village MHC-CUST,77059642,924ce000-666f-11f0-8658-7f4e94e41769,142,Not Metering,16131,0,0,,36,1766.1,true,X ½
+Country Edge MHC,75371466,52207340-f0c4-11f0-8900-8bd481ce9a44,417-2,Not Metering,362,209,0,,0,4663.1,false,X ½
+Country Edge MHC,75373603,49131910-f0c4-11f0-8900-8bd481ce9a44,418,Not Metering,16048,272,45,,0,2439.4,false,X ¾
+Crystal Acres MHC,72385774,9eda8510-9a69-11f0-b5af-5dfa9891b485,29,Calibrating,17060,344,40,0,0,9.2,false,X ¾
+Crystal Acres MHC,72381369,a5d44c70-a95a-11f0-98a7-c3bc57f9afe3,48,Failed Cal,17060,368,55,13,0,10.8,false,P ¾
+Crystal Acres MHC,72384678,d91a1920-a941-11f0-98a7-c3bc57f9afe3,13,TI Silent,17037,0,0,,226,34.1,false,X ¾
+Dorr Drive MHP,72378555,751f9740-a939-11f0-98a7-c3bc57f9afe3,18,Not Metering,16185,314,55,,91,10.4,false,X ½
+Dorr Drive MHP,72390584,8fb5b2f0-9328-11f0-ac3b-59f8170a8dd3,3,Not Metering,16048,272,45,,0,2437.6,false,L ¾
+Eastwood Hills MHC-CUST,77061952,4ff3ba40-3d01-11f0-8e55-b138a1c03c8e,EH100,Failed Cal,17060,368,55,13,0,9.7,false,P ¾
+Eastwood Hills MHC-CUST,70271695,4fe4e280-c4cf-11f0-9842-6d029661c338,EH19,Failed Cal,17060,368,55,13,0,9.1,false,P ¾
+Eastwood Hills MHC-CUST,72720198,96120210-c88a-11f0-9842-6d029661c338,TR311,Failed Cal,17060,368,55,13,0,9.3,false,P ¾
+Eastwood Hills MHC-CUST,65825872,06729ba0-e66e-11ef-bcd4-5bcca9a9134f,EH10,Not Metering,16048,272,45,,0,2437.8,false,P ¾
+Eastwood Hills MHC-CUST,72721766,b583ee10-c6c3-11f0-9842-6d029661c338,EH242,Not Metering,16048,0,0,,0,2460.0,false,X ¾
+Eastwood Hills MHC-CUST,72717301,104893b0-c8d0-11f0-9842-6d029661c338,EH43,Not Metering,16048,272,45,,0,2434.3,false,P ¾
+Eastwood Hills MHC-CUST,72717152,fd617cb0-c8d1-11f0-9842-6d029661c338,EH67,Not Metering,16131,296,55,,0,1616.0,false,C ¾
+Eastwood Hills MHC-CUST,72720990,352b7a80-c8d0-11f0-9842-6d029661c338,EH79,Not Metering,16048,272,45,,0,2438.0,false,P ¾
+Engineering M-U2DB,70263445,f052b930-9e79-11f0-b5af-5dfa9891b485,700-OLD,Not Metering,15012,219,0,,0,4025.7,false,X ¾
+Estancia MHP-CUST,75373546,1b4326c0-06bc-11f1-a3d9-c99c67c82bc1,125,Calibrating,17060,368,40,13,0,9.4,false,X ¾
+Estancia MHP-CUST,70267115,287c9c60-6674-11f0-8658-7f4e94e41769,159,Failed Cal,17060,368,55,13,0,9.7,false,P ¾
+Estancia MHP-CUST,75373363,3e79b490-06a5-11f1-a3d9-c99c67c82bc1,27,Failed Cal,17060,368,55,6,0,8.0,false,X ¾
+Estancia MHP-CUST,72724307,f6324990-06a4-11f1-a3d9-c99c67c82bc1,4,Failed Cal,17060,368,55,13,106,10.3,false,P ¾
+Estancia MHP-CUST,65829767,6a1719e0-e5a8-11ef-a76f-4d93d4a482f0,118,Not Metering,16022,260,35,,1,2965.0,false,C ¾
+Estancia MHP-CUST,77042069,91f5b860-3524-11f0-8e55-b138a1c03c8e,13,Not Metering,16130,0,0,,18,2122.5,false,P ¾
+Estancia MHP-CUST,77054809,502999b0-66b6-11f0-8658-7f4e94e41769,152,Not Metering,16048,272,45,,4,2438.9,false,P ¾
+Estancia MHP-CUST,72724026,e2e2beb0-06a4-11f1-a3d9-c99c67c82bc1,163,Not Metering,16048,272,45,,21,2462.6,false,X ¾
+Estancia MHP-CUST,75373330,ed266ca0-06bd-11f1-a3d9-c99c67c82bc1,17,Not Metering,16048,272,45,,0,2437.5,false,P ¾
+Estancia MHP-CUST,77053306,7fc22350-3dc0-11f0-8e55-b138a1c03c8e,179,Not Metering,16048,0,0,,3,2437.7,false,C ¾
+Estancia MHP-CUST,75364230,f6da3870-069b-11f1-a3d9-c99c67c82bc1,19,Not Metering,16048,272,45,,59,2436.8,true,P ¾
+Estancia MHP-CUST,70268006,b4560c90-66b4-11f0-8658-7f4e94e41769,42,Not Metering,16048,272,45,,4,2438.4,false,X ¾
+Estancia MHP-CUST,75369908,10510c30-06aa-11f1-a3d9-c99c67c82bc1,44,Not Metering,16048,0,0,,0,2462.8,false,P ¾
+Estancia MHP-CUST,75373884,f4a540f0-06a4-11f1-a3d9-c99c67c82bc1,47,Not Metering,16128,295,55,,0,13.2,false,P ¾
+Estancia MHP-CUST,75373587,e61ab830-06a4-11f1-a3d9-c99c67c82bc1,49,Not Metering,16048,0,0,,0,2462.6,false,P ¾
+Estancia MHP-CUST,79462782,d4f6ea60-47f4-11f1-969c-6109d9dfb138,73,Not Metering,16048,0,0,,0,2438.6,false,X ¾
+Estancia MHP-CUST,79465934,614caa90-47f5-11f1-969c-6109d9dfb138,78,Not Metering,16048,272,45,,0,2437.5,false,P ¾
+Estancia MHP-CUST,65823794,ea638950-e308-11ef-a5fd-a97d57576080,81,Not Metering,16048,272,45,,0,2438.9,false,C ¾
+Estancia MHP-CUST,75367001,4a77e9f0-06a1-11f1-a3d9-c99c67c82bc1,82,Not Metering,16048,272,45,,0,2437.4,false,P ¾
+Estancia MHP-CUST,75374502,d66859d0-06bb-11f1-a3d9-c99c67c82bc1,167,TI Silent,17037,0,0,,0,105.5,false,P ¾
+Fair Lane MHC,65828694,c7ace580-bdb2-11ef-8f43-73c96c0de66f,22,Not Metering,16185,0,0,,1,802.3,false,X ½
+Fair Meadows MHC,65823471,496d0df0-c7b0-11ef-8f43-73c96c0de66f,145,Not Metering,16022,209,0,,0,2799.2,false,X ¾
+Fair Meadows MHC,65827084,7cd10350-c93f-11ef-8f43-73c96c0de66f,178,Not Metering,16022,209,0,,0,2847.2,false,X ¾
+Fair Meadows MHC,75365005,482c7ed0-3aa0-11f1-b198-172a4a9f25c9,181,Not Metering,16022,260,35,,0,2867.8,false,P ¾
+Flow Testing,79453815,3ab0b200-89f4-11f1-a1a6-391af391818e,Sample 4,Failed Cal,17037,354,55,,0,6.4,false,P ¾
+Forest at Sherman MHC-CUST,65822101,a412a6e0-cf6f-11ef-8f43-73c96c0de66f,50,Calibrating,17060,368,40,13,9,7.9,false,X ¾
+Forest at Sherman MHC-CUST,65829403,b63bf6e0-e58c-11ef-a76f-4d93d4a482f0,59,Not Metering,16048,272,45,,0,2390.8,false,P ¾
+Forest at Sherman MHC-CUST,65823943,41976c20-c93f-11ef-8f43-73c96c0de66f,91,Not Metering,16048,272,45,,0,2439.5,false,M ¾
+Fowler Apts MF,77056358,caccea00-352e-11f0-8e55-b138a1c03c8e,401-M,Failed Cal,17060,368,55,13,0,11.0,false,L 1
+Fowler Apts MF,77057356,d9e2e9e0-352e-11f0-8e55-b138a1c03c8e,604,Not Metering,16048,272,45,,1,2439.6,false,L ¾
+Freedom MHP,72715123,df3550e0-c426-11f0-9842-6d029661c338,8,Failed Cal,17060,368,55,13,0,9.6,false,X ½
+Freedom MHP,72723143,309314d0-d21f-11f0-b691-d965a62fa4fa,106,Not Metering,16048,272,45,,0,2438.8,false,X ½
+Freedom MHP,72718713,710c3550-d21f-11f0-b691-d965a62fa4fa,41,Not Metering,16048,272,45,,80,2438.1,false,X ½
+Freedom MHP,72721998,b042eac0-d21f-11f0-b691-d965a62fa4fa,64,Not Metering,16048,272,45,,1,2438.0,false,X ½
+Freedom MHP,72716378,820e74d0-d21f-11f0-b691-d965a62fa4fa,95,Not Metering,16048,272,45,,979,2437.0,false,X ½
+Glenn Dorado,70269087,994f4cc0-9a69-11f0-b5af-5dfa9891b485,113-213,Failed Cal,17037,344,55,,0,7.4,false,M 1
+Glenn Dorado,72385956,56abf410-9328-11f0-ac3b-59f8170a8dd3,107-207,Not Metering,16048,272,45,,0,2436.9,false,M 1
+Green Acres MHC,72386988,b9d41330-ad39-11f0-98a7-c3bc57f9afe3,8,Failed Cal,17060,368,55,13,0,9.7,false,P ¾
+Green Forest,65822952,d1242ea0-26b9-11f0-8272-45e3ef110760,18,Not Metering,362,209,41,,2,1598.0,false,P ¾
+Green Grove Trailer Court MHC,65825500,2e931240-e984-11ef-b35e-23eef2ba43da,15,Failed Cal,17040,354,55,,0,9.1,false,X ½
+Haven MHP,75365740,8e0e9800-4cc7-11f1-b1bb-f3574cce671d,21,Failed Cal,17060,368,55,13,0,8.0,false,X ½
+Haven MHP,75368405,14d2b740-4cc8-11f1-b1bb-f3574cce671d,3,Failed Cal,17060,368,55,6,0,9.0,false,X ¾
+Haven MHP,75371946,b7fb3170-4ccf-11f1-b1bb-f3574cce671d,4,Failed Cal,17060,368,55,13,0,10.5,false,X ¾
+Heritage Apartments,75362895,9fdfa2f0-4816-11f1-969c-6109d9dfb138,D4,Calibrating,17060,368,40,13,0,11.1,false,C ¾
+High Street,70270523,5a7025b0-52b6-11f0-acb1-514e01860b07,1,Not Metering,362,209,41,,1,4046.7,false,P ¾
+High Street,70269780,45a98b30-52b6-11f0-acb1-514e01860b07,15,Not Metering,16185,314,20,,0,1259.9,false,P ½
+High Street,70266745,563a1d20-52b6-11f0-acb1-514e01860b07,20,Not Metering,15154,260,35,,0,3272.8,false,P ½
+Highlands MHC,75372761,c8d00eb0-fe07-11f0-8726-d3fa6d0d96af,11A,Failed Cal,17060,368,55,13,0,1.0,false,P ¾
+Hillview MHC,72716543,84d67350-e487-11f0-8900-8bd481ce9a44,13,Failed Cal,17060,368,26,13,0,9.5,false,P ½
+Hillview MHC,72719331,16b5b290-01de-11f1-af1d-29d4205d602a,25,Failed Cal,17060,368,55,13,0,9.7,false,P 1
+Hillview MHC,72723010,62cd6070-e487-11f0-8900-8bd481ce9a44,4,Failed Cal,17040,354,55,,2,322.6,false,P ¾
+Hillview MHC,72721592,6af870f0-e487-11f0-8900-8bd481ce9a44,22-RETURN-TO-DUNE,Not Metering,16048,260,33,,0,2269.6,false,P ¾
+Hillview MHC,72722517,79ce0c70-e487-11f0-8900-8bd481ce9a44,24,Not Metering,16185,314,25,,0,10.6,false,P ¾
+Island Club MHC-CUST,75368496,255c6390-5498-11f1-b1bb-f3574cce671d,110,Failed Cal,17060,368,55,13,0,12.2,false,M ¾
+Johnson's Trailer Park,72723432,626d0930-f186-11f0-8900-8bd481ce9a44,14,Failed Cal,17060,368,55,13,0,11.5,false,M ½
+Kachina,72388844,23a3e890-842b-11f0-8b4a-0d0197d44616,8,Calibrating,17060,368,40,13,0,8.0,false,X ¾
+Kachina,70269251,8a11ff10-62a0-11f0-8658-7f4e94e41769,6,Failed Cal,17060,368,55,13,0,7.9,false,P ¾
+Kay Bee Mobile Villa MHP,75371904,579a7e70-4b22-11f1-bc16-b52012ce6db2,105,Failed Cal,17060,368,55,13,0,7.6,false,M ¾
+Kay Bee Mobile Villa MHP,72721865,a4c32760-c431-11f0-9842-6d029661c338,14,Failed Cal,17060,368,55,13,0,7.3,false,P ¾
+Kay Bee Mobile Villa MHP,70271810,f4a30410-cf9b-11f0-9bfa-a7eff651ff22,90,Failed Cal,17060,368,55,13,0,7.8,false,M ¾
+Kay Lou-Cust,79460919,0827cac0-6c13-11f1-9333-3b2cfe68422f,2624-I,Failed Cal,17060,368,55,13,0,9.8,false,P ¾
+Kay Lou-Cust,75374510,db887e50-6c13-11f1-9333-3b2cfe68422f,700-T,Not Metering,16131,0,0,,20,1211.2,false,P ¾
+Kingsbrook MHC,75367050,a74ed380-4d66-11f1-b1bb-f3574cce671d,778AM,Failed Cal,17060,368,55,13,0,12.2,false,M ½
+Kingsbrook MHC,77055954,3fd8e490-3db1-11f0-8e55-b138a1c03c8e,2609T,Not Metering,16048,272,45,,0,2429.7,false,L ¾
+Kingsbrook MHC,65823976,11b0a780-bda8-11ef-8f43-73c96c0de66f,712MI,Not Metering,16048,272,45,,0,2438.0,false,M ¾
+Kingsbrook MHC,70267198,b77f9be0-666c-11f0-8658-7f4e94e41769,769AS,Not Metering,16048,272,45,,0,2438.2,false,M ½
+Kingsbrook MHC,77055392,b802d6d0-3d05-11f0-8e55-b138a1c03c8e,787AS,Not Metering,16048,260,33,,2,2390.8,false,X ¾
+La Comunidad MHC-CUST,70258775,530bfd40-a95e-11f0-98a7-c3bc57f9afe3,102,Not Metering,16048,272,45,,0,2438.2,false,P ¾
+La Comunidad MHC-CUST,70269590,bf06a450-a940-11f0-98a7-c3bc57f9afe3,13,Not Metering,15155,260,35,,0,3063.7,false,P ¾
+La Comunidad MHC-CUST,70266026,9c0834d0-ad39-11f0-98a7-c3bc57f9afe3,48,Not Metering,16048,272,45,,0,2438.2,false,P ¾
+La Comunidad MHC-CUST,72384082,8b565f40-ad39-11f0-98a7-c3bc57f9afe3,51,Not Metering,15155,260,35,,0,3063.2,false,P ¾
+La Comunidad MHC-CUST,70259302,63c47f20-a082-11f0-b5af-5dfa9891b485,70,Not Metering,16048,272,35,,0,2439.7,false,P ¾
+La Comunidad MHC-CUST,72383944,e5039440-ad3e-11f0-98a7-c3bc57f9afe3,84,Not Metering,16131,0,0,,5,1548.6,false,P ¾
+Lafountaine MHC,72380866,627f6590-84a2-11f0-8b4a-0d0197d44616,125CC,Calibrating,17060,368,40,13,1,9.1,false,X ¾
+Lafountaine MHC,70262942,a366d840-84a2-11f0-8b4a-0d0197d44616,127CC,Not Metering,16131,0,0,,35,58.0,false,X ¾
+Lafountaine MHC,77056085,86fb2dd0-4151-11f0-8e55-b138a1c03c8e,202PV,Not Metering,16048,272,45,,0,2438.4,false,X ¾
+Lafountaine MHC,65829890,2a1f5e60-e5a8-11ef-a76f-4d93d4a482f0,203PV,Not Metering,15019,219,41,,0,3255.7,false,P ¾
+Lake Charles Duplexes,79462105,38bde230-3aa1-11f1-b198-172a4a9f25c9,874B,Failed Cal,17060,368,55,13,123,8.0,false,M 1
+Lake Charles Duplexes,75374601,261593d0-3aa1-11f1-b198-172a4a9f25c9,868A,Not Metering,16131,0,0,,16,805.1,false,M ¾
+Lake Road Village RV Park-Cust,72386996,5154af00-ad3d-11f0-98a7-c3bc57f9afe3,5,Calibrating,17060,368,40,13,0,9.7,false,X ¾
+Lakeview MHC-CUST,70262074,c2a9cde0-66b4-11f0-8658-7f4e94e41769,16,Not Metering,362,209,0,,2,918.9,false,X ¾
+Maple Run MHC,77060038,c4a8bc10-61db-11f0-8658-7f4e94e41769,137,Not Metering,16048,272,45,,0,2438.6,false,P ¾
+Maple Run MHC-CUST,70260896,fa1630b0-6133-11f0-9fcd-87e94e720126,110,Calibrating,17060,368,40,6,0,10.5,false,X ¾
+Maple Run MHC-CUST,70266901,d4013360-62b0-11f0-8658-7f4e94e41769,11,Failed Cal,17060,368,55,13,1,11.9,false,P ¾
+Mena Estates MHC,72390634,ad86de10-98f2-11f0-b5af-5dfa9891b485,139BONNER,Calibrating,17060,368,40,13,0,9.8,false,C ¾
+Minot Gardens MHC-Cust,70264963,98e8be20-62c3-11f0-8658-7f4e94e41769,,Failed Cal,17040,354,55,,0,33.6,false, 
+Minot Gardens MHC-Cust,70260771,7c85a5c0-666c-11f0-8658-7f4e94e41769,28,Not Metering,16128,260,100,,0,1312.3,false,X ¾
+Minot Gardens MHC-Cust,65825336,ccdd3e90-e66d-11ef-bcd4-5bcca9a9134f,44,Not Metering,16185,0,0,,0,587.3,false,X ¾
+Minot Gardens MHC-Cust,70271109,df879e80-629d-11f0-8658-7f4e94e41769,57,Not Metering,15130,256,0,,0,3438.1,false,X ¾
+Minot Gardens MHC-Cust,65829262,a0899510-be35-11ef-8f43-73c96c0de66f,71,Not Metering,362,209,0,,0,4702.6,false,X ¾
+Minot Gardens MHC-Cust,65831664,afd7e170-bb60-11ef-8f43-73c96c0de66f,90,Not Metering,15154,256,35,,0,2798.4,false,X ¾
+Mountaineer Village MHC,72720776,8cc91540-c4f7-11f0-9842-6d029661c338,,Failed Cal,17040,354,55,,0,249.4,false,X ¾
+Mountaineer Village MHC,72722079,832ac5b0-c4f7-11f0-9842-6d029661c338,25,Failed Cal,17060,368,55,6,0,58.6,false,X ¾
+Needham MHP,72716675,9ed187c0-d79b-11f0-b691-d965a62fa4fa,16,Failed Cal,17060,368,55,13,0,9.4,false,P ¾
+Needham MHP,75361335,d6aa42e0-012b-11f1-8726-d3fa6d0d96af,17,Not Metering,362,209,41,,0,3926.4,false,P ¾
+Needham MHP,72715487,e64a61f0-d226-11f0-b691-d965a62fa4fa,6,Not Metering,16185,0,0,,0,1066.8,false,P ¾
+Noble Estates MHC-Cust,75362648,5d894300-0c36-11f1-8768-5551e7a34f27,566,Calibrating,17060,368,40,13,1,8.9,false,X ¾
+Noble Estates MHC-Cust,72720305,43c31f50-0c3f-11f1-8768-5551e7a34f27,,Failed Cal,17060,368,55,13,0,9.4,false,P ¾
+Noble Estates MHC-Cust,75373074,77f745d0-0c35-11f1-8768-5551e7a34f27,535,Failed Cal,17060,368,55,6,0,9.4,false,X ¾
+Noble Estates MHC-Cust,75362770,5fba2890-3aa0-11f1-b198-172a4a9f25c9,525,Not Metering,16130,296,55,,5,2100.4,false,X ¾
+Noble Estates MHC-Cust,75365971,e7a13a10-5a07-11f1-b1bb-f3574cce671d,544,Not Metering,16185,0,0,,0,10.4,false,X ¾
+Oak Forest Estate MHC,75368561,eff5e370-0c67-11f1-8768-5551e7a34f27,20,Calibrating,17058,365,40,,7,57.5,false,X ¾
+Oak Forest Estate MHC,77058511,5b8a2ab0-3d8d-11f0-8e55-b138a1c03c8e,36,Failed Cal,17037,344,55,,0,9.7,false,X ¾
+Oak Forest Estate MHC,72389206,e1f8a710-84e2-11f0-8b4a-0d0197d44616,21,Not Metering,16185,0,0,,0,730.5,false,P ¾
+Oak Forest Estate MHC,77061747,8d343250-4151-11f0-8e55-b138a1c03c8e,30,Not Metering,16185,0,0,,2,993.2,false,X ¾
+Oaklawn Park HOA - Cust,72383209,1b0d18d0-8379-11f0-8b4a-0d0197d44616,3405SOC,Calibrating,17060,368,40,13,0,11.5,false,C ¾
+Oakwood MHP,75367316,5cc0d710-4d6a-11f1-b1bb-f3574cce671d,118-OLD,Calibrating,17037,344,40,,0,9.4,false,X ¾
+Oakwood MHP,75368991,5e41ee40-4d69-11f1-b1bb-f3574cce671d,107-REMOVED,Failed Cal,17060,368,26,13,0,8.6,false,X ½
+Oakwood MHP,75364313,7daa9410-4d66-11f1-b1bb-f3574cce671d,23-OLD,Failed Cal,17060,368,55,13,0,7.6,false,X ¾
+Oakwood MHP,79461826,39c48760-4d66-11f1-b1bb-f3574cce671d,70-REMOVED,Failed Cal,17060,368,55,13,0,5.8,false,M ¾
+Oakwood MHP,65827241,7931df10-e313-11ef-a5fd-a97d57576080,91,Failed Cal,17060,368,55,13,0,9.6,false,X ½
+Oakwood MHP,70262231,75462230-ad43-11f0-98a7-c3bc57f9afe3,123,Not Metering,16048,272,45,,0,2439.2,false,P ¾
+Oakwood MHP,70261662,a3069770-66b4-11f0-8658-7f4e94e41769,45,Not Metering,362,209,41,,87,3063.5,false,K ½
+Ontario Place MHC-CUST,72381773,9b90fef0-9fc5-11f0-b5af-5dfa9891b485,91,Not Metering,16185,0,0,,592,11.2,false,X ¾
+Opekiska St Duplex,72391863,da6ddda0-ad44-11f0-98a7-c3bc57f9afe3,B,Failed Cal,17060,368,55,13,0,11.6,false,M ¾
+Oswego MHP,79463202,36541df0-65be-11f1-9333-3b2cfe68422f,LOT04,Failed Cal,17060,368,55,13,0,10.9,false,X ¾
+Oswego MHP,79465454,8832b720-65bf-11f1-9333-3b2cfe68422f,LOT29,Failed Cal,17060,368,55,13,0,10.3,false,X ½
+Pace East,75369502,cdee3650-f651-11f0-b153-63024d3301e1,11,Failed Cal,17060,368,55,13,1,0.1,false,L ¾
+Pace East,75362630,3c543980-4b22-11f1-bc16-b52012ce6db2,21,Failed Cal,17060,368,55,13,0,8.5,false,M ¾
+Pace East,75365096,676f5960-4d02-11f1-b1bb-f3574cce671d,54,Failed Cal,17060,368,55,13,1,7.1,false,L ¾
+Pace East,75363455,cd98c350-f651-11f0-b153-63024d3301e1,40,Not Metering,16131,0,0,,0,533.3,false,M ¾
+Paola MHC,79461156,ff7924f0-39d6-11f1-b198-172a4a9f25c9,12,Not Metering,16048,0,0,,8,2254.7,false,X ¾
+Paola MHC,79463194,f041e170-39d6-11f1-b198-172a4a9f25c9,25,Not Metering,16048,0,0,,1,2436.4,false,X ¾
+Paradise Village Cooperative MHC,75360048,bc06c5c0-3a93-11f1-b198-172a4a9f25c9,5,Failed Cal,17060,368,55,13,0,8.5,false,X ¾
+Parker MHC-CUST,70270440,283aff90-c4e7-11f0-9842-6d029661c338,11,Failed Cal,17060,368,55,6,4,9.8,false,X ¾
+Parkview MHP-Cust,77058446,6abfb370-4151-11f0-8e55-b138a1c03c8e,45,Failed Cal,17060,368,55,13,0,10.0,false,X ½
+Parkview MHP-Cust,70259468,b48c4c80-666c-11f0-8658-7f4e94e41769,47,Failed Cal,17060,368,55,13,0,10.7,false,X ½
+Parkview MHP-Cust,72385303,d17143e0-8495-11f0-8b4a-0d0197d44616,66,Failed Cal,17060,368,55,13,0,9.7,false,X ½
+Parkview MHP-Cust,77059808,d0b47960-62b0-11f0-8658-7f4e94e41769,C53OFFICE,Failed Cal,17060,368,55,13,0,10.2,false,X ½
+Parkview MHP-Cust,70269061,8bf5ac80-ad39-11f0-98a7-c3bc57f9afe3,52-OLD,Not Metering,16130,296,55,,1,157.5,false,X ¾
+Parkway MHC-Cust,75367332,e3542270-0c68-11f1-8768-5551e7a34f27,34,Not Metering,16048,272,45,,0,2438.2,false,X ¾
+Parkway MHC-Cust,65831011,191e5b70-bda8-11ef-8f43-73c96c0de66f,38,Not Metering,16022,0,0,,0,14.7,false,X ½
+Parkway MHC-Cust,77052118,975f8600-3524-11f0-8e55-b138a1c03c8e,42,Not Metering,16130,0,0,,182,1037.4,false,X ½
+Parkway MHC-Cust,77054973,7c363d70-3dc0-11f0-8e55-b138a1c03c8e,48,Not Metering,16048,272,45,,0,2437.8,false,X ¾
+Parkwood,79456479,4b2e23c0-5483-11f1-b1bb-f3574cce671d,3103LINDA,Failed Cal,17060,368,55,6,0,9.5,false,X ¾
+Parkwood,75365104,d8f21ab0-59f9-11f1-b1bb-f3574cce671d,3368DONNA,Failed Cal,17060,368,55,6,0,10.8,false,X ¾
+Parkwood,75362572,97fe2420-5483-11f1-b1bb-f3574cce671d,3392DONNA,Failed Cal,17060,368,55,13,0,11.8,false,X ¾
+Parkwood,65830393,eb2c98f0-cf70-11ef-8f43-73c96c0de66f,5192JASON,Failed Cal,17040,354,55,,0,352.8,false,X ¾
+Parkwood,68612595,f36d0630-cf70-11ef-8f43-73c96c0de66f,5200JUSTIN-OLD,Failed Cal,17060,368,55,6,132,12.1,false,X ¾
+Parkwood,77055855,811b87e0-3db7-11f0-8e55-b138a1c03c8e,5208JUSTIN,Failed Cal,17060,368,55,6,0,9.7,false,X ¾
+Parkwood,70264955,1b19aa20-5230-11f0-acb1-514e01860b07,3116CHARI,Not Metering,16048,272,45,,0,2487.6,false,X ¾
+Parkwood,70264427,79dfcba0-524b-11f0-acb1-514e01860b07,3121LINDA,Not Metering,16048,272,45,,2,2486.4,false,X ¾
+Parkwood,65824891,a75d3e00-cf6f-11ef-8f43-73c96c0de66f,3131LINDA,Not Metering,16048,272,45,,0,2487.6,false,X ¾
+Parkwood,77059071,9551db80-524b-11f0-acb1-514e01860b07,3248MARY-OLD,Not Metering,16048,272,45,,176,2454.0,false,X ¾
+Parkwood,65822614,aa7b8150-c795-11ef-8f43-73c96c0de66f,3253MARY,Not Metering,362,209,41,,1,3997.6,false,X ¾
+Parkwood,70267909,34178340-52c0-11f0-acb1-514e01860b07,3357DONNA,Not Metering,16048,260,100,,0,2486.0,false,X ¾
+Parkwood,70268287,2900c6f0-5230-11f0-acb1-514e01860b07,5200JOHN,Not Metering,16048,272,45,,0,2488.0,false,X ¾
+Parkwood,75370104,cb526720-59f9-11f1-b1bb-f3574cce671d,5200JUSTIN,Not Metering,16022,260,35,,0,2452.3,false,X ¾
+Parkwood,77058867,fa331e40-522f-11f0-acb1-514e01860b07,5202JASON,Not Metering,16048,272,45,,0,2486.8,false,X ¾
+Parkwood,70260110,300dbd40-5230-11f0-acb1-514e01860b07,5206JASON,Not Metering,16048,272,45,,0,2486.3,false,X ¾
+Piney Park,70264294,eb7483a0-5223-11f0-acb1-514e01860b07,33,Failed Cal,17060,368,55,13,0,9.7,false,P ¾
+Pleasant Acres,75362945,5ae05030-0c90-11f1-8768-5551e7a34f27,44,TI Silent,17037,0,0,,0,6.5,false,X ¾
+Ponderosa MHC,72385337,0942fa90-842b-11f0-8b4a-0d0197d44616,3,Calibrating,17060,368,40,13,0,9.9,false,X ¾
+Ponderosa MHC,72392853,3ae18440-8430-11f0-8b4a-0d0197d44616,3-2,Calibrating,17060,368,40,13,9032,9.1,false,X ¾
+Ponderosa MHC,72383175,13aadcb0-8420-11f0-8b4a-0d0197d44616,48,Calibrating,17060,368,40,13,0,8.9,false,X ¾
+Ponderosa MHC,72389404,053da070-82e2-11f0-8b4a-0d0197d44616,50,Calibrating,17060,368,40,13,0,8.9,false,X ¾
+Ponderosa MHC,72384827,7f136e60-842d-11f0-8b4a-0d0197d44616,57,Calibrating,17060,368,40,13,0,9.4,false,K ¾
+Ponderosa MHC,72380908,f4c127f0-837f-11f0-8b4a-0d0197d44616,21,Failed Cal,17060,368,55,13,0,9.3,false,X ¾
+Ponderosa MHC,72388356,f7b60040-8477-11f0-8b4a-0d0197d44616,25,Failed Cal,17060,368,55,13,1,10.1,false,X ¾
+Ponderosa MHC,72378605,fc704210-8479-11f0-8b4a-0d0197d44616,45,Failed Cal,17060,368,55,13,17,15.2,false,X ¾
+Ponderosa MHC,70263882,56aaa610-8436-11f0-8b4a-0d0197d44616,51,Failed Cal,17060,368,55,6,0,9.5,false,X ¾
+Ponderosa MHC,70269616,5bed5e90-8384-11f0-8b4a-0d0197d44616,54,Failed Cal,17060,368,55,6,0,9.9,false,X ¾
+Ponderosa MHC,72378183,62f3d240-84a2-11f0-8b4a-0d0197d44616,61,Failed Cal,17060,368,55,13,0,9.5,false,X ¾
+Ponderosa MHC,72380361,21f85c70-8420-11f0-8b4a-0d0197d44616,65,Failed Cal,17060,368,55,6,1,7.7,false,X ¾
+Ponderosa MHC,65830807,f8527150-ea3a-11ef-b35e-23eef2ba43da,41,Not Metering,16185,0,0,,0,130.9,false,X ¾
+Ponderosa MHC,72384934,9bb6ffc0-8435-11f0-8b4a-0d0197d44616,42,Not Metering,16185,0,0,,0,408.2,false,X ¾
+RMA Tremain,72391822,646f4de0-a971-11f0-98a7-c3bc57f9afe3,,Not Metering,15155,0,0,,0,3226.9,false, 
+Rainbird,65822309,c7745920-40b3-11f0-8e55-b138a1c03c8e,1626HW,Failed Cal,17060,368,55,13,1,7.9,false,M ¾
+Rainbird,77053314,e86bbcb0-3d78-11f0-8e55-b138a1c03c8e,1628HW,Failed Cal,17060,368,55,13,1,7.9,false,M ¾
+River Bend-Cust,75371151,c27587f0-603d-11f1-89ca-a986714faa23,23,Failed Cal,17040,354,55,,0,104.6,false,X ¾
+Riverview Apartments MF,72715248,69e4bcf0-c7bd-11f0-9842-6d029661c338,32 start 9/1,Calibrating,17058,365,40,,0,83.1,false,X ¾
+Riverview Apartments MF,72720677,8fea2ac0-c7bd-11f0-9842-6d029661c338,34,Failed Cal,17037,344,55,,0,12.1,false,X ¾
+Riverview Apartments MF,72718622,47575ee0-c7bd-11f0-9842-6d029661c338,35 start 11/1,Failed Cal,17060,368,55,6,0,12.1,false,X ¾
+Riverview Apartments MF,72716345,5d5763c0-c7bd-11f0-9842-6d029661c338,38 start 9/1,Failed Cal,17060,368,55,6,0,8.9,false,X ¾
+Riverview Apartments MF,72717731,6f5c3a00-c81c-11f0-9842-6d029661c338,39,Not Metering,16048,272,45,,0,2437.7,false,X ¾
+Roosevelt MHC,75371425,f40b8c40-0b76-11f1-a3d9-c99c67c82bc1,107,Failed Cal,17060,368,55,6,0,7.4,false,X ¾
+Roosevelt MHC,75362978,698bc6b0-0c49-11f1-8768-5551e7a34f27,140,Failed Cal,17060,368,55,13,0,7.4,false,X ¾
+Roosevelt MHC,75367696,9d6fb4c0-0b57-11f1-a3d9-c99c67c82bc1,43,Failed Cal,17060,368,55,13,0,7.6,false,P ¾
+Roosevelt MHC,75372233,ab55c6a0-0c48-11f1-8768-5551e7a34f27,82,Failed Cal,17060,368,55,13,0,7.3,false,X ¾
+Roosevelt MHC,75373611,f311df70-0b75-11f1-a3d9-c99c67c82bc1,83,Failed Cal,17040,354,55,,0,318.1,false,X ¾
+Roosevelt MHC,72723499,446e1810-0c0d-11f1-a3d9-c99c67c82bc1,116,Not Metering,16131,0,0,,101,1829.1,false,P ¾
+Roosevelt MHC,75361301,0c816ab0-0c49-11f1-8768-5551e7a34f27,61,Not Metering,16185,0,0,,0,1306.1,false,P ¾
+Roper Center Commercial Bldg,72387036,deaeb510-db7a-11f0-b691-d965a62fa4fa,35,Not Metering,16048,272,45,,0,2437.5,false,M ½
+Running Springs MHP,72715362,e4398520-d45c-11f0-b691-d965a62fa4fa,2,Calibrating,17060,368,40,13,0,9.3,false,P ¾
+Running Springs MHP,75368066,0950cba0-f318-11f0-8900-8bd481ce9a44,1,Failed Cal,17060,368,55,13,0,9.8,false,P ¾
+Running Springs MHP,70264096,eb24bd10-52bf-11f0-acb1-514e01860b07,17-OLD,Not Metering,16022,0,0,,0,2390.9,false,C ¾
+Running Springs MHP,70271547,f02016e0-520e-11f0-acb1-514e01860b07,26-OLD,Not Metering,16022,0,0,,0,2367.0,false,C ¾
+Rusk MHC,72379256,3f1e76f0-a959-11f0-98a7-c3bc57f9afe3,43,Calibrating,17037,344,40,,0,9.3,false,X ¾
+Rustic Acres MHC,72387366,b43ac3b0-9f9c-11f0-b5af-5dfa9891b485,36-OLD,Calibrating,17060,368,40,13,0,8.9,false,X ¾
+Rustic Acres MHC,72384793,c35f3480-82ea-11f0-8b4a-0d0197d44616,48-OLD,Calibrating,17060,368,40,13,0,7.3,false,P ¾
+Rustic Acres MHC,79456701,e64ed090-8b77-11f1-a1a6-391af391818e,,Failed Cal,17060,368,55,13,0,10.7,false, 
+Rustic Acres MHC,79460562,3f967bc0-39d5-11f1-b198-172a4a9f25c9,4-REMOVED,Failed Cal,17060,368,55,13,0,8.9,false,X ½
+Rustic Acres MHC,68612744,95a9bc70-be43-11ef-8f43-73c96c0de66f,45-OLD,Failed Cal,17060,368,55,6,0,7.5,false,X ¾
+Rustic Acres MHC,70263486,2a2c1b10-9fa1-11f0-b5af-5dfa9891b485,56-REMOVED,Failed Cal,17060,368,55,6,190,6.7,false,X ¾
+Shady Grove,77056747,a2ffd5f0-3d0d-11f0-8e55-b138a1c03c8e,2018-03,TI Silent,17058,0,0,,0,133.8,false,L ½
+Shady Lane MHP-Cust,70269798,e121b210-52dc-11f0-acb1-514e01860b07,40 Maple Lane APT #3,Calibrating,17060,368,40,13,0,11.2,false,X ¾
+Shelby's Trailer Park - Cust,75370260,d5231230-f00a-11f0-8900-8bd481ce9a44,LOT30,TI Silent,17037,0,0,,49,201.4,false,P ¾
+Singing Pines,77055780,c851e1a0-26b9-11f0-8272-45e3ef110760,2,Failed Cal,17060,368,55,6,0,7.9,false,X ¾
+Singing Pines,65828827,cbaaf7b0-26b9-11f0-8272-45e3ef110760,24,Not Metering,16048,272,45,,0,2439.9,false,X ¾
+Singing Pines,77054189,db27f6c0-26b9-11f0-8272-45e3ef110760,41,Not Metering,362,209,25,,0,157.4,false,P ¾
+Stafford MHC-CUST,72390147,bf4a1e00-8385-11f0-8b4a-0d0197d44616,259,Calibrating,17060,368,40,13,31,10.4,false,P ¾
+Stafford MHC-CUST,72392259,bb4ad8f0-82ed-11f0-8b4a-0d0197d44616,365,Calibrating,17060,368,40,13,1,9.3,false,P ¾
+Stafford MHC-CUST,72384520,23da5070-82ef-11f0-8b4a-0d0197d44616,227,Failed Cal,17060,368,55,13,1,10.6,false,P ¾
+Stafford MHC-CUST,72385931,502a9670-8386-11f0-8b4a-0d0197d44616,267,Failed Cal,17060,368,55,13,1,9.6,false,P ¾
+Stafford MHC-CUST,72392887,9b2d7f90-82e4-11f0-8b4a-0d0197d44616,303,Failed Cal,17060,368,55,13,0,8.3,false,P ¾
+Stafford MHC-CUST,72717459,af56e230-c42b-11f0-9842-6d029661c338,385,Failed Cal,17060,368,55,13,0,9.6,false,P ¾
+Stafford MHC-CUST,72384454,be416400-82ea-11f0-8b4a-0d0197d44616,282,Not Metering,362,0,0,,0,3302.5,false,P ¾
+Stafford MHC-CUST,75371508,3d01c130-012c-11f1-8726-d3fa6d0d96af,342,Not Metering,362,209,0,,0,4095.2,false,P ¾
+Stafford MHC-CUST,70263056,e2aa8120-8f86-11f0-8b4a-0d0197d44616,346,Not Metering,16185,0,0,,0,779.1,false,P ¾
+Stafford MHC-CUST,75361178,f2d9d660-012b-11f1-8726-d3fa6d0d96af,393,Not Metering,362,209,0,,0,4676.8,false,P ¾
+Stafford MHC-CUST,70262975,d8616810-8f85-11f0-8b4a-0d0197d44616,508,Not Metering,16048,272,45,,0,2437.8,false,P ¾
+Stafford MHC-CUST,72389503,b68ae740-82ea-11f0-8b4a-0d0197d44616,558,Not Metering,16048,272,45,,1,2437.6,false,P ¾
+Stafford MHC-CUST,72386814,0e555280-82f0-11f0-8b4a-0d0197d44616,565,Not Metering,16048,272,45,,0,2436.9,false,P ¾
+Steve Katz 4plex 5YR,70269186,30bbd210-9a72-11f0-b5af-5dfa9891b485,,Not Metering,16128,295,55,,0,1580.6,false, 
+Stevens Park MHC,72387697,7b2b3a50-ad43-11f0-98a7-c3bc57f9afe3,16,Not Metering,16048,272,45,,0,2437.8,false,P ¾
+Stevens Park MHC,72379710,61e29a20-ad43-11f0-98a7-c3bc57f9afe3,30,Not Metering,16048,272,45,,0,2438.4,false,C 1
+Stevens Park MHC,70263874,1f1e1820-ad45-11f0-98a7-c3bc57f9afe3,31,Not Metering,16022,260,35,,0,2987.1,false,X ½
+Stevens Park MHC,72391160,75361ca0-ad43-11f0-98a7-c3bc57f9afe3,33,Not Metering,16185,0,0,,0,1163.6,false,X ½
+Sunnyvale MHP,72387788,9a4bc020-ad2b-11f0-98a7-c3bc57f9afe3,117,Failed Cal,17060,368,55,13,0,9.7,false,X ¾
+Sunview MHP,70261480,92fd6b50-666f-11f0-8658-7f4e94e41769,15,Failed Cal,17060,368,55,13,19,10.2,false,X ½
+TN4,65825575,2a8c9e90-0285-11f0-92a4-09772dfb61f8,4,Failed Cal,17060,368,55,13,0,10.5,false,P ¾
+Trans Canada,77054759,fc759810-3d92-11f0-8e55-b138a1c03c8e,D1TC,Calibrating,17060,368,40,13,0,9.2,false,X ½
+Trans Canada,77061481,52ac2380-3d01-11f0-8e55-b138a1c03c8e,B18TC,Failed Cal,17060,368,55,13,0,8.2,false,M ½
+Trans Canada,77054775,905825c0-3dbb-11f0-8e55-b138a1c03c8e,LVJ2,Not Metering,16185,314,20,,0,705.5,false,X ½
+Virginia Beach HOA - Cust,72393042,7d05ba00-98e7-11f0-b5af-5dfa9891b485,1,Calibrating,17060,368,40,13,4,10.0,false,X ¾
+Virginia Beach HOA - Cust,79462923,b7ccad80-4d76-11f1-b1bb-f3574cce671d,109,Calibrating,17060,368,40,13,1,11.4,false,X ¾
+Virginia Beach HOA - Cust,72388539,c70863f0-9973-11f0-b5af-5dfa9891b485,116,Calibrating,17060,368,40,6,0,9.5,true,X ¾
+Virginia Beach HOA - Cust,72382359,6f9f8540-98a0-11f0-b5af-5dfa9891b485,140,Calibrating,17060,368,40,13,0,11.3,true,X ¾
+Virginia Beach HOA - Cust,72390030,ad379e60-9a2b-11f0-b5af-5dfa9891b485,159,Calibrating,17060,368,40,13,34,9.4,false,X ¾
+Virginia Beach HOA - Cust,72379926,5e886780-994b-11f0-b5af-5dfa9891b485,105,Failed Cal,17060,368,55,13,0,10.6,false,X ¾
+Virginia Beach HOA - Cust,72379959,d0a57d00-995d-11f0-b5af-5dfa9891b485,107,Failed Cal,17060,368,55,13,0,34.1,true,X ¾
+Virginia Beach HOA - Cust,75367589,76eea3f0-4d66-11f1-b1bb-f3574cce671d,113,Failed Cal,17037,344,35,,104,12.0,false,X ¾
+Virginia Beach HOA - Cust,75361046,1e860670-4d6d-11f1-b1bb-f3574cce671d,119,Failed Cal,17060,368,55,13,0,11.6,false,X ¾
+Virginia Beach HOA - Cust,65829312,85b1f1a0-e07d-11ef-a5fd-a97d57576080,145,Failed Cal,17060,368,38,13,1,10.5,false,X ¾
+Virginia Beach HOA - Cust,72385675,af775530-9a2b-11f0-b5af-5dfa9891b485,163,Failed Cal,17060,368,55,13,1,10.5,false,X ¾
+Virginia Beach HOA - Cust,72384587,f9267260-98be-11f0-b5af-5dfa9891b485,168,Failed Cal,17060,368,55,6,0,10.5,true,X ¾
+Virginia Beach HOA - Cust,72392994,45c60790-98f9-11f0-b5af-5dfa9891b485,178,Failed Cal,17060,368,55,13,210,10.7,false,X ¾
+Virginia Beach HOA - Cust,72379744,9047c510-989f-11f0-b5af-5dfa9891b485,203,Failed Cal,17060,368,55,6,3,8.9,false,X ¾
+Virginia Beach HOA - Cust,72389578,2a9b8800-98f9-11f0-b5af-5dfa9891b485,219,Failed Cal,17060,368,55,6,0,9.4,false,X ¾
+Virginia Beach HOA - Cust,72383100,fec679e0-8383-11f0-8b4a-0d0197d44616,220,Failed Cal,17060,368,55,13,151,8.7,false,X ¾
+Virginia Beach HOA - Cust,75363166,2e0bf770-4d73-11f1-b1bb-f3574cce671d,236,Failed Cal,17060,368,55,13,0,10.7,false,X ¾
+Virginia Beach HOA - Cust,72390816,f7b88660-8479-11f0-8b4a-0d0197d44616,239,Failed Cal,17060,368,55,13,0,10.5,true,X ¾
+Virginia Beach HOA - Cust,72378423,43fac030-9977-11f0-b5af-5dfa9891b485,244,Failed Cal,17060,368,55,13,1,8.6,false,X ¾
+Virginia Beach HOA - Cust,72383779,497b0800-98f3-11f0-b5af-5dfa9891b485,38,Failed Cal,17037,344,55,,2,11.8,true,C ¾
+Virginia Beach HOA - Cust,72383571,a787a000-9a2b-11f0-b5af-5dfa9891b485,41,Failed Cal,17060,368,55,13,0,9.9,false,X ¾
+Virginia Beach HOA - Cust,72386046,4ff02900-8498-11f0-8b4a-0d0197d44616,45,Failed Cal,17040,354,55,,1,9.2,false,X ¾
+Virginia Beach HOA - Cust,72382847,8f547840-994b-11f0-b5af-5dfa9891b485,58,Failed Cal,17060,368,55,13,0,11.7,true,X ¾
+Virginia Beach HOA - Cust,75372530,f27bf950-4d66-11f1-b1bb-f3574cce671d,60,Failed Cal,17060,368,55,13,17,9.4,true,X ¾
+Virginia Beach HOA - Cust,72391004,db204080-9976-11f0-b5af-5dfa9891b485,76,Failed Cal,17060,368,55,13,0,8.6,false,X ¾
+Virginia Beach HOA - Cust,72382813,080af040-98e6-11f0-b5af-5dfa9891b485,8,Failed Cal,17037,344,55,,7,10.8,false,X ¾
+Virginia Beach HOA - Cust,72389347,d81c8eb0-8383-11f0-8b4a-0d0197d44616,117,TI Silent,17060,0,0,0,418,-0.0,true,X ¾
+Virginia Beach HOA - Cust,72379827,682a1ea0-98ec-11f0-b5af-5dfa9891b485,166,TI Silent,17037,0,0,,13,226.6,false,X ¾
+Virginia Beach HOA - Cust,72382805,e59043f0-98f2-11f0-b5af-5dfa9891b485,39,TI Silent,17060,0,0,0,3,11.6,false,X ¾
+Westview Mobile Estates MHC,72381591,39f7fbc0-8379-11f0-8b4a-0d0197d44616,,Not Metering,16048,272,45,,0,2438.7,false, 
+Westview Mobile Estates MHC,65827977,a14b2ad0-be4a-11ef-8f43-73c96c0de66f,234,Not Metering,16048,272,45,,0,2438.1,false,X ½
+Westview Mobile Estates MHC,72392341,ee971130-8377-11f0-8b4a-0d0197d44616,238,Not Metering,16048,272,45,,0,2438.3,false,X ¾
+Whispering Pines Mobile Estates,72381856,431246c0-9fdf-11f0-b5af-5dfa9891b485,105-OLD,Not Metering,16048,0,0,,2,2462.7,false,X ¾
+Whispering Pines Mobile Estates,70272289,95c5aa80-9e7f-11f0-b5af-5dfa9891b485,107-OLD,Not Metering,16048,272,45,,0,2440.0,false,X ¾
+Whispering Pines Mobile Estates,65824115,ca7ecb20-b989-11ef-8f43-73c96c0de66f,115,Not Metering,363,219,0,,0,4069.2,false,X ¾
+Whispering Pines Mobile Estates,72379025,8bf12fc0-9e7f-11f0-b5af-5dfa9891b485,135,Not Metering,16048,272,45,,5,2440.0,false,X ¾
+Whispering Pines Mobile Estates,72382524,945719a0-9e6f-11f0-b5af-5dfa9891b485,212,Not Metering,16048,272,45,,1,2437.1,false,C ¾
+Whispering Pines Mobile Estates,72392812,c8f769e0-8f87-11f0-8b4a-0d0197d44616,232WHISPERINGPINES-OLD,Not Metering,16048,272,45,,0,2438.0,false,X ¾
+Whispering Pines Mobile Estates,72382029,14033a80-9e7a-11f0-b5af-5dfa9891b485,235-OLD,Not Metering,16048,272,45,,1,2437.8,false,X ¾
+Whispering Pines Mobile Estates,72391350,b04681c0-9e6d-11f0-b5af-5dfa9891b485,412-OLD,Not Metering,16048,272,45,,0,2439.1,false,X ¾
+Whispering Pines Mobile Estates,72380650,e67410d0-9e6f-11f0-b5af-5dfa9891b485,516,Not Metering,16048,272,45,,0,2438.2,false,X ¾
+Whispering Pines Mobile Estates,72391897,608f7c20-9e6f-11f0-b5af-5dfa9891b485,536-OLD,Not Metering,16048,272,45,,0,2439.4,false,X ¾
+Whispering Pines Mobile Estates,70260516,503d7d00-9e73-11f0-b5af-5dfa9891b485,710-OLD,Not Metering,16048,272,45,,0,2437.7,false,P ¾
+Whispering Pines Mobile Estates-CUST,70262447,308d7420-9e59-11f0-b5af-5dfa9891b485,317,Failed Cal,17060,368,55,13,1,10.6,false,X ¾
+Whispering Pines Mobile Estates-CUST,70261639,68837010-6695-11f0-8658-7f4e94e41769,107,Not Metering,362,209,41,,0,13.8,false,X ¾
+Whispering Pines Mobile Estates-CUST,70268956,58afcf60-9fd6-11f0-b5af-5dfa9891b485,217,Not Metering,16022,260,35,,0,14.7,false,X ¾
+Whispering Pines Mobile Estates-CUST,72385766,69ee6270-9e53-11f0-b5af-5dfa9891b485,300,Not Metering,362,209,41,,0,14.5,false,X ¾
+Whispering Pines Mobile Estates-CUST,70263502,c03bdc70-9fde-11f0-b5af-5dfa9891b485,306,Not Metering,362,209,41,,0,14.7,false,X ¾
+Whispering Pines Mobile Estates-CUST,65823992,a404a580-be4a-11ef-8f43-73c96c0de66f,526,Not Metering,16022,260,35,,0,2895.1,false,C ¾
+Whispering Pines Mobile Estates-CUST,72378928,6b2c0830-9e77-11f0-b5af-5dfa9891b485,703,Not Metering,362,209,41,,0,13.8,false,X ¾
+Whispering Pines Mobile Estates-CUST,72378753,642c5850-9e77-11f0-b5af-5dfa9891b485,708,Not Metering,16131,0,0,,52,1542.9,false,X ¾
+Whispering Pines Mobile Estates-CUST,72388588,74dc0e30-9e7b-11f0-b5af-5dfa9891b485,927,Not Metering,16131,0,0,,91,710.6,false,P ¾
+Wildwood Estates MHC-CUST,75363497,e1a4bf70-06af-11f1-a3d9-c99c67c82bc1,29,Failed Cal,17060,368,55,13,0,9.7,false,P ¾
+Wildwood Estates MHC-CUST,70262926,8b89c530-c4fc-11f0-9842-6d029661c338,20,Not Metering,16048,272,45,,9,2463.5,false,C ¾
+Wildwood Village MHC-CUST,72721733,4fd51e50-c4bf-11f0-9842-6d029661c338,15,Not Metering,16048,272,45,,0,2462.9,false,P ¾
+Wildwood Village MHC-CUST,72722483,3df88460-c4bf-11f0-9842-6d029661c338,16,Not Metering,16048,0,0,,0,2462.7,false,P ¾
+Wyse Eval,72718549,5f18a040-dc4c-11f0-b691-d965a62fa4fa,Wyse1,Failed Cal,17066,375,55,9,0,5.4,false,P ¾
+Wyse Eval,72714423,737b0320-db7a-11f0-b691-d965a62fa4fa,Wyse3,Failed Cal,17066,375,55,9,0,0.8,false,P ¾
+Wyse Test,72722129,a4b62960-db7a-11f0-b691-d965a62fa4fa,246 advance,Failed Cal,17032,344,55,,0,64.3,false,X ¾
+Wyse Test,70268147,ab7e7590-db7a-11f0-b691-d965a62fa4fa,Wyse1,Failed Cal,17032,344,55,,0,77.3,false, 
+Wyse Test,75372175,8af430d0-fa42-11f0-b153-63024d3301e1,Wyse3,Failed Cal,17032,344,50,,0,66.1,, 

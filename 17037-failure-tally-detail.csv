@@ -1,0 +1,88 @@
+﻿Device ID,Property,Apartment,State,Category,No Water,Gain,Pipe Type,Pipe Size,HW Flag,spiInitFail
+79466692,Auburn MHC,3,Failed Cal,Pre-existing dead (never metered),false,55,L,½,,0
+70261761,Aurora MHC,159,Failed Cal,Casualty (metered pre-FW),false,41,M,½,,0
+77057885,Aurora MHC,33,Failed Cal,Casualty (metered pre-FW),false,55,X,½,,0
+72717897,Azulejo,1502,Metering,Casualty (metered pre-FW),false,32,X,¾,Y,5819
+75367704,Broadway MHP DesMoines,4,Failed Cal,Casualty (metered pre-FW),false,26,X,½,,0
+75374122,CJ,116,TI Silent,Casualty (metered pre-FW),false,0,L,1,,0
+75362382,Cactus Flower,9 and Laundry,Failed Cal,Casualty (metered pre-FW),false,55,L,¾,,0
+77054759,Canada,D1TC,Failed Cal,Casualty (metered pre-FW),false,32,X,½,,0
+77061481,Canada,B18TC,Failed Cal,Casualty (metered pre-FW),false,55,M,½,,0
+70261902,Coleman Village,179,Failed Cal,No Water flagged,true,55,X,¾,,0
+70265408,Crystal Acres MHC,7-OLD,TI Silent,Pulled meter (OLD/REMOVED tag),false,0,P,¾,Y,0
+72379413,Crystal Acres MHC,16-OLD,Failed Cal,Pulled meter (OLD/REMOVED tag),false,55,X,¾,,0
+72384678,Crystal Acres MHC,13,TI Silent,Unclassified,false,0,X,¾,,0
+75360113,Grand Valley Estates MHC,10-SHENNADOH-DR,Failed Cal,No Water flagged,true,55,X,¾,,0
+75364495,Grand Valley Estates MHC,23-DOUBLETREE-CT,Failed Cal,No Water flagged,true,55,X,¾,,0
+75365286,Grand Valley Estates MHC,8-SHENNADOH-DR,Failed Cal,No Water flagged,true,53,X,¾,,0
+75365757,Grand Valley Estates MHC,13-SHENNADOH-DR,Failed Cal,No Water flagged,true,55,X,¾,,0
+75366441,Grand Valley Estates MHC,26-DOUBLETREE-CT,Failed Cal,No Water flagged,true,55,X,¾,,0
+75366607,Grand Valley Estates MHC,15-SHENNADOH-DR,Failed Cal,No Water flagged,true,55,X,¾,,0
+75366805,Grand Valley Estates MHC,7-SHENNADOH-DR,Failed Cal,No Water flagged,true,55,X,¾,,0
+75367852,Grand Valley Estates MHC,19-SHENNADOH-DR,Failed Cal,No Water flagged,true,55,X,¾,,0
+75368298,Grand Valley Estates MHC,20-SHENNADOH-DR,Failed Cal,No Water flagged,true,55,X,¾,,0
+75369007,Grand Valley Estates MHC,5-DOUBLETREE-DR,Calibrating,Unclassified,false,40,X,¾,,0
+75369189,Grand Valley Estates MHC,30-STONE,Failed Cal,No Water flagged,true,47,X,¾,,0
+75370591,Grand Valley Estates MHC,22-DOUBLETREE-CT,Calibrating,No Water flagged,true,40,X,¾,,0
+75372563,Grand Valley Estates MHC,17-SONOMAVALLEY-DR,Failed Cal,No Water flagged,true,55,X,¾,,0
+75372803,Grand Valley Estates MHC,48-IMPERIALVALLEY-DR,Failed Cal,No Water flagged,true,55,X,¾,,0
+75373421,Grand Valley Estates MHC,1-DOUBLETREE-CT,Failed Cal,No Water flagged,true,55,X,¾,,0
+75373694,Grand Valley Estates MHC,27-DOUBLETREE-CT,Failed Cal,No Water flagged,true,55,P,¾,,0
+75374452,Grand Valley Estates MHC,3-SHENNADOH-DR,Failed Cal,No Water flagged,true,55,X,¾,,0
+75374932,Grand Valley Estates MHC,2-DOUBLETREE-CT,Failed Cal,No Water flagged,true,55,X,¾,,0
+79460844,Grand Valley Estates MHC,18-SHENNADOH-DR,Failed Cal,No Water flagged,true,55,X,¾,,0
+79461677,Grand Valley Estates MHC,9-SHENNADOH-DR,Failed Cal,No Water flagged,true,55,X,¾,,0
+79462147,Grand Valley Estates MHC,12-SHENNADOH-DR,Failed Cal,Pre-existing dead (never metered),false,50,X,¾,,0
+79465769,Grand Valley Estates MHC,3-DOUBLETREE-DR,Failed Cal,No Water flagged,true,55,X,¾,,0
+79466619,Grand Valley Estates MHC,5-SHENNADOH-DR,Failed Cal,No Water flagged,true,55,X,¾,,0
+75368587,Highlands MHC,9,Failed Cal,Casualty (metered pre-FW),false,55,X,¾,,0
+75372761,Highlands MHC,11A,Failed Cal,Casualty (metered pre-FW),false,38,P,¾,,0
+72716543,Hillview MHC,13,Failed Cal,Casualty (metered pre-FW),false,55,P,½,,0
+72723010,Hillview MHC,4,Failed Cal,Casualty (metered pre-FW),false,55,P,¾,,0
+70261936,Hoosier Park MHC,6-OLD,Failed Cal,Pulled meter (OLD/REMOVED tag),false,55,P,¾,,0
+70264195,Ibiza Village2,1-OLD,Failed Cal,Pulled meter (OLD/REMOVED tag),false,55,M,1,,0
+70265440,Ibiza Village2,8-OLD,Failed Cal,Pulled meter (OLD/REMOVED tag),false,55,M,1,,0
+70268980,Ibiza Village2,17-OLD,TI Silent,Pulled meter (OLD/REMOVED tag),false,0,M,1,,0
+72381070,Ibiza Village2,15-OLD,Failed Cal,Pulled meter (OLD/REMOVED tag),false,55,M,1,,0
+72391756,Ibiza Village2,2-OLD,Failed Cal,Pulled meter (OLD/REMOVED tag),false,55,M,1,,0
+70263080,John Alexander ADU 5YR,,Failed Cal,Casualty (metered pre-FW),false,41,X,¾,,0
+70260011,Kingsbrook MHC,596MI,TI Silent,Casualty (metered pre-FW),false,0,X,¾,,0
+75367050,Kingsbrook MHC,778AM,Failed Cal,Pre-existing dead (never metered),false,55,M,½,,0
+72380866,Lafountaine MHC,125CC,Failed Cal,Casualty (metered pre-FW),false,55,X,¾,,0
+72723051,Little Acres MHC,9,Calibrating,Unclassified,false,40,P,½,,0
+70266901,Maple Run MHP,11,Failed Cal,Casualty (metered pre-FW),false,55,P,¾,,0
+72720776,Mountaineer Village MHC,,Failed Cal,Casualty (metered pre-FW),false,55,X,¾,,0
+77053348,Oak Forest Estate MHC,2-REMOVED,Failed Cal,Pulled meter (OLD/REMOVED tag),false,55,P,¾,,0
+70266620,PW2,3124LINDA,Failed Cal,No Water flagged,true,38,X,¾,,0
+79461560,Paola MHC,23,Metering,Unclassified,false,38,X,½,,0
+70270440,Parker MHC,11,Failed Cal,Casualty (metered pre-FW),false,55,X,¾,,0
+77059808,Parkview MHP,C53OFFICE,Failed Cal,Casualty (metered pre-FW),false,55,X,½,,0
+75363810,Pleasant Acres,33-OLD,Failed Cal,Pulled meter (OLD/REMOVED tag),false,55,X,¾,,0
+75371151,River Bend,23,Failed Cal,Casualty (metered pre-FW),false,29,X,¾,,0
+75362978,Roosevelt MHC,140,Failed Cal,Casualty (metered pre-FW),false,47,X,¾,,0
+75367696,Roosevelt MHC,43,Failed Cal,Casualty (metered pre-FW),false,55,P,¾,,0
+75370492,Roosevelt MHC,42,Failed Cal,Casualty (metered pre-FW),false,55,X,¾,,0
+75371425,Roosevelt MHC,107,Calibrating,Unclassified,false,40,X,¾,,0
+75373611,Roosevelt MHC,83,Failed Cal,Pre-existing dead (never metered),false,55,X,¾,,0
+72382011,Rustic Acres MHC,50,Calibrating,Unclassified,false,55,X,¾,,0
+79454458,Rustic Acres MHC,41,Calibrating,Unclassified,false,40,X,¾,,0
+70269798,Shady Lane MHP,40 Maple Lane APT #3,Failed Cal,Casualty (metered pre-FW),false,55,X,¾,,0
+75366011,Shady Lane MHP,96 Shady Lane,Metering,Unclassified,false,26,X,¾,,0
+72723994,Tuttle Estates MHC,3,Metering,Unclassified,false,44,X,¾,,0
+72379926,Virginia Beach,105,Failed Cal,Casualty (metered pre-FW),false,50,X,¾,,0
+72379959,Virginia Beach,107,Failed Cal,No Water flagged,true,55,X,¾,,0
+72381047,Virginia Beach,91-OLD,Failed Cal,Pulled meter (OLD/REMOVED tag),false,55,X,¾,,0
+72383043,Virginia Beach,243-OLD,Failed Cal,Pulled meter (OLD/REMOVED tag),false,55,X,¾,,0
+72383167,Virginia Beach,144-OLD,Failed Cal,Pulled meter (OLD/REMOVED tag),false,35,C,¾,,0
+72383621,Virginia Beach,5-OLD,Failed Cal,Pulled meter (OLD/REMOVED tag),false,55,X,¾,,0
+72384314,Virginia Beach,40,Failed Cal,Casualty (metered pre-FW),false,55,X,¾,,0
+72385097,Virginia Beach,211,Metering,Casualty (metered pre-FW),false,40,X,¾,Y,10624
+72385246,Virginia Beach,9,Metering,Unclassified,false,38,X,¾,,0
+72386145,Virginia Beach,201-OLD,Failed Cal,Pulled meter (OLD/REMOVED tag),false,55,X,¾,,0
+72388364,Virginia Beach,153-OLD,Failed Cal,Pulled meter (OLD/REMOVED tag),false,55,X,¾,,0
+72389966,Virginia Beach,99,Failed Cal,Casualty (metered pre-FW),false,55,X,¾,,0
+72390816,Virginia Beach,239,Calibrating,No Water flagged,true,40,X,¾,,0
+72392655,Virginia Beach,234-OLD,Failed Cal,Pulled meter (OLD/REMOVED tag),false,55,X,¾,,0
+72392754,Virginia Beach,133,Metering,Unclassified,false,35,X,¾,,0
+75372530,Virginia Beach,60,Failed Cal,Casualty (metered pre-FW),false,55,X,¾,,0
+79454276,Virginia Beach,10-OLD,Failed Cal,Pulled meter (OLD/REMOVED tag),false,55,X,¾,,0

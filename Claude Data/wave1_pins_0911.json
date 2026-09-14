@@ -1,0 +1,2862 @@
+[
+ {
+  "id": "08e0ba90-f61f-11f0-b153-63024d3301e1",
+  "name": "Device 75373801",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "7edf9bd0-9fc6-11f0-b5af-5dfa9891b485",
+  "name": "Device 72378787",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "8c3829b0-9fc5-11f0-b5af-5dfa9891b485",
+  "name": "Device 72381161",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "94a37a30-666f-11f0-8658-7f4e94e41769",
+  "name": "Device 70273493",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "a787a000-9a2b-11f0-b5af-5dfa9891b485",
+  "name": "Device 72383571",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "c3301c30-9f9c-11f0-b5af-5dfa9891b485",
+  "name": "Device 70265796",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "0f5b96d0-4d02-11f1-b1bb-f3574cce671d",
+  "name": "Device 75365757",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "2b1c9d30-6c13-11f1-9333-3b2cfe68422f",
+  "name": "Device 75370591",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "3da2d170-4d02-11f1-b1bb-f3574cce671d",
+  "name": "Device 75366607",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "a412a6e0-cf6f-11ef-8f43-73c96c0de66f",
+  "name": "Device 65822101",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "acb21110-9fc5-11f0-b5af-5dfa9891b485",
+  "name": "Device 72379447",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "b0347470-994b-11f0-b5af-5dfa9891b485",
+  "name": "Device 72383043",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "c2d95630-c426-11f0-9842-6d029661c338",
+  "name": "Device 72722590",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "f36d0630-cf70-11ef-8f43-73c96c0de66f",
+  "name": "Device 68612595",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "12317560-cf71-11ef-8f43-73c96c0de66f",
+  "name": "Device 65831581",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "13be6920-26b4-11f0-8272-45e3ef110760",
+  "name": "Device 77061143",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "2a8c9e90-0285-11f0-92a4-09772dfb61f8",
+  "name": "Device 65825575",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "36ea57e0-d45d-11f0-b691-d965a62fa4fa",
+  "name": "Device 72715842",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "4fe4e590-3da3-11f0-8e55-b138a1c03c8e",
+  "name": "Device 77054957",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "5154af00-ad3d-11f0-98a7-c3bc57f9afe3",
+  "name": "Device 72386996",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "57792140-26ce-11f0-8272-45e3ef110760",
+  "name": "Device 77054429",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "626d0930-f186-11f0-8900-8bd481ce9a44",
+  "name": "Device 72723432",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "704a9de0-25d7-11f0-8272-45e3ef110760",
+  "name": "Device 65824917",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "7931df10-e313-11ef-a5fd-a97d57576080",
+  "name": "Device 65827241",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "c1be7e90-bdb2-11ef-8f43-73c96c0de66f",
+  "name": "Device 65828520",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "c851e1a0-26b9-11f0-8272-45e3ef110760",
+  "name": "Device 77055780",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "d4b4bd90-51e9-11f0-acb1-514e01860b07",
+  "name": "Device 70267966",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "dc8803b0-3a88-11f0-8e55-b138a1c03c8e",
+  "name": "Device 77041962",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "e121b210-52dc-11f0-acb1-514e01860b07",
+  "name": "Device 70269798",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "e2988c70-6c14-11f1-9333-3b2cfe68422f",
+  "name": "Device 75374932",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "e4398520-d45c-11f0-b691-d965a62fa4fa",
+  "name": "Device 72715362",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "0950cba0-f318-11f0-8900-8bd481ce9a44",
+  "name": "Device 75368066",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "0992f390-f61f-11f0-b153-63024d3301e1",
+  "name": "Device 75368207",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "2662e730-91da-11f1-a1a6-391af391818e",
+  "name": "Device 79459846",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "35ea96e0-8eb4-11f1-a1a6-391af391818e",
+  "name": "Device 79454912",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17078,
+  "pin_ti": 391,
+  "chk": 480
+ },
+ {
+  "id": "45a6ed70-4d0c-11f1-b1bb-f3574cce671d",
+  "name": "Device 79462147",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "45ad5320-d4c8-11f0-b691-d965a62fa4fa",
+  "name": "Device 72718887",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "49cd7130-4d02-11f1-b1bb-f3574cce671d",
+  "name": "Device 75374452",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "4ff3ba40-3d01-11f0-8e55-b138a1c03c8e",
+  "name": "Device 77061952",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "52ac2380-3d01-11f0-8e55-b138a1c03c8e",
+  "name": "Device 77061481",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "6c2fb3c0-6c13-11f1-9333-3b2cfe68422f",
+  "name": "Device 75366441",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "78ab0e70-5246-11f0-acb1-514e01860b07",
+  "name": "Device 70271133",
+  "fwVer": "17066",
+  "fwVerTi": "372",
+  "state": "Metering",
+  "pin_gen2fw": 17066,
+  "pin_ti": 372,
+  "chk": null
+ },
+ {
+  "id": "811b87e0-3db7-11f0-8e55-b138a1c03c8e",
+  "name": "Device 77055855",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "8c7e9df0-4151-11f0-8e55-b138a1c03c8e",
+  "name": "Device 77053348",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "907db2d0-3f4b-11f1-b39d-b550dfb4ab8b",
+  "name": "Device 79462873",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "9ed187c0-d79b-11f0-b691-d965a62fa4fa",
+  "name": "Device 72716675",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "aca7ff50-4d66-11f1-b1bb-f3574cce671d",
+  "name": "Device 79454276",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "af56e230-c42b-11f0-9842-6d029661c338",
+  "name": "Device 72717459",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "bc06c5c0-3a93-11f1-b198-172a4a9f25c9",
+  "name": "Device 75360048",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "c7745920-40b3-11f0-8e55-b138a1c03c8e",
+  "name": "Device 65822309",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "caccea00-352e-11f0-8e55-b138a1c03c8e",
+  "name": "Device 77056358",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "e86bbcb0-3d78-11f0-8e55-b138a1c03c8e",
+  "name": "Device 77053314",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "eab0dcc0-39d6-11f1-b198-172a4a9f25c9",
+  "name": "Device 79461628",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "eb401030-d4c7-11f0-b691-d965a62fa4fa",
+  "name": "Device 72714324",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "eb7483a0-5223-11f0-acb1-514e01860b07",
+  "name": "Device 70264294",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "053da070-82e2-11f0-8b4a-0d0197d44616",
+  "name": "Device 72389404",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "055e48f0-6674-11f0-8658-7f4e94e41769",
+  "name": "Device 70263700",
+  "fwVer": "17066",
+  "fwVerTi": "372",
+  "state": "Metering",
+  "pin_gen2fw": 17066,
+  "pin_ti": 372,
+  "chk": null
+ },
+ {
+  "id": "0a504720-6677-11f0-8658-7f4e94e41769",
+  "name": "Device 70261902",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "287c9c60-6674-11f0-8658-7f4e94e41769",
+  "name": "Device 70267115",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "36541df0-65be-11f1-9333-3b2cfe68422f",
+  "name": "Device 79463202",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "5bcde480-668c-11f0-8658-7f4e94e41769",
+  "name": "Device 70263239",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "6f0acba0-5c21-11f0-9fcd-87e94e720126",
+  "name": "Device 70261761",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "86e3bb80-666f-11f0-8658-7f4e94e41769",
+  "name": "Device 70261019",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "89867490-82e4-11f0-8b4a-0d0197d44616",
+  "name": "Device 72392820",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "8a11ff10-62a0-11f0-8658-7f4e94e41769",
+  "name": "Device 70269251",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "90af2940-5c21-11f0-9fcd-87e94e720126",
+  "name": "Device 70266596",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "92fd6b50-666f-11f0-8658-7f4e94e41769",
+  "name": "Device 70261480",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "a6829ff0-62b0-11f0-8658-7f4e94e41769",
+  "name": "Device 70264237",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "a7315be0-62c3-11f0-8658-7f4e94e41769",
+  "name": "Device 70261936",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "bb4ad8f0-82ed-11f0-8b4a-0d0197d44616",
+  "name": "Device 72392259",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "c35f3480-82ea-11f0-8b4a-0d0197d44616",
+  "name": "Device 72384793",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "c8d00eb0-fe07-11f0-8726-d3fa6d0d96af",
+  "name": "Device 75372761",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "d0b47960-62b0-11f0-8658-7f4e94e41769",
+  "name": "Device 77059808",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "d4013360-62b0-11f0-8658-7f4e94e41769",
+  "name": "Device 70266901",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "dcd93400-82e1-11f0-8b4a-0d0197d44616",
+  "name": "Device 72392556",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "f0e5c330-62a9-11f0-8658-7f4e94e41769",
+  "name": "Device 70261316",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "fc759810-3d92-11f0-8e55-b138a1c03c8e",
+  "name": "Device 77054759",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "fdcf84e0-5bb1-11f0-9fcd-87e94e720126",
+  "name": "Device 70264302",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "ff256a60-82e1-11f0-8b4a-0d0197d44616",
+  "name": "Device 72389412",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "034992e0-409a-11f0-8e55-b138a1c03c8e",
+  "name": "Device 65823489",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "07898070-9e66-11f0-b5af-5dfa9891b485",
+  "name": "Device 70262090",
+  "fwVer": "17066",
+  "fwVerTi": "372",
+  "state": "Metering",
+  "pin_gen2fw": 17078,
+  "pin_ti": 391,
+  "chk": 10
+ },
+ {
+  "id": "0827cac0-6c13-11f1-9333-3b2cfe68422f",
+  "name": "Device 79460919",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "0942fa90-842b-11f0-8b4a-0d0197d44616",
+  "name": "Device 72385337",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "0eddc440-8420-11f0-8b4a-0d0197d44616",
+  "name": "Device 70269475",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "13aadcb0-8420-11f0-8b4a-0d0197d44616",
+  "name": "Device 72383175",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "1e860670-4d6d-11f1-b1bb-f3574cce671d",
+  "name": "Device 75361046",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "21f85c70-8420-11f0-8b4a-0d0197d44616",
+  "name": "Device 72380361",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "23a3e890-842b-11f0-8b4a-0d0197d44616",
+  "name": "Device 72388844",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "2fabde60-0c91-11f1-8768-5551e7a34f27",
+  "name": "Device 77058339",
+  "fwVer": "17066",
+  "fwVerTi": "372",
+  "state": "Metering",
+  "pin_gen2fw": 17078,
+  "pin_ti": 391,
+  "chk": 10
+ },
+ {
+  "id": "308d7420-9e59-11f0-b5af-5dfa9891b485",
+  "name": "Device 70262447",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "38bde230-3aa1-11f1-b198-172a4a9f25c9",
+  "name": "Device 79462105",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "3ae18440-8430-11f0-8b4a-0d0197d44616",
+  "name": "Device 72392853",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "502a9670-8386-11f0-8b4a-0d0197d44616",
+  "name": "Device 72385931",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "56aaa610-8436-11f0-8b4a-0d0197d44616",
+  "name": "Device 70263882",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "627f6590-84a2-11f0-8b4a-0d0197d44616",
+  "name": "Device 72380866",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "62f3d240-84a2-11f0-8b4a-0d0197d44616",
+  "name": "Device 72378183",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "7f136e60-842d-11f0-8b4a-0d0197d44616",
+  "name": "Device 72384827",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "8832b720-65bf-11f1-9333-3b2cfe68422f",
+  "name": "Device 79465454",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "9b0d01e0-9fc5-11f0-b5af-5dfa9891b485",
+  "name": "Device 72383407",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "9eda8510-9a69-11f0-b5af-5dfa9891b485",
+  "name": "Device 72385774",
+  "fwVer": "17060",
+  "fwVerTi": "344",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "abe8d020-db7a-11f0-b691-d965a62fa4fa",
+  "name": "Device 72379322",
+  "fwVer": "17066",
+  "fwVerTi": "372",
+  "state": "Calibrating",
+  "pin_gen2fw": 17075,
+  "pin_ti": 383,
+  "chk": 10
+ },
+ {
+  "id": "ad86de10-98f2-11f0-b5af-5dfa9891b485",
+  "name": "Device 72390634",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "bf4a1e00-8385-11f0-8b4a-0d0197d44616",
+  "name": "Device 72390147",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "cdee3650-f651-11f0-b153-63024d3301e1",
+  "name": "Device 75369502",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "d3d92ca0-98a0-11f0-b5af-5dfa9891b485",
+  "name": "Device 72390592",
+  "fwVer": "17066",
+  "fwVerTi": "372",
+  "state": "Metering",
+  "pin_gen2fw": 17078,
+  "pin_ti": 391,
+  "chk": 10
+ },
+ {
+  "id": "db204080-9976-11f0-b5af-5dfa9891b485",
+  "name": "Device 72391004",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "ee405470-4d03-11f1-b1bb-f3574cce671d",
+  "name": "Device 75365286",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "f4c127f0-837f-11f0-8b4a-0d0197d44616",
+  "name": "Device 72380908",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "f7b60040-8477-11f0-8b4a-0d0197d44616",
+  "name": "Device 72388356",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "fc704210-8479-11f0-8b4a-0d0197d44616",
+  "name": "Device 72378605",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "ff5de680-4d37-11f1-b1bb-f3574cce671d",
+  "name": "Device 75372803",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "fff79f50-6133-11f0-9fcd-87e94e720126",
+  "name": "Device 70268832",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "03eff120-01de-11f1-af1d-29d4205d602a",
+  "name": "Device 72723424",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "2a2c1b10-9fa1-11f0-b5af-5dfa9891b485",
+  "name": "Device 70263486",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "2e1e3740-a92d-11f0-98a7-c3bc57f9afe3",
+  "name": "Device 72381070",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "3267eae0-a959-11f0-98a7-c3bc57f9afe3",
+  "name": "Device 70264195",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "41cd6a50-a959-11f0-98a7-c3bc57f9afe3",
+  "name": "Device 72391756",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "4ca317e0-9fd6-11f0-b5af-5dfa9891b485",
+  "name": "Device 72388042",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "4d18f8e0-4ce5-11f1-b1bb-f3574cce671d",
+  "name": "Device 75369189",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "5ef41de0-e487-11f0-8900-8bd481ce9a44",
+  "name": "Device 72722434",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "5f603fd0-c50f-11f0-9842-6d029661c338",
+  "name": "Device 72715768",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "63f77c10-a940-11f0-98a7-c3bc57f9afe3",
+  "name": "Device 70265408",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "65d805a0-a971-11f0-98a7-c3bc57f9afe3",
+  "name": "Device 70262025",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "6a1ce450-ad2c-11f0-98a7-c3bc57f9afe3",
+  "name": "Device 72383928",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "6c709200-e487-11f0-8900-8bd481ce9a44",
+  "name": "Device 70271877",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "80c069c0-9fc6-11f0-b5af-5dfa9891b485",
+  "name": "Device 70262363",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "84d67350-e487-11f0-8900-8bd481ce9a44",
+  "name": "Device 72716543",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "87d1e960-9fc5-11f0-b5af-5dfa9891b485",
+  "name": "Device 72391244",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "9a4bc020-ad2b-11f0-98a7-c3bc57f9afe3",
+  "name": "Device 72387788",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "9b2d7f90-82e4-11f0-8b4a-0d0197d44616",
+  "name": "Device 72392887",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "9ec16e00-e487-11f0-8900-8bd481ce9a44",
+  "name": "Device 72714431",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "a0f25e30-a933-11f0-98a7-c3bc57f9afe3",
+  "name": "Device 70259286",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "a5ecdd80-a95a-11f0-98a7-c3bc57f9afe3",
+  "name": "Device 70265440",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "aa663c30-c42b-11f0-9842-6d029661c338",
+  "name": "Device 72721964",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "af775530-9a2b-11f0-b5af-5dfa9891b485",
+  "name": "Device 72385675",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "b43ac3b0-9f9c-11f0-b5af-5dfa9891b485",
+  "name": "Device 72387366",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "b9d41330-ad39-11f0-98a7-c3bc57f9afe3",
+  "name": "Device 72386988",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "bd9e77c0-ad30-11f0-98a7-c3bc57f9afe3",
+  "name": "Device 72380684",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "c90778b0-9f9c-11f0-b5af-5dfa9891b485",
+  "name": "Device 70268923",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "d08e2f60-ad30-11f0-98a7-c3bc57f9afe3",
+  "name": "Device 72380411",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "e3cdf950-e487-11f0-8900-8bd481ce9a44",
+  "name": "Device 72714019",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "f695ab00-01dd-11f1-af1d-29d4205d602a",
+  "name": "Device 75371920",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "10323f40-fe07-11f0-8726-d3fa6d0d96af",
+  "name": "Device 75368587",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "16b5b290-01de-11f1-af1d-29d4205d602a",
+  "name": "Device 72719331",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "1b4326c0-06bc-11f1-a3d9-c99c67c82bc1",
+  "name": "Device 75373546",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "283aff90-c4e7-11f0-9842-6d029661c338",
+  "name": "Device 70270440",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "47575ee0-c7bd-11f0-9842-6d029661c338",
+  "name": "Device 72718622",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "4fe4e280-c4cf-11f0-9842-6d029661c338",
+  "name": "Device 70271695",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "5d5763c0-c7bd-11f0-9842-6d029661c338",
+  "name": "Device 72716345",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "5d894300-0c36-11f1-8768-5551e7a34f27",
+  "name": "Device 75362648",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "6abfb370-4151-11f0-8e55-b138a1c03c8e",
+  "name": "Device 77058446",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "6bbabd70-c765-11f0-9842-6d029661c338",
+  "name": "Device 72717608",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "77f745d0-0c35-11f1-8768-5551e7a34f27",
+  "name": "Device 75373074",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "832ac5b0-c4f7-11f0-9842-6d029661c338",
+  "name": "Device 72722079",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "9d6fb4c0-0b57-11f1-a3d9-c99c67c82bc1",
+  "name": "Device 75367696",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "a4c32760-c431-11f0-9842-6d029661c338",
+  "name": "Device 72721865",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "a5d44c70-a95a-11f0-98a7-c3bc57f9afe3",
+  "name": "Device 72381369",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "a7155900-cf9b-11f0-9bfa-a7eff651ff22",
+  "name": "Device 72714092",
+  "fwVer": "17066",
+  "fwVerTi": "372",
+  "state": "Metering",
+  "pin_gen2fw": 17078,
+  "pin_ti": 391,
+  "chk": 10
+ },
+ {
+  "id": "b7f2dd20-545b-11f1-b1bb-f3574cce671d",
+  "name": "Device 79466452",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "c24b0560-82ea-11f0-8b4a-0d0197d44616",
+  "name": "Device 72385154",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "d17143e0-8495-11f0-8b4a-0d0197d44616",
+  "name": "Device 72385303",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "da6ddda0-ad44-11f0-98a7-c3bc57f9afe3",
+  "name": "Device 72391863",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "df3550e0-c426-11f0-9842-6d029661c338",
+  "name": "Device 72715123",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "e0b33b00-ad40-11f0-98a7-c3bc57f9afe3",
+  "name": "Device 72384231",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "e1a4bf70-06af-11f1-a3d9-c99c67c82bc1",
+  "name": "Device 75363497",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "f40b8c40-0b76-11f1-a3d9-c99c67c82bc1",
+  "name": "Device 75371425",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "f4a30410-cf9b-11f0-9bfa-a7eff651ff22",
+  "name": "Device 70271810",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "0e4e4dc0-0c91-11f1-8768-5551e7a34f27",
+  "name": "Device 75363810",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "1cb19300-545c-11f1-b1bb-f3574cce671d",
+  "name": "Device 79466379",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "3a2fb640-9a72-11f0-b5af-5dfa9891b485",
+  "name": "Device 72383068",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "3c543980-4b22-11f1-bc16-b52012ce6db2",
+  "name": "Device 75362630",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "3e79b490-06a5-11f1-a3d9-c99c67c82bc1",
+  "name": "Device 75373363",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "43c31f50-0c3f-11f1-8768-5551e7a34f27",
+  "name": "Device 72720305",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "542f3660-4b16-11f1-bc16-b52012ce6db2",
+  "name": "Device 75372563",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "579a7e70-4b22-11f1-bc16-b52012ce6db2",
+  "name": "Device 75371904",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "698bc6b0-0c49-11f1-8768-5551e7a34f27",
+  "name": "Device 75362978",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "8e0e9800-4cc7-11f1-b1bb-f3574cce671d",
+  "name": "Device 75365740",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "9607ac20-62a0-11f0-8658-7f4e94e41769",
+  "name": "Device 70263098",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "96120210-c88a-11f0-9842-6d029661c338",
+  "name": "Device 72720198",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "9fdfa2f0-4816-11f1-969c-6109d9dfb138",
+  "name": "Device 75362895",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "ab55c6a0-0c48-11f1-8768-5551e7a34f27",
+  "name": "Device 75372233",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "f6324990-06a4-11f1-a3d9-c99c67c82bc1",
+  "name": "Device 72724307",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "01c867a0-6c15-11f1-9333-3b2cfe68422f",
+  "name": "Device 75373694",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "058f36f0-5498-11f1-b1bb-f3574cce671d",
+  "name": "Device 75366953",
+  "fwVer": "17066",
+  "fwVerTi": "372",
+  "state": "Metering",
+  "pin_gen2fw": 17066,
+  "pin_ti": 372,
+  "chk": null
+ },
+ {
+  "id": "06fb06e0-98e6-11f0-b5af-5dfa9891b485",
+  "name": "Device 72387945",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "0a8b9e90-4d0a-11f1-b1bb-f3574cce671d",
+  "name": "Device 75368298",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "1005b980-4d02-11f1-b1bb-f3574cce671d",
+  "name": "Device 75366805",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "14d2b740-4cc8-11f1-b1bb-f3574cce671d",
+  "name": "Device 75368405",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "14e37850-5498-11f1-b1bb-f3574cce671d",
+  "name": "Device 75368397",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "188b2530-4ce5-11f1-b1bb-f3574cce671d",
+  "name": "Device 79465769",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "20cd6b80-c50f-11f0-9842-6d029661c338",
+  "name": "Device 72714555",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "23da5070-82ef-11f0-8b4a-0d0197d44616",
+  "name": "Device 72384520",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "254da410-5478-11f1-b1bb-f3574cce671d",
+  "name": "Device 75363992",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "255c6390-5498-11f1-b1bb-f3574cce671d",
+  "name": "Device 75368496",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "2a9b8800-98f9-11f0-b5af-5dfa9891b485",
+  "name": "Device 72389578",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "2d10ba70-4d66-11f1-b1bb-f3574cce671d",
+  "name": "Device 75364107",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "35f3b730-98e6-11f0-b5af-5dfa9891b485",
+  "name": "Device 72386145",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "39c48760-4d66-11f1-b1bb-f3574cce671d",
+  "name": "Device 79461826",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "3ae9a850-9a2e-11f0-b5af-5dfa9891b485",
+  "name": "Device 72392655",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "3ee897e0-4d02-11f1-b1bb-f3574cce671d",
+  "name": "Device 79466619",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "3f967bc0-39d5-11f1-b198-172a4a9f25c9",
+  "name": "Device 79460562",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "43fac030-9977-11f0-b5af-5dfa9891b485",
+  "name": "Device 72378423",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "45db10d0-98e6-11f0-b5af-5dfa9891b485",
+  "name": "Device 72383621",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "4879a240-6c15-11f1-9333-3b2cfe68422f",
+  "name": "Device 75364495",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "4b2e23c0-5483-11f1-b1bb-f3574cce671d",
+  "name": "Device 79456479",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "4c178840-4d02-11f1-b1bb-f3574cce671d",
+  "name": "Device 75360113",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "4e9f7030-5498-11f1-b1bb-f3574cce671d",
+  "name": "Device 75365898",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "55577840-87a7-11f1-a1a6-391af391818e",
+  "name": "Device 79455877",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "58f7ce80-5478-11f1-b1bb-f3574cce671d",
+  "name": "Device 79461768",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "5e41ee40-4d69-11f1-b1bb-f3574cce671d",
+  "name": "Device 75368991",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "5e5b4ed0-4d0a-11f1-b1bb-f3574cce671d",
+  "name": "Device 75367852",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "676f5960-4d02-11f1-b1bb-f3574cce671d",
+  "name": "Device 75365096",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "6ddfe470-545c-11f1-b1bb-f3574cce671d",
+  "name": "Device 75365302",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "7450d310-9976-11f0-b5af-5dfa9891b485",
+  "name": "Device 72378456",
+  "fwVer": "17066",
+  "fwVerTi": "372",
+  "state": "Metering",
+  "pin_gen2fw": 17078,
+  "pin_ti": 391,
+  "chk": 10
+ },
+ {
+  "id": "78296220-98a1-11f0-b5af-5dfa9891b485",
+  "name": "Device 72388364",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "7d05ba00-98e7-11f0-b5af-5dfa9891b485",
+  "name": "Device 72393042",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "7daa9410-4d66-11f1-b1bb-f3574cce671d",
+  "name": "Device 75364313",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "85b1f1a0-e07d-11ef-a5fd-a97d57576080",
+  "name": "Device 65829312",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "8bfba9c0-c510-11f0-9842-6d029661c338",
+  "name": "Device 72722202",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "8d6f3700-4d04-11f1-b1bb-f3574cce671d",
+  "name": "Device 79460844",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "8f547840-994b-11f0-b5af-5dfa9891b485",
+  "name": "Device 72382847",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "95712650-98f7-11f0-b5af-5dfa9891b485",
+  "name": "Device 72385097",
+  "fwVer": "17060",
+  "fwVerTi": "325",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "95a9bc70-be43-11ef-8f43-73c96c0de66f",
+  "name": "Device 68612744",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "977ccab0-5479-11f1-b1bb-f3574cce671d",
+  "name": "Device 75368439",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "97fe2420-5483-11f1-b1bb-f3574cce671d",
+  "name": "Device 75362572",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "9e547bf0-3f4b-11f1-b39d-b550dfb4ab8b",
+  "name": "Device 75367910",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "a11dba70-c4ff-11f0-9842-6d029661c338",
+  "name": "Device 72718119",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "a15d7fa0-84e2-11f0-8b4a-0d0197d44616",
+  "name": "Device 72389230",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "a74ed380-4d66-11f1-b1bb-f3574cce671d",
+  "name": "Device 75367050",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "a81c1e20-5483-11f1-b1bb-f3574cce671d",
+  "name": "Device 75367704",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "ad379e60-9a2b-11f0-b5af-5dfa9891b485",
+  "name": "Device 72390030",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "b2814230-6c13-11f1-9333-3b2cfe68422f",
+  "name": "Device 75373421",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "b48c4c80-666c-11f0-8658-7f4e94e41769",
+  "name": "Device 70259468",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "b7fb3170-4ccf-11f1-b1bb-f3574cce671d",
+  "name": "Device 75371946",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "badfecb0-98e7-11f0-b5af-5dfa9891b485",
+  "name": "Device 72384488",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "c16850b0-5497-11f1-b1bb-f3574cce671d",
+  "name": "Device 75364586",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "c54b0060-545b-11f1-b1bb-f3574cce671d",
+  "name": "Device 75367100",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "c70863f0-9973-11f0-b5af-5dfa9891b485",
+  "name": "Device 72388539",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "cb6ea2b0-c501-11f0-9842-6d029661c338",
+  "name": "Device 72717798",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "d0a57d00-995d-11f0-b5af-5dfa9891b485",
+  "name": "Device 72379959",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "d4bad250-4d03-11f1-b1bb-f3574cce671d",
+  "name": "Device 79461677",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "d81c8eb0-8383-11f0-8b4a-0d0197d44616",
+  "name": "Device 72389347",
+  "fwVer": "17060",
+  "fwVerTi": "0",
+  "state": "TI Silent",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": 60
+ },
+ {
+  "id": "d8f21ab0-59f9-11f1-b1bb-f3574cce671d",
+  "name": "Device 75365104",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "de14dc60-5497-11f1-b1bb-f3574cce671d",
+  "name": "Device 75365427",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "e59043f0-98f2-11f0-b5af-5dfa9891b485",
+  "name": "Device 72382805",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "e64ed090-8b77-11f1-a1a6-391af391818e",
+  "name": "Device 79456701",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "e9921c60-545b-11f1-b1bb-f3574cce671d",
+  "name": "Device 79455422",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "eb952700-c50e-11f0-9842-6d029661c338",
+  "name": "Device 72716659",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "f27bf950-4d66-11f1-b1bb-f3574cce671d",
+  "name": "Device 75372530",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "f31297a0-8788-11f1-a1a6-391af391818e",
+  "name": "Device 79459408",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "f63e7df0-c50e-11f0-9842-6d029661c338",
+  "name": "Device 72717715",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "f7b88660-8479-11f0-8b4a-0d0197d44616",
+  "name": "Device 72390816",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "fdf89e40-5497-11f1-b1bb-f3574cce671d",
+  "name": "Device 79466858",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "fec679e0-8383-11f0-8b4a-0d0197d44616",
+  "name": "Device 72383100",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "0b237680-4d72-11f1-b1bb-f3574cce671d",
+  "name": "Device 79466692",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "1b0d18d0-8379-11f0-8b4a-0d0197d44616",
+  "name": "Device 72383209",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "1c8a9c90-9a2c-11f0-b5af-5dfa9891b485",
+  "name": "Device 72390386",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "2bcf43c0-9fa1-11f0-b5af-5dfa9891b485",
+  "name": "Device 72381559",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "2e0bf770-4d73-11f1-b1bb-f3574cce671d",
+  "name": "Device 75363166",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "30c585b0-87a9-11f1-a1a6-391af391818e",
+  "name": "Device 79464465",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "4397c440-98a9-11f0-b5af-5dfa9891b485",
+  "name": "Device 72381047",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "45c60790-98f9-11f0-b5af-5dfa9891b485",
+  "name": "Device 72392994",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "5e886780-994b-11f0-b5af-5dfa9891b485",
+  "name": "Device 72379926",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "5f18a040-dc4c-11f0-b691-d965a62fa4fa",
+  "name": "Device 72718549",
+  "fwVer": "17066",
+  "fwVerTi": "374",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17066,
+  "pin_ti": 375,
+  "chk": 480
+ },
+ {
+  "id": "6f9f8540-98a0-11f0-b5af-5dfa9891b485",
+  "name": "Device 72382359",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "737b0320-db7a-11f0-b691-d965a62fa4fa",
+  "name": "Device 72714423",
+  "fwVer": "17066",
+  "fwVerTi": "374",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17066,
+  "pin_ti": 375,
+  "chk": 480
+ },
+ {
+  "id": "7f87a690-98be-11f0-b5af-5dfa9891b485",
+  "name": "Device 72383167",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "81f7bdf0-3f4b-11f1-b39d-b550dfb4ab8b",
+  "name": "Device 79463525",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "87aa5460-3f4b-11f1-b39d-b550dfb4ab8b",
+  "name": "Device 79463608",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "8b5497b0-3f4b-11f1-b39d-b550dfb4ab8b",
+  "name": "Device 79461974",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "8ebe31c0-8787-11f1-a1a6-391af391818e",
+  "name": "Device 79459929",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "8f59a530-3f4b-11f1-b39d-b550dfb4ab8b",
+  "name": "Device 75364065",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "9047c510-989f-11f0-b5af-5dfa9891b485",
+  "name": "Device 72379744",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "92793b90-c403-11f0-9842-6d029661c338",
+  "name": "Device 72722152",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "97a93810-62a9-11f0-8658-7f4e94e41769",
+  "name": "Device 70271380",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "a1e1d1a0-9a69-11f0-b5af-5dfa9891b485",
+  "name": "Device 72379884",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "a28a8480-3f4b-11f1-b39d-b550dfb4ab8b",
+  "name": "Device 75363026",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "a2b2dc30-4d71-11f1-b1bb-f3574cce671d",
+  "name": "Device 75368272",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Calibrating",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "a5ec3540-4d71-11f1-b1bb-f3574cce671d",
+  "name": "Device 75361806",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "ac297f80-4d71-11f1-b1bb-f3574cce671d",
+  "name": "Device 75368157",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "b3f5c420-66b4-11f0-8658-7f4e94e41769",
+  "name": "Device 70271968",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "b7ccad80-4d76-11f1-b1bb-f3574cce671d",
+  "name": "Device 79462923",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "d159ae10-98ea-11f0-b5af-5dfa9891b485",
+  "name": "Device 72392325",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "dead07a0-5223-11f0-acb1-514e01860b07",
+  "name": "Device 70269897",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Failed Cal",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "ea0a8f30-98f7-11f0-b5af-5dfa9891b485",
+  "name": "Device 72390865",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ },
+ {
+  "id": "f9267260-98be-11f0-b5af-5dfa9891b485",
+  "name": "Device 72384587",
+  "fwVer": "17060",
+  "fwVerTi": "368",
+  "state": "Metering",
+  "pin_gen2fw": 17060,
+  "pin_ti": 368,
+  "chk": null
+ }
+]

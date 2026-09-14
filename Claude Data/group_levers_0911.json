@@ -1,0 +1,2886 @@
+[
+ {
+  "gid": "00210220-4c60-11f0-acb1-514e01860b07",
+  "name": "Stevens Park MHC",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "005dde30-977d-11eb-ae7b-edbe3a6091c2",
+  "name": "All",
+  "gen2fw": null,
+  "allowTiFotaVer": null,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "018f0070-85e5-11f1-a1a6-391af391818e",
+  "name": "Lake Road Village RV Park-Cust",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "01f63530-8fe9-11f0-8b4a-0d0197d44616",
+  "name": "Oakwood MHC GenII",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "0259f270-f757-11f0-b153-63024d3301e1",
+  "name": "RMA_GENII",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "03d4b680-68fd-11ed-b9b4-b5291c26d4ab",
+  "name": "Stone2620N",
+  "gen2fw": 12377,
+  "allowTiFotaVer": 219,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "0407d7f0-9390-11ed-8426-5912eec2be3c",
+  "name": "TN3200E5Ave",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "042e5d40-ad12-11f1-a1a6-391af391818e",
+  "name": "Reserve at Chapel Cove HOA",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "043ece50-efc7-11ef-b35e-23eef2ba43da",
+  "name": "Sara Drive MHP",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "05440ea0-561d-11ed-9d78-25a66ba3dae0",
+  "name": "Bruce's House",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "066aa4c0-19fc-11ef-b5d9-bf75c1762495",
+  "name": "Azulejo",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "07213900-5f56-11f1-89ca-a986714faa23",
+  "name": "Cedarbrook Estates MHC",
+  "gen2fw": 16185,
+  "allowTiFotaVer": 314,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "074dee40-9f94-11f1-a1a6-391af391818e",
+  "name": "Woodland Heights MHC",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "07f7f9d0-1961-11f1-be01-6f2b88b3116b",
+  "name": "Parkway MHC",
+  "gen2fw": 16022,
+  "allowTiFotaVer": 260,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "08644c00-53a7-11f0-acb1-514e01860b07",
+  "name": "Swan Lake Estates",
+  "gen2fw": 16185,
+  "allowTiFotaVer": 314,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "086b4d10-343b-11f0-8e55-b138a1c03c8e",
+  "name": "Canada",
+  "gen2fw": 16022,
+  "allowTiFotaVer": 260,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "08f69920-4525-11ef-af06-d3314982468b",
+  "name": "Fortune Branch",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "09171430-b597-11ed-8426-5912eec2be3c",
+  "name": "Northview",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "091718c0-c7fc-11f0-9842-6d029661c338",
+  "name": "GenII Water Flow",
+  "gen2fw": 12377,
+  "allowTiFotaVer": 219,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "09af8ad0-ca02-11f0-9842-6d029661c338",
+  "name": "935 W 12th St Condominiums",
+  "gen2fw": 16185,
+  "allowTiFotaVer": 314,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "09d64df0-4e94-11ee-b7e1-39727005a827",
+  "name": "West Highland",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "09ebe910-214d-11f1-ad4c-39b736abc4ce",
+  "name": "Round Lake MHP",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "0a736c60-8c68-11f1-a1a6-391af391818e",
+  "name": "Shirlee's MHP",
+  "gen2fw": 17032,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "0c9754f0-e275-11ef-a5fd-a97d57576080",
+  "name": "Engineering M-U2DB",
+  "gen2fw": 16185,
+  "allowTiFotaVer": 314,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "0dc8c170-f745-11f0-b153-63024d3301e1",
+  "name": "Old RMA",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "0ed6f630-fe21-11f0-8726-d3fa6d0d96af",
+  "name": "Brian Fries 5YR",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "0eef6130-18f1-11f1-be01-6f2b88b3116b",
+  "name": "FOTA Test",
+  "gen2fw": 16135,
+  "allowTiFotaVer": 296,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "10421c60-aac6-11f0-98a7-c3bc57f9afe3",
+  "name": "Red Rhino Test",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "10f23720-ca02-11f0-9842-6d029661c338",
+  "name": "North Ewing Townhomes",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "11cc97b0-c9f7-11ee-b85d-dba39f676200",
+  "name": "Testing",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "11ea7a30-67f2-11ee-b77b-c10d9e19b72d",
+  "name": "Johnson's Trailer Park",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "11f31e30-f39f-11ef-8892-877a26e18c37",
+  "name": "Southern Cross MHC",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "122f8af0-f39f-11ef-8892-877a26e18c37",
+  "name": "Highlands MHC",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "1263e160-f39f-11ef-8892-877a26e18c37",
+  "name": "Oak Forest Estate MHC",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "12ef6550-1c6c-11f0-8272-45e3ef110760",
+  "name": "Blank",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "131d5960-f745-11f0-b153-63024d3301e1",
+  "name": "New RMA Good",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "15496b50-9231-11ee-b77b-c10d9e19b72d",
+  "name": "524 N Pershing",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "166d6ff0-8e64-11f0-8b4a-0d0197d44616",
+  "name": "TN1900-GenII",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "1750c840-33fc-11ef-b3dd-53cee0607029",
+  "name": "TRIALS",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "1753d3a0-3a36-11f0-8e55-b138a1c03c8e",
+  "name": "Brookhaven MF",
+  "gen2fw": 15019,
+  "allowTiFotaVer": 219,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "186366a0-74ba-11ed-b9b4-b5291c26d4ab",
+  "name": "Ridgewood Gardens",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "19c17360-51a8-11f1-b1bb-f3574cce671d",
+  "name": "Wintergreen Apartments",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "1a034560-6d96-11f1-9333-3b2cfe68422f",
+  "name": "RMA - Bad",
+  "gen2fw": 16185,
+  "allowTiFotaVer": 314,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "1a5ad240-79d5-11f0-8b4a-0d0197d44616",
+  "name": "Paola MHC",
+  "gen2fw": 16022,
+  "allowTiFotaVer": 260,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "1b004c30-1a56-11f1-be01-6f2b88b3116b",
+  "name": "Flower Mound MHC-CUST",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "1ba168a0-9912-11f1-a1a6-391af391818e",
+  "name": "Smitty's MHP",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "1da04b90-aaf1-11f0-98a7-c3bc57f9afe3",
+  "name": "Papa Ken",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "1db613b0-1961-11f1-be01-6f2b88b3116b",
+  "name": "Parkview MHP",
+  "gen2fw": 16131,
+  "allowTiFotaVer": 296,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "1db74b90-2faf-11f1-b3c4-8b79b9f5ca43",
+  "name": "Pelican Shores North HOA",
+  "gen2fw": 16185,
+  "allowTiFotaVer": 314,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "1e478990-2ccc-11ef-b3dd-53cee0607029",
+  "name": "Seattle Treehouses",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "1efd1920-1a52-11f1-be01-6f2b88b3116b",
+  "name": "Ontario Place MHC-CUST",
+  "gen2fw": 16037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "1f1d0a00-73f3-11f1-9333-3b2cfe68422f",
+  "name": "FOTA Test-Cust",
+  "gen2fw": 17034,
+  "allowTiFotaVer": 348,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "1f214ab0-5426-11ee-9d1c-a706a1c099d4",
+  "name": "Willapa Shores",
+  "gen2fw": 17028,
+  "allowTiFotaVer": 341,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "1f4694d0-70ef-11f1-9333-3b2cfe68422f",
+  "name": "Kay Lou MHC",
+  "gen2fw": 16131,
+  "allowTiFotaVer": 296,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "1fc5a180-e0db-11ef-a5fd-a97d57576080",
+  "name": "GENII Production Failures",
+  "gen2fw": 16185,
+  "allowTiFotaVer": 314,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "204d0510-de28-11ed-b15d-e3ac404013cb",
+  "name": "Encanto Waterfront",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "225a0970-87c0-11ed-a7ec-f1ef004d5f3c",
+  "name": "Westmoreland",
+  "gen2fw": 15154,
+  "allowTiFotaVer": 260,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "24c57270-64f9-11f1-9333-3b2cfe68422f",
+  "name": "Island Club MHC",
+  "gen2fw": 16022,
+  "allowTiFotaVer": 260,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "254a0a40-ca02-11f0-9842-6d029661c338",
+  "name": "Bishop 10th St Association",
+  "gen2fw": 16185,
+  "allowTiFotaVer": 314,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "26b6b4e0-becb-11ed-8426-5912eec2be3c",
+  "name": "Production L W1023",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "26bc45c0-c87f-11f0-9842-6d029661c338",
+  "name": "Grand Central MHP",
+  "gen2fw": 15090,
+  "allowTiFotaVer": 254,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "272c61a0-6a2c-11ef-b1d9-ff37f0a7cd32",
+  "name": "Production Inventory M-M8DB RMA",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "2842a3b0-4ab4-11f0-acb1-514e01860b07",
+  "name": "East Barre MHP",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "29353120-6363-11f1-9333-3b2cfe68422f",
+  "name": "Shady Lane MHP-Cust",
+  "gen2fw": 17028,
+  "allowTiFotaVer": 341,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "2ab95400-5565-11ed-9d78-25a66ba3dae0",
+  "name": "M-M5 Production Rev8",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "2bb5f6b0-4502-11ed-aaba-bd7fc46c76da",
+  "name": "Aggregation Test",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "2cac8500-5a97-11ef-af06-d3314982468b",
+  "name": "Shady Grove",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "2ed9b7d0-4ae2-11f0-acb1-514e01860b07",
+  "name": "River Hill MHC",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "2eefbea0-f8e0-11ed-b15d-e3ac404013cb",
+  "name": "Broadway MHP DesMoines",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "2f2b1990-5a97-11ef-af06-d3314982468b",
+  "name": "Center Point",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "3033d580-d3da-11f0-b691-d965a62fa4fa",
+  "name": "Kay Bee Mobile Villa MHP",
+  "gen2fw": 16131,
+  "allowTiFotaVer": 296,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "30431970-6deb-11ee-b77b-c10d9e19b72d",
+  "name": "501 Main",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "309305b0-c335-11f0-9842-6d029661c338",
+  "name": "ADU 5 Year Contracts",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "30faa970-5a97-11ef-af06-d3314982468b",
+  "name": "Los Robles",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "31659a10-b4b0-11ee-9d43-0b6fcb4bb1bf",
+  "name": "Refurb L SB",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "31c2b2e0-19f5-11ef-b5d9-bf75c1762495",
+  "name": "Highland Terrace",
+  "gen2fw": 16185,
+  "allowTiFotaVer": 314,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "31d07000-5a97-11ef-af06-d3314982468b",
+  "name": "Friendly Village",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "331d84d0-33af-11ee-a8b5-978d1afca354",
+  "name": "Ft Lauderdale MHP",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "333a5510-3d9f-11ef-b3dd-53cee0607029",
+  "name": "Roosevelt MHC",
+  "gen2fw": 16131,
+  "allowTiFotaVer": 296,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "336b7b00-1961-11f1-be01-6f2b88b3116b",
+  "name": "Minot Gardens MHC",
+  "gen2fw": 16131,
+  "allowTiFotaVer": 296,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "33a7c810-5a97-11ef-af06-d3314982468b",
+  "name": "Parkwood",
+  "gen2fw": 16022,
+  "allowTiFotaVer": 260,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "33dc5460-6b96-11f1-9333-3b2cfe68422f",
+  "name": "Fair Meadows",
+  "gen2fw": null,
+  "allowTiFotaVer": null,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "33ffbd20-a097-11f1-a1a6-391af391818e",
+  "name": "Sky Stream",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "344c0620-6b96-11f1-9333-3b2cfe68422f",
+  "name": "Green Forest Estates MHC",
+  "gen2fw": null,
+  "allowTiFotaVer": null,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "345f4d10-3d9f-11ef-b3dd-53cee0607029",
+  "name": "Backcountry MHC",
+  "gen2fw": 15154,
+  "allowTiFotaVer": 260,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "3479cce0-6b96-11f1-9333-3b2cfe68422f",
+  "name": "Kingsbrook MHP",
+  "gen2fw": null,
+  "allowTiFotaVer": null,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "34c099e0-6b96-11f1-9333-3b2cfe68422f",
+  "name": "Maple Run",
+  "gen2fw": null,
+  "allowTiFotaVer": null,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "34e7f800-6b96-11f1-9333-3b2cfe68422f",
+  "name": "Oak Forest MHC",
+  "gen2fw": null,
+  "allowTiFotaVer": null,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "35168210-6b96-11f1-9333-3b2cfe68422f",
+  "name": "Oak Tree MHP",
+  "gen2fw": null,
+  "allowTiFotaVer": null,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "3527cd30-3d9f-11ef-b3dd-53cee0607029",
+  "name": "Riley Lane",
+  "gen2fw": 15154,
+  "allowTiFotaVer": 260,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "353de030-6b96-11f1-9333-3b2cfe68422f",
+  "name": "Removed Shady Grove",
+  "gen2fw": null,
+  "allowTiFotaVer": null,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "3588a4d0-6b96-11f1-9333-3b2cfe68422f",
+  "name": "Sara Drive MHC-Nowi",
+  "gen2fw": null,
+  "allowTiFotaVer": null,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "35b978d0-6b96-11f1-9333-3b2cfe68422f",
+  "name": "Singing Pines-Nowi",
+  "gen2fw": null,
+  "allowTiFotaVer": null,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "35e061c0-6b96-11f1-9333-3b2cfe68422f",
+  "name": "Whispering Pines-Nowi",
+  "gen2fw": null,
+  "allowTiFotaVer": null,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "35f75230-3d9f-11ef-b3dd-53cee0607029",
+  "name": "Fair Lane MHC",
+  "gen2fw": 15154,
+  "allowTiFotaVer": 260,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "36463850-8d91-11ee-b77b-c10d9e19b72d",
+  "name": "Sunset MHP",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "37da1bf0-3d9f-11ef-b3dd-53cee0607029",
+  "name": "Fair Meadows MHC",
+  "gen2fw": 16022,
+  "allowTiFotaVer": 260,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "381e8f20-70be-11f1-9333-3b2cfe68422f",
+  "name": "Oswego MHP",
+  "gen2fw": 16185,
+  "allowTiFotaVer": 314,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "38666010-19f5-11ef-b5d9-bf75c1762495",
+  "name": "Oaklodge MHP",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "398b9ca0-f4f1-11ed-b15d-e3ac404013cb",
+  "name": "Production Inventory M-M8DB",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "399415e0-46e7-11ee-af4e-2b411221b2af",
+  "name": "1625 Fillmore",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "3a6bccb0-14b7-11f1-be01-6f2b88b3116b",
+  "name": "Paradise Village Cooperative MHC",
+  "gen2fw": 15154,
+  "allowTiFotaVer": 260,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "3b975f90-44de-11f0-8e55-b138a1c03c8e",
+  "name": "Kingsbrook MHC",
+  "gen2fw": 16131,
+  "allowTiFotaVer": 296,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "3b9f1910-bf98-11ed-8426-5912eec2be3c",
+  "name": "The Phoenix",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "3c334750-424b-11f1-b39d-b550dfb4ab8b",
+  "name": "Ponderosa MHC",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "3c59a690-fce6-11ee-b5d9-bf75c1762495",
+  "name": "High Plains Ranch",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "3cfc90c0-4de5-11f0-acb1-514e01860b07",
+  "name": "Hydetown Mobile Estates",
+  "gen2fw": 15091,
+  "allowTiFotaVer": 255,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "3d7c2a60-94f2-11f1-a1a6-391af391818e",
+  "name": "The Heights MF",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "3d86e940-b3ce-11ed-8426-5912eec2be3c",
+  "name": "Production M W0723",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "3da518d0-0f47-11f0-8272-45e3ef110760",
+  "name": "Titan Middle River",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "3ec01a10-cf47-11f0-9bfa-a7eff651ff22",
+  "name": "Wildwood Estates MHC",
+  "gen2fw": 15090,
+  "allowTiFotaVer": 254,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "3f078ee0-4bc0-11f1-bc16-b52012ce6db2",
+  "name": "The Oaks MHC",
+  "gen2fw": 16131,
+  "allowTiFotaVer": 296,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "402d8610-c94f-11f0-9842-6d029661c338",
+  "name": "Forest at Sherman MHC",
+  "gen2fw": 15090,
+  "allowTiFotaVer": 254,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "408d4350-d2fa-11ed-b15d-e3ac404013cb",
+  "name": "Kachina",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "40d57870-14fc-11ee-8565-6b22fca7e896",
+  "name": "Utah Labs",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "41564510-715f-11f0-8c57-87c33bed32e3",
+  "name": "Coleman Village MHC",
+  "gen2fw": 15154,
+  "allowTiFotaVer": 260,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "427ba5e0-64b2-11ee-b77b-c10d9e19b72d",
+  "name": "Ibiza Village",
+  "gen2fw": 17028,
+  "allowTiFotaVer": 343,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "42a8d680-295b-11f1-b3c4-8b79b9f5ca43",
+  "name": "Browns MHP",
+  "gen2fw": 15154,
+  "allowTiFotaVer": 260,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "42e6bf00-a8ff-11ef-82ac-6ff8f1723c66",
+  "name": "Scottsdale MHP",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "42ed3580-6d96-11f1-9333-3b2cfe68422f",
+  "name": "RMA - Battery",
+  "gen2fw": 16193,
+  "allowTiFotaVer": 320,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "43503fb0-8ce8-11f1-a1a6-391af391818e",
+  "name": "Verandah MHC-Cust",
+  "gen2fw": null,
+  "allowTiFotaVer": null,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "43d27140-e318-11ef-a5fd-a97d57576080",
+  "name": "Estancia MHP",
+  "gen2fw": 16022,
+  "allowTiFotaVer": 260,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "44a30b80-3fe6-11f1-b39d-b550dfb4ab8b",
+  "name": "Broken Arrow MHP",
+  "gen2fw": 16131,
+  "allowTiFotaVer": 296,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "44b0c060-2fe3-11ee-a8b5-978d1afca354",
+  "name": "10onBroadway",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "44f9ed90-0f47-11f0-8272-45e3ef110760",
+  "name": "Aurora MHC",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "45048820-8a5a-11f0-8b4a-0d0197d44616",
+  "name": "Westview Mobile Estates MHC",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "45dfcf50-f4ef-11ed-b15d-e3ac404013cb",
+  "name": "Production Inventory M-L5SB",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "46302730-f8ea-11ed-b15d-e3ac404013cb",
+  "name": "Northview 1",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "463c3520-f8ea-11ed-b15d-e3ac404013cb",
+  "name": "Northview 2",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "4645f920-f8ea-11ed-b15d-e3ac404013cb",
+  "name": "Northview 3",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "469a4800-a661-11f0-98a7-c3bc57f9afe3",
+  "name": "U2DB Devices",
+  "gen2fw": null,
+  "allowTiFotaVer": null,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "496fa1e0-8cb4-11f0-8b4a-0d0197d44616",
+  "name": "Stafford MHC",
+  "gen2fw": 16185,
+  "allowTiFotaVer": 314,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "499f92a0-631d-11ee-b77b-c10d9e19b72d",
+  "name": "Sunview MHP",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "4a217080-e560-11ed-b15d-e3ac404013cb",
+  "name": "Lazona",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "4b05f9d0-65cc-11ed-b9b4-b5291c26d4ab",
+  "name": "Stage 1 - New Install L",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "4ba2e7e0-25c0-11ee-a8b5-978d1afca354",
+  "name": "L-Factor Test",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "4bd8a7f0-0f47-11f0-8272-45e3ef110760",
+  "name": "Crystal River MHC",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "4c966ba0-c7c0-11f0-9842-6d029661c338",
+  "name": "Brighton Court MHP",
+  "gen2fw": 15090,
+  "allowTiFotaVer": 254,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "4d54e0a0-e3b4-11ed-b15d-e3ac404013cb",
+  "name": "Reman Production",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "4d8eb350-abfc-11ee-80bf-59c7209b9ac1",
+  "name": "Pace East",
+  "gen2fw": 16131,
+  "allowTiFotaVer": 296,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "4e07b010-67f1-11ee-b77b-c10d9e19b72d",
+  "name": "Lantana Trail",
+  "gen2fw": 15154,
+  "allowTiFotaVer": 260,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "4e3fd7e0-8830-11f0-8b4a-0d0197d44616",
+  "name": "Rustic Acres MHC",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "4f76f260-ed2d-11ed-b15d-e3ac404013cb",
+  "name": "8 OnElaine",
+  "gen2fw": 15154,
+  "allowTiFotaVer": 260,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "503d23b0-5ac4-11f1-b1bb-f3574cce671d",
+  "name": "Virginia Beach HOA - Cust",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "5129ce40-3cca-11f0-8e55-b138a1c03c8e",
+  "name": "Firmware Dev",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": 5
+ },
+ {
+  "gid": "52a43880-a2c0-11f0-b5af-5dfa9891b485",
+  "name": "Flower Mound MHC",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "54640af0-52ca-11f1-b1bb-f3574cce671d",
+  "name": "176 N Highland Ave",
+  "gen2fw": 16022,
+  "allowTiFotaVer": 260,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "54936830-8bc9-11f1-a1a6-391af391818e",
+  "name": "Parkview MHP-Cust",
+  "gen2fw": 16130,
+  "allowTiFotaVer": 296,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "549aea00-4a25-11f1-bc16-b52012ce6db2",
+  "name": "Steve Scheiter 5plex-Cust",
+  "gen2fw": 17028,
+  "allowTiFotaVer": 341,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "54a1e8f0-88c4-11f0-8b4a-0d0197d44616",
+  "name": "Ontario Place MHC",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "55128fe0-10de-11f1-be01-6f2b88b3116b",
+  "name": "test bruce",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "552b0030-8bbc-11f1-a1a6-391af391818e",
+  "name": "Shelby's Trailer Park - Cust",
+  "gen2fw": 16131,
+  "allowTiFotaVer": 296,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "5733db80-6b2e-11f1-9333-3b2cfe68422f",
+  "name": "Island Club MHC-CUST",
+  "gen2fw": 16022,
+  "allowTiFotaVer": 260,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "573e48c0-fc10-11ee-b5d9-bf75c1762495",
+  "name": "Running Springs MHP",
+  "gen2fw": 16185,
+  "allowTiFotaVer": 314,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "57744cf0-4a1e-11f1-bc16-b52012ce6db2",
+  "name": "Lake of the Pines Community Association - Cust",
+  "gen2fw": null,
+  "allowTiFotaVer": null,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "57dc8820-56b3-11ef-af06-d3314982468b",
+  "name": "Country Squire MHC",
+  "gen2fw": 16185,
+  "allowTiFotaVer": 314,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "58fc7580-65a7-11f1-9333-3b2cfe68422f",
+  "name": "Put In Bay Condos",
+  "gen2fw": 16022,
+  "allowTiFotaVer": 260,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "5986f0d0-5031-11ef-af06-d3314982468b",
+  "name": "Flaherty Plumbing",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "59c70f90-f1d5-11ee-a802-11c9886d6950",
+  "name": "Refurb M8DB",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "59ea1b20-b368-11ef-82ac-6ff8f1723c66",
+  "name": "Production Inventory M-U2DB",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "5a9c9610-728e-11f1-9333-3b2cfe68422f",
+  "name": "Grand Valley Estates MHC",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "5ab177c0-0f47-11f0-8272-45e3ef110760",
+  "name": "Backwater MHC",
+  "gen2fw": 17032,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "5b1ef820-a665-11f1-a1a6-391af391818e",
+  "name": "Wyse Eval",
+  "gen2fw": null,
+  "allowTiFotaVer": null,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "5d6e4340-613d-11ed-b9b4-b5291c26d4ab",
+  "name": "Production Inventory RMA M-L5",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "5d9a2050-6dee-11ee-b77b-c10d9e19b72d",
+  "name": "Hanover MHP",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "613f45e0-8bc9-11f1-a1a6-391af391818e",
+  "name": "Tuttle Estates MHC-Cust",
+  "gen2fw": 16130,
+  "allowTiFotaVer": 296,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "62a949f0-6577-11ef-82e8-31b9269e53c6",
+  "name": "Production Inventory M-M8DB-3",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "62b6ce20-62ba-11ed-b9b4-b5291c26d4ab",
+  "name": "Production Release M-L5 11_12_22",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "648e4720-cc19-11f0-9bfa-a7eff651ff22",
+  "name": "Parker MHC",
+  "gen2fw": 363,
+  "allowTiFotaVer": 219,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "65464cd0-87c0-11ed-a7ec-f1ef004d5f3c",
+  "name": "Casitas",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "65c4a490-87c0-11ed-a7ec-f1ef004d5f3c",
+  "name": "Glenn Dorado",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "665e5f70-6d31-11ee-b77b-c10d9e19b72d",
+  "name": "Salem Tennis Village",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "667af530-66fc-11ee-b77b-c10d9e19b72d",
+  "name": "Desert Homes Dwellings",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "66891ad0-3c69-11f1-b198-172a4a9f25c9",
+  "name": "J&L MHP",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "66a2b0f0-d619-11f0-b691-d965a62fa4fa",
+  "name": "Marks Home",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "67beb910-c5e1-11ee-9d43-0b6fcb4bb1bf",
+  "name": "Engineering",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "67f69080-9d3e-11ef-82ac-6ff8f1723c66",
+  "name": "Terrace on the Greens",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "682bf860-9d3e-11ef-82ac-6ff8f1723c66",
+  "name": "Maple Tree",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "686d64b0-f71c-11f0-b153-63024d3301e1",
+  "name": "Hillview MHC",
+  "gen2fw": 16185,
+  "allowTiFotaVer": 314,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "6880b750-87c0-11ed-a7ec-f1ef004d5f3c",
+  "name": "Grove",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "68a5e570-0924-11ef-b5d9-bf75c1762495",
+  "name": "Mead Manor",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "6a5ba390-5a9a-11f1-b1bb-f3574cce671d",
+  "name": "Pelican Shores North HOA - Cust",
+  "gen2fw": 17028,
+  "allowTiFotaVer": 341,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "6a8c06d0-6577-11ef-82e8-31b9269e53c6",
+  "name": "Production Inventory M-M8SB-3",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "6c99d1a0-8025-11ef-b1d9-ff37f0a7cd32",
+  "name": "Rancho MHC",
+  "gen2fw": 15019,
+  "allowTiFotaVer": 219,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "6ccbac40-0922-11ef-b5d9-bf75c1762495",
+  "name": "Verandah MHC",
+  "gen2fw": null,
+  "allowTiFotaVer": null,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "6d15aa00-6b2e-11f1-9333-3b2cfe68422f",
+  "name": "Put In Bay Condos-CUST",
+  "gen2fw": 16022,
+  "allowTiFotaVer": 260,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "6d5c88f0-f4f1-11ed-b15d-e3ac404013cb",
+  "name": "Production Inventory M-L5DB",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "6f0452e0-1a56-11f1-be01-6f2b88b3116b",
+  "name": "Estancia MHP-CUST",
+  "gen2fw": 15147,
+  "allowTiFotaVer": 256,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "6f64bbc0-0924-11ef-b5d9-bf75c1762495",
+  "name": "Islander MHC",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "6f6fda60-f29e-11ee-a802-11c9886d6950",
+  "name": "Country Ridge",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "6f70c840-d234-11f0-b691-d965a62fa4fa",
+  "name": "Patrick 5YR",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "704b3140-87c0-11ed-a7ec-f1ef004d5f3c",
+  "name": "Palo Verde",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "709eb8f0-1e3b-11f1-be01-6f2b88b3116b",
+  "name": "Whispering Pines Mobile Estates-CUST",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "71497860-8cf2-11f0-8b4a-0d0197d44616",
+  "name": "Virginia Beach",
+  "gen2fw": 17028,
+  "allowTiFotaVer": 341,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "718f09b0-8007-11ee-b77b-c10d9e19b72d",
+  "name": "Piney Park",
+  "gen2fw": 16185,
+  "allowTiFotaVer": 314,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "719febd0-87c0-11ed-a7ec-f1ef004d5f3c",
+  "name": "Sage",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "7405dc10-4b1a-11f1-bc16-b52012ce6db2",
+  "name": "Rantoul St MF",
+  "gen2fw": 16022,
+  "allowTiFotaVer": 260,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "74b742d0-6c77-11ef-b1d9-ff37f0a7cd32",
+  "name": "Chickadee Lane MHC",
+  "gen2fw": 16185,
+  "allowTiFotaVer": 314,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "74c04a60-21aa-11ee-8565-6b22fca7e896",
+  "name": "Arcadia Views",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "77089740-21ab-11ee-8565-6b22fca7e896",
+  "name": "Circle N Trailer Park",
+  "gen2fw": 15085,
+  "allowTiFotaVer": 254,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "77299d80-87c0-11ed-a7ec-f1ef004d5f3c",
+  "name": "The Lowell",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "786fb6f0-6c77-11ef-b1d9-ff37f0a7cd32",
+  "name": "CJ",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "791c2de0-80f8-11f0-8b4a-0d0197d44616",
+  "name": "Broadway GenII",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "79b9d5f0-9343-11f1-a1a6-391af391818e",
+  "name": "Flow Testing",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "7a2dc4a0-1266-11f1-be01-6f2b88b3116b",
+  "name": "test hello",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "7a644820-603d-11f1-89ca-a986714faa23",
+  "name": "Hendricks Place Building C",
+  "gen2fw": 17054,
+  "allowTiFotaVer": 365,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "7a7dfd90-69f4-11f1-9333-3b2cfe68422f",
+  "name": "John Alexander-CUST",
+  "gen2fw": null,
+  "allowTiFotaVer": null,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "7aa8e4c0-87b6-11ed-a7ec-f1ef004d5f3c",
+  "name": "Eastpointe",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "7b56b500-8025-11ef-b1d9-ff37f0a7cd32",
+  "name": "Country Edge MHC",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "7c9c2310-a3b9-11f0-b5af-5dfa9891b485",
+  "name": "Carolina Springs MHP",
+  "gen2fw": 363,
+  "allowTiFotaVer": 219,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "7d221010-1a56-11f1-be01-6f2b88b3116b",
+  "name": "Lakeview MHC-CUST",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "7d5dc000-87c0-11ed-a7ec-f1ef004d5f3c",
+  "name": "Tucson East",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "7e400c10-8bc9-11f1-a1a6-391af391818e",
+  "name": "Parkway MHC-Cust",
+  "gen2fw": 16130,
+  "allowTiFotaVer": 296,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "7e9a00e0-6d96-11f1-9333-3b2cfe68422f",
+  "name": "RMA - Review",
+  "gen2fw": 16193,
+  "allowTiFotaVer": 320,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "805bc770-2d53-11f1-b3c4-8b79b9f5ca43",
+  "name": "Lake of the Pines Community Association",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "80955dc0-b707-11ed-8426-5912eec2be3c",
+  "name": "1017Turney",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "8308cf70-9042-11f1-a1a6-391af391818e",
+  "name": "TestInventory",
+  "gen2fw": null,
+  "allowTiFotaVer": null,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "8363ddf0-c3c1-11f0-9842-6d029661c338",
+  "name": "Opekiska St Duplex",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "8396e7e0-e401-11ef-a76f-4d93d4a482f0",
+  "name": "RMA GENII",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "83f2b270-96ae-11ed-8426-5912eec2be3c",
+  "name": "L-Factor M8",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "8408f020-0dc6-11f1-85e5-65eb60735c3d",
+  "name": "Pedro's Devices-CUST",
+  "gen2fw": null,
+  "allowTiFotaVer": 219,
+  "checkInPeriod": 5
+ },
+ {
+  "gid": "85827860-1e3b-11f1-be01-6f2b88b3116b",
+  "name": "Carolina Springs MHP-CUST",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "86d33b00-af50-11f0-864a-67c504cc5428",
+  "name": "La Comunidad MHC",
+  "gen2fw": 363,
+  "allowTiFotaVer": 219,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "87766930-1a56-11f1-be01-6f2b88b3116b",
+  "name": "Stafford MHC-CUST",
+  "gen2fw": 363,
+  "allowTiFotaVer": 219,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "87fd61f0-10de-11f1-be01-6f2b88b3116b",
+  "name": "Bob Muye 5YR",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "880a9ab0-1980-11f0-8272-45e3ef110760",
+  "name": "Mountain View MHC",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "883feb70-129a-11f1-be01-6f2b88b3116b",
+  "name": "test 123",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "88875100-a386-11f0-b5af-5dfa9891b485",
+  "name": "Whispering Pines Mobile Estates",
+  "gen2fw": 363,
+  "allowTiFotaVer": 219,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "890ce550-6ccb-11f0-8c57-87c33bed32e3",
+  "name": "Steve Schneiter 5plex-CO",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "8aa7ab20-6a65-11ef-b1d9-ff37f0a7cd32",
+  "name": "Production Inventory M-M8DB-2",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "8ac59950-59d0-11ef-af06-d3314982468b",
+  "name": "Production Start M8DB-3",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "8b0b0170-49a1-11ed-94de-27d5fd1c6e60",
+  "name": "RMA Removed",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "8b944580-80ed-11f0-8b4a-0d0197d44616",
+  "name": "Sunview GenII",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "8c8c8560-8a9e-11ef-b1d9-ff37f0a7cd32",
+  "name": "GenII Eng",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "8d7e72a0-1a56-11f1-be01-6f2b88b3116b",
+  "name": "Parker MHC-CUST",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "8dca2a10-ec2e-11ec-bc81-81913018c32d",
+  "name": "6-13-22-L",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "8e3b99e0-96ae-11ed-8426-5912eec2be3c",
+  "name": "L-Factor L5",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "8ebdc030-c3c1-11f0-9842-6d029661c338",
+  "name": "Carolina Ave Duplex",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "906225a0-249e-11f1-805c-89b77c0a560e",
+  "name": "TI Fota Failure",
+  "gen2fw": 17066,
+  "allowTiFotaVer": 372,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "9163dd10-09f2-11ed-8b39-15ed4ae7fa88",
+  "name": "L Grade M-L5",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "925bc090-8bc9-11f1-a1a6-391af391818e",
+  "name": "Noble Estates MHC-Cust",
+  "gen2fw": 16130,
+  "allowTiFotaVer": 296,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "92b01fd0-0431-11f0-92a4-09772dfb61f8",
+  "name": "Production Provisioned",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "936509b0-5f0d-11ee-b77b-c10d9e19b72d",
+  "name": "Enertiv",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "943f8cc0-e55f-11ed-b15d-e3ac404013cb",
+  "name": "Melvin",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "9489e250-1a56-11f1-be01-6f2b88b3116b",
+  "name": "Alta Vista MHC-CUST",
+  "gen2fw": 363,
+  "allowTiFotaVer": 219,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "95778250-d1f7-11f0-b691-d965a62fa4fa",
+  "name": "Eastwood Hills MHC",
+  "gen2fw": 16131,
+  "allowTiFotaVer": 296,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "9590afc0-f1eb-11ee-a802-11c9886d6950",
+  "name": "Production Failure",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "95fd22d0-ad5a-11ed-8426-5912eec2be3c",
+  "name": "Stage 2 - Recently Installed L Meters",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "969d7220-e84d-11ed-b15d-e3ac404013cb",
+  "name": "050123LRMA",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "971c1c60-6c41-11ee-b77b-c10d9e19b72d",
+  "name": "ABT Water Management",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "973d4420-2149-11f1-ad4c-39b736abc4ce",
+  "name": "Midtown MHP",
+  "gen2fw": 15090,
+  "allowTiFotaVer": 254,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "978179d0-4300-11ee-af4e-2b411221b2af",
+  "name": "Mission Apartments",
+  "gen2fw": 12377,
+  "allowTiFotaVer": 219,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "97abc8f0-ddf0-11ec-ab07-9dda11d993f5",
+  "name": "Canyon Heights",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "981daa10-10d7-11f1-be01-6f2b88b3116b",
+  "name": "1413 S 9th St",
+  "gen2fw": 16185,
+  "allowTiFotaVer": 314,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "998585b0-07f2-11f0-9a09-7b16172ba841",
+  "name": "Kachina Old",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "9a930420-a867-11f1-a1a6-391af391818e",
+  "name": "Broken Arrow MHP - Cust",
+  "gen2fw": 16131,
+  "allowTiFotaVer": 296,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "9aacf8b0-e074-11ef-a5fd-a97d57576080",
+  "name": "Production Start U2DB",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "9bb7bdd0-16d5-11ef-b5d9-bf75c1762495",
+  "name": "Oak Grove MHC",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "9c487b20-bb7c-11f0-9842-6d029661c338",
+  "name": "Avetis 5YR",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "9cd737a0-c3c1-11f0-9842-6d029661c338",
+  "name": "Shenandoah Dr Triplex",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "9d71fb60-5afb-11f1-b1bb-f3574cce671d",
+  "name": "Shady Lane MHP",
+  "gen2fw": 16193,
+  "allowTiFotaVer": 320,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "9ebacc50-52d1-11f0-acb1-514e01860b07",
+  "name": "Selkirk MHC",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "9f0787f0-c058-11ee-9d43-0b6fcb4bb1bf",
+  "name": "Usage Pattern",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "9f3e83e0-1a56-11f1-be01-6f2b88b3116b",
+  "name": "Forest at Sherman MHC-CUST",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "9fce1640-9021-11f1-a1a6-391af391818e",
+  "name": "Lakewood MH Park",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "a0364470-3714-11f0-8e55-b138a1c03c8e",
+  "name": "Downtown Metro",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "a063b680-458d-11f0-8e55-b138a1c03c8e",
+  "name": "Laurel Park",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "a0d36220-4a21-11f1-bc16-b52012ce6db2",
+  "name": "Bob Muye 5YR - Cust",
+  "gen2fw": 16193,
+  "allowTiFotaVer": 320,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "a0f37ac0-4fa7-11f1-b1bb-f3574cce671d",
+  "name": "Lake Charles Duplexes",
+  "gen2fw": 16022,
+  "allowTiFotaVer": 260,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "a12ef0b0-3cc4-11f0-8e55-b138a1c03c8e",
+  "name": "Customer Samples",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "a1536c10-6ca4-11ef-b1d9-ff37f0a7cd32",
+  "name": "Oak Tree MHP",
+  "gen2fw": 16130,
+  "allowTiFotaVer": 296,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "a2128ba0-43fc-11f1-9f99-a71d5b11b85c",
+  "name": "RMA Tremain",
+  "gen2fw": 16022,
+  "allowTiFotaVer": 260,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "a23ecff0-6a53-11ef-b1d9-ff37f0a7cd32",
+  "name": "Production Start M8DB RMA",
+  "gen2fw": null,
+  "allowTiFotaVer": null,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "a24a8340-72b6-11ed-b9b4-b5291c26d4ab",
+  "name": "Production Release M-L5 12_2_22",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "a28e8b00-ab9a-11f1-a1a6-391af391818e",
+  "name": "Farmingbury Commons",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "a2fe28a0-0f4d-11f1-be01-6f2b88b3116b",
+  "name": "Coleman Village MHC-CUST",
+  "gen2fw": 15154,
+  "allowTiFotaVer": 260,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "a4e6c2f0-8bc9-11f1-a1a6-391af391818e",
+  "name": "Minot Gardens MHC-Cust",
+  "gen2fw": 16130,
+  "allowTiFotaVer": 296,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "a53876a0-2c9e-11ee-a8b5-978d1afca354",
+  "name": "Production Start",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "a5a49c80-4dea-11f0-acb1-514e01860b07",
+  "name": "Rainbird",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "a607da00-4baa-11ee-b7e1-39727005a827",
+  "name": "Mountain Creek Cabins",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "a6b27960-1a56-11f1-be01-6f2b88b3116b",
+  "name": "Wildwood Estates MHC-CUST",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "a6bcb600-4554-11f0-8e55-b138a1c03c8e",
+  "name": "Maple Run MHC",
+  "gen2fw": 363,
+  "allowTiFotaVer": 219,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "a7feb930-4ab5-11f0-acb1-514e01860b07",
+  "name": "Pleasant View MHP",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "a8267c90-2a32-11ee-a8b5-978d1afca354",
+  "name": "Spectrum Utilities",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "a8785c10-c3c1-11f0-9842-6d029661c338",
+  "name": "W Poplar St Triplex",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "a87de140-5e07-11f1-89ca-a986714faa23",
+  "name": "Mena Estates MHC",
+  "gen2fw": 16185,
+  "allowTiFotaVer": 314,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "a978f3c0-1a53-11f1-be01-6f2b88b3116b",
+  "name": "La Comunidad MHC-CUST",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "aa3d9410-bc07-11ef-8f43-73c96c0de66f",
+  "name": "Lakeview MHC",
+  "gen2fw": 16022,
+  "allowTiFotaVer": 260,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "ac70f6b0-1a56-11f1-be01-6f2b88b3116b",
+  "name": "Wildwood Village MHC-CUST",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "ad02e140-b705-11ed-8426-5912eec2be3c",
+  "name": "TN1901E5",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "ad4dba70-9ee0-11ef-82ac-6ff8f1723c66",
+  "name": "GenII Pilot",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "adbf02f0-9d5a-11f1-a1a6-391af391818e",
+  "name": "The Bakery Complex",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "ae475d70-976f-11ed-8426-5912eec2be3c",
+  "name": "Pedro's Devices",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "aead0e50-2fe4-11ee-a8b5-978d1afca354",
+  "name": "Broadview PEOIL",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "aeb9f620-85df-11f1-a1a6-391af391818e",
+  "name": "Kay Lou-Cust",
+  "gen2fw": 16131,
+  "allowTiFotaVer": 296,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "af1c8f10-08d7-11ef-b5d9-bf75c1762495",
+  "name": "Board Reproduction",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "b10226f0-0dc6-11f1-85e5-65eb60735c3d",
+  "name": "Maple Run MHC-CUST",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "b1593840-1a56-11f1-be01-6f2b88b3116b",
+  "name": "Eastwood Hills MHC-CUST",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "b1d76300-4355-11f1-b39d-b550dfb4ab8b",
+  "name": "Auburn MHC",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "b211f0b0-c3c1-11f0-9842-6d029661c338",
+  "name": "Delaware St Quadplex",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "b28fcb90-f4f0-11ed-b15d-e3ac404013cb",
+  "name": "Production Inventory M-M8SB",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "b4e3a0a0-62b6-11ed-b9b4-b5291c26d4ab",
+  "name": "Production Release M-M5 11_12_22",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "b52d2070-1a52-11f1-be01-6f2b88b3116b",
+  "name": "Rustic Acres MHC-CUST",
+  "gen2fw": 15147,
+  "allowTiFotaVer": 256,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "b584a570-f757-11f0-b153-63024d3301e1",
+  "name": "New RMA Bad",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "b592fb10-3c68-11f1-b198-172a4a9f25c9",
+  "name": "Blue Sky Village MHC",
+  "gen2fw": 15154,
+  "allowTiFotaVer": 260,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "b6865730-1b5d-11ee-8565-6b22fca7e896",
+  "name": "TN4",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "b6c0c5c0-2a81-11f0-8272-45e3ef110760",
+  "name": "Green Acres MHC",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "b86bbf30-5ff5-11ef-82e8-31b9269e53c6",
+  "name": "Wheeler MHC",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "b9cfe310-5ff5-11ef-82e8-31b9269e53c6",
+  "name": "Mill Creek Estates",
+  "gen2fw": 363,
+  "allowTiFotaVer": 219,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "ba63a620-6935-11ee-b77b-c10d9e19b72d",
+  "name": "Valencia Village",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "ba98ca30-7e68-11f1-a1a6-391af391818e",
+  "name": "The O in La Marque",
+  "gen2fw": 16185,
+  "allowTiFotaVer": 314,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "bac90570-7775-11ef-b1d9-ff37f0a7cd32",
+  "name": "Production Inventory M-M8DB-4",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "bad4c540-21a9-11ee-8565-6b22fca7e896",
+  "name": "Pleasant Acres",
+  "gen2fw": 16131,
+  "allowTiFotaVer": 296,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "baee2450-5ff5-11ef-82e8-31b9269e53c6",
+  "name": "Needham MHP",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "bafee0d0-8580-11f1-a1a6-391af391818e",
+  "name": "MMM",
+  "gen2fw": null,
+  "allowTiFotaVer": null,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "bb3dde00-eba1-11ee-a802-11c9886d6950",
+  "name": "Highland Hills",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "bbb6cb80-5ff5-11ef-82e8-31b9269e53c6",
+  "name": "South Breeze MHC",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "bc7f99c0-5ff5-11ef-82e8-31b9269e53c6",
+  "name": "Nelson Ledge Estates",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "bd017c90-4685-11ee-af4e-2b411221b2af",
+  "name": "Oakwood MHP",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "bdb06fd0-8d21-11f1-a1a6-391af391818e",
+  "name": "Wyse Test",
+  "gen2fw": 17911,
+  "allowTiFotaVer": 372,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "c00916a0-6dea-11ee-b77b-c10d9e19b72d",
+  "name": "Aero Property",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "c083f150-1831-11ed-aaba-bd7fc46c76da",
+  "name": "General Device Group",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "c0f1ec70-c3c1-11f0-9842-6d029661c338",
+  "name": "Montgomery St Duplex",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "c16926e0-eba1-11ee-a802-11c9886d6950",
+  "name": "Road Runner",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "c2495830-8bc9-11f1-a1a6-391af391818e",
+  "name": "Big Country Mobile Home & RV Park-Cust",
+  "gen2fw": 16130,
+  "allowTiFotaVer": 296,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "c3dd97e0-b4af-11ee-9d43-0b6fcb4bb1bf",
+  "name": "Refurb M SB",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "c43470f0-6138-11f1-89ca-a986714faa23",
+  "name": "River Bend-Cust",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "c4679d30-f5e7-11ef-b13c-ed63154bcb47",
+  "name": "Lafountaine MHC",
+  "gen2fw": 15019,
+  "allowTiFotaVer": 219,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "c74f5910-f7db-11f0-b153-63024d3301e1",
+  "name": "Trans Canada",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "c755a7a0-a33f-11ed-8426-5912eec2be3c",
+  "name": "Test Read Only",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "c883cb70-8826-11ef-b1d9-ff37f0a7cd32",
+  "name": "Maple Grove MHC",
+  "gen2fw": 15019,
+  "allowTiFotaVer": 219,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "c8cb5bc0-8826-11ef-b1d9-ff37f0a7cd32",
+  "name": "Turfland MHC",
+  "gen2fw": 15019,
+  "allowTiFotaVer": 219,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "c8d84c30-d946-11ed-b15d-e3ac404013cb",
+  "name": "Sky Run",
+  "gen2fw": 15019,
+  "allowTiFotaVer": 219,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "c98860c0-53a6-11f0-acb1-514e01860b07",
+  "name": "Crystal Acres MHC",
+  "gen2fw": 17032,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "ce23c870-cf45-11f0-9bfa-a7eff651ff22",
+  "name": "Wildwood Village MHC",
+  "gen2fw": 15090,
+  "allowTiFotaVer": 254,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "ce586790-c3c1-11f0-9842-6d029661c338",
+  "name": "N Creek Dr Duplex",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "ced670c0-e55e-11ed-b15d-e3ac404013cb",
+  "name": "Monarch",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "ceef2410-fa4d-11f0-b153-63024d3301e1",
+  "name": "TestingDeviceGroup",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "cf390ca0-5e81-11f0-9fcd-87e94e720126",
+  "name": "Kingsport",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "cfa4f7a0-1298-11f1-be01-6f2b88b3116b",
+  "name": "Roper Center Commercial Bldg",
+  "gen2fw": 15090,
+  "allowTiFotaVer": 254,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "cfaba890-1a52-11f1-be01-6f2b88b3116b",
+  "name": "Aurora MHC-CUST",
+  "gen2fw": 15147,
+  "allowTiFotaVer": 256,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "d009cc80-4cec-11ee-b7e1-39727005a827",
+  "name": "Preserve",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "d049bd50-1edb-11f0-8272-45e3ef110760",
+  "name": "Radio Test",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "d22d29f0-b708-11ed-8426-5912eec2be3c",
+  "name": "251-256 Water St",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "d381fa50-9b6f-11ee-b99a-4db944ac885f",
+  "name": "Flow Test",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "d5aa9be0-7d02-11f0-8b4a-0d0197d44616",
+  "name": "Deer Lake MHC",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "d61938a0-b3d0-11ed-8426-5912eec2be3c",
+  "name": "Production L W0823",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "d6756620-53a6-11f0-acb1-514e01860b07",
+  "name": "Jefferson",
+  "gen2fw": 363,
+  "allowTiFotaVer": 219,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "d73f53c0-590b-11f1-b1bb-f3574cce671d",
+  "name": "Haven MHP",
+  "gen2fw": 16131,
+  "allowTiFotaVer": 296,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "d77ad060-c3c1-11f0-9842-6d029661c338",
+  "name": "Suncrest Dr MF",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "d8158120-b839-11f0-9842-6d029661c338",
+  "name": "Sunnyvale MHP",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "d86390a0-6138-11ed-b9b4-b5291c26d4ab",
+  "name": "Production Inventory RMA M-M5",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "d8810380-acc2-11ed-8426-5912eec2be3c",
+  "name": "Andrew's Devices",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "d90e7730-d730-11ee-a802-11c9886d6950",
+  "name": "Singing Pines",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "d9aa2820-f46b-11ef-b13c-ed63154bcb47",
+  "name": "Rusk MHC",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "d9c39210-697c-11f1-9333-3b2cfe68422f",
+  "name": "Heritage Apartments",
+  "gen2fw": 16131,
+  "allowTiFotaVer": 296,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "da3673d0-1327-11f1-be01-6f2b88b3116b",
+  "name": "Big Country Mobile Home & RV Park",
+  "gen2fw": 16130,
+  "allowTiFotaVer": 296,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "da8deb20-46ee-11f0-acb1-514e01860b07",
+  "name": "Hoosier Park MHC",
+  "gen2fw": 17032,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "daff1640-068a-11f1-a3d9-c99c67c82bc1",
+  "name": "Little Acres MHC",
+  "gen2fw": 17028,
+  "allowTiFotaVer": 341,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "dc3fdd40-95dd-11f1-a1a6-391af391818e",
+  "name": "Bannock MHP",
+  "gen2fw": 17032,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "dca379d0-4b1a-11f1-bc16-b52012ce6db2",
+  "name": "Shelby's Trailer Park",
+  "gen2fw": 16131,
+  "allowTiFotaVer": 296,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "dcbe4b10-4ae9-11f1-bc16-b52012ce6db2",
+  "name": "Green Grove Trailer Court MHC",
+  "gen2fw": 16131,
+  "allowTiFotaVer": 296,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "dec1be70-1960-11f1-be01-6f2b88b3116b",
+  "name": "Tuttle Estates MHC",
+  "gen2fw": 16130,
+  "allowTiFotaVer": 296,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "def228c0-eaac-11ed-b15d-e3ac404013cb",
+  "name": "Bench",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "def43bf0-53a6-11f0-acb1-514e01860b07",
+  "name": "High Street",
+  "gen2fw": 15147,
+  "allowTiFotaVer": 256,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "e11d3e60-ad5c-11ed-8426-5912eec2be3c",
+  "name": "Stage 2 - Recently Installed M Meters",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "e12a2060-66cc-11ee-b77b-c10d9e19b72d",
+  "name": "Cactus Flower",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "e1822680-9231-11ee-b77b-c10d9e19b72d",
+  "name": "1107 W King",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "e1c6c510-c3c1-11f0-9842-6d029661c338",
+  "name": "Harr Town Rd Duplex",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "e2ad7020-c4b4-11f0-9842-6d029661c338",
+  "name": "Alta Vista MHC",
+  "gen2fw": 363,
+  "allowTiFotaVer": 219,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "e2fdb350-d1f7-11f0-b691-d965a62fa4fa",
+  "name": "Spruce Valley Condominiums",
+  "gen2fw": 16185,
+  "allowTiFotaVer": 314,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "e35d6db0-0686-11ef-b5d9-bf75c1762495",
+  "name": "Kristana Estates",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "e3874f30-f764-11ee-b5d9-bf75c1762495",
+  "name": "Damaged",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "e3cd0e60-d731-11ee-a802-11c9886d6950",
+  "name": "Green Forest",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "e49bbd30-f36d-11ed-b15d-e3ac404013cb",
+  "name": "Flagstaff Villas",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "e5280760-1424-11f1-be01-6f2b88b3116b",
+  "name": "Evercom GenII New RMA",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "e585c0b0-53a6-11f0-acb1-514e01860b07",
+  "name": "Lakeroad Village RV Park",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "e5efa990-9168-11ef-b1d9-ff37f0a7cd32",
+  "name": "Mountaineer Village MHC",
+  "gen2fw": 15085,
+  "allowTiFotaVer": 254,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "e72adfb0-c940-11ed-8426-5912eec2be3c",
+  "name": "Arizona Manor",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "e7d66430-d5cb-11f0-b691-d965a62fa4fa",
+  "name": "Ridge Crest MHC",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "e84e8290-643f-11ed-b9b4-b5291c26d4ab",
+  "name": "Stage1 - New Install M",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "e8c939b0-30b9-11f0-8272-45e3ef110760",
+  "name": "Holly Tree MHP",
+  "gen2fw": 16185,
+  "allowTiFotaVer": 314,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "ea305d00-53a6-11f0-acb1-514e01860b07",
+  "name": "River Bend",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "ea73ed10-77e7-11ed-b9b4-b5291c26d4ab",
+  "name": "Biltmore Bungalows",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "ea82ca00-9234-11f0-8b4a-0d0197d44616",
+  "name": "Tremain MHC",
+  "gen2fw": 15085,
+  "allowTiFotaVer": 254,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "eba96bd0-590a-11f1-b1bb-f3574cce671d",
+  "name": "Maple Creek Estates MHC",
+  "gen2fw": 16185,
+  "allowTiFotaVer": 314,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "ebe84e60-c3c1-11f0-9842-6d029661c338",
+  "name": "Taylor St Triplex",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "ec05a800-a7a9-11ef-82ac-6ff8f1723c66",
+  "name": "Relix Ridge",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "ece4fde0-7f65-11f0-8b4a-0d0197d44616",
+  "name": "Shady Grove GenII",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "ed396170-aca7-11ed-8426-5912eec2be3c",
+  "name": "Production M W0523",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "ee3d10c0-9d3d-11ef-82ac-6ff8f1723c66",
+  "name": "Pleasant Hill Village",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "eede4940-6c51-11ee-b77b-c10d9e19b72d",
+  "name": "Freedom MHP",
+  "gen2fw": 363,
+  "allowTiFotaVer": 219,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "f07566c0-59a0-11ef-af06-d3314982468b",
+  "name": "Production Start M8SB-3",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "f10d39f0-db5e-11f0-b691-d965a62fa4fa",
+  "name": "Riverview Apartments MF",
+  "gen2fw": 17037,
+  "allowTiFotaVer": 344,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "f1b79090-1960-11f1-be01-6f2b88b3116b",
+  "name": "Noble Estates MHC",
+  "gen2fw": 16130,
+  "allowTiFotaVer": 296,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "f57fbc50-0a86-11f0-9a09-7b16172ba841",
+  "name": "Sky Run Old",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "f67607f0-ef61-11ed-b15d-e3ac404013cb",
+  "name": "103 West Broadway",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "f67e9480-aca7-11ed-8426-5912eec2be3c",
+  "name": "Production L W0623",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "f6a55920-a254-11f1-a1a6-391af391818e",
+  "name": "Oaklawn Park HOA - Cust",
+  "gen2fw": 15090,
+  "allowTiFotaVer": 254,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "f7c68b30-b4c0-11f0-9842-6d029661c338",
+  "name": "John Alexander ADU 5YR",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "f93a0de0-8004-11ee-b77b-c10d9e19b72d",
+  "name": "Sunny Acres MHP",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "f9480eb0-ed27-11ed-b15d-e3ac404013cb",
+  "name": "Avante Pointe",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "fa3474c0-69a8-11f1-9333-3b2cfe68422f",
+  "name": "Brown's MHP-CUST",
+  "gen2fw": 15154,
+  "allowTiFotaVer": 260,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "fa834510-4e93-11ee-b7e1-39727005a827",
+  "name": "Camelback",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "fae60020-3b5d-11f0-8e55-b138a1c03c8e",
+  "name": "Fowler Apts MF",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "fc434480-b693-11f0-9842-6d029661c338",
+  "name": "Steve Katz 4plex 5YR",
+  "gen2fw": 17028,
+  "allowTiFotaVer": 341,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "fc914100-d90f-11f0-b691-d965a62fa4fa",
+  "name": "Field Failure Dead Battery",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "fd6cde10-22c8-11f1-ad4c-39b736abc4ce",
+  "name": "Oaklawn Park HOA",
+  "gen2fw": 15090,
+  "allowTiFotaVer": 254,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "fd8c6180-4b83-11f0-acb1-514e01860b07",
+  "name": "Dorr Drive MHP",
+  "gen2fw": 15085,
+  "allowTiFotaVer": 254,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "fdb3df20-5bc6-11ee-b77b-c10d9e19b72d",
+  "name": "Hidden Glenn",
+  "gen2fw": 362,
+  "allowTiFotaVer": 209,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "ff083a40-6d95-11f1-9333-3b2cfe68422f",
+  "name": "RMA - Good",
+  "gen2fw": 16193,
+  "allowTiFotaVer": 320,
+  "checkInPeriod": null
+ },
+ {
+  "gid": "ffee22e0-ca01-11f0-9842-6d029661c338",
+  "name": "521 Melba Condominiums",
+  "gen2fw": 16185,
+  "allowTiFotaVer": 314,
+  "checkInPeriod": null
+ }
+]

@@ -1,0 +1,59 @@
+﻿category,serial,group,apt,start,now,state,passwd_err,config_err,lastFailed,hard_resets,Vdd,bucket,note,verdict
+A TI dead now,72381773,Ontario Place MHC-CUST,91,16185/0,17080/0,TI Silent,0,6,314 391,49,3553,OPEN ISSUE - troubleshoot,"17080 stopped reboot; TI silent, TI 0; TI target 314, no uptake (Bruce 9/12 12:25)",flagged
+A TI dead now,72390030,Virginia Beach,159,17060/368,17060/0,TI Silent,0,3,320 368 391,5,3511,TI hardware / operator reverted,"TI-FOTA 391 fails (BSL writes OK, TI never banners) -> 17036 wedge-heal reboot loop every 3m50s from 08:20; Bruce reverted gen2fw to 17060 ~09:38 (bank swap 09:41); loop continued on 17060 to 09:56 then silent; RMA-class TI per 16158 signature; bench specimen",rolling
+A TI dead now,75372530,Virginia Beach HOA - Cust,60,17060/368,17078/0,TI Silent,0,0,,166,3568,no water,"no water in pipe (Bruce 9/12 09:10); took 17078/391 fine; Failed Cal / TI Silent at gain 55 = empty pipe, not TI hardware",rolling
+B TI not on target,72385774,Crystal Acres MHC,29,17060/368,17080/344,Failed Cal,6,0,391,1,3530,OPEN ISSUE - troubleshoot,"17080 stopped reboot; Failed Cal, TI 344; no 391 uptake (Bruce 9/12 12:25)",flagged
+B TI not on target,72378787,Ontario Place MHC,6-REMOVED,17060/368,17078/368,Calibrating,0,0,,0,3609,,,rolling
+"C transient TI-FOTA error, took 391",72718887,103 West Broadway,113-4,17060/368,17078/391,Calibrating,2,0,,6,3663,,,pass
+"C transient TI-FOTA error, took 391",72720263,8 OnElaine,"2314-1102,1202",17037/344,17078/391,Failed Cal,7,0,391,0,3640,,,rolling
+"C transient TI-FOTA error, took 391",77054429,Arizona Manor,3,17060/368,17078/391,Failed Cal,2,0,,3,3627,,,pass
+"C transient TI-FOTA error, took 391",70264005,Aurora MHC,193,16022/260,17078/391,Failed Cal,1,0,,0,3571,,,pass
+"C transient TI-FOTA error, took 391",75367704,Broadway MHP DesMoines,4,17060/368,17078/391,Calibrating,1,0,,8,3616,,,pass
+"C transient TI-FOTA error, took 391",75368272,Broken Arrow MHP - Cust,6101-198TH-ST,17060/368,17078/391,Calibrating,1,0,,4,3638,,,pass
+"C transient TI-FOTA error, took 391",75371920,Coleman Village MHC,182,17060/368,17078/391,Calibrating,1,0,,4,3643,,,pass
+"C transient TI-FOTA error, took 391",75373884,Estancia MHP-CUST,47,16128/295,17078/391,Failed Cal,3,0,,9,3638,,,pass
+"C transient TI-FOTA error, took 391",70269087,Glenn Dorado,113-213,17037/344,17078/391,Failed Cal,0,1,,0,3672,,,pass
+"C transient TI-FOTA error, took 391",75365757,Grand Valley Estates MHC,13-SHENNADOH-DR,17060/368,17078/391,Failed Cal,1,0,,2,3649,,,pass
+"C transient TI-FOTA error, took 391",75366607,Grand Valley Estates MHC,15-SHENNADOH-DR,17060/368,17078/391,Calibrating,1,0,,5,3652,,,pass
+"C transient TI-FOTA error, took 391",75374452,Grand Valley Estates MHC,3-SHENNADOH-DR,17060/368,17078/391,Calibrating,1,0,,6,3652,,,pass
+"C transient TI-FOTA error, took 391",79462147,Grand Valley Estates MHC,12-SHENNADOH-DR,17060/368,17078/391,Failed Cal,3,0,,5,3657,,,pass
+"C transient TI-FOTA error, took 391",75372803,Grand Valley Estates MHC,48-IMPERIALVALLEY-DR,17060/368,17078/391,Failed Cal,1,0,,3,3652,,,pass
+"C transient TI-FOTA error, took 391",75365286,Grand Valley Estates MHC,8-SHENNADOH-DR,17060/368,17078/391,Calibrating,1,0,,4,3651,,,pass
+"C transient TI-FOTA error, took 391",75360113,Grand Valley Estates MHC,10-SHENNADOH-DR,17060/368,17078/391,Calibrating,2,0,,8,3646,,,pass
+"C transient TI-FOTA error, took 391",79460844,Grand Valley Estates MHC,18-SHENNADOH-DR,17060/368,17078/391,Failed Cal,1,0,,1,3648,,,pass
+"C transient TI-FOTA error, took 391",79461677,Grand Valley Estates MHC,9-SHENNADOH-DR,17060/368,17078/391,Calibrating,2,0,,11,3657,,,pass
+"C transient TI-FOTA error, took 391",75368298,Grand Valley Estates MHC,20-SHENNADOH-DR,17060/368,17078/391,Calibrating,1,0,,2,3647,,,pass
+"C transient TI-FOTA error, took 391",75366805,Grand Valley Estates MHC,7-SHENNADOH-DR,17060/368,17078/391,Calibrating,2,0,,5,3649,,,pass
+"C transient TI-FOTA error, took 391",79466619,Grand Valley Estates MHC,5-SHENNADOH-DR,17060/368,17078/391,Calibrating,1,0,,1,3652,,,pass
+"C transient TI-FOTA error, took 391",75367852,Grand Valley Estates MHC,19-SHENNADOH-DR,17060/368,17078/391,Calibrating,2,0,,6,3652,,,pass
+"C transient TI-FOTA error, took 391",79461388,Holly Tree MHP,58,16185/314,17078/391,Metering,1,0,,0,3647,,,pass
+"C transient TI-FOTA error, took 391",72723432,Johnson's Trailer Park,14,17060/368,17078/391,Calibrating,1,0,,5,3627,,,pass
+"C transient TI-FOTA error, took 391",75371904,Kay Bee Mobile Villa MHP,105,17060/368,17078/391,Calibrating,2,0,,0,3672,,,pass
+"C transient TI-FOTA error, took 391",70271810,Kay Bee Mobile Villa MHP,90,17060/368,17078/391,Calibrating,2,0,,5,3689,,,pass
+"C transient TI-FOTA error, took 391",75367050,Kingsbrook MHC,778AM,17060/368,17078/391,Calibrating,1,0,,4,3625,,,pass
+"C transient TI-FOTA error, took 391",79462105,Lake Charles Duplexes,874B,17060/368,17078/391,Failed Cal,1,0,,0,3649,,,pass
+"C transient TI-FOTA error, took 391",70264237,Ontario Place MHC,1-OLD,17060/368,17078/391,Calibrating,1,0,,4,3608,,,pass
+"C transient TI-FOTA error, took 391",79463202,Oswego MHP,LOT04,17060/368,17078/391,Calibrating,1,0,,2,3635,,,pass
+"C transient TI-FOTA error, took 391",75369502,Pace East,11,17060/368,17078/391,Failed Cal,7,0,391,0,3643,TI FOTA resistant,"Pace East 11: TI 368 rejects BSL password for 391 (tifota_bsl_passwd_err 6, lastFailedVer 391), TI intact on 368, not looping. Second password-rejection unit after Crystal Acres 29 (344).",rolling
+"C transient TI-FOTA error, took 391",70259468,Parkview MHP-Cust,47,17060/368,17078/391,Failed Cal,2,0,,0,3642,,,rolling
+"C transient TI-FOTA error, took 391",79456479,Parkwood,3103LINDA,17060/368,17078/391,Failed Cal,2,0,,3,3629,,,pass
+"C transient TI-FOTA error, took 391",75362572,Parkwood,3392DONNA,17060/368,17078/391,Failed Cal,1,0,,5,3644,,,pass
+"C transient TI-FOTA error, took 391",75363810,Pleasant Acres,33-OLD,17060/368,17078/391,Calibrating,1,0,,3,3657,,,pass
+"C transient TI-FOTA error, took 391",72378605,Ponderosa MHC,45,17060/368,17078/391,Failed Cal,1,0,,0,3524,,,pass
+"C transient TI-FOTA error, took 391",72384827,Ponderosa MHC,57,17060/368,17078/391,Calibrating,1,0,,5,3614,,,pass
+"C transient TI-FOTA error, took 391",72378183,Ponderosa MHC,61,17060/368,17078/391,Calibrating,1,0,,0,3633,,,pass
+"C transient TI-FOTA error, took 391",65824917,Shady Lane MHP,40 Maple Lane APT #0,17060/368,17078/391,Metering,2,0,,0,3626,,,pass
+"C transient TI-FOTA error, took 391",77041962,Shady Lane MHP,40 Maple Lane APT #1,17060/368,17078/391,Metering,1,0,,0,3637,,,pass
+"C transient TI-FOTA error, took 391",79466452,Shady Lane MHP,144 Shady Lane - Test,17060/368,17078/391,Metering,1,0,,0,3637,,,pass
+"C transient TI-FOTA error, took 391",79461768,Shady Lane MHP,21 Maple Lane,17060/368,17078/391,Metering,1,0,,0,3638,,,pass
+"C transient TI-FOTA error, took 391",75364586,Shady Lane MHP,103 Shady Lane,17060/368,17078/391,Metering,1,0,,0,3638,,,pass
+"C transient TI-FOTA error, took 391",75366938,Shady Lane MHP-Cust,29 Maple Lane,17037/344,17078/391,Metering,1,0,,0,3644,,,pass
+"C transient TI-FOTA error, took 391",70261480,Sunview MHP,15,17060/368,17078/391,Calibrating,1,0,,7,3603,,,pass
+"C transient TI-FOTA error, took 391",75367589,Virginia Beach HOA - Cust,113,17037/344,17078/391,Metering,1,0,,0,3657,,,pass
+"C transient TI-FOTA error, took 391",70262447,Whispering Pines Mobile Estates,317,17060/368,17078/391,Calibrating,6,0,391,4,3617,,,pass
+D TI flag then OK,75368587,Highlands MHC,9,17060/368,17078/391,Metering,0,3,391,0,3630,,,flagged
+D TI flag then OK,72389347,Virginia Beach HOA - Cust,117,17060/0,17078/391,Metering,3,3,391,0,3578,recovered,"pre-dead TI (crash 418, self-heal loop for weeks); 17078 revived it 22:40, bounced Metering/TI Silent 12x until 01:14, then stable Metering gain 32 on 391 with records streaming; Bruce 9/12 09:15: recovered",flagged
+E pre-dead TI revived,72383795,Carolina Springs MHP-CUST,CSP150-1860-BLAKEST,16131/0,17078/391,Metering,0,0,,0,3589,upload struggle,"fringe site, manual pass (Bruce 9/12 08:47), recordNoneventFlow=false, checkInPeriod deleted",pass
+E pre-dead TI revived,65831011,Parkway MHC-Cust,38,16022/0,17078/391,Metering,0,0,,0,3628,,,pass
+E pre-dead TI revived,75362945,Pleasant Acres,44,17037/0,17078/391,Metering,0,0,,0,3610,recovered,"pre-dead TI on 17037 for weeks; landed 17078/391 11:23, TI revived, Metering gain 28 (one heal reboot 11:28). RECOVERED.",pass
+E pre-dead TI revived,72382805,Virginia Beach HOA - Cust,39,17060/0,17078/391,Metering,0,0,,0,3624,,,pass
