@@ -575,3 +575,21 @@ valid picks and Day 3 is 4 of 4 per group. Annotations corrected.
 The agent's 30 h "no uptake" fallback stays as designed — it strips only *cadence* pins so a
 forgotten `checkInPeriod=60` cannot burn the radio budget; FW pins survive and the device still
 lands on its own schedule. Only its FLAG wording overstated the case.
+
+**Agent patched to match (9/14 13:10, `field_roll.py.bak-0914-cadence`).** The flat 30 h "dark" flag
+had a real functional cost: a flagged device can never satisfy the PASS condition (`not r["flags"]`),
+so a merely slow Day-3 pick would have blocked its group's advance to the lever permanently.
+
+- Pre-landing "dark" / "no uptake" now compare against the device's own 30-day worst gap x1.25,
+  floored at 72 h, computed once per device and cached in state (`dark_limit`).
+- The post-landing 3.5 h rule now applies **only while `checkInPeriod=60` is still pinned**. After the
+  cadence pins come off, the device is back on its daily schedule and falls under the same per-device
+  limit.
+- The cadence-pin fallback itself is **unchanged** (8 h after landing / 30 h after the write): a
+  forgotten `checkInPeriod=60` must never outlive its window. What changed is that it no longer
+  condemns the device — a unit still inside its own cadence keeps `rolling` and can PASS when it lands.
+
+**Stale flags cleared:** 11 recency-only devices returned to `rolling`; Singing Pines 2 (rsrp -130)
+and Maple Run 110 (rsrp -122) had ST+TI landed on target with crash 0 and were blocked only by the
+post-landing 3.5 h rule — reclassified as UPLOAD STRUGGLE notes, which by design do not block PASS.
+Verdicts now: 239 pass, 33 rolling, **8 flagged** (2 off-air, 6 real TI symptoms) — was 21.
