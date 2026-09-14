@@ -486,8 +486,20 @@ device, `gen2fw` 17078 -> 17088, `allowTiFotaVer` left at 391. **No cadence pins
 daily session over ~24 h and stay quiet. Rationale: every 17078 unit is still exposed to the reboot
 loop the moment its TI hiccups (VB 60 showed that happens on units that looked fine). List in
 `stepB_preview.csv`, results in `stepB_results.csv`, audit in `tb_write_log.txt`.
-Excluded: Whispering Pines 317 (Bruce's 17080/392 test unit), Carolina Springs CSP4 + CSP123
-(17080/392, Bruce's — **open: do these go to 17088/391?**), the 16 already on 17088/391.
+Excluded: Whispering Pines 317, Carolina Springs CSP4 ('5542) and CSP123 ('5655) — all three sit on
+`17080/392`, and Step B deliberately did not overwrite them; plus the 16 already on 17088/391.
+
+**Correction (9/14, my error).** I first told Bruce the two Carolina Springs units "were not in my
+write log". That is false — `field_roll.py` rolled **both** to 17078/391 on 9/11 18:58 as ordinary
+W1-gap roster devices (log lines 179-180; audit 1705-1706), and both took `pulse=9` in the 9/12
+roster write. I had grepped the audit for 9/13-9/14 only and missed the 9/11 entries. What is true
+is that the later move to `17080/392` is **not** any write of mine: no gen2fw/allowTiFotaVer write to
+either serial appears in `tb_write_log.txt` after 9/11, so it came from outside this session.
+Their real status differs and neither is a clean test unit:
+- **CSP123 '5655** — passed the roll 9/12 09:03 on 17078/391, now **running** 17080/392, Failed Cal, rsrp -118.
+- **CSP4 '5542** — never took 17078 at all: still **running 17037/344**, Calibrating, rsrp **-125**,
+  last post 9/12 07:44 (~51 h dark), already flagged "no uptake 30 h" + fallback pin removal.
+  At -125 this is a fringe-signal casualty, not a firmware question.
 Because these devices carry verdict `pass`, `field_roll.py` does not track them: `stepB_track.py`
 (baseline `stepB_baseline.json`, log `stepB_track_log.txt`, every 30 min) reports landings, crash
 increments, state regressions and >=4-boot flag-20 signatures until all 241 have landed.
