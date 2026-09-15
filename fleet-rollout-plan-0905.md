@@ -593,3 +593,25 @@ so a merely slow Day-3 pick would have blocked its group's advance to the lever 
 and Maple Run 110 (rsrp -122) had ST+TI landed on target with crash 0 and were blocked only by the
 post-landing 3.5 h rule — reclassified as UPLOAD STRUGGLE notes, which by design do not block PASS.
 Verdicts now: 239 pass, 33 rolling, **8 flagged** (2 off-air, 6 real TI symptoms) — was 21.
+
+### 9/14 evening — two more instrument fixes, no fleet change
+
+**"No uptake" measured my pin clock, not the device.** After the target moved to 17088, 13 rolling
+devices still carried `pins_written` from the 9/11 17078 pin, so the elapsed-time test fired the
+moment it passed their cadence limit even though they had simply not connected since Step B. Their
+roll-tracking fields were reset to their real 17088 pin time (Step B 11:07-11:36, Noble 544 to its
+9/13 11:58 pin), and the rule now requires **>= 2 check-ins since the pin** before it can fire —
+"no uptake" must mean the device connected and did not take the image, not that it has been quiet.
+Backup: `field_roll_state.json.bak-0914-uptake`.
+
+**Upload-struggle counters are not comparable across uptimes.** 14 of 16 Day 3 picks tripped the
+UPLOAD STRUGGLE threshold versus 4% of the rolled roster — which looked alarming and was an artifact.
+`fsm_fail_SEND_DATA` / `missedUploadCnt` reset on ST reboot: the picks had ~710 h of uptime on their
+pre-roll firmware, the rolled roster ~56 h since its crossing. **Control: 40 unrolled siblings in the
+same four groups hit the same threshold 72% of the time**, at the same per-hour rate (p50 0.04 vs
+0.08). So Day 3 is normal for its cohort. The note is now evaluated **only after the ST lands**, when
+the crossing reboot has zeroed the counters and they describe the new firmware; 15 pre-roll notes
+were removed. `meterVal` and `tofA` are present on all 16 picks, so the gal/day regression gate is
+evaluable regardless.
+
+Agent stable at 18:53: **239 pass, 33 rolling, 8 flagged** (2 off-air, 6 real TI symptoms).
