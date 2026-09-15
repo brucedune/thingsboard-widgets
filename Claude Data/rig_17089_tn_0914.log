@@ -5,3 +5,9 @@
 17:26:34   -> quiet avg within 50 ps of 0: PASS; flow noise 2138 ps over 618 aggs
 17:54:43 POST 09/14 17:55:14 fw 17089 boot 1 Metering meterVal 49739.605 evDelta 116.36164093017578 evDur 307 | QUIET avg -38 sd 77 n 558 | FLOW noise 2049 meanAbs 31911 n 1070 | tnormAvg 21005 cnt 1633 masd 1967 offset 5081 agg 2493 held 0 gated 0 parked 0
 17:54:43   -> quiet avg within 50 ps of 0: PASS; flow noise 2049 ps over 1070 aggs
+18:36:26 POST 09/14 18:36:57 fw 17089 boot 1 Metering meterVal 50199.727 evDelta 116.36164093017578 evDur 307 | QUIET avg 0 sd 0 n 0 | FLOW noise 2141 meanAbs 31824 n 2442 | tnormAvg 31824 cnt 2442 masd 1967 offset 5081 agg 4935 held 0 gated 0 parked 0
+18:36:26   -> flow noise 2141 ps over 2442 aggs
+18:46:59 POST 09/14 18:47:51 fw 17089 boot 1 Metering meterVal 50309.965 evDelta 773.5764770507812 evDur 307 | QUIET avg -14 sd 79 n 11 | FLOW noise 2019 meanAbs 31454 n 592 | tnormAvg 30377 cnt 613 masd 345 offset 5081 agg 5548 held 0 gated 0 parked 0
+18:46:59   -> quiet avg within 50 ps of 0: PASS; flow noise 2019 ps over 592 aggs
+21:00:39 POST 09/14 21:01:12 fw 17089 boot 1 Metering meterVal 51672.313 evDelta 1358.1612548828125 evDur 307 | QUIET avg -26 sd 78 n 578 | FLOW noise 2154 meanAbs 31817 n 7221 | tnormAvg 29460 cnt 7810 masd 989 offset 5081 agg 13358 held 0 gated 0 parked 0
+21:00:39   -> quiet avg within 50 ps of 0: PASS; flow noise 2154 ps over 7221 aggs
