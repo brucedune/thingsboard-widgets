@@ -1,0 +1,7 @@
+17:12:00 watcher start; last status post 09/14 17:11:53; polling 30 s for 6.0 h
+17:12:30 POST 09/14 17:13:19 fw 17089 boot 1 Metering meterVal 49420.027 evDelta 1179.9593505859375 evDur 307 | QUIET avg 5 sd 52 n 13 | FLOW noise 0 meanAbs 0 n 0 | tnormAvg -2799 cnt 58 masd 127 offset 5081 agg 58 held 0 gated 0 parked 0
+17:12:30   -> quiet avg within 50 ps of 0: PASS
+17:26:34 POST 09/14 17:27:10 fw 17089 boot 1 Metering meterVal 49536.391 evDelta 116.36164093017578 evDur 307 | QUIET avg -17 sd 66 n 169 | FLOW noise 2138 meanAbs 31538 n 618 | tnormAvg 24505 cnt 802 masd 158 offset 5081 agg 860 held 0 gated 0 parked 0
+17:26:34   -> quiet avg within 50 ps of 0: PASS; flow noise 2138 ps over 618 aggs
+17:54:43 POST 09/14 17:55:14 fw 17089 boot 1 Metering meterVal 49739.605 evDelta 116.36164093017578 evDur 307 | QUIET avg -38 sd 77 n 558 | FLOW noise 2049 meanAbs 31911 n 1070 | tnormAvg 21005 cnt 1633 masd 1967 offset 5081 agg 2493 held 0 gated 0 parked 0
+17:54:43   -> quiet avg within 50 ps of 0: PASS; flow noise 2049 ps over 1070 aggs
