@@ -674,3 +674,5 @@ inside the 768 ps gate, 4 beyond** — Rustic 36 (−5628), Rustic 44 (+3985), A
 the one attribute worth re-checking). **17 UNKNOWN devices show their true direction in the draw tail**
 (list in `tnorm-17088-final-0916.csv`). Noise at the quiet cluster: p50 146 → 96 ps, ratio 0.80.
 Tools: `tools/tnorm_cluster_audit.py` (v4 clustering) + `tools/tnorm_cluster_arbitrate.py`.
+
+**9/16 decision (Bruce):** no attribute changes on the anomaly devices today; wait one more cycle for the 24 h commit to act on Rustic 44 / 36 / Aurora 89 and for the 17 UNKNOWN units to re-acquire. Corrective plan if 44 posts unchanged: pin `offset=-1416` (36: `-430`); leave `waterFlowDir=2`; never `resetOffset`. Watcher `watch_anomalies.py` logs each post for 30 h.
