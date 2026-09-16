@@ -655,3 +655,22 @@ largest cluster as quiet, **direction disagreements are 0 of 14** high-confidenc
 - **Noise: quieter on 17088.** Gated robust sd (quiet samples inside ±768 ps), 44 devices with ≥ 500
   records both sides: p50 137 → 94 ps, p90 393 → 196 ps, ratio p50 0.69; 7 noisier, 22 quieter.
   Confound noted: `recordNoneventFlow` pins during the roll add quiet samples to the post window.
+
+**9/16 evening — method converged (v3), supersedes the tables above.** Two record-derived zeros, arbitrated
+by the firmware's own whole-day statistic:
+- *Largest cluster* (FW top-bin rule) — right when a mis-offset device records continuously (its baseline
+  is read as reverse flow, so there are no event edges: Rustic 44 at +3985, Rustic 36 at −5628).
+- *Edge zero* (Bruce: "the true no-flow reveals itself at the leading or trailing edge of an event") —
+  first/last 2 records of each event burst, 60 s gaps. Right when the largest cluster is a long draw
+  plateau (Ontario 32 at −14461 with 27 events). Exact-zero samples are dropped first: they are the TI's
+  all-zero error frames, which the tracker itself skips (`otk_sample: tofd_ps == 0 -> return`).
+- *Arbiter* = status `tnormAvg` since landing: the mean over ALL 1 Hz samples including the quiet seconds
+  that never become records, so on an idle-most-of-the-day meter it sits on the true quiet zero. Pick the
+  candidate within 1500 ps of it (18 devices resolved to the largest cluster, 34 to the edges, 1 ambiguous).
+Result on 52 judged field devices: **offset residual p50 41 ps, p90 256 ps; 40 within one 128 ps bin, 48
+inside the 768 ps gate, 4 beyond** — Rustic 36 (−5628), Rustic 44 (+3985), Aurora 89 (−1155), Backwater
+45 (−814, offset still wandering). **Direction: 29 agree, 1 disagree** — Rustic 46 reports FLIPPED via the
+`waterFlowDir=2` attribute while 4,698 positive vs 828 negative draws say NOT FLIPPED (gal/d 78 → 0/21;
+the one attribute worth re-checking). **17 UNKNOWN devices show their true direction in the draw tail**
+(list in `tnorm-17088-final-0916.csv`). Noise at the quiet cluster: p50 146 → 96 ps, ratio 0.80.
+Tools: `tools/tnorm_cluster_audit.py` (v4 clustering) + `tools/tnorm_cluster_arbitrate.py`.
