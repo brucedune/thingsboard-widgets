@@ -615,3 +615,43 @@ were removed. `meterVal` and `tofA` are present on all 16 picks, so the gal/day 
 evaluable regardless.
 
 Agent stable at 18:53: **239 pass, 33 rolling, 8 flagged** (2 off-air, 6 real TI symptoms).
+
+### 9/16 — tnorm / offset / direction audit of the 97 Metering devices on 17088/391 (Bruce's method)
+
+Method (per Bruce: "cluster tofNorm, histogram, look at how the FW handles offset and direction"): the
+recorded `tofNorm` is `deltaTOF += current_offset()` — offset-corrected and SIGNED (rectification only
+happens downstream in `flowOfTof`), so a correct offset puts the quiet cluster at 0. Clustering reproduces
+`offset_tracker.c`: 128 ps bins, cluster = top bin ±3, lock mass ≥ 32, **quiet = the LARGEST cluster**
+(Bruce 9/16). Direction = sign of draws beyond 1536 ps of the quiet zero (NOFLIP positive, FLIP negative).
+Confidence graded: HIGH = top cluster ≥ 2x runner-up and ≥ 500 records; sparse event-only records can make
+a draw plateau the largest cluster, so MED/LOW are shown, not judged. `tools/tnorm_cluster_audit.py`,
+`tnorm-17088-cluster-0916.csv`, `tnorm-17088-offset-dir-0916.csv`.
+
+**RETRACTED (my 9/16 midday claim).** I first clustered on the mode NEAREST ZERO. That is circular when
+the offset itself is wrong: on Rustic 44 it took the no-flow baseline sitting at +3959 ps for an 18,000-
+sample draw and called the device's FLIPPED direction backwards. Bruce caught it from the chart. With the
+largest cluster as quiet, **direction disagreements are 0 of 14** high-confidence devices; the three Rustic
+`waterFlowDir` attrs are CORRECT. What those units have is a **stuck offset**, below.
+
+**Findings**
+- **Offset — post-crossing quick-lock error, then frozen.** 13 of 28 high-confidence devices show their
+  quiet cluster > 768 ps from zero in the post window (Rustic 44 +3985, Rustic 36 −5628, Aurora 116-D
+  −9345, Shady 76 +7486 …). Mechanism, from source: the first stable fast cluster after the TI flash
+  (mass ≥ 32 = ~32 s of TI settling samples, the design-F2 failure named in the tracker header) sets the
+  applied zero; Rev 17031 then LOCKS it for the 24 h qualification; the Rev 17066 re-anchor can only move
+  it within one gate width (±768 ps), so a 4–9 ns miss cannot be corrected until the **24 h commit**
+  (shadow mass ≥ 5000 + 24 h). Status `tnormAvg` shows 10 of the 13 back near zero after the commit;
+  Rustic 44 (+3862) and 36 (−5091) have not posted since 9/15 07:xx so their commit is not yet visible;
+  Aurora 89 −1286 still open. Holly Tree 53 (9/12–9/14, −5558 → −3089) was the same mechanism. **This
+  answers bench ask I:** the crossing does not corrupt the offset permanently; it mis-locks for ~1–2 days.
+  Billing exposure per crossing = up to 2 days of phantom (zero locked flow-ward) or under-read (zero
+  locked anti-flow, e.g. Rustic 44 147 → 3 gal/d).
+- **Direction UNKNOWN after landing = the Rev 16190 one-shot cleanup, not the TI crossing.** init.c wipes
+  offset AND direction on the first boot of any build ≥ 16190. 12 of 18 devices arriving from 362 /
+  16131 / 16185 went UNKNOWN at landing vs 1 of 43 from newer builds. Re-acquisition needs the 24 h
+  commit plus a 24 h draw window (≥ 3 runs, peak ≥ 1536 ps, 2:1 majority): 17078 precedent p50 49 h,
+  p90 74 h, 5 low-draw units still UNKNOWN at ~100 h. While UNKNOWN `flowOfTof` takes |tofNorm| — every
+  draw bills positive. 10 UNKNOWN devices show their true direction plainly in the draw tail (list in CSV).
+- **Noise: quieter on 17088.** Gated robust sd (quiet samples inside ±768 ps), 44 devices with ≥ 500
+  records both sides: p50 137 → 94 ps, p90 393 → 196 ps, ratio p50 0.69; 7 noisier, 22 quieter.
+  Confound noted: `recordNoneventFlow` pins during the roll add quiet samples to the post window.
