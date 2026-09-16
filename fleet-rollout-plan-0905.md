@@ -672,7 +672,13 @@ inside the 768 ps gate, 4 beyond** — Rustic 36 (−5628), Rustic 44 (+3985), A
 45 (−814, offset still wandering). **Direction: 29 agree, 1 disagree** — Rustic 46 reports FLIPPED via the
 `waterFlowDir=2` attribute while 4,698 positive vs 828 negative draws say NOT FLIPPED (gal/d 78 → 0/21;
 the one attribute worth re-checking). **17 UNKNOWN devices show their true direction in the draw tail**
-(list in `tnorm-17088-final-0916.csv`). Noise at the quiet cluster: p50 146 → 96 ps, ratio 0.80.
+(list in `tnorm-17088-final-0916.csv`).
+*Correction, same evening:* draw counts and noise must be measured at the PICKED zero; the first pass
+measured them at the largest cluster, which on an edge-basis device is the shower plateau. Recomputed:
+**direction 28 agree, 2 disagree** (Rustic 46 and **Maple Run 47**, both forced FLIPPED by `waterFlowDir=2`
+with positive draws 4335:1003 and 701:63); **noise at the true quiet zero p50 135 ps, p90 317 ps**.
 Tools: `tools/tnorm_cluster_audit.py` (v4 clustering) + `tools/tnorm_cluster_arbitrate.py`.
+**Ported to the billing dashboard:** `Thingsboard_Widget_Dev/TNORM_SCREEN_HANDOFF_0916.md` + `tnorm_screen.js`
+(browser-validated 3/3 vectors) + `tnorm_screen_testvectors/` — hook is widget30's Load Tnorm overlay.
 
 **9/16 recommendation (mine, awaiting Bruce's call):** no attribute changes on the anomaly devices today; wait one more cycle for the 24 h commit to act on Rustic 44 / 36 / Aurora 89 and for the 17 UNKNOWN units to re-acquire. Corrective plan if 44 posts unchanged: pin `offset=-1416` (36: `-430`); leave `waterFlowDir=2`; never `resetOffset`. Watcher `watch_anomalies.py` logs each post for 30 h.
