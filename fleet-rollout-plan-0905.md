@@ -693,3 +693,14 @@ rule: cohorts by GROUP membership). Side finding from the same check: **28 roste
 Pleasant Acres 33; River Bend 3; Oakwood 23 …). These are removed / replaced units still powered and
 reporting; they were counted in the Wave 1 roll and in the yield / recovery statistics. They should be
 excluded from yield and never appear in a billing screen.
+
+**9/17 — removed units excluded from the tally (Bruce: "yes remove them" = exclude from statistics; no TB
+change).** 28 tracked devices are members of `GENII Production Failures` (list: `removed-units-excluded-0917.json`).
+`roll_stats.py`, `stats_17088.py`, `stepB_track.py` now drop them. Clean 17088/391 campaign at 07:39:
+**287 of 302 on 17088 · 282 of 287 TI on 391 · 100 of 282 Metering (35% yield) · 10 of 172 recovered ·
+4 of 104 degraded (4%)**; state rank 36 up / 18 down / 222 unchanged on 276 judged. Roll-roster view:
+241 of 252 landed, 63 of 236 Metering, 20 recovered, 4 lost. The 4 losses: Shady 106, VB 2, Whispering
+Pines 500, Sara 1029 — all Metering → Calibrating with TI on 391 (post-crossing re-cal), plus Sara 1027
+(dead TI). TI re-deaths this morning: **VB 109** was Metering at 07:10 and TI 0 at 07:20 (boot +1) — the
+chronic VB TI-silent class again; **VB 60** and **VB 117** landed 17088 with TI still 0 (17088 parks them, no
+loop). **Crystal Acres 29** finally took 17088 (TI 344, Failed Cal), no 391 uptake yet.
