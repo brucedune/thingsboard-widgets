@@ -642,7 +642,7 @@ largest cluster as quiet, **direction disagreements are 0 of 14** high-confidenc
   it within one gate width (±768 ps), so a 4–9 ns miss cannot be corrected until the **24 h commit**
   (shadow mass ≥ 5000 + 24 h). Status `tnormAvg` shows 10 of the 13 back near zero after the commit;
   Rustic 44 (+3862) and 36 (−5091) have not posted since 9/15 07:xx so their commit is not yet visible;
-  Aurora 89 −1286 still open. Holly Tree 53 (9/12–9/14, −5558 → −3089) was the same mechanism. **This
+  Ontario Place 89 −1286 still open. Holly Tree 53 (9/12–9/14, −5558 → −3089) was the same mechanism. **This
   answers bench ask I:** the crossing does not corrupt the offset permanently; it mis-locks for ~1–2 days.
   Billing exposure per crossing = up to 2 days of phantom (zero locked flow-ward) or under-read (zero
   locked anti-flow, e.g. Rustic 44 147 → 3 gal/d).
@@ -662,23 +662,34 @@ by the firmware's own whole-day statistic:
   is read as reverse flow, so there are no event edges: Rustic 44 at +3985, Rustic 36 at −5628).
 - *Edge zero* (Bruce: "the true no-flow reveals itself at the leading or trailing edge of an event") —
   first/last 2 records of each event burst, 60 s gaps. Right when the largest cluster is a long draw
-  plateau (Ontario 32 at −14461 with 27 events). Exact-zero samples are dropped first: they are the TI's
+  plateau (Aurora 32 at −14461 with 27 events). Exact-zero samples are dropped first: they are the TI's
   all-zero error frames, which the tracker itself skips (`otk_sample: tofd_ps == 0 -> return`).
 - *Arbiter* = status `tnormAvg` since landing: the mean over ALL 1 Hz samples including the quiet seconds
   that never become records, so on an idle-most-of-the-day meter it sits on the true quiet zero. Pick the
   candidate within 1500 ps of it (18 devices resolved to the largest cluster, 34 to the edges, 1 ambiguous).
 Result on 52 judged field devices: **offset residual p50 41 ps, p90 256 ps; 40 within one 128 ps bin, 48
-inside the 768 ps gate, 4 beyond** — Rustic 36 (−5628), Rustic 44 (+3985), Aurora 89 (−1155), Backwater
+inside the 768 ps gate, 4 beyond** — Rustic 36 (−5628), Rustic 44 (+3985), Ontario Place 89 (−1155), Backwater
 45 (−814, offset still wandering). **Direction: 29 agree, 1 disagree** — Rustic 46 reports FLIPPED via the
 `waterFlowDir=2` attribute while 4,698 positive vs 828 negative draws say NOT FLIPPED (gal/d 78 → 0/21;
 the one attribute worth re-checking). **17 UNKNOWN devices show their true direction in the draw tail**
 (list in `tnorm-17088-final-0916.csv`).
 *Correction, same evening:* draw counts and noise must be measured at the PICKED zero; the first pass
 measured them at the largest cluster, which on an edge-basis device is the shower plateau. Recomputed:
-**direction 28 agree, 2 disagree** (Rustic 46 and **Maple Run 47**, both forced FLIPPED by `waterFlowDir=2`
+**direction 28 agree, 2 disagree** (Rustic 46 and **Aurora 47**, both forced FLIPPED by `waterFlowDir=2`
 with positive draws 4335:1003 and 701:63); **noise at the true quiet zero p50 135 ps, p90 317 ps**.
 Tools: `tools/tnorm_cluster_audit.py` (v4 clustering) + `tools/tnorm_cluster_arbitrate.py`.
 **Ported to the billing dashboard:** `Thingsboard_Widget_Dev/TNORM_SCREEN_HANDOFF_0916.md` + `tnorm_screen.js`
 (browser-validated 3/3 vectors) + `tnorm_screen_testvectors/` — hook is widget30's Load Tnorm overlay.
 
-**9/16 recommendation (mine, awaiting Bruce's call):** no attribute changes on the anomaly devices today; wait one more cycle for the 24 h commit to act on Rustic 44 / 36 / Aurora 89 and for the 17 UNKNOWN units to re-acquire. Corrective plan if 44 posts unchanged: pin `offset=-1416` (36: `-430`); leave `waterFlowDir=2`; never `resetOffset`. Watcher `watch_anomalies.py` logs each post for 30 h.
+**9/16 recommendation (mine, awaiting Bruce's call):** no attribute changes on the anomaly devices today; wait one more cycle for the 24 h commit to act on Rustic 44 / 36 / Ontario Place 89 and for the 17 UNKNOWN units to re-acquire. Corrective plan if 44 posts unchanged: pin `offset=-1416` (36: `-430`); leave `waterFlowDir=2`; never `resetOffset`. Watcher `watch_anomalies.py` logs each post for 30 h.
+
+**9/17 label correction + roster finding.** Device labels in the 9/16 tnorm write-ups were taken from a
+first-group lookup and 11 of 30 were wrong (e.g. 70262298 is **Ontario Place 42**, not Aurora; 79460877 is
+**Ontario Place 89**; 70268923 is **Aurora 47**, not Maple Run; 68593019 is **Aurora 32**). Corrected in place
+above and in the dashboard handoff; serial + TB device id are the handles, names are not reliable (standing
+rule: cohorts by GROUP membership). Side finding from the same check: **28 roster devices are members of
+`GENII Production Failures`** with apartment names ending -OLD / -REMOVED / -EMPTYLOT (Ontario Place 1, 2, 6,
+18, 39, 74, 99, 102, 147; VB 5, 10, 61, 91, 153, 201, 234, 243; Rustic 4, 36, 45, 48, 56; Aurora 105, 258;
+Pleasant Acres 33; River Bend 3; Oakwood 23 …). These are removed / replaced units still powered and
+reporting; they were counted in the Wave 1 roll and in the yield / recovery statistics. They should be
+excluded from yield and never appear in a billing screen.
