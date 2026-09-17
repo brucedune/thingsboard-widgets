@@ -1,0 +1,213 @@
+serial,group,apt,class,state,pre,duty_pct,hours_since_landing,tiWdReset,gain,env,upamp,tnormStddev,fwVerTi,gal_7d,rsrp,VddAdc,noWater,id
+72383571,Virginia Beach HOA - Cust,41,NO-SIGNAL,Failed Cal,Calibrating,,53,0,55.0,30.0,118.0,0.0,391,0,-104,3635,false,a787a000-9a2b-11f0-b5af-5dfa9891b485
+75370591,?,22-DOUBLETREE-CT,GATE-LOOP,Calibrating,Failed Cal,,52,82,40.0,30.0,0.0,0.0,391,0,-102,3646,true,2b1c9d30-6c13-11f1-9333-3b2cfe68422f
+68612595,Parkwood,5200JUSTIN-OLD,NO-SIGNAL,Failed Cal,Calibrating,,54,0,55.0,30.0,112.0,0.0,391,0,-110,3628,false,f36d0630-cf70-11ef-8f43-73c96c0de66f
+65822101,Forest at Sherman MHC-CUST,50,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,52,0,40.0,30.0,23.0,0.0,391,0,-112,3652,false,a412a6e0-cf6f-11ef-8f43-73c96c0de66f
+75365757,?,13-SHENNADOH-DR,NO-WATER (attr set),Calibrating,Failed Cal,,52,0,40.0,30.0,38.0,0.0,391,0,-96,3658,true,0f5b96d0-4d02-11f1-b1bb-f3574cce671d
+75366607,?,15-SHENNADOH-DR,NO-WATER (attr set),Calibrating,Failed Cal,,52,0,40.0,30.0,21.0,0.0,391,0,-96,3660,true,3da2d170-4d02-11f1-b1bb-f3574cce671d
+65824917,Shady Lane MHP-Cust,40 Maple Lane APT #0,OTHER,Metering,Metering,59,53,0,23.0,30.0,1320.0,25.0,391,62,-100,3637,false,704a9de0-25d7-11f0-8272-45e3ef110760
+65831581,Alta Vista MHC-CUST,4,COMPRESSED-SIGNAL,Metering,Metering,71,53,2,52.0,30.0,460.0,3374.0,391,20,-116,3647,false,12317560-cf71-11ef-8f43-73c96c0de66f
+75374932,?,2-DOUBLETREE-CT,NO-SIGNAL,Failed Cal,Calibrating,,53,0,55.0,30.0,100.0,0.0,391,0,-99,3647,true,e2988c70-6c14-11f1-9333-3b2cfe68422f
+72386996,Lake Road Village RV Park-Cust,5,GATE-LOOP,Calibrating,Calibrating,,60,149,40.0,30.0,0.0,0.0,391,9,-104,3640,false,5154af00-ad3d-11f0-98a7-c3bc57f9afe3
+65827241,Oakwood MHP,91,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,54,0,40.0,30.0,32.0,0.0,391,0,-100,3637,false,7931df10-e313-11ef-a5fd-a97d57576080
+65825500,Green Grove Trailer Court MHC,15,CAL-FAIL (signal present),Failed Cal,Failed Cal,,58,0,52.0,38.0,435.0,0.0,391,0,-96,3661,false,2e931240-e984-11ef-b35e-23eef2ba43da
+65825575,TN4,4,NO-SIGNAL,Failed Cal,Calibrating,,53,0,55.0,30.0,113.0,0.0,391,0,-95,3643,false,2a8c9e90-0285-11f0-92a4-09772dfb61f8
+70269798,Shady Lane MHP-Cust,40 Maple Lane APT #3,"CALIBRATING (>48 h, no loop)",Calibrating,Failed Cal,,55,0,40.0,30.0,151.0,0.0,391,0,-101,3637,false,e121b210-52dc-11f0-acb1-514e01860b07
+72723432,Johnson's Trailer Park,14,OTHER,Metering,Metering,36,56,0,52.0,38.0,321.0,585.0,391,252,-100,3622,false,626d0930-f186-11f0-8900-8bd481ce9a44
+72717020,Backwater MHC,26-2OF2,CAL-FAIL (signal present),Failed Cal,Metering,0,31,0,52.0,54.0,816.0,0.0,391,14,-75,3663,false,e7ce4200-d4c7-11f0-b691-d965a62fa4fa
+79456420,Aurora MHC,,NO-SIGNAL,Failed Cal,Failed Cal,,80,0,55.0,30.0,95.0,0.0,391,0,-116,3663,,ab1c7fa0-a642-11f1-a1a6-391af391818e
+79467617,Aurora MHC,155,GATE-LOOP,Calibrating,Failed Cal,,77,137,40.0,30.0,105.0,0.0,391,113,-97,3661,false,f27316b0-8ad2-11f1-a1a6-391af391818e
+77052258,Holly Tree MHP,67,GATE-LOOP,Calibrating,Metering,76,30,30,40.0,30.0,0.0,0.0,391,264,-107,3618,false,48434f10-26a7-11f0-8272-45e3ef110760
+77042093,Aurora MHC,224,"CALIBRATING (>48 h, no loop)",Calibrating,Failed Cal,,78,0,55.0,30.0,548.0,0.0,391,-1,-103,3507,false,9b727000-269b-11f0-8272-45e3ef110760
+77058057,The Oaks MHC,30,OTHER,Metering,Metering,74,9,0,43.0,38.0,284.0,949.0,391,566,-111,3661,false,15d78520-26b4-11f0-8272-45e3ef110760
+77061143,Alta Vista MHC-CUST,28,"CALIBRATING (>48 h, no loop)",Calibrating,Failed Cal,,4,0,40.0,30.0,74.0,0.0,391,0,-111,3638,false,13be6920-26b4-11f0-8272-45e3ef110760
+77055780,Singing Pines,2,NO-SIGNAL,Failed Cal,Failed Cal,,49,0,55.0,30.0,73.0,0.0,391,0,-129,3618,false,c851e1a0-26b9-11f0-8272-45e3ef110760
+77057596,The Oaks MHC,37,CAL-FAIL (signal present),Failed Cal,Metering,0,10,0,52.0,54.0,1030.0,0.0,391,1043,-96,3652,false,53c2d000-26ce-11f0-8272-45e3ef110760
+77054429,Arizona Manor,3,NO-SIGNAL,Failed Cal,Calibrating,,50,0,55.0,30.0,96.0,0.0,391,0,-83,3625,false,57792140-26ce-11f0-8272-45e3ef110760
+75366441,?,26-DOUBLETREE-CT,NO-WATER (attr set),Calibrating,Failed Cal,,52,0,40.0,30.0,29.0,0.0,391,0,-95,3657,true,6c2fb3c0-6c13-11f1-9333-3b2cfe68422f
+79461628,Blue Sky Village MHC,28,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,52,0,40.0,30.0,28.0,0.0,391,0,-94,3666,false,eab0dcc0-39d6-11f1-b198-172a4a9f25c9
+77056358,Fowler Apts MF,401-M,"CALIBRATING (>48 h, no loop)",Calibrating,Failed Cal,,55,0,40.0,30.0,20.0,0.0,391,0,-101,3611,false,caccea00-352e-11f0-8e55-b138a1c03c8e
+77054627,Carolina Springs MHP-CUST,CSP106-390-RIDGELINECT-2OF2,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,53,0,43.0,38.0,240.0,0.0,391,-1,-110,3657,false,c9bd1220-35a6-11f0-8e55-b138a1c03c8e
+77058511,Oak Forest Estate MHC,36,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,55,0,52.0,54.0,373.0,0.0,391,0,-105,3659,false,5b8a2ab0-3d8d-11f0-8e55-b138a1c03c8e
+77061481,Trans Canada,B18TC,"CALIBRATING (>48 h, no loop)",Calibrating,Failed Cal,,52,0,28.0,30.0,281.0,0.0,391,0,-98,3613,false,52ac2380-3d01-11f0-8e55-b138a1c03c8e
+77061952,Eastwood Hills MHC-CUST,EH100,"CALIBRATING (>48 h, no loop)",Calibrating,Failed Cal,,52,0,40.0,30.0,30.0,0.0,391,0,-108,3660,false,4ff3ba40-3d01-11f0-8e55-b138a1c03c8e
+77053314,Rainbird,1628HW,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,75,0,40.0,30.0,25.0,0.0,391,0,-100,3595,false,e86bbcb0-3d78-11f0-8e55-b138a1c03c8e
+72718887,103 West Broadway,113-4,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,75,0,40.0,30.0,31.0,0.0,391,0,-87,3668,false,45ad5320-d4c8-11f0-b691-d965a62fa4fa
+75374452,?,3-SHENNADOH-DR,NO-SIGNAL,Failed Cal,Failed Cal,,53,0,55.0,30.0,118.0,0.0,391,0,-100,3660,true,49cd7130-4d02-11f1-b1bb-f3574cce671d
+77060855,Sara Drive MHP,1029,GATE-LOOP,Calibrating,Metering,0,55,129,40.0,30.0,0.0,0.0,391,516,-118,3631,false,7e0fcd50-3d9d-11f0-8e55-b138a1c03c8e
+72716675,Needham MHP,16,NO-SIGNAL,Failed Cal,Calibrating,,53,0,55.0,30.0,108.0,0.0,391,0,-106,3643,false,9ed187c0-d79b-11f0-b691-d965a62fa4fa
+77055855,Parkwood,5208JUSTIN,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,53,0,40.0,30.0,34.0,0.0,391,0,-98,3634,false,811b87e0-3db7-11f0-8e55-b138a1c03c8e
+77055145,The Oaks MHC,20,CAL-FAIL (signal present),Failed Cal,Metering,0,9,0,55.0,30.0,368.0,0.0,391,66,-99,3645,false,87b7e210-3db7-11f0-8e55-b138a1c03c8e
+65822309,Rainbird,1626HW,NO-SIGNAL,Failed Cal,Failed Cal,,50,0,55.0,30.0,85.0,0.0,391,0,-104,3619,false,c7745920-40b3-11f0-8e55-b138a1c03c8e
+72717459,Stafford MHC-CUST,385,CAL-FAIL (signal present),Failed Cal,Calibrating,,53,0,55.0,30.0,242.0,0.0,391,0,-99,3624,false,af56e230-c42b-11f0-9842-6d029661c338
+75360048,Paradise Village Cooperative MHC,5,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,53,0,40.0,30.0,49.0,0.0,391,0,-82,3664,false,bc06c5c0-3a93-11f1-b198-172a4a9f25c9
+79462147,?,12-SHENNADOH-DR,"CALIBRATING (>48 h, no loop)",Calibrating,Failed Cal,,52,0,40.0,30.0,25.0,0.0,391,0,-93,3660,false,45a6ed70-4d0c-11f1-b1bb-f3574cce671d
+70264294,Piney Park,33,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,53,0,40.0,30.0,27.0,0.0,391,0,-111,3538,false,eb7483a0-5223-11f0-acb1-514e01860b07
+75368066,Running Springs MHP,1,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,55,0,40.0,30.0,28.0,0.0,391,0,-102,3645,false,0950cba0-f318-11f0-8900-8bd481ce9a44
+72389412,Aurora MHC,172,CAL-FAIL (signal present),Failed Cal,Calibrating,,81,0,55.0,30.0,596.0,0.0,391,0,-106,3633,false,ff256a60-82e1-11f0-8b4a-0d0197d44616
+70266596,Aurora MHC,117B,NO-SIGNAL,Failed Cal,Failed Cal,,76,0,55.0,30.0,92.0,0.0,391,0,-90,3599,,90af2940-5c21-11f0-9fcd-87e94e720126
+70264005,Aurora MHC,193,"CALIBRATING (>48 h, no loop)",Calibrating,Failed Cal,,79,0,40.0,30.0,78.0,0.0,391,-1,-87,3560,false,046895a0-5bb0-11f0-9fcd-87e94e720126
+70261761,Aurora MHC,159-OLD,NO-SIGNAL,Failed Cal,Failed Cal,,54,0,55.0,30.0,116.0,0.0,391,0,-112,3525,false,6f0acba0-5c21-11f0-9fcd-87e94e720126
+77054759,Trans Canada,D1TC,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,53,0,40.0,30.0,27.0,0.0,391,0,-106,3624,false,fc759810-3d92-11f0-8e55-b138a1c03c8e
+70269251,Kachina,6,GATE-LOOP,Calibrating,Failed Cal,,74,40,28.0,30.0,271.0,0.0,391,0,-98,3628,false,8a11ff10-62a0-11f0-8658-7f4e94e41769
+79463202,Oswego MHP,LOT04,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,53,0,40.0,30.0,96.0,0.0,391,0,-87,3643,false,36541df0-65be-11f1-9333-3b2cfe68422f
+70266901,Maple Run MHC-CUST,11,CAL-FAIL (signal present),Failed Cal,Calibrating,,53,0,52.0,30.0,378.0,0.0,391,0,-118,3606,false,d4013360-62b0-11f0-8658-7f4e94e41769
+70261480,Sunview MHP,15,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,53,0,40.0,30.0,27.0,0.0,391,0,-97,3590,false,92fd6b50-666f-11f0-8658-7f4e94e41769
+70267115,Estancia MHP-CUST,159,CAL-FAIL (signal present),Failed Cal,Calibrating,,54,0,55.0,30.0,355.0,0.0,391,0,-112,3644,false,287c9c60-6674-11f0-8658-7f4e94e41769
+70261902,Coleman Village MHC-CUST,179,NO-WATER (attr set),Calibrating,Failed Cal,,55,0,40.0,30.0,32.0,0.0,391,0,-90,3625,true,0a504720-6677-11f0-8658-7f4e94e41769
+70261639,Whispering Pines Mobile Estates-CUST,107,GATE-LOOP,Calibrating,Failed Cal,,58,122,40.0,30.0,0.0,0.0,391,25,-101,3635,false,68837010-6695-11f0-8658-7f4e94e41769
+75372761,Highlands MHC,11A,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,52,0,40.0,30.0,26.0,0.0,391,0,-95,3641,false,c8d00eb0-fe07-11f0-8726-d3fa6d0d96af
+72392259,Stafford MHC-CUST,365,CAL-FAIL (signal present),Failed Cal,Failed Cal,,52,0,55.0,30.0,459.0,0.0,391,0,-104,3634,false,bb4ad8f0-82ed-11f0-8b4a-0d0197d44616
+75369502,Pace East,11,OTHER,Metering,Metering,34,73,0,48.0,30.0,269.0,471.0,391,92,-94,3635,false,cdee3650-f651-11f0-b153-63024d3301e1
+79462105,Lake Charles Duplexes,874B,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,53,0,40.0,30.0,109.0,0.0,391,0,-65,3657,false,38bde230-3aa1-11f1-b198-172a4a9f25c9
+72378498,Westview Mobile Estates MHC,220-REMOVED,COMPRESSED-SIGNAL,Failed Cal,Metering,0,30,0,55.0,30.0,2811.0,0.0,391,150568,-110,3624,false,3d552d50-8375-11f0-8b4a-0d0197d44616
+72380908,Ponderosa MHC,21,"CALIBRATING (>48 h, no loop)",Calibrating,Failed Cal,,54,0,40.0,30.0,41.0,0.0,391,0,-106,3620,false,f4c127f0-837f-11f0-8b4a-0d0197d44616
+70269616,Ponderosa MHC,54,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,29,0,40.0,30.0,262.0,0.0,391,0,-118,3633,false,5bed5e90-8384-11f0-8b4a-0d0197d44616
+72390147,Stafford MHC-CUST,259,CAL-FAIL (signal present),Failed Cal,Calibrating,,52,75,52.0,30.0,253.0,0.0,391,11,-108,3627,false,bf4a1e00-8385-11f0-8b4a-0d0197d44616
+72385931,Stafford MHC-CUST,267,NO-SIGNAL,Failed Cal,Failed Cal,,52,0,55.0,30.0,97.0,0.0,391,0,-125,3633,false,502a9670-8386-11f0-8b4a-0d0197d44616
+72380361,Ponderosa MHC,65,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,53,0,40.0,30.0,34.0,0.0,391,0,-112,3613,false,21f85c70-8420-11f0-8b4a-0d0197d44616
+72385337,Ponderosa MHC,3,CAL-FAIL (signal present),Failed Cal,Calibrating,,52,0,55.0,30.0,231.0,0.0,391,0,-117,3628,false,0942fa90-842b-11f0-8b4a-0d0197d44616
+72384827,Ponderosa MHC,57,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,54,0,40.0,30.0,27.0,0.0,391,0,-119,3625,false,7f136e60-842d-11f0-8b4a-0d0197d44616
+72392853,Ponderosa MHC,3-2,CAL-FAIL (signal present),Failed Cal,Failed Cal,,54,0,55.0,30.0,264.0,0.0,391,0,-107,3620,false,3ae18440-8430-11f0-8b4a-0d0197d44616
+70263882,Ponderosa MHC,51,CAL-FAIL (signal present),Failed Cal,Calibrating,,27,0,55.0,30.0,388.0,0.0,391,0,-120,3636,false,56aaa610-8436-11f0-8b4a-0d0197d44616
+72388356,Ponderosa MHC,25,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,29,0,40.0,30.0,26.0,0.0,391,0,-101,3624,false,f7b60040-8477-11f0-8b4a-0d0197d44616
+72378605,Ponderosa MHC,45,NO-SIGNAL,Failed Cal,Calibrating,,62,0,55.0,30.0,107.0,0.0,391,0,-121,3509,false,fc704210-8479-11f0-8b4a-0d0197d44616
+72391004,Virginia Beach HOA - Cust,76,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,53,0,40.0,30.0,26.0,0.0,391,0,-105,3631,false,db204080-9976-11f0-b5af-5dfa9891b485
+72386046,Virginia Beach HOA - Cust,45,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,55,0,40.0,30.0,111.0,0.0,391,-1,-106,3626,false,4ff02900-8498-11f0-8b4a-0d0197d44616
+72380866,Lafountaine MHC,125CC,CAL-FAIL (signal present),Failed Cal,Calibrating,,52,0,55.0,30.0,453.0,0.0,391,0,-101,3634,false,627f6590-84a2-11f0-8b4a-0d0197d44616
+72378183,Ponderosa MHC,61,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,52,0,40.0,30.0,23.0,0.0,391,0,-110,3636,false,62f3d240-84a2-11f0-8b4a-0d0197d44616
+75372803,?,48-IMPERIALVALLEY-DR,NO-SIGNAL,Failed Cal,Failed Cal,,52,0,55.0,30.0,99.0,0.0,391,0,-109,3654,true,ff5de680-4d37-11f1-b1bb-f3574cce671d
+70259120,Aurora MHC,155-OLD,"CALIBRATING (>48 h, no loop)",Calibrating,Failed Cal,,80,0,40.0,30.0,119.0,0.0,391,0,-119,3653,false,98e3bbf0-666f-11f0-8658-7f4e94e41769
+72390634,Mena Estates MHC,139BONNER,GATE-LOOP,Calibrating,Calibrating,,53,95,40.0,30.0,0.0,0.0,391,717,-97,3642,false,ad86de10-98f2-11f0-b5af-5dfa9891b485
+79465454,Oswego MHP,LOT29,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,53,0,28.0,30.0,283.0,0.0,391,0,-92,3643,false,8832b720-65bf-11f1-9333-3b2cfe68422f
+79460919,Kay Lou-Cust,2624-I,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,52,0,40.0,30.0,29.0,0.0,391,0,-80,3656,false,0827cac0-6c13-11f1-9333-3b2cfe68422f
+70269087,Glenn Dorado,113-213,"CALIBRATING (>48 h, no loop)",Calibrating,Failed Cal,,50,5,40.0,30.0,0.0,0.0,391,11,-103,3659,false,994f4cc0-9a69-11f0-b5af-5dfa9891b485
+72385766,Whispering Pines Mobile Estates-CUST,300,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,54,0,40.0,30.0,32.0,0.0,391,-1,-104,3635,false,69ee6270-9e53-11f0-b5af-5dfa9891b485
+75365286,?,8-SHENNADOH-DR,NO-WATER (attr set),Calibrating,Calibrating,,55,0,40.0,30.0,29.0,0.0,391,0,-100,3660,true,ee405470-4d03-11f1-b1bb-f3574cce671d
+72384843,Carolina Springs MHP-CUST,CSP46-1757-GIBSONST,"CALIBRATING (>48 h, no loop)",Calibrating,Failed Cal,,53,0,40.0,30.0,86.0,0.0,391,-1,-110,3640,false,495f0f90-9e59-11f0-b5af-5dfa9891b485
+70265655,Carolina Springs MHP-CUST,CSP123-385-RIVERBASINCT,"CALIBRATING (>48 h, no loop)",Calibrating,Failed Cal,,55,0,40.0,30.0,19.0,0.0,391,-1,-114,3640,false,785690f0-9e65-11f0-b5af-5dfa9891b485
+72386459,Carolina Springs MHP-CUST,CSP95-1721-GILMOREST,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,54,0,40.0,30.0,23.0,0.0,391,0,-113,3627,false,d1ebf830-9e6a-11f0-b5af-5dfa9891b485
+70265689,Carolina Springs MHP-CUST,CSP160-1888-BLAKEST,CAL-FAIL (signal present),Failed Cal,Failed Cal,,7,0,55.0,30.0,363.0,0.0,391,0,-107,3626,false,d106c850-9e6a-11f0-b5af-5dfa9891b485
+72378928,Whispering Pines Mobile Estates-CUST,703,CAL-FAIL (signal present),Failed Cal,Calibrating,,53,0,55.0,30.0,334.0,0.0,391,0,-89,3624,false,6b2c0830-9e77-11f0-b5af-5dfa9891b485
+72392887,Stafford MHC-CUST,303,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,52,0,40.0,30.0,72.0,0.0,391,0,-106,3636,false,9b2d7f90-82e4-11f0-8b4a-0d0197d44616
+75371920,Coleman Village MHC-CUST,182,NO-SIGNAL,Failed Cal,Calibrating,,53,0,55.0,30.0,129.0,0.0,391,0,-83,3643,true,f695ab00-01dd-11f1-af1d-29d4205d602a
+72723424,Brian Fries 5YR,,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,67,0,40.0,30.0,22.0,0.0,391,0,-96,3641,false,03eff120-01de-11f1-af1d-29d4205d602a
+70259260,Carolina Springs MHP-CUST,CSP98-1733-GILMOREST,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,53,0,40.0,30.0,63.0,0.0,391,0,-108,3633,false,2b09d0e0-9fa1-11f0-b5af-5dfa9891b485
+72392192,Carolina Springs MHP-CUST,CSP120-394-RIVERBASINCT,NO-SIGNAL,Failed Cal,Failed Cal,,54,0,55.0,30.0,85.0,0.0,391,-1,-116,3620,false,5746c980-9fd6-11f0-b5af-5dfa9891b485
+72388042,Carolina Springs MHP,1795-GIBSONST-DUPLICATE-OLD,NO-SIGNAL,Failed Cal,Calibrating,,52,0,55.0,30.0,128.0,0.0,391,0,-111,3645,false,4ca317e0-9fd6-11f0-b5af-5dfa9891b485
+75369189,?,30-STONE,NO-WATER (attr set),Failed Cal,Failed Cal,,52,0,55.0,30.0,281.0,0.0,391,0,-96,3666,true,4d18f8e0-4ce5-11f1-b1bb-f3574cce671d
+72385675,Virginia Beach HOA - Cust,163,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,54,0,40.0,30.0,24.0,0.0,391,0,-105,3653,false,af775530-9a2b-11f0-b5af-5dfa9891b485
+72722517,Hillview MHC,24,"CALIBRATING (>48 h, no loop)",Calibrating,Failed Cal,,54,0,40.0,30.0,25.0,0.0,391,-1,-105,3645,false,79ce0c70-e487-11f0-8900-8bd481ce9a44
+72716543,Hillview MHC,13,"CALIBRATING (>48 h, no loop)",Calibrating,Failed Cal,,52,0,40.0,30.0,32.0,0.0,391,0,-112,3649,false,84d67350-e487-11f0-8900-8bd481ce9a44
+72378555,Dorr Drive MHP,18,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,53,0,40.0,30.0,0.0,0.0,391,0,-110,3610,false,751f9740-a939-11f0-98a7-c3bc57f9afe3
+70269160,Crystal Acres MHC,22,GATE-LOOP,Calibrating,Metering,89,53,101,40.0,30.0,0.0,0.0,391,1117,-118,3623,false,746591e0-a940-11f0-98a7-c3bc57f9afe3
+70272180,Crystal Acres MHC,6,OTHER,Metering,Metering,23,31,9,42.0,30.0,1016.0,95.0,391,923,-116,3635,false,75a7d5e0-a940-11f0-98a7-c3bc57f9afe3
+70269301,Crystal Acres MHC,41,GATE-LOOP,Calibrating,Metering,76,31,54,40.0,30.0,0.0,0.0,391,71,-112,3653,false,e3c37010-a941-11f0-98a7-c3bc57f9afe3
+70266141,Crystal Acres MHC,39,RECAL-ACTIVE (<48 h),Calibrating,Metering,0,6,0,32.0,30.0,379.0,60.0,391,1,-105,3646,false,5e8e2d60-a971-11f0-98a7-c3bc57f9afe3
+70262025,Broadway MHP DesMoines,9,NO-SIGNAL,Failed Cal,Failed Cal,,31,0,55.0,30.0,100.0,0.0,391,0,-126,3634,false,65d805a0-a971-11f0-98a7-c3bc57f9afe3
+72715768,?,105-DOWNINTHEWALL,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,27,0,28.0,30.0,57.0,0.0,391,0,-112,3637,false,5f603fd0-c50f-11f0-9842-6d029661c338
+72387788,Sunnyvale MHP,117,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,52,0,40.0,30.0,22.0,0.0,391,0,-99,3645,false,9a4bc020-ad2b-11f0-98a7-c3bc57f9afe3
+72380411,Brighton Court MHP,11,NO-WATER (attr set),Calibrating,Calibrating,,55,0,40.0,30.0,42.0,0.0,391,0,-89,3635,true,d08e2f60-ad30-11f0-98a7-c3bc57f9afe3
+72386988,Green Acres MHC,8,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,52,0,40.0,30.0,32.0,0.0,391,0,-112,3642,false,b9d41330-ad39-11f0-98a7-c3bc57f9afe3
+72391863,Opekiska St Duplex,B,"CALIBRATING (>48 h, no loop)",Calibrating,Failed Cal,,55,0,40.0,30.0,27.0,0.0,391,0,-82,3630,false,da6ddda0-ad44-11f0-98a7-c3bc57f9afe3
+72715123,Freedom MHP,8,CAL-FAIL (signal present),Failed Cal,Calibrating,,54,0,55.0,30.0,529.0,0.0,391,0,-77,3630,false,df3550e0-c426-11f0-9842-6d029661c338
+72721865,Kay Bee Mobile Villa MHP,14,CAL-FAIL (signal present),Failed Cal,Failed Cal,,74,0,52.0,30.0,201.0,0.0,391,0,-105,3651,false,a4c32760-c431-11f0-9842-6d029661c338
+72720263,8 OnElaine,"2314-1102,1202",CAL-FAIL (signal present),Failed Cal,Failed Cal,,73,0,55.0,30.0,409.0,0.0,391,0,-97,3603,false,ed003220-c431-11f0-9842-6d029661c338
+70271695,Eastwood Hills MHC-CUST,EH19,"CALIBRATING (>48 h, no loop)",Calibrating,Failed Cal,,53,0,40.0,30.0,25.0,0.0,391,0,-97,3656,false,4fe4e280-c4cf-11f0-9842-6d029661c338
+70270440,Parker MHC-CUST,11,CAL-FAIL (signal present),Failed Cal,Calibrating,,54,0,52.0,54.0,467.0,0.0,391,0,-87,3648,false,283aff90-c4e7-11f0-9842-6d029661c338
+72385303,Parkview MHP-Cust,66,NO-SIGNAL,Failed Cal,Calibrating,,52,0,55.0,30.0,126.0,0.0,391,0,-88,3625,false,d17143e0-8495-11f0-8b4a-0d0197d44616
+72719331,Hillview MHC,25,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,55,0,40.0,30.0,28.0,0.0,391,0,-91,3642,false,16b5b290-01de-11f1-af1d-29d4205d602a
+77036889,Pelican Shores North HOA - Cust,12636,CAL-FAIL (signal present),Failed Cal,Metering,94,68,2,52.0,54.0,930.0,0.0,391,25578,-116,3627,false,5088dab0-26ce-11f0-8272-45e3ef110760
+72718622,Riverview Apartments MF,35 start 11/1,"CALIBRATING (>48 h, no loop)",Calibrating,Failed Cal,,55,0,40.0,30.0,22.0,0.0,391,0,-78,3399,false,47575ee0-c7bd-11f0-9842-6d029661c338
+72716345,Riverview Apartments MF,38 start 9/1,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,53,0,40.0,30.0,29.0,0.0,391,0,-70,3640,false,5d5763c0-c7bd-11f0-9842-6d029661c338
+72720677,Riverview Apartments MF,34,CAL-FAIL (signal present),Failed Cal,Calibrating,,55,0,55.0,30.0,219.0,0.0,391,0,-71,3641,false,8fea2ac0-c7bd-11f0-9842-6d029661c338
+70271810,Kay Bee Mobile Villa MHP,90,NO-SIGNAL,Failed Cal,Calibrating,,50,49,55.0,30.0,130.0,0.0,391,1,-100,3695,false,f4a30410-cf9b-11f0-9bfa-a7eff651ff22
+75363497,Wildwood Estates MHC-CUST,29,NO-SIGNAL,Failed Cal,Calibrating,,53,0,55.0,30.0,97.0,0.0,391,0,-108,3654,false,e1a4bf70-06af-11f1-a3d9-c99c67c82bc1
+75373546,Estancia MHP-CUST,125,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,54,0,40.0,30.0,31.0,0.0,391,0,-99,3651,false,1b4326c0-06bc-11f1-a3d9-c99c67c82bc1
+75367696,Roosevelt MHC,43,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,50,0,40.0,30.0,23.0,0.0,391,0,-111,3668,false,9d6fb4c0-0b57-11f1-a3d9-c99c67c82bc1
+75371425,Roosevelt MHC,107,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,50,0,40.0,30.0,30.0,0.0,391,0,-102,3686,false,f40b8c40-0b76-11f1-a3d9-c99c67c82bc1
+77058446,Parkview MHP-Cust,45,NO-SIGNAL,Failed Cal,Calibrating,,53,0,55.0,30.0,121.0,0.0,391,0,-91,3637,false,6abfb370-4151-11f0-8e55-b138a1c03c8e
+75373074,Noble Estates MHC-Cust,535,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,54,0,40.0,30.0,30.0,0.0,391,0,-108,3644,false,77f745d0-0c35-11f1-8768-5551e7a34f27
+72381369,Crystal Acres MHC,48,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,54,0,40.0,30.0,28.0,0.0,391,0,-112,3651,false,a5d44c70-a95a-11f0-98a7-c3bc57f9afe3
+75362648,Noble Estates MHC-Cust,566,NO-SIGNAL,Failed Cal,Failed Cal,,53,0,55.0,30.0,126.0,0.0,391,0,-124,3645,false,5d894300-0c36-11f1-8768-5551e7a34f27
+72720305,Noble Estates MHC-Cust,,NO-SIGNAL,Failed Cal,Calibrating,,54,0,55.0,30.0,101.0,0.0,391,0,-108,3648,false,43c31f50-0c3f-11f1-8768-5551e7a34f27
+79455448,Skyrise Villas,1104,NO-SIGNAL,Failed Cal,Calibrating,,53,0,55.0,30.0,102.0,0.0,391,0,-102,3657,false,85b75ed0-a0c3-11f1-a1a6-391af391818e
+75372233,Roosevelt MHC,82,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,50,0,40.0,30.0,84.0,0.0,391,0,-107,3636,false,ab55c6a0-0c48-11f1-8768-5551e7a34f27
+75362978,Roosevelt MHC,140,NO-SIGNAL,Failed Cal,Failed Cal,,75,0,55.0,30.0,119.0,0.0,391,0,-100,3680,false,698bc6b0-0c49-11f1-8768-5551e7a34f27
+79461073,Holly Tree MHP,34,GATE-LOOP,Calibrating,Metering,76,29,28,40.0,30.0,0.0,0.0,391,613,-117,3660,false,5bcbb420-3f31-11f1-b39d-b550dfb4ab8b
+79453351,Rustic Acres MHC-CUST,20,"CALIBRATING (>48 h, no loop)",Calibrating,Failed Cal,,78,0,40.0,30.0,39.0,0.0,391,0,-97,3658,false,ab297610-a25f-11f1-a1a6-391af391818e
+70266968,Rustic Acres MHC-CUST,59,COMPRESSED-SIGNAL,Metering,Metering,70,79,0,47.0,46.0,2901.0,473.0,391,481,-124,3649,false,1144b3c0-6674-11f0-8658-7f4e94e41769
+65825385,Aurora MHC,149-OLD,"CALIBRATING (>48 h, no loop)",Calibrating,Metering,8,83,0,40.0,30.0,0.0,0.0,391,896,-119,3560,false,247f6cd0-26a7-11f0-8272-45e3ef110760
+70263098,Alta Vista MHC-CUST,45,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,52,0,40.0,30.0,32.0,0.0,391,0,-109,3655,false,9607ac20-62a0-11f0-8658-7f4e94e41769
+72720198,Eastwood Hills MHC-CUST,TR311,"CALIBRATING (>48 h, no loop)",Calibrating,Failed Cal,,52,0,40.0,30.0,22.0,0.0,391,0,-110,3665,false,96120210-c88a-11f0-9842-6d029661c338
+72383068,Whispering Pines Mobile Estates-CUST,500,GATE-LOOP,Calibrating,Metering,41,54,122,40.0,30.0,0.0,0.0,391,232,-99,3632,false,3a2fb640-9a72-11f0-b5af-5dfa9891b485
+70268956,Whispering Pines Mobile Estates-CUST,217,GATE-LOOP,Calibrating,Calibrating,,54,53,40.0,30.0,114.0,0.0,391,22,-101,3635,false,58afcf60-9fd6-11f0-b5af-5dfa9891b485
+70263502,Whispering Pines Mobile Estates-CUST,306,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,55,0,40.0,30.0,24.0,0.0,391,-1,-90,3642,false,c03bdc70-9fde-11f0-b5af-5dfa9891b485
+72724307,Estancia MHP-CUST,4,CAL-FAIL (signal present),Failed Cal,Calibrating,,28,0,55.0,30.0,300.0,0.0,391,0,-99,3650,false,f6324990-06a4-11f1-a3d9-c99c67c82bc1
+75373363,Estancia MHP-CUST,27,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,54,0,40.0,30.0,33.0,0.0,391,0,-93,3650,false,3e79b490-06a5-11f1-a3d9-c99c67c82bc1
+75373884,Estancia MHP-CUST,47,"CALIBRATING (>48 h, no loop)",Calibrating,Failed Cal,,54,0,40.0,30.0,28.0,0.0,391,0,-103,3641,false,f4a540f0-06a4-11f1-a3d9-c99c67c82bc1
+75362895,Heritage Apartments,D4,"CALIBRATING (>48 h, no loop)",Calibrating,Failed Cal,,54,0,40.0,30.0,26.0,0.0,391,0,-87,3657,false,9fdfa2f0-4816-11f1-969c-6109d9dfb138
+75372563,?,17-SONOMAVALLEY-DR,NO-WATER (attr set),Calibrating,Calibrating,,54,0,40.0,30.0,28.0,0.0,391,0,-97,3662,true,542f3660-4b16-11f1-bc16-b52012ce6db2
+79463962,Skyrise Villas,1105,NO-SIGNAL,Failed Cal,Failed Cal,,52,0,55.0,30.0,100.0,0.0,344,0,-98,3644,false,d1b3e290-a0c3-11f1-a1a6-391af391818e
+75362630,Pace East,21,"CALIBRATING (>48 h, no loop)",Calibrating,Failed Cal,,51,0,55.0,30.0,493.0,0.0,391,0,-87,3672,false,3c543980-4b22-11f1-bc16-b52012ce6db2
+75371904,Kay Bee Mobile Villa MHP,105,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,74,0,40.0,30.0,165.0,0.0,391,0,-96,3677,false,579a7e70-4b22-11f1-bc16-b52012ce6db2
+79466379,Shady Lane MHP-Cust,106 Shady Lane,GATE-LOOP,Calibrating,Metering,41,53,89,40.0,30.0,0.0,0.0,391,120,-109,3641,false,1cb19300-545c-11f1-b1bb-f3574cce671d
+75365740,Haven MHP,21,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,52,0,40.0,30.0,66.0,0.0,391,0,-86,3674,false,8e0e9800-4cc7-11f1-b1bb-f3574cce671d
+75368405,Haven MHP,3,GATE-LOOP,Calibrating,Calibrating,,54,84,40.0,30.0,43.0,0.0,391,6,-93,3669,false,14d2b740-4cc8-11f1-b1bb-f3574cce671d
+75371946,Haven MHP,4,"CALIBRATING (>48 h, no loop)",Calibrating,Failed Cal,,54,0,40.0,30.0,25.0,0.0,391,0,-109,3660,false,b7fb3170-4ccf-11f1-b1bb-f3574cce671d
+79465769,?,3-DOUBLETREE-DR,NO-WATER (attr set),Calibrating,Calibrating,,51,0,40.0,30.0,26.0,0.0,391,0,-101,3657,true,188b2530-4ce5-11f1-b1bb-f3574cce671d
+75360113,?,10-SHENNADOH-DR,NO-WATER (attr set),Calibrating,Failed Cal,,55,0,40.0,30.0,35.0,0.0,391,0,-93,3657,true,4c178840-4d02-11f1-b1bb-f3574cce671d
+75373421,?,1-DOUBLETREE-CT,NO-WATER (attr set),Calibrating,Calibrating,,53,0,40.0,30.0,98.0,0.0,391,0,-98,3645,true,b2814230-6c13-11f1-9333-3b2cfe68422f
+75369098,Shady Lane MHP-Cust,5013 Spruce Lane,OTHER,Metering,Metering,58,55,1,38.0,38.0,1967.0,321.0,391,519,-117,3655,false,e9bd4b10-545b-11f1-b1bb-f3574cce671d
+79461677,?,9-SHENNADOH-DR,NO-SIGNAL,Failed Cal,Failed Cal,,52,0,55.0,30.0,98.0,0.0,391,0,-93,3660,true,d4bad250-4d03-11f1-b1bb-f3574cce671d
+75365096,Pace East,54,CAL-FAIL (signal present),Failed Cal,Calibrating,,73,0,52.0,54.0,337.0,0.0,391,0,-103,3671,false,676f5960-4d02-11f1-b1bb-f3574cce671d
+79460844,?,18-SHENNADOH-DR,NO-WATER (attr set),Calibrating,Calibrating,,55,0,40.0,30.0,28.0,0.0,391,0,-98,3654,true,8d6f3700-4d04-11f1-b1bb-f3574cce671d
+75368298,?,20-SHENNADOH-DR,NO-WATER (attr set),Calibrating,Failed Cal,,52,0,40.0,30.0,28.0,0.0,391,0,-95,3650,true,0a8b9e90-4d0a-11f1-b1bb-f3574cce671d
+75366805,?,7-SHENNADOH-DR,NO-SIGNAL,Failed Cal,Failed Cal,,55,0,55.0,30.0,73.0,0.0,391,0,-94,3652,true,1005b980-4d02-11f1-b1bb-f3574cce671d
+79466619,?,5-SHENNADOH-DR,NO-WATER (attr set),Calibrating,Calibrating,,51,0,40.0,30.0,31.0,0.0,391,0,-95,3658,true,3ee897e0-4d02-11f1-b1bb-f3574cce671d
+75367852,?,19-SHENNADOH-DR,NO-WATER (attr set),Calibrating,Calibrating,,52,0,40.0,30.0,32.0,0.0,391,0,-95,3657,true,5e5b4ed0-4d0a-11f1-b1bb-f3574cce671d
+79459002,Rustic Acres MHC-CUST,25,"CALIBRATING (>48 h, no loop)",Calibrating,Failed Cal,,78,0,40.0,30.0,32.0,0.0,391,0,-92,3663,false,e53bb930-a23c-11f1-a1a6-391af391818e
+79461826,Oakwood MHP,70-REMOVED,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,75,0,40.0,30.0,31.0,0.0,391,0,-99,3651,false,39c48760-4d66-11f1-b1bb-f3574cce671d
+75364313,Oakwood MHP,23-OLD,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,50,0,40.0,30.0,26.0,0.0,391,0,-110,3661,false,7daa9410-4d66-11f1-b1bb-f3574cce671d
+75367050,Kingsbrook MHC,778AM,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,55,0,40.0,30.0,24.0,0.0,391,0,-118,3636,false,a74ed380-4d66-11f1-b1bb-f3574cce671d
+75368991,Oakwood MHP,107-REMOVED,NO-SIGNAL,Failed Cal,Calibrating,,74,0,55.0,30.0,120.0,0.0,391,0,-98,3657,false,5e41ee40-4d69-11f1-b1bb-f3574cce671d
+75367316,Oakwood MHP,118-OLD,NO-SIGNAL,Failed Cal,Calibrating,,5,0,55.0,30.0,93.0,0.0,391,0,-97,3636,false,5cc0d710-4d6a-11f1-b1bb-f3574cce671d
+79456701,Rustic Acres MHC-CUST,,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,55,0,40.0,30.0,26.0,0.0,391,0,-87,3668,false,e64ed090-8b77-11f1-a1a6-391af391818e
+70259468,Parkview MHP-Cust,47,CAL-FAIL (signal present),Failed Cal,Failed Cal,,51,0,55.0,30.0,241.0,0.0,391,0,-93,3642,false,b48c4c80-666c-11f0-8658-7f4e94e41769
+79456479,Parkwood,3103LINDA,"CALIBRATING (>48 h, no loop)",Calibrating,Failed Cal,,55,0,40.0,30.0,34.0,0.0,391,0,-111,3634,false,4b2e23c0-5483-11f1-b1bb-f3574cce671d
+75362572,Parkwood,3392DONNA,"CALIBRATING (>48 h, no loop)",Calibrating,Failed Cal,,55,0,40.0,30.0,28.0,0.0,391,0,-107,3646,false,97fe2420-5483-11f1-b1bb-f3574cce671d
+75364495,?,23-DOUBLETREE-CT,NO-WATER (attr set),Calibrating,Calibrating,,54,0,40.0,30.0,33.0,0.0,391,0,-89,3649,true,4879a240-6c15-11f1-9333-3b2cfe68422f
+75368496,Island Club MHC-CUST,110,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,55,0,40.0,30.0,23.0,0.0,391,0,-110,3670,false,255c6390-5498-11f1-b1bb-f3574cce671d
+75367704,Broadway MHP DesMoines,4,NO-SIGNAL,Failed Cal,Failed Cal,,52,0,55.0,30.0,149.0,0.0,391,0,-116,3629,false,a81c1e20-5483-11f1-b1bb-f3574cce671d
+75365104,Parkwood,3368DONNA,NO-SIGNAL,Failed Cal,Failed Cal,,53,0,55.0,30.0,106.0,0.0,391,0,-101,3638,false,d8f21ab0-59f9-11f1-b1bb-f3574cce671d
+72390030,Virginia Beach HOA - Cust,159,OTHER,Metering,Metering,28,80,0,32.0,46.0,830.0,174.0,391,-1,-110,3595,false,ad379e60-9a2b-11f0-b5af-5dfa9891b485
+65829312,Virginia Beach HOA - Cust,145,GATE-LOOP,Calibrating,Metering,26,55,54,40.0,30.0,0.0,0.0,391,68,-102,3646,false,85b1f1a0-e07d-11ef-a5fd-a97d57576080
+72383100,Virginia Beach HOA - Cust,220,NO-SIGNAL,Failed Cal,Calibrating,,55,0,55.0,30.0,115.0,0.0,391,0,-110,3631,false,fec679e0-8383-11f0-8b4a-0d0197d44616
+72382813,Virginia Beach HOA - Cust,8,"CALIBRATING (>48 h, no loop)",Calibrating,Failed Cal,,77,0,40.0,30.0,26.0,0.0,391,-1,-110,3642,false,080af040-98e6-11f0-b5af-5dfa9891b485
+72388539,Virginia Beach HOA - Cust,116,NO-WATER (attr set),Calibrating,Calibrating,,53,0,40.0,30.0,20.0,0.0,391,0,-115,3631,true,c70863f0-9973-11f0-b5af-5dfa9891b485
+72379959,Virginia Beach HOA - Cust,107,NO-WATER (attr set),Calibrating,Failed Cal,,53,0,40.0,30.0,25.0,0.0,391,0,-106,3598,true,d0a57d00-995d-11f0-b5af-5dfa9891b485
+72390816,Virginia Beach HOA - Cust,239,NO-WATER (attr set),Calibrating,Calibrating,,53,0,40.0,30.0,28.0,0.0,391,0,-106,3639,true,f7b88660-8479-11f0-8b4a-0d0197d44616
+72378423,Virginia Beach HOA - Cust,244,NO-SIGNAL,Failed Cal,Calibrating,,53,0,55.0,30.0,93.0,0.0,391,0,-102,3608,false,43fac030-9977-11f0-b5af-5dfa9891b485
+72393042,Virginia Beach HOA - Cust,1,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,78,0,40.0,30.0,26.0,0.0,391,0,-108,3641,false,7d05ba00-98e7-11f0-b5af-5dfa9891b485
+72384520,Stafford MHC-CUST,227,CAL-FAIL (signal present),Failed Cal,Failed Cal,,55,0,55.0,30.0,310.0,0.0,391,0,-124,3635,false,23da5070-82ef-11f0-8b4a-0d0197d44616
+72389578,Virginia Beach HOA - Cust,219,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,54,0,40.0,30.0,31.0,0.0,391,0,-110,3632,false,2a9b8800-98f9-11f0-b5af-5dfa9891b485
+72718119,?,727103,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,27,0,40.0,30.0,47.0,0.0,391,0,-87,3647,false,a11dba70-c4ff-11f0-9842-6d029661c338
+72382805,Virginia Beach HOA - Cust,39,OTHER,Metering,Metering,68,77,0,48.0,30.0,858.0,203.0,391,53,-104,3629,false,e59043f0-98f2-11f0-b5af-5dfa9891b485
+72379926,Virginia Beach HOA - Cust,105,NO-SIGNAL,Failed Cal,Calibrating,,54,0,55.0,30.0,85.0,0.0,391,0,-91,3612,false,5e886780-994b-11f0-b5af-5dfa9891b485
+79467906,Smitty's MHP,85,CAL-FAIL (signal present),Failed Cal,Failed Cal,,30,0,52.0,54.0,509.0,0.0,391,0,-99,3667,false,6e61b720-86bb-11f1-a1a6-391af391818e
+75363166,Virginia Beach HOA - Cust,236,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,53,0,40.0,30.0,26.0,0.0,391,0,-103,3666,false,2e0bf770-4d73-11f1-b1bb-f3574cce671d
+75361806,Virginia Beach HOA - Cust,2,GATE-LOOP,Calibrating,Metering,44,54,131,40.0,30.0,0.0,0.0,391,30,-114,3663,false,a5ec3540-4d71-11f1-b1bb-f3574cce671d
+72384587,Virginia Beach HOA - Cust,168,NO-WATER (attr set),Calibrating,Calibrating,,53,0,40.0,30.0,27.0,0.0,391,0,-98,3632,true,f9267260-98be-11f0-b5af-5dfa9891b485
+72382359,Virginia Beach HOA - Cust,140,NO-SIGNAL,Failed Cal,Calibrating,,55,0,55.0,30.0,121.0,0.0,391,0,-102,3523,true,6f9f8540-98a0-11f0-b5af-5dfa9891b485
+79463103,Rustic Acres MHC-CUST,55,NO-SIGNAL,Failed Cal,Failed Cal,,80,0,55.0,30.0,112.0,0.0,391,0,-112,3664,false,40f0cd50-89f2-11f1-a1a6-391af391818e
+79457204,Lake of the Pines Community Association - Cust,107-KMB,RECAL-ACTIVE (<48 h),Calibrating,Metering,0,29,0,40.0,30.0,156.0,0.0,391,427,-112,3656,false,7c82bdb0-89f2-11f1-a1a6-391af391818e
+70264963,Minot Gardens MHC-Cust,,NO-SIGNAL,Failed Cal,Failed Cal,,50,0,55.0,30.0,91.0,0.0,391,0,-121,3615,false,98e8be20-62c3-11f0-8658-7f4e94e41769
+70259476,Backwater MHC,10,GATE-LOOP,Calibrating,Metering,75,32,39,40.0,30.0,0.0,0.0,391,42,-76,3658,false,745f1d90-ad43-11f0-98a7-c3bc57f9afe3
+72722046,Crystal Acres MHC,16,GATE-LOOP,Calibrating,Metering,44,56,69,40.0,30.0,0.0,0.0,391,-1,-106,3666,false,4f6f2ab0-d21f-11f0-b691-d965a62fa4fa
+72379744,Virginia Beach HOA - Cust,203,NO-SIGNAL,Failed Cal,Calibrating,,53,0,55.0,30.0,109.0,0.0,391,0,-112,3637,false,9047c510-989f-11f0-b5af-5dfa9891b485
+79467336,Aurora MHC,265,NO-SIGNAL,Failed Cal,Failed Cal,,27,0,55.0,30.0,107.0,0.0,391,0,-85,3663,false,d3abfb50-8ac5-11f1-a1a6-391af391818e
+72392994,Virginia Beach HOA - Cust,178,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,54,0,40.0,30.0,28.0,0.0,391,0,-108,3637,false,45c60790-98f9-11f0-b5af-5dfa9891b485
+72383209,Oaklawn Park HOA - Cust,3405SOC,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,55,0,40.0,30.0,24.0,0.0,391,0,-86,3650,false,1b0d18d0-8379-11f0-8b4a-0d0197d44616
+75368272,Broken Arrow MHP - Cust,6101-198TH-ST,"CALIBRATING (>48 h, no loop)",Calibrating,Calibrating,,52,0,40.0,30.0,26.0,0.0,391,0,-105,3657,false,a2b2dc30-4d71-11f1-b1bb-f3574cce671d
+70269897,Broken Arrow MHP - Cust,6111-197TH-ST,CAL-FAIL (signal present),Failed Cal,Failed Cal,,55,0,55.0,30.0,186.0,0.0,391,0,-111,3657,false,dead07a0-5223-11f0-acb1-514e01860b07
+75361848,Ontario Place MHC-CUST,94,"CALIBRATING (>48 h, no loop)",Calibrating,Failed Cal,,54,0,40.0,30.0,40.0,0.0,391,0,-111,3657,false,31a8a830-39d5-11f1-b198-172a4a9f25c9
