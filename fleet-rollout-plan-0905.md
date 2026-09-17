@@ -704,3 +704,26 @@ Pines 500, Sara 1029 — all Metering → Calibrating with TI on 391 (post-cross
 (dead TI). TI re-deaths this morning: **VB 109** was Metering at 07:10 and TI 0 at 07:20 (boot +1) — the
 chronic VB TI-silent class again; **VB 60** and **VB 117** landed 17088 with TI still 0 (17088 parks them, no
 loop). **Crystal Acres 29** finally took 17088 (TI 344, Failed Cal), no 391 uptake yet.
+
+### 9/17 — pre-roll flow-direction pin (Bruce: "scan flow direction and set prior to roll")
+
+**Why only direction.** Offset and gain are legitimately re-derived by the new calibration and a pre-roll
+offset can itself be wrong (Rustic 44), so neither is pinned. Direction is the one pre-roll setting that is
+both verifiable from two independent sources and wiped by the crossing: the Rev 16190 one-shot clears it on
+every device arriving from a build < 16190, and re-acquisition takes a median 49 h during which `flowOfTof`
+takes |tofNorm| and every draw bills positive.
+
+**Pre-scan (read-only, `dir_prescan.py`).** Population = Metering devices running a pre-16190 build in
+groups whose lever is a pre-16190 pair, excluding RMA/Removed/Failure/Inventory/Test groups (5,340 → after
+group filter ~5,000). Per device, 7-day tofNorm records → quiet zero (largest cluster vs event-edge zero,
+arbitrated by non-zero `tnormAvg`) → draw-tail sign beyond 1536 ps → compared with reported `flowDirection`
+and any existing `waterFlowDir` attr. Verdicts: **PIN** (reported known, draws agree, HIGH confidence),
+**ATTR-OK / ATTR-CONFLICT** (already pinned), **DRAWS-ONLY** (reported blank/UNKNOWN, draws clear — Bruce's
+call), **CONFLICT**, **NO-DRAWS / LOW / AMBIGUOUS-ZERO** (cross unpinned).
+
+**Roll pin set for a pre-16190 device:** `gen2fw`, `allowTiFotaVer`, `waterFlowDir` (PIN verdicts only),
+`checkInPeriod=60`, `radioOveruseMax=15`, `recordNoneventFlow=true`, `pulse=9`. Direction pin is written
+BEFORE or WITH the lever, never after (the wipe is at first boot). Post-crossing gate adds the screen:
+quiet zero within one bin, noise ≤ 1.5x pre-roll, gal/day inside the device's fence, crash flat, ≥ 3 hourly
+check-ins; the offset quick-lock transient gets the 24 h commit before it counts as a failure. Cadence pins
+come off at pass/fallback as today; the direction pin stays. Writes only on Bruce's go per batch.
