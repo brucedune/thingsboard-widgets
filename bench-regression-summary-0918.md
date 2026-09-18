@@ -1,4 +1,4 @@
-# Bench regression summary, five water-bench units, 2026-09-13 to 2026-09-18 16:48
+# Bench regression summary, five water-bench units, 2026-09-12 to 2026-09-18 16:48
 
 Written by the fleet-ops session for hand-off to another session. Every number below was read from
 ThingsBoard telemetry or from the FW session's own watch logs on 9/18 at 16:48; nothing is estimated.
@@ -27,7 +27,8 @@ pair change is the expected ST FOTA reboot pair.
 
 | pair | landed | dwell on the five | posts M/C/F (sum of five) | wd resets | boots inside window | outcome |
 |---|---|---|---|---|---|---|
-| 17085/391 | before 9/13 | 2.6 to 2.9 h (tail only) | 16/4/0 | not reported | +0 to +2 | starting point |
+| 17084/391 | 9/12 21:40 | about 27 min | not tabulated | not reported | swap boot | **two units parked a healthy TI at first boot** (BKP5R inheritance), self-released in about 90 s; superseded by 17085 the same evening |
+| 17085/391 | 9/12 22:08 to 9/13 08:33 pickup | 10.5 to 13 h | clean overnight on five | not reported | +0 to +2 | **two units stalled by the flash gate** after the 08:33 pulse session, dark until Bruce's 11:24 power cycle; see the incident section |
 | 17087/391 | 9/13 11:07 | 0.2 h, three units | 9/3/0 | 0 | 0 | stepping stone |
 | 17088/391 | 9/13 11:18 to 11:26 | 94.4 to 94.5 h | 78/10/0 | 0 on four units, **0 to 88 on 77058339** | +0 to +2 | cleared for the fleet 9/14; wd defect visible on one unit, see below |
 | 17091/391 | 9/17 09:50 to 09:53 | 2.8 to 2.9 h | 10/5/0 | 0 | 0 | one re-cal each, then Metering |
@@ -53,6 +54,68 @@ landing in the 17058 bank, not firmware faults.
 
 The five registers moved within 0.28 gal of each other over the same water. No watchdog resets, no
 unplanned boots, no cal restarts. This is the cleanest window in the ladder and it exceeds 24 h.
+
+## TI-start incidents before the 17088 window (9/9, 9/12, 9/13)
+
+Three times bench units failed to bring the TI up or to come back after a reboot. The first was during
+the 9/9 down-rev matrix and needed a magnet reset by hand; the other two were caught by the FW session,
+drove a firmware revision each, and are why the ladder jumped 17084 to 17085 to 17088 inside 14 hours.
+Sources: `fw-matrix-results-0909.md`, `fw-17047-bugfix-handoff.md` entries 9/12 21:55 through
+9/13 11:34, `Claude Data/bench_17084_pickup_0912.log`, and the ThingsBoard posts of 9/9.
+
+**Incident 0, 9/9, the down-rev matrix: two units needed a reset by hand, three were solid.**
+The FW session walked the bench group from 17066/372 down to each legacy pair the field still carries
+(15154, 17037, 16185, 362, 16131, 16022 twice, 15090, 363, 15147, 17032, 17040, 16130, 15085, 17060) and
+back up to 17066/372 after each, 84 unit-crossings, 0 TI bricks, 0 crashes on a crossing. Bruce's
+recollection: two of the five water units struggled to restart on the down-rev legs and had to be
+magnet-reset; the other three were solid. The telemetry supports that and names them:
+
+| unit | what the 9/9 posts show | notes entry |
+|---|---|---|
+| 72714092 | TI never came up on the legacy ST it was down-revved to: `fwVerTi 0` for the whole dwell on 16131, 16022 (both times), 16130 and 15085, and part of 15090, while the other four reported the era TI (296 / 260 / 254). Extra boots with reason flags 36 at 10:15 on 16131 and 17:25 on 16130 are the hand resets. | "TI-hard board": old-firmware TI-FOTA fails at "bsl reset / get info" because pre-16164 firmware never hears the TI boot banner (listener armed after reset release). Took the old BSL after a PIN reset but not after a FOTA reboot. 17066 flashes it every time, with retries. |
+| 72378456 | On 16022 it posted at 10-minute cadence until 11:19, then went silent for 84 minutes, came back at 12:43 with boot count 99 to 101 and reason flags 4 (the hand reset), missed the 11:2x up-hop and sat on 16022 for 178 minutes against 43 for its peers. | The pre-16038 radio overuse limiter: 4 activations, 10-minute sessions count, the unit went silent after its fifth session. Counter lives in BKUP, so a power pull, not a magnet, clears it. Group `radioOnEventEnd=true` was set at 12:05 to stop repeats. |
+| 70262090, 72390592, 77058339 | Every legacy landing reported the era TI within one post; boots +2 per hop; no silence. | solid |
+
+One discrepancy to carry: the 9/9 notes name the two TI-hard boards as 72379322 and 72714092, not
+72378456. 72379322 is TEST4, the sixth unit of the 9/9 group; it is not on today's water five, and it
+now sits Failed Cal on 17075/383 with no recent post. So on 9/9 there were three troubled units in a
+group of six: two TI-hard (72379322, 72714092) and one radio-limiter silence (72378456). Of today's
+five, two were hit, which is Bruce's count. Field impact per the notes: nil, because only the new ST
+ever flashes a TI, and the limiter is pre-16038 only. Other 9/9 bench-only artifacts worth knowing
+before anyone repeats the exercise: pre-17028 ST wipes the register on a downgrade (meterVal to 0), and
+15xxx post-install eval forces 60-minute check-ins for an hour after every boot.
+
+**Incident 1, 9/12 21:40, first boot on 17084: 72714092 and 72378456 parked a healthy TI.**
+Both posted `tiParked 1` with `fwVerTi 0` on their first 17084 post (72714092 at 21:40:05,
+72378456 at 21:40:26), then `tiParked 0` / TI 391 about 90 s later. The other four booted clean.
+Cause: BKP5R, a backup register unused since at least 17060, keeps whatever old firmware left in it, and
+17079 to 17084 read bits [13:10] as breaker attempts. Three or more stale attempts parked the TI at init.
+The units released only because the lever (391) did not match the stale version bits [9:0]; roughly 1 in
+1,024 garbage words would have matched and left a healthy TI parked until the lever changed.
+Fix: 17085 (built 22:05) writes a VALID marker (bit 15) at first boot, normalising an unmarked word to
+0x8000, and sets a WRITTEN flag (bit 14) only at BSL write completion. At the 17085 pickup 22:08 both
+units posted `tiParked 0` on first boot, which proved the normalisation. Do not roll 17079 to 17084.
+
+**Incident 2, 9/13 08:33 to 11:24, on 17085: 72378456 and 77058339 stalled by the flash gate.**
+Both posted at the 08:33 pulse session with `sfProbeHeld 1` (0 before), still Metering, TI 391,
+aggregates about 37,370. Then nothing. Bruce's late-morning pulses produced sessions on the other three
+(72714092 took 17087 at 11:07) but not on these two: the 17080 flash-health gate had probed a TI that was
+pausing its flush for the radio, got no answer inside 1 s, and held it in reset. A held TI produces no
+aggregates, so no events, so no sessions, and neither unit carried a `checkInPeriod`. This was the same
+mechanism as the rig's 10 h stall the night before (9/12 23:09), now seen twice in still water, so it was
+not flow-specific. There was no remote recovery path. Bruce power-cycled all six at 11:24; 72378456 booted
+17085 and swapped to 17088 at 11:25:37, 77058339 booted 17085, calibrated, and swapped to 17088 in the
+boot session. Without the power cycle their first self-recovery would have been the daily check-in at
+9/14 09:09. Fix: 17086 to 17088 (three-state gate, defer only, watchdog kick 10 min / reset 20 min,
+records never gated, breaker parks at the failure site). Roll note that still stands: 17085 must never be
+on a unit without a `checkInPeriod` safety net.
+
+72378456 was hit both times. Nothing in its later record singles it out: it is one of the cleanest units
+in the 26 h soak and its only distinguishing number today is 3 retries of 7 commands on 17097.
+
+The sixth unit, 79454912, was a separate watch item on 9/13 (silent 2.5 h past its 06:09 check-in, then
+back on 17085 at 10:23). Its cold boots land in the 17058 bank first, which makes it slow to reappear
+after every power cycle; that is the bootloader bank mapping, not a TI fault.
 
 ## What each step showed
 
@@ -129,6 +192,8 @@ rig only until this lands.
 ## Verified / inferred / open
 
 Verified from telemetry:
+- 17084: 72714092 and 72378456 posted `tiParked 1` / TI 0 on first boot, released in about 90 s; clean first boot on 17085.
+- 17085: 72378456 and 77058339 went dark after the 08:33 session with `sfProbeHeld 1`, recovered only by the 11:24 power cycle.
 - 17091/393: 26 h, five units, 63 of 63 posts Metering, wd 0, boots flat, quiet sd 59 to 80 ps, registers agree within 0.28 gal.
 - 17088/391: one bench unit accumulated 88 wd resets in 94 h while Metering; the field defect was reproducible on the bench and was not gated.
 - recalibrate on 17091/393: 0 of 5 fired; on 17096/395 rig: acked first try, blank 40 retained.
