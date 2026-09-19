@@ -2687,3 +2687,25 @@ runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is no
   70270754, 70273345, 72380171, 75362366, 75363661, 75369437 (eventMeterDelta/eventDurationSeconds/eventAverageFlow).
   Bruce's call: delete all rows > now+1 d on those keys, or leave until the rule-chain guard exists.
 - Full per-device audit: Claude Data/fossil_fix_fleet_0918.log.
+
+### 9/19 07:41 — MORNING READ (Bruce "how we looking")
+- BENCH SIX 17100/397, all Metering, windows held all night: five at 33/22 (winMargin 5.9-6.6), 79454912 at 34/21 (4.4);
+  winClipped 0, wd 0, boot counts flat, tiCmdLost 0. Retries on the post-session pushes continue (77058339 16/10/3,
+  72378456 13/5/4, 72390592 8/3/1) - the 15 ms gap reduced but did not remove the miss; nothing lost. No phantom
+  registration overnight: register growth = Bruce's 51 gal run + a 1.3 gal event at 07:36; two isolated 0.1 gpm
+  single records at 02:21/06:22 on 72390592 did not form events.
+- RIG 17101/397 (pump ran overnight): 41/18 held in 4,137 of 4,147 INFOs; the other 10 = two fresh installs (AE acked
+  22:30 and 03:18, window re-pushed both times, no Bootloader lines captured = the COM4 logger was asleep = PC Modern
+  Standby PIN resets again, bBootCount 1->3). sf counters 0/0/0/0 (no marker strike, no SPI re-init, no heal reboot).
+  7 sessions after 19:44: A9 acked try 1 in 5, try 2+ in 3 (3 no-ack retries, all A9), LOST 0. Last commit 2,131 ps
+  (cal ran with the pump on) yet metering 73-86 ps.
+- FIELD TRIAL (first 4 of 10 posted; the other 6 are on their daily cadence, expect 08:00-13:00):
+  B 70266141 Crystal Acres: 17100/397 METERING 07:33 on adaptive 31/15 (lock, margin 3.3, commit 115) after Failed Cal at
+  07:13 - RECOVERED (Calibrating since 9/17). B 77052258 Holly Tree: 17100/397 METERING 07:09, 36/15, commit 116 -
+  RECOVERED. => Bruce's capture-pin theory confirmed in the field (captureDuration 15 write).
+  C 72382805 VB: TI back from silent -> 17100/397 METERING 07:33 on adaptive 30/15, commit 527 (noise-gate retry bit
+  set, no lock earned). C 75372530 VB (X 3/4): TI 397 up, fixed 32/19 pushed (winFlags 3) but FAILED CAL x2 with upamp
+  71-78 (healthy ~800-1,000) - weak/absent coupling, TI silent since 9/6 with a 36.0 us history; the window (32-51)
+  covers 36.0, so this is the piezo/coupling, not the table. Note the 17100 floor push knocked live blank to 30 under a
+  fixed 32 (fixed in 17101). C 72389347 bBootCount 2,150 = crash-looper (not yet posted).
+- Watchers: watch_field_trial.py alive (3-day), rig watcher restarted as watch_rig_17101.py -> Claude Data/rig_17101_0919.log.
