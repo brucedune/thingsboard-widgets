@@ -2709,3 +2709,6 @@ runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is no
   covers 36.0, so this is the piezo/coupling, not the table. Note the 17100 floor push knocked live blank to 30 under a
   fixed 32 (fixed in 17101). C 72389347 bBootCount 2,150 = crash-looper (not yet posted).
 - Watchers: watch_field_trial.py alive (3-day), rig watcher restarted as watch_rig_17101.py -> Claude Data/rig_17101_0919.log.
+- 75372530 correction (Bruce): already flagged "No Water" = True; last water event 9/06 12:27 = the day its TI went silent.
+  Empty pipe, not coupling - the TI is back and will find the signal inside the fixed 32/19 window on its off-pipe
+  retry when water returns (v397 keeps the window through off-pipe). 72382805 "No Water" False, last event 9/18.
