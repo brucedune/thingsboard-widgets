@@ -2452,3 +2452,24 @@ FIX (ST 17091, spec): (1) wd reset path: after ti_update_and_start(), queue TIW_
 - Cross-check vs bench-regression-summary-0918.md (8c63606): its two strugglers 72714092 + 72378456.
   72378456 = worst retrier today (3 of 7, then 7 during the ceremony) and one of the two noise-gate units;
   72714092 = 0 retries in every counter window and lock held. One-of-two overlap, same as the cal-history read.
+
+### 9/18 17:16 — ROUND 2 RESULT: recalibrate latch re-arm VERIFIED 5/5; every unit now at install blank - 3
+- Round 2 posts 17:07-17:16 (all Metering, tiCmdLost 0): paramRecal 1->2 on all five = the second true fired
+  after a DELETE with no false in between. 17097 absent-key re-arm WORKS; recalibrate is a reusable lever
+  (set true -> fires once -> delete -> next fetch re-arms). Pre-17097 FW ignored the second true.
+- Blank after two recals: 77058339 37->37->34, 72714092 36->36->33, 70262090 36->36->33, 72378456 36->33->33,
+  72390592 36->33->33. Every unit moved exactly -3 us ONCE (3 in round 2, 2 in round 1) and the units already
+  at -3 held there (0 of 2 moved again). = noise-gate retry at the install window, quiet commit 3 us earlier,
+  lock re-set there (dune_blank_lock_set runs on the retry pass when sd <= 300). Interpretation open:
+  (a) install-derived window is marginal (commit sd hovers at the 300 ps gate, passes ~half the time) and
+  the -3 window is genuinely quieter (it held 2/2 and post-recal noise is 50-73 ps on all five), or
+  (b) the gate is walking the lock. Not distinguishable from TB: calBestStddev is a dead key (always 0),
+  TI printf does not reach the ST log. 72378456's 1779/2495 ps tnormStddev right after round 1 was
+  transient (62 now).
+- Rig contrast: 14:22 recal held 40->40 (pump off, quiet commit). Bench recals ran ~1 min after a 7 gpm run.
+- State: recalibrate deleted on all five (SHARED clean: gen2fw 17097 / allowTiFotaVer 395 pins only);
+  4912 control untouched. Ack counters end 77058339 38/21/16/0, 72714092 25/18/4/0, 70262090 26/20/5/0,
+  72378456 26/15/9/0, 72390592 28/18/8/0 - retries concentrate in the post-session/mid-grid frames.
+- Proposed v396 (Bruce to decide): (1) make the commit sd + lock value visible (calBestStddev live, or
+  lock/sd in INFO) BEFORE changing policy; (2) retry pass never overwrites an existing lock; optionally
+  (3) an existing lock suppresses the noise-gate retry. Watcher log: Claude Data/bench_recal_lock_0918.log.
