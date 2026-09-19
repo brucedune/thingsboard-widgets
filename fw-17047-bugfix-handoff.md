@@ -2479,3 +2479,11 @@ FIX (ST 17091, spec): (1) wd reset path: after ti_update_and_start(), queue TIW_
   Wrote gen2fw 17097 + allowTiFotaVer 395 (http 200, read back OK); checkInPeriod 480 untouched. Bruce uses
   this unit for production-build current-consumption checks; picks up at its next 8 h session (last post 11:51).
   No recalibrate on it. Bench six now all pinned 17097/395.
+
+### 9/18 17:45 — TI v396 BUILT + UPLOADED + RIG PINNED (Bruce "book it" on fixed-window-spec-0918.md)
+- Dune_FW_TI cal-reacq 6c3ee96, tag v396, pushed. LPM/Dune_FW_TI.txt.bin 53,462 B (pack crc a9da638f) ->
+  s3://dune-firmware-ti/msp396.bin (key was free). Content: 0xAF WINDOW_FIXED (blank/capture/flags) held in
+  FRAM through seed/tighten/noise-gate; fallback to adaptive + WinF_Fallback when the window finds no signal;
+  INFO +4 B (winFlags/winBlank/calCommitSd, payload cap 104); Default: retry pass never overwrites a lock.
+- TB WRITE: rig '3063 allowTiFotaVer 395 -> 396 (SHARED, http 200). Rig ST is 17097 (no 0xAF yet) so v396
+  runs the Default path there until ST 17098 lands via SWD. Rig sessions are pump-event driven.
