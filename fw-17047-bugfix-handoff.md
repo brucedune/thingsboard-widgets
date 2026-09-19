@@ -2830,3 +2830,4 @@ runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is no
   return (rest of blob next cycle), parsing only at app level. TB WRITE: rig allowTiFotaVer 398 -> 400.
 - Pass on the rig: tiBootCnt flat for >= 1 h with the pump running (sessions + flushes every few minutes), batches
   acked, no garbage-frame lines ("TI checksum fail len=2 cmd=A5/FE/FF") after "ti ack A4".
+- 10:14 TB WRITE (Bruce "pin bench to 400"): bench six allowTiFotaVer 398 -> 400 (read back); water held until the rig has ~1 h clean on v400 so each unit flashes once, straight to 400. Trial 13 stay on 398.
