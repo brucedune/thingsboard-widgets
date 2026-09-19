@@ -2650,3 +2650,20 @@ runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is no
   41/18 held from FRAM (no 0xAE on a software/probe... note: probe connect = PIN reset = fresh install -> 0xAE -> re-push),
   no 0x80 floor frame after the TI boot, and any bad marker read now logs "sf marker ... -> spi reinit -> ..." instead of
   rebooting. Bench stays on 17100/397 overnight (one variable at a time).
+
+### 9/18 20:02 — Bruce: "maybe the blank pins are the issue" -> CONFIRMED for captureDuration pins on 17065+
+- Mechanism: Rev 17065 mirrors blank/captureDuration/pulses in BKUP (NVRG_TI_OVERRIDES_ID) and re-pushes them after
+  EVERY session; a pinned captureDuration 10 shrinks the live window so the TI has only 3-5 us after the onset ->
+  cal cannot commit -> Calibrating/Failed Cal until the next session re-pushes 10 again. Pre-17065 the pin was a
+  one-time seed the cal overrode.
+- Field evidence (real time-series arrivals, 30 d): 70261894 Roosevelt M 3/4 pins 33/10 (end 43, arrival 39.9, 3.1 us
+  room, 72 metering posts before 17065, Calibrating since); 70266141 Crystal Acres P 3/4 28/10 (34.2, 3.8 us, 79 before);
+  77052258 Holly Tree X 3/4 33/10 (39.3, 3.7 us, 76 before); 72720263 8 OnElaine M 1 cap 12 (44.7, ~5 us, 62 before).
+  Five more capture-pinned non-metering units were flaky before 17065 too (72392556, 72720198, 72721865, 75368066,
+  77056358). Fleet: 446 Gen2 carry a captureDuration pin (267 at 10 us), 1,142 a blank pin; only 26 capture-pinned
+  units are on >= 17065 today, so the exposure grows with every roll.
+- TRAP: deleting the attr does NOT stop the push - ti_overrides_mirror() rewrites a field only when the attr is
+  received, an absent attr leaves the mirrored value in BKUP until a fresh install (init.c clears it). => Rev 17102:
+  absent blank/captureDuration/pulses in a fetch clears that mirror field (same fix as 17097's recalibrate re-arm).
+- Interim (needs Bruce's OK, TB writes): set captureDuration = 15 (the cal's own tight capture) on the four confirmed
+  units so the re-push becomes harmless at tomorrow's session; delete blank+capture pins after 17102 is on them.
