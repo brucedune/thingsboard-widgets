@@ -2838,3 +2838,4 @@ runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is no
   v399-era values (77058339 1, 72714092 1, 72378456 2). Rig 17103/400 since 10:02:53: tiBootCnt 3 flat, 0 garbage frames,
   0 short/lost, but only 1 session + 1 flush so far (pump state per Bruce).
 - Recommendation: move the 13 trial units 398 -> 400 (they have not flashed a TI since the pins; one flash straight to 400).
+- 10:45 TB WRITES (Bruce "pin trial to 400"): 13 trial units allowTiFotaVer 398 -> 400 (gen2fw 17103), read back. Everything under test is now 17103/400 (rig gen2fw pin 17097 = SWD-managed).

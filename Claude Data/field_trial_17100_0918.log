@@ -108,3 +108,18 @@
 09/19 10:14:32 bench 72378456 http 200 -> {'gen2fw': 17103, 'allowTiFotaVer': 400} OK
 09/19 10:14:32 bench 72390592 http 200 -> {'allowTiFotaVer': 400, 'gen2fw': 17103} OK
 09/19 10:14:32 bench 79454912 http 200 -> {'gen2fw': 17103, 'allowTiFotaVer': 400} OK
+09/19 10:45:42 TRIAL allowTiFotaVer 398 -> 400 (Bruce 'pin trial to 400')
+09/19 10:45:42 trial 77057596 http 200 -> {'gen2fw': 17103, 'allowTiFotaVer': 400} OK
+09/19 10:45:43 trial 79466379 http 200 -> {'allowTiFotaVer': 400, 'gen2fw': 17103} OK
+09/19 10:45:43 trial 70261894 http 200 -> {'gen2fw': 17103, 'allowTiFotaVer': 400} OK
+09/19 10:45:43 trial 70266141 http 200 -> {'gen2fw': 17103, 'allowTiFotaVer': 400} OK
+09/19 10:45:43 trial 77052258 http 200 -> {'allowTiFotaVer': 400, 'gen2fw': 17103} OK
+09/19 10:45:44 trial 72720263 http 200 -> {'gen2fw': 17103, 'allowTiFotaVer': 400} OK
+09/19 10:45:44 trial 72382805 http 200 -> {'allowTiFotaVer': 400, 'gen2fw': 17103} OK
+09/19 10:45:44 trial 75372530 http 200 -> {'allowTiFotaVer': 400, 'gen2fw': 17103} OK
+09/19 10:45:45 trial 72389347 http 200 -> {'allowTiFotaVer': 400, 'gen2fw': 17103} OK
+09/19 10:45:45 trial 72715362 http 200 -> {'allowTiFotaVer': 400, 'gen2fw': 17103} OK
+09/19 10:45:45 trial 72379827 http 200 -> {'gen2fw': 17103, 'allowTiFotaVer': 400} OK
+09/19 10:45:45 trial 72382714 http 200 -> {'gen2fw': 17103, 'allowTiFotaVer': 400} OK
+09/19 10:45:46 trial 72380700 http 200 -> {'allowTiFotaVer': 400, 'gen2fw': 17103} OK
+09/19 10:45:46 done: 13 devices, mismatches 0
