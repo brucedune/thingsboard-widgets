@@ -2777,7 +2777,7 @@ runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is no
 ### 9/19 09:08 — REV 17102 BUILT + UPLOADED (Bruce "build 102" / "lets try all the fixes")
 - Content: ack window 20 s + no nudge; cmdSeq-advance == frames-sent check (tiCmdShort, re-send); 17077 repeat only while
   the TI has not answered; deleted blank/captureDuration/pulses clear the BKUP mirror; SPI1 RCC force-reset rung; wedge
-  ladder ends in sfWedgeStuck (no self-reboot); backend  attr (integer nonce -> one reset at radio-off, BKUP 31,
+  ladder ends in sfWedgeStuck (no self-reboot); backend `reboot` attr (integer nonce -> one reset at radio-off, BKUP 31,
   status key rebootDone; counted in sfHealReboot). The two HAL status-register reads were already compiled out.
 - Release 104,752 B (7,888 free) -> st-prod G/17102; loud lean 110,084 B (2,556 free - the lean image is near the slot ceiling).
 - Not on any device yet: rig needs pump off for SWD; bench/trial pins on Bruce's go. Pairs with TI v399.
