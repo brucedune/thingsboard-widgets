@@ -2772,3 +2772,4 @@ runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is no
 - v399 (cal-reacq, tag v399, 53,500 B, pack crc 4c363fd9 -> msp399.bin): ATTN checked before every blob packet ->
   dune_attn_listen() mid-blob; USSLibGUIApp_Delay parses after every wait when ATTN is up or RX bytes wait
   (dune_rx_pending). TB WRITE: rig allowTiFotaVer 398 -> 399. Bench to 399 on Bruce's go.
+- 09:01 TB WRITE (Bruce "pin the bench to 399"): bench six allowTiFotaVer 398 -> 399 (SHARED, read back); gen2fw 17100.
