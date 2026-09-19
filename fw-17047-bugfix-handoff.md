@@ -2804,3 +2804,4 @@ runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is no
 - 09:23:43 rig TI cold boot (INFO s0 l00, window still in FRAM) right after Bruce "started pump"; ST did not reset it
   (no wd/bsl lines); link showed fe7-9 framing errors + 47 s INFO silence before the boot. Suspect: pump-start supply
   dip / EMI resetting the TI. Checking tiResetSrc.
+- 09:31 79454912 picked up 17102/399 at its 480-min check-in: Metering, fixed 34/21 held, margin 4.0, commit 55 ps, no retries. BENCH SIX + RIG ALL ON 17102/399. Rig post-reset batches: A9 ack try 1 x3 since 09:25.
