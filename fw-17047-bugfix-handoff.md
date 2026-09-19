@@ -2751,3 +2751,14 @@ runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is no
   "ti ack A9 try 1"; the "ti seq N last X want A9" mismatch lines should disappear. Bench roll of 398 on Bruce's go.
 
 ### 9/19 08:24 — TB WRITE (Bruce "pin the bench to 398"): bench six allowTiFotaVer 397 -> 398 (SHARED, read back); gen2fw stays 17100. Picks up at the next water event / check-in; the TI FOTA is a fresh install -> window re-pushed, one extra cal.
+
+### 9/19 08:41 — TI v398 ON RIG + BENCH FIVE: batches whole, ZERO retries added
+- Rig 17101/398 08:33-08:40: first batch after the FOTA acked on one INFO (A9 try 1, A8 try 1, no per-frame "ti seq"
+  mismatch lines); two sessions later tiCmd 16/14/1/0 - the single retry is the pre-flash A9 on 397.
+- Bench five 17100/398 (two water runs 08:36 / 08:41): all Metering, 33/22 held (winMargin 6.1-7.2, winClipped 0),
+  and "retries since 398 pickup: +0" on all five (77058339 3->3, 72714092 0->0, 70262090 0->0, 72378456 4->4,
+  72390592 1->1) with 2 sent / 2 acked per post-session push. Before v398 the same push added 1-4 retries per
+  session and silently dropped E0/8A. 79454912 picks up 398 at its own cadence.
+- Bruce's bus rule holds: ATTN high = TI listens/executes, transmits nothing; one INFO after the burst.
+- Still to build (ST 17102): cmdSeq-advance == frames-sent check with batch re-send; stop the 17077 0x96+A4 5 s repeat
+  once the TI has answered; plus the SPI report-not-reboot + pin-mirror items pending Bruce's scope call.
