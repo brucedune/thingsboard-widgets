@@ -2636,3 +2636,11 @@ runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is no
   Under investigation. Fixed window survived in TI FRAM; rig re-cal'd 41/18, Metering 19:15 commit 305.
 - Also seen: after a TI boot the ST pushes the dia floor as 0x80 = 38 because INFO reports blank 0 -> spurious
   frame on a fixed-window unit (harmless: cal re-applies 41/18). 17101: skip the floor push when the table applies.
+
+### 9/18 19:27 — REV 17101 BUILT + UPLOADED (Bruce: "reboot is a last resort"; "emulate RTOS - monitor peripherals")
+- spi_flash.c: bad marker read -> SPI1 DeInit/Init + driver re-init + wake + re-read (counters sfMarkerStrikes,
+  sfSpiReinit, sfSpiReinitOk); the 17036 reboot only after 4 failed checks over >= 10 min with the TI settled,
+  6 h lockout kept, counted in BKUP 30 -> sfHealReboot. hci.c: no 0x80 floor push onto a table window.
+- Release 104,320 B -> st-prod G/17101; loud lean 109,596 B for the rig. Not yet on any device.
+- Direction for the next revs (Bruce): a peripheral supervisor pattern - per subsystem health check + re-init
+  ladder + counters (SPI flash done; TI UART, BG95 UART/radio, I2C, RTC/clocks to follow), reboot last.
