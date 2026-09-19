@@ -2603,3 +2603,11 @@ FIX (ST 17091, spec): (1) wd reset path: after ti_update_and_start(), queue TIW_
   change each soft-recal'd). Next post should be 33/22.
 
 ### 9/18 18:51 — TB WRITE (Bruce "pin them"): bench five gen2fw 17100 + allowTiFotaVer 397 (SHARED, read back). 79454912 stays 17097/395. Two water runs to pick up.
+
+### 9/18 18:59 — BENCH FIVE ON 17100 / 397: FIXED WINDOW HELD 5/5, winMargin 6.1-6.7 us, winClipped 0, paramRecal 0
+- Two water runs 18:54-19:00. Posts on 17100/397 Metering: 70262090 33/22 margin 6.07 commit 99 sd 50; 72714092
+  6.14 / 308 / 99; 72378456 6.66 / 290 / 71; 77058339 6.66 / 50 / 61; 72390592 6.74 / 561 / 71 (tnQuietSd 426 right
+  after cal). paramRecal 0 on all five = the 17099 INFO-triggered push put 0xAF ahead of the install cal (17098 had
+  3 of 5 at 1). Fresh counters: retries 0, lost 0. 70262090 revert confirmed earlier (33/22, tofA back to 39.61).
+- Next: post-session pushes on the 15 ms gap - expect A9 acked on try 1 (rig log) and tiCmdRetry flat on the bench;
+  overnight soak; rig flash 17100 loud lean + TI 397 when the pump is off; current draw on 79454912.
