@@ -2791,3 +2791,16 @@ runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is no
 - 79466379 Shady Lane (gate-loop victim, tiWdReset 224, PEX 3/4): 08:55 still 17088/391 Calibrating -> 08:59:59
   17100/397 METERING in the FIXED 32/19 window (first field unit on the PEX row): margin 3.33 us, commit 258 ps,
   upamp 828, metering sd 53, paramRecal 0, winClipped 0. One session pair from a 224-reset gate loop to metering.
+
+### 9/19 09:24 — 17102 ON RIG + BENCH FIVE: install batches whole first try; the cmdSeq check caught real drops
+- Rig 17102/399 boots 09:12 and 09:19 (probe reset, pump off): AE ack, window push on first INFO, batch A9 ack try 1 within
+  1.5 s, gate A8 ack try 1 (sent twice ~3 s apart = hold + post-boot re-push, dedupe later), A4 ack try 1. No A4/0x96
+  repeat flood after the first INFO (17102 change confirmed).
+- 09:22:24 rig post-session batch: "ti batch short 3/4 -> resend" -> re-sent -> "ti ack A9 try 2" 300 ms later with the
+  full advance. = a MIDDLE frame still gets dropped occasionally even on v399 (TI metering, captures just requested), and
+  17102 now sees and corrects it in one pass instead of leaving E0/8A missing. tiCmdShort = 1 already on 72714092,
+  70262090, 72390592 and the rig after their first 17102 sessions; 77058339/72378456 0.
+- Bench five 17102/399 09:17-09:24: all Metering, 33/22 held, winClipped 0; two water runs.
+- 09:23:43 rig TI cold boot (INFO s0 l00, window still in FRAM) right after Bruce "started pump"; ST did not reset it
+  (no wd/bsl lines); link showed fe7-9 framing errors + 47 s INFO silence before the boot. Suspect: pump-start supply
+  dip / EMI resetting the TI. Checking tiResetSrc.
