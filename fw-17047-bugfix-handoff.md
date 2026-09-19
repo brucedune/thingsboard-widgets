@@ -2839,3 +2839,8 @@ runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is no
   0 short/lost, but only 1 session + 1 flush so far (pump state per Bruce).
 - Recommendation: move the 13 trial units 398 -> 400 (they have not flashed a TI since the pins; one flash straight to 400).
 - 10:45 TB WRITES (Bruce "pin trial to 400"): 13 trial units allowTiFotaVer 398 -> 400 (gen2fw 17103), read back. Everything under test is now 17103/400 (rig gen2fw pin 17097 = SWD-managed).
+- 10:47 TRIAL posts caught up: C 75372530 VB (No Water) 09:04 -> METERING on 17100/397 in the fixed 32/19 window
+  (margin 4.0, upamp 689, sd 79) = water returned and it locked inside the table window by itself. A 77057596 The Oaks
+  (P 3/4, arrival 42.0): 09:35 still 17088/391 (Metering, sd 2,022, wd 68) -> 09:42 17102/399 FAILED CAL in the fixed 33/22
+  window, upamp 232 (was 637 at gain 48). It is now on the crashing v399 until its next session (<= 480 min) flashes 400;
+  judge the fixed-window result on that re-cal, not this one.
