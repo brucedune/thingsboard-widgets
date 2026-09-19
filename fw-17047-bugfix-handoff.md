@@ -2773,3 +2773,12 @@ runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is no
   dune_attn_listen() mid-blob; USSLibGUIApp_Delay parses after every wait when ATTN is up or RX bytes wait
   (dune_rx_pending). TB WRITE: rig allowTiFotaVer 398 -> 399. Bench to 399 on Bruce's go.
 - 09:01 TB WRITE (Bruce "pin the bench to 399"): bench six allowTiFotaVer 398 -> 399 (SHARED, read back); gen2fw 17100.
+
+### 9/19 09:08 — REV 17102 BUILT + UPLOADED (Bruce "build 102" / "lets try all the fixes")
+- Content: ack window 20 s + no nudge; cmdSeq-advance == frames-sent check (tiCmdShort, re-send); 17077 repeat only while
+  the TI has not answered; deleted blank/captureDuration/pulses clear the BKUP mirror; SPI1 RCC force-reset rung; wedge
+  ladder ends in sfWedgeStuck (no self-reboot); backend  attr (integer nonce -> one reset at radio-off, BKUP 31,
+  status key rebootDone; counted in sfHealReboot). The two HAL status-register reads were already compiled out.
+- Release 104,752 B (7,888 free) -> st-prod G/17102; loud lean 110,084 B (2,556 free - the lean image is near the slot ceiling).
+- Not on any device yet: rig needs pump off for SWD; bench/trial pins on Bruce's go. Pairs with TI v399.
+- NOTE for the capture-pin units: once on 17102 the blank/captureDuration pins can be DELETED and will stay gone.
