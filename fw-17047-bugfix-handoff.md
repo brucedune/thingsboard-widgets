@@ -2524,3 +2524,19 @@ FIX (ST 17091, spec): (1) wd reset path: after ti_update_and_start(), queue TIW_
   (http 200, read back). Table row M 1" = 41/17 on a PVC 3/4 pipe (arrival ~39.6 us) => the fixed window
   misses the signal => expected WinF_Fallback + adaptive blank. REVERT to P / 3/4 after the test (flow math
   on that unit is wrong meanwhile). Other four expected back at 33/22 after the magnet resets.
+
+### 9/18 18:12 — MAG-RESET + RIG RESULTS: fixed window survives a fresh install; a too-late window is a SILENT lobe hop
+- Rig 17098 loud lean / 396: "win fixed push 41/17" 18:06:26 acked first try; cal ran in 41/17; Metering 18:07:40
+  commitSd 205, tnorm sd 43, TB post 18:10 blank 41 cap 17 winFlags 3, tiCmd 5/5/0/0. POSITIVE TEST PASSED.
+  Margin arrival(43.x) - blank(41) = ~2 us = tighter than the 3 us design; consider M 1" row 40/18.
+- Bench magnet resets (fresh install, 0xAE): all five re-pushed and back Metering in 2-3 min:
+  77058339 33/22 w3 commit 271 sd 52 tofA 35.82; 72714092 33/22 w3 352/78 tofA 39.13; 72378456 33/22 w3 284/71
+  tofA 36.05; 72390592 33/22 w3 300/69 tofA 36.09. => the re-push after a fresh install works.
+  NOTE the bench "PVC 3/4" arrivals split 35.8-36.1 (x3) vs 39.1-39.6 (x2) = the fleet bimodality on one bench;
+  margin to blank 33 is 2.8-3.1 us on the low three (per design, but no slack).
+- 70262090 (pinned M 1" -> 41/17 on a 39.6 us arrival): NO fallback. The TI locked the NEXT crossing: tofA
+  39.63 -> 41.06 us, commitSd 404, tnQuietSd 425 (was 69), Metering, winFlags 3. A window that starts after
+  the onset does not look like "no signal" - it silently hops a lobe. Detector signature: arrival - blank =
+  0.06 us (healthy fixed windows: 2.8-6.6 us here, rig 2). => TI v397: on a fixed window, (tofA_us - blank)
+  < ~1.5 us => treat as a miss -> adaptive fallback + WinF_Fallback (+ report the margin in INFO).
+- 70262090 still M / 1 (flow constants wrong) - REVERT to P / 3/4 when Bruce says the test is done.
