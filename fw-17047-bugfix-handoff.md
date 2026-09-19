@@ -2823,3 +2823,10 @@ runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is no
   INFO per burst, no mid-blob parse (parse latency up to a blob period, covered by 17102's 20 s ack window).
 - v400: Comm_sendBuffedPackets re-entrancy guard (nested call refused + remembered) and the mid-blob yield becomes a
   plain STOP (return, rest of blob next cycle, INFO/EOT skipped) - parsing only ever happens at app level.
+
+### 9/19 09:55 — TI v400 BUILT + UPLOADED; RIG PINNED 400 (bench + trial stay on 398 until the rig proves it)
+- Dune_FW_TI cal-reacq tag v400, 53,530 B (pack crc 66977bca) -> s3://dune-firmware-ti/msp400.bin.
+- Fix: Comm_sendBuffedPackets re-entrancy guard (g_in_send / g_send_again); mid-blob ATTN = stop transmitting and
+  return (rest of blob next cycle), parsing only at app level. TB WRITE: rig allowTiFotaVer 398 -> 400.
+- Pass on the rig: tiBootCnt flat for >= 1 h with the pump running (sessions + flushes every few minutes), batches
+  acked, no garbage-frame lines ("TI checksum fail len=2 cmd=A5/FE/FF") after "ti ack A4".
