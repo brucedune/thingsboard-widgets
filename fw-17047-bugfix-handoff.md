@@ -2809,3 +2809,4 @@ runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is no
 ### 9/19 09:38 — REV 17103 BUILT + UPLOADED (Bruce "should do this now"): gate dedupe + no window re-push on TI boot (traffic only). Release -> st-prod G/17103. Not on any device; rig needs pump off; bench/trial pins on Bruce's go.
 - 09:41 TB WRITES (Bruce "pin bench and trial to 17103"): bench six + 13 trial units gen2fw 17102 -> 17103 (TI 399 unchanged), read back.
 - 09:42 RIG FLASHED 17103 loud lean (Bruce "run on bucket"; INFO sd 51 ps taken as pump off), verified, reset 09:41:54; TI 399. Pass = ONE A8 per install, no second "win fixed push" after a TI boot, acks first try.
+- 09:45 RIG 17103/399 install: AE ack, ONE "win fixed push", A9 ack try 1, ONE A8 ack (09:43:26), A4 ack try 1 (09:44:35) = Metering. Gate dedupe confirmed; every frame first try.
