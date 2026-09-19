@@ -2592,3 +2592,12 @@ FIX (ST 17091, spec): (1) wd reset path: after ti_update_and_start(), queue TIW_
   PEX 1" 37/24. Bench roll to 17099/397 and the rig flash await Bruce's go / pump-off check.
 
 ### 9/18 18:44 — TB WRITE (Bruce "set bench device back to PVC 3/4"): 70262090 pipeType M->P, pipesize 1->3/4 (U+00BE, same as its siblings), http 200, read back. Next session: table row 33/22 replaces 41/17 (soft recal on the new window), winMargin back to ~6.5 us.
+
+### 9/18 18:49 — LOST FRAMES ON 17098/396 -> Rev 17100 (inter-frame gap 15 ms)
+- Bench posts 18:48: tiCmdLost 1 on 77058339 (13/7/5/1), 72378456 (10/5/4/1), 72390592 (11/6/4/1) - first losses
+  since the handshake; identical deltas since 18:11 = one command through all 5 tries in the post-session push.
+- Rig loud log (same build): post-session batch AB, E0, 8A, A9 -> TI dispatched 3, dropped A9 on try 1 at 18:30
+  and 18:46 ("ti cmd A9 no ack, retry 1", acked try 2); also 17:07 try 2, 18:03 try 3 on 17097/395. The v396
+  INFO-on-dispatch is 101 B (was 97); the 5 ms gap (17096) was marginal. => Rev 17100: gap 15 ms.
+- 70262090 first post of the revert session still 41/17 (pre-fetch); paramRecal 1->3 (attr change + window
+  change each soft-recal'd). Next post should be 33/22.
