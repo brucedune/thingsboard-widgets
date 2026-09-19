@@ -78,3 +78,26 @@
 09/19 09:41:43 trial 72382714 http 200 -> {'gen2fw': 17103, 'allowTiFotaVer': 399} OK
 09/19 09:41:43 trial 72380700 http 200 -> {'allowTiFotaVer': 399, 'gen2fw': 17103} OK
 09/19 09:41:43 done: 19 devices, mismatches 0
+09/19 09:41:44 TRIAL A 77057596 POST 09/19 09:42:54 fwVer=17102 fwVerTi=399 deviceState=Failed Cal bBootCount=58 blank=33 captureDuration=22 winFlags=3 winBlank=33 winMargin=0 winClipped=0 calCommitSd=0 paramRecal=0 gain=38 upamp=232 tnormStddev=0 tiWdReset=0 tiCmdTx=4 tiCmdAck=2 tiCmdRetry=0 tiCmdLost=0 tifota_lastFailedVer=0 tifota_bsl_err=0 tifota_bsl_passwd_err=0 tiBootCnt=3 -> 17102/399 but Failed Cal
+09/19 09:49:16 ROLLBACK allowTiFotaVer 399 -> 398 on bench six + rig + 13 trial (v399 TI crash loop: tiBootCnt +20 in 25 min, ST boots flat)
+09/19 09:49:16 77058339 http 200 -> {'allowTiFotaVer': 398, 'gen2fw': 17103} OK
+09/19 09:49:17 72714092 http 200 -> {'gen2fw': 17103, 'allowTiFotaVer': 398} OK
+09/19 09:49:17 70262090 http 200 -> {'gen2fw': 17103, 'allowTiFotaVer': 398} OK
+09/19 09:49:17 72378456 http 200 -> {'gen2fw': 17103, 'allowTiFotaVer': 398} OK
+09/19 09:49:18 72390592 http 200 -> {'allowTiFotaVer': 398, 'gen2fw': 17103} OK
+09/19 09:49:18 79454912 http 200 -> {'gen2fw': 17103, 'allowTiFotaVer': 398} OK
+09/19 09:49:18 3063-rig http 200 -> {'gen2fw': 17097, 'allowTiFotaVer': 398} OK
+09/19 09:49:18 77057596 http 200 -> {'gen2fw': 17103, 'allowTiFotaVer': 398} OK
+09/19 09:49:19 79466379 http 200 -> {'allowTiFotaVer': 398, 'gen2fw': 17103} OK
+09/19 09:49:19 70261894 http 200 -> {'gen2fw': 17103, 'allowTiFotaVer': 398} OK
+09/19 09:49:19 70266141 http 200 -> {'allowTiFotaVer': 398, 'gen2fw': 17103} OK
+09/19 09:49:19 77052258 http 200 -> {'allowTiFotaVer': 398, 'gen2fw': 17103} OK
+09/19 09:49:20 72720263 http 200 -> {'gen2fw': 17103, 'allowTiFotaVer': 398} OK
+09/19 09:49:20 72382805 http 200 -> {'allowTiFotaVer': 398, 'gen2fw': 17103} OK
+09/19 09:49:20 75372530 http 200 -> {'allowTiFotaVer': 398, 'gen2fw': 17103} OK
+09/19 09:49:21 72389347 http 200 -> {'allowTiFotaVer': 398, 'gen2fw': 17103} OK
+09/19 09:49:21 72715362 http 200 -> {'allowTiFotaVer': 398, 'gen2fw': 17103} OK
+09/19 09:49:21 72379827 http 200 -> {'gen2fw': 17103, 'allowTiFotaVer': 398} OK
+09/19 09:49:21 72382714 http 200 -> {'gen2fw': 17103, 'allowTiFotaVer': 398} OK
+09/19 09:49:22 72380700 http 200 -> {'allowTiFotaVer': 398, 'gen2fw': 17103} OK
+09/19 09:49:22 rollback done: 20 devices, mismatches 0

@@ -2810,3 +2810,16 @@ runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is no
 - 09:41 TB WRITES (Bruce "pin bench and trial to 17103"): bench six + 13 trial units gen2fw 17102 -> 17103 (TI 399 unchanged), read back.
 - 09:42 RIG FLASHED 17103 loud lean (Bruce "run on bucket"; INFO sd 51 ps taken as pump off), verified, reset 09:41:54; TI 399. Pass = ONE A8 per install, no second "win fixed push" after a TI boot, acks first try.
 - 09:45 RIG 17103/399 install: AE ack, ONE "win fixed push", A9 ack try 1, ONE A8 ack (09:43:26), A4 ack try 1 (09:44:35) = Metering. Gate dedupe confirmed; every frame first try.
+
+### 9/19 09:52 — v399 TI CRASH LOOP: ROOT CAUSE + ROLLBACK TO 398
+- Every v399 TI rebooted on its own: bench tiBootCnt 70262090 3->23, 72378456 3->31, 72390592 3->24, 72714092 3->6, rig
+  5->19 in ~25 min with ST boot counts flat. Rig log: each crash sits right after "ti ack A4" (START_DATA + 0x96 flush),
+  then garbage bytes ("TI checksum fail len=2 cmd=A5: 00 A5", 00 FE, 00 FF, 00 FC, 00 00), ~60 s of INFO silence with
+  framing errors, then a TI cold boot (INFO s0 l00, window still in FRAM) = watchdog reset.
+- CAUSE: v399's mid-blob yield ran dune_attn_listen() INSIDE Comm_sendBuffedPackets' packet loop; the 0x96 handler
+  (Handler_req_app_req_update) calls Comm_sendBuffedPackets() when g_stReady -> re-entrant walk of packetBuffer ->
+  corrupted stream -> hang -> WDT. The 09:23:43 "pump start" reset was this too.
+- ROLLBACK 09:49 (TB writes, read back OK x20): allowTiFotaVer 399 -> 398 on bench six, rig, 13 trial units. 398 = one
+  INFO per burst, no mid-blob parse (parse latency up to a blob period, covered by 17102's 20 s ack window).
+- v400: Comm_sendBuffedPackets re-entrancy guard (nested call refused + remembered) and the mid-blob yield becomes a
+  plain STOP (return, rest of blob next cycle, INFO/EOT skipped) - parsing only ever happens at app level.
