@@ -2831,3 +2831,10 @@ runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is no
 - Pass on the rig: tiBootCnt flat for >= 1 h with the pump running (sessions + flushes every few minutes), batches
   acked, no garbage-frame lines ("TI checksum fail len=2 cmd=A5/FE/FF") after "ti ack A4".
 - 10:14 TB WRITE (Bruce "pin bench to 400"): bench six allowTiFotaVer 398 -> 400 (read back); water held until the rig has ~1 h clean on v400 so each unit flashes once, straight to 400. Trial 13 stay on 398.
+
+### 9/19 10:41 — v400 HOLDING: bench five + rig, TI boot counts flat
+- Bench five took 400 at ~10:18-10:20 (pinned 10:14): 17103/400, 33/22 held, clipped 0; tiBootCnt 3 flat across 4-5 posts
+  each through 10:38 (v399 had +5..+28 in the same span), retries since pickup +0 on all five; lost counts frozen at the
+  v399-era values (77058339 1, 72714092 1, 72378456 2). Rig 17103/400 since 10:02:53: tiBootCnt 3 flat, 0 garbage frames,
+  0 short/lost, but only 1 session + 1 flush so far (pump state per Bruce).
+- Recommendation: move the 13 trial units 398 -> 400 (they have not flashed a TI since the pins; one flash straight to 400).
