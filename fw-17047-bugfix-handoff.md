@@ -2712,3 +2712,9 @@ runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is no
 - 75372530 correction (Bruce): already flagged "No Water" = True; last water event 9/06 12:27 = the day its TI went silent.
   Empty pipe, not coupling - the TI is back and will find the signal inside the fixed 32/19 window on its off-pipe
   retry when water returns (v397 keeps the window through off-pipe). 72382805 "No Water" False, last event 9/18.
+
+### 9/19 07:52 — TB WRITES (Bruce "pin the VB TI silent group"): 3 more Virginia Beach TI-silent units -> 17100/397/cip 480
+- Cohort by DEVICE GROUP ("Virginia Beach HOA - Cust" + "Virginia Beach", 251 members): TI Silent / TI 0 = 4; 72389347 already
+  pinned last night; new pins on 72379827 (17037, last TI 344, offline since 9/02), 72382714 (17037, TI FOTA to 344 failed,
+  blank pin 33 left), 72380700 (17040, bBootCount 5,867 + tiBoot 126 = crash-looper, last TI 354). All last-TI in BSL
+  family B. 72382805 + 75372530 (pinned last night) are back: metering / No Water. Audit lines in field_trial_17100_0918.log.
