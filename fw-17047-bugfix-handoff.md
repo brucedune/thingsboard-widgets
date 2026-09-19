@@ -2644,3 +2644,9 @@ runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is no
 - Release 104,320 B -> st-prod G/17101; loud lean 109,596 B for the rig. Not yet on any device.
 - Direction for the next revs (Bruce): a peripheral supervisor pattern - per subsystem health check + re-init
   ladder + counters (SPI flash done; TI UART, BG95 UART/radio, I2C, RTC/clocks to follow), reboot last.
+
+### 9/18 19:33 — RIG FLASHED 17101 LOUD LEAN (Bruce "bucket ready" / "pump off"; INFO sd 109 ps before the flash)
+- SWD write build_17101_lean_loud (109,596 B) verified, reset 19:33:23. TI stays 397 (no TI change in 17101). Expect: window
+  41/18 held from FRAM (no 0xAE on a software/probe... note: probe connect = PIN reset = fresh install -> 0xAE -> re-push),
+  no 0x80 floor frame after the TI boot, and any bad marker read now logs "sf marker ... -> spi reinit -> ..." instead of
+  rebooting. Bench stays on 17100/397 overnight (one variable at a time).
