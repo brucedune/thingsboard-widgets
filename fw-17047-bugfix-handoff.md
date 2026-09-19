@@ -2601,3 +2601,5 @@ FIX (ST 17091, spec): (1) wd reset path: after ti_update_and_start(), queue TIW_
   INFO-on-dispatch is 101 B (was 97); the 5 ms gap (17096) was marginal. => Rev 17100: gap 15 ms.
 - 70262090 first post of the revert session still 41/17 (pre-fetch); paramRecal 1->3 (attr change + window
   change each soft-recal'd). Next post should be 33/22.
+
+### 9/18 18:51 — TB WRITE (Bruce "pin them"): bench five gen2fw 17100 + allowTiFotaVer 397 (SHARED, read back). 79454912 stays 17097/395. Two water runs to pick up.
