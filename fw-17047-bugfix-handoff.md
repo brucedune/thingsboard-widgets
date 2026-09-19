@@ -2541,7 +2541,7 @@ FIX (ST 17091, spec): (1) wd reset path: after ti_update_and_start(), queue TIW_
   < ~1.5 us => treat as a miss -> adaptive fallback + WinF_Fallback (+ report the margin in INFO).
 - 70262090 still M / 1 (flow constants wrong) - REVERT to P / 3/4 when Bruce says the test is done.
 
-### 9/18 18:40 — tofA "LATEST" IS A FOSSIL ON 52% OF GEN2 (Bruce: "the time series is the correct value")
+### 9/18 18:22 — tofA "LATEST" IS A FOSSIL ON 52% OF GEN2 (Bruce: "the time series is the correct value")
 - Bruce flagged that the dashboard/latest tofA disagrees with the time series. Verified: on 77058339, 72378456,
   72390592 and the rig the latest tofA/tofB/flowRate/tofNorm/temp_ext_c/temp_int_c row carries a timestamp in
   the year 4811-4882 (e.g. 91631718460064). TB's latest-value store keeps the max-ts row, so those keys are
@@ -2563,10 +2563,21 @@ FIX (ST 17091, spec): (1) wd reset path: after ti_update_and_start(), queue TIW_
   then the 4,217 (sizing run fossil_latest_dryrun.py -> Claude Data/fossil_latest_dryrun_0918.csv). Plus a
   rule-chain guard (reject ts > now + 1 d) so a bad device clock can never shadow latest again.
 
-### 9/18 18:47 — FOSSIL-LATEST CLEANUP: trial OK on 77058339, FLEET RUN STARTED (Bruce "should be corrected fleet wide" + "go")
+### 9/18 18:29 — FOSSIL-LATEST CLEANUP: trial OK on 77058339, FLEET RUN STARTED (Bruce "should be corrected fleet wide" + "go")
 - Trial 77058339: 4 DELETE range calls (tofNorm/tofA/flowRate/tofB @91631718460064; eventMeterDelta/
   eventDurationSeconds/eventAverageFlow @2365118181000; peakBinVal @2365114330000; temp_ext_c/temp_int_c
   @91631718443064), all http 200 with rewriteLatestIfDeleted=true -> latest re-derived to today's real rows
   (tofA 39.65 @18:09:31, temps @18:11:21). No future-dated key left.
 - Fleet: fossil_fix_fleet.py over all 8,947 Gen2 (any key with latest ts > now + 1 d, grouped by ts, same
   DELETE), detached; per-device audit lines in Claude Data/fossil_fix_fleet_0918.log.
+
+### 9/18 18:31 — 72378456 + 72390592 fossils cleared on request; TIME-SERIES table basis (60-device samples, 7 d quiet medians)
+- (Two handoff headers above were stamped 18:40/18:47 from a wrong clock estimate; corrected to 18:22/18:29.)
+- 72378456: 6 fossil keys -> tofA 39.65 @18:09:47, temps @18:11:10. 72390592: 6 -> tofA 39.73 @18:09:45. Both clean.
+- Real per-class quiet-median tofA (Claude Data/fleet_tofa_series_sample_0918.txt): X 3/4 35.3-39.3 med 36.3 (44 dev);
+  P 3/4 35.0-45.7 med 39.4 p90 43.1 (48) = BROAD with a 41-45 tail (10 of 48), not bimodal; X 1/2 28.1-31.5 med 29.6;
+  C 3/4 34.8-45.6 med 37.1; M 3/4 36.9-44.6 med 38.8; M 1/2 30.1-37.0 med 32.0; M 1 44.9-47.0 med 45.3 (+1 at 24.9);
+  X 1 39.8-48.6 med 43.6; P 1 39.6-49.5 med 46.2; L 3/4 32.4-45.6 two groups = keep the row empty.
+- Table check vs the 17098 rows: all rows cover their class's range; tighten in the next ST rev: M 1 capture
+  17 -> 18 (47.0 + 12 = 59), X 1 capture 22 -> 24 (48.6 + 12 = 60.6). P 3/4 33/22 leaves the 35.0 unit 2 us of
+  margin and the 45.7 unit 9 us of tail - the v397 clipped-onset detector is the guard for those few.
