@@ -2676,3 +2676,14 @@ runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is no
   C TI silent: 72382805, 75372530, 72389347 (Virginia Beach), 72715362 Running Springs.
 - Expect: ST at the next session (daily ~04-10 or within 8 h via checkInPeriod), TI 397 + window the session after.
   Watch: deviceState, blank/captureDuration, winFlags/winMargin/winClipped, tiCmdLost, tifota_* errors on group C.
+
+### 9/18 20:23 — FLEET FOSSIL-LATEST CLEANUP DONE
+- 8,947 Gen2 scanned (1 h 52 min), 4,432 devices fixed, 34,767 fossil latest rows removed via 14,186 range DELETEs with
+  rewriteLatestIfDeleted, 0 read errors. Keys: tofNorm/tofA/flowRate/tofB 4,214 each, eventDurationSeconds/
+  eventAverageFlow 3,041, eventMeterDelta 3,036, noFlowRef 2,716, peakBinVal 2,241, temp_ext_c/temp_int_c 1,748,
+  tiErrorCode 146, mvfInterim 38, ts 38, meterValFlash 37, adcUPS/adcDNS 32, tiConfigErrorCode 16, dailyConsumption 1.
+- 10 devices still carry future-dated EVENT keys (layered rows weeks ahead = a fast device clock, not the x1000 wrap;
+  deleting one exposes the next, left alone on purpose): 65822010, 65831185 (peakBinVal), 70261589, 70263395,
+  70270754, 70273345, 72380171, 75362366, 75363661, 75369437 (eventMeterDelta/eventDurationSeconds/eventAverageFlow).
+  Bruce's call: delete all rows > now+1 d on those keys, or leave until the rule-chain guard exists.
+- Full per-device audit: Claude Data/fossil_fix_fleet_0918.log.
