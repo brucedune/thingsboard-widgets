@@ -2667,3 +2667,12 @@ runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is no
   absent blank/captureDuration/pulses in a fetch clears that mirror field (same fix as 17097's recalibrate re-arm).
 - Interim (needs Bruce's OK, TB writes): set captureDuration = 15 (the cal's own tight capture) on the four confirmed
   units so the re-push becomes harmless at tomorrow's session; delete blank+capture pins after 17102 is on them.
+
+### 9/18 20:08 — TB WRITES (Bruce "go"): FIELD TRIAL 17100/397 on ten roll-regression units (audit: Claude Data/field_trial_17100_0918.log)
+- Pins on all ten (SHARED, http 200, read back OK): gen2fw 17100, allowTiFotaVer 397, checkInPeriod 480.
+  A fixed-window: 77057596 The Oaks (P 3/4, arrival 42.0 -> row 33/22), 79466379 Shady Lane (X 3/4, 35.8 -> 32/19, first on this row).
+  B capture-pin victims (+ captureDuration 15; blank pins left): 70261894 Roosevelt (was pinned 17080/392 = a NEVER-ROLL ST pin,
+  now cleared), 70266141 Crystal Acres, 77052258 Holly Tree, 72720263 8 OnElaine.
+  C TI silent: 72382805, 75372530, 72389347 (Virginia Beach), 72715362 Running Springs.
+- Expect: ST at the next session (daily ~04-10 or within 8 h via checkInPeriod), TI 397 + window the session after.
+  Watch: deviceState, blank/captureDuration, winFlags/winMargin/winClipped, tiCmdLost, tifota_* errors on group C.
