@@ -2784,3 +2784,10 @@ runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is no
 - NOTE for the capture-pin units: once on 17102 the blank/captureDuration pins can be DELETED and will stay gone.
 
 ### 9/19 09:11 — TB WRITES (Bruce "pin bench and trial to 17102/399"): bench six + 13 trial units gen2fw 17102, allowTiFotaVer 399 (SHARED, read back; audit lines in field_trial_17100_0918.log). Bench keeps its pace via water runs; trial units land at their 480 min / daily sessions. Rig stays 17101/399 until the pump is off for SWD.
+
+### 9/19 09:12 — RIG FLASHED 17102 LOUD LEAN (pump off, sd 73); TRIAL A 79466379 RECOVERED ON THE PEX ROW
+- SWD write build_17102_lean_loud (110,084 B) verified, reset 09:12:13; TI 399 already on the rig. Watch: boot session
+  should show the window push, gate ack, NO A4/0x96 repeat flood after the first INFO (17102), no "ti batch short".
+- 79466379 Shady Lane (gate-loop victim, tiWdReset 224, PEX 3/4): 08:55 still 17088/391 Calibrating -> 08:59:59
+  17100/397 METERING in the FIXED 32/19 window (first field unit on the PEX row): margin 3.33 us, commit 258 ps,
+  upamp 828, metering sd 53, paramRecal 0, winClipped 0. One session pair from a 224-reset gate loop to metering.
