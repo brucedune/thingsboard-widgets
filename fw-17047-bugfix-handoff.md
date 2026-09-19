@@ -2743,3 +2743,9 @@ runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is no
   instructions to implement immediately." => TI v398: recorded command while ATTN held = INFO owed, not sent;
   dune_attn_listen() (replaces both ATTN listen loops) flushes one INFO when ATTN drops or after 25 ms of bus idle with
   ATTN still held (compatible with ST <= 17101 that holds ATTN through the ack wait). 0xA3 still answered at once.
+
+### 9/19 08:18 — TI v398 BUILT + UPLOADED + RIG PINNED
+- Dune_FW_TI cal-reacq, tag v398, pushed; LPM/Dune_FW_TI.txt.bin 53,460 B (pack crc d196b0de) -> s3://dune-firmware-ti/msp398.bin.
+- TB WRITE: rig allowTiFotaVer 397 -> 398 (ST stays 17101 loud lean; ATTN held through the ack wait -> the 25 ms idle
+  flush path is what gets exercised). Pass = every post-session batch shows the four frames dispatched with ONE INFO and
+  "ti ack A9 try 1"; the "ti seq N last X want A9" mismatch lines should disappear. Bench roll of 398 on Bruce's go.
