@@ -2844,3 +2844,8 @@ runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is no
   (P 3/4, arrival 42.0): 09:35 still 17088/391 (Metering, sd 2,022, wd 68) -> 09:42 17102/399 FAILED CAL in the fixed 33/22
   window, upamp 232 (was 637 at gain 48). It is now on the crashing v399 until its next session (<= 480 min) flashes 400;
   judge the fixed-window result on that re-cal, not this one.
+- 10:56 "Cal-init wait cadence" item CLOSED, no TI change: the app loop paces at gap_ups_ups = 200 ms (fast pacing shorter),
+  and v400 parses after every wait, so a frame is read within ~200 ms once the TI is running. The 45 s gate latency at
+  09:24 was the v399 crash (TI hung then WDT). On v400 the only latency is TI boot-time init: window pushed 10:02:59 at
+  the TI's 2nd boot INFO (ua0 = not yet measuring) was parsed 10:03:11 with the re-push, then batch + gate acked in the
+  same pass; 12 s, inside the 20 s ack window.
