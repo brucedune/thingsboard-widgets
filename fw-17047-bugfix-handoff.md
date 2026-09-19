@@ -2497,3 +2497,9 @@ FIX (ST 17091, spec): (1) wd reset path: after ti_update_and_start(), queue TIW_
   blank/captureDuration pin or unset class. Status keys winFlags/winBlank/calCommitSd. Loud INFO line +w/wb/cs.
 - Rig plan: SWD loud lean 17098 (pump off, flow < 0.5) -> boot session takes TI 396 (pin set 17:45) -> 0xAF
   41/17 (rig = M 1") -> 5 recals + 2 probe resets must hold 41/17; then bench (P 3/4 = 33/22) after Bruce's OK.
+
+### 9/18 17:51 — TB WRITE (Bruce "bench devices ready"): bench five pinned 17098 / 396
+- gen2fw 17098 + allowTiFotaVer 396 (SHARED, http 200 x5, read back) on 77058339 72714092 70262090 72378456
+  72390592. 79454912 stays 17097/395 (Bruce's current-consumption unit). Bench class PVC 3/4 -> table 33/22.
+- Watcher watch_bench_17098.py -> Claude Data/bench_17098_pickup_0918.log: verdict per post (FIXED HELD =
+  17098/396 Metering, blank 33, capture 22, winFlags bit1; FALLBACK = bit2). Rig flash still pending pump off.
