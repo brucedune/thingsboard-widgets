@@ -2782,3 +2782,5 @@ runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is no
 - Release 104,752 B (7,888 free) -> st-prod G/17102; loud lean 110,084 B (2,556 free - the lean image is near the slot ceiling).
 - Not on any device yet: rig needs pump off for SWD; bench/trial pins on Bruce's go. Pairs with TI v399.
 - NOTE for the capture-pin units: once on 17102 the blank/captureDuration pins can be DELETED and will stay gone.
+
+### 9/19 09:11 — TB WRITES (Bruce "pin bench and trial to 17102/399"): bench six + 13 trial units gen2fw 17102, allowTiFotaVer 399 (SHARED, read back; audit lines in field_trial_17100_0918.log). Bench keeps its pace via water runs; trial units land at their 480 min / daily sessions. Rig stays 17101/399 until the pump is off for SWD.

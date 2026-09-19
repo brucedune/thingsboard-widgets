@@ -24,3 +24,34 @@
 09/19 07:52:11 C-VB 72379827 (682a1ea0-98ec-11f0-b5af-5dfa9891b485) was ST 17037 lastTI 344 pins {'No Water': False, 'pipeType': 'X', 'gen2fw': 17060, 'allowTiFotaVer': 368} -> http 200 after {'gen2fw': 17100, 'allowTiFotaVer': 397, 'checkInPeriod': 480} OK
 09/19 07:52:12 C-VB 72382714 (502a39d0-98e6-11f0-b5af-5dfa9891b485) was ST 17037 lastTI 344 pins {'No Water': False, 'blank': 33, 'pipeType': 'X'} -> http 200 after {'blank': 33, 'gen2fw': 17100, 'allowTiFotaVer': 397, 'checkInPeriod': 480} OK
 09/19 07:52:12 C-VB 72380700 (2f8e62b0-8486-11f0-8b4a-0d0197d44616) was ST 17040 lastTI 354 pins {'No Water': False, 'pipeType': 'X', 'allowTiFotaVer': 354, 'gen2fw': 17040} -> http 200 after {'allowTiFotaVer': 397, 'gen2fw': 17100, 'checkInPeriod': 480} OK
+09/19 07:53:44 TRIAL watch start; baseline post times 77057596@09/18 08:14:39, 79466379@09/18 09:04:20, 70261894@09/18 13:03:32, 70266141@09/19 07:33:39, 77052258@09/19 07:09:28, 72720263@09/18 10:13:18, 72382805@09/19 07:33:16, 75372530@09/19 06:54:42, 72389347@09/18 09:03:49, 72715362@09/18 10:47:20, 72379827@09/02 08:11:33, 72382714@09/18 19:21:48, 72380700@09/19 07:14:40
+09/19 08:08:48 TRIAL C 75372530 POST 09/19 08:07:57 fwVer=17100 fwVerTi=397 deviceState=Metering bBootCount=133 blank=32 captureDuration=19 winFlags=3 winBlank=32 winMargin=4.001 winClipped=0 calCommitSd=262 paramRecal=0 gain=28 upamp=682 tnormStddev=100 tiWdReset=0 tiCmdTx=32 tiCmdAck=29 tiCmdRetry=1 tiCmdLost=0 tifota_lastFailedVer=0 tifota_bsl_err=0 tifota_bsl_passwd_err=3 tiBootCnt=2 -> METERING on 17100/397 fixed 32/19 margin 4.001 clipped 0
+09/19 08:38:59 TRIAL C 72715362 POST 09/19 08:39:19 fwVer=17088 fwVerTi=391 deviceState=Failed Cal bBootCount=83 blank=30 captureDuration=30 winFlags=- winBlank=- winMargin=- winClipped=- calCommitSd=- paramRecal=0 gain=55 upamp=473 tnormStddev=0 tiWdReset=0 tiCmdTx=- tiCmdAck=- tiCmdRetry=- tiCmdLost=- tifota_lastFailedVer=0 tifota_bsl_err=0 tifota_bsl_passwd_err=0 tiBootCnt=159 
+09/19 08:44:01 TRIAL C 72715362 POST 09/19 08:45:00 fwVer=17100 fwVerTi=397 deviceState=Failed Cal bBootCount=85 blank=33 captureDuration=22 winFlags=3 winBlank=33 winMargin=0 winClipped=0 calCommitSd=0 paramRecal=0 gain=55 upamp=407 tnormStddev=0 tiWdReset=0 tiCmdTx=3 tiCmdAck=2 tiCmdRetry=0 tiCmdLost=0 tifota_lastFailedVer=0 tifota_bsl_err=0 tifota_bsl_passwd_err=0 tiBootCnt=3 -> 17100/397 but Failed Cal
+09/19 08:49:02 TRIAL C 72715362 POST 09/19 08:49:14 fwVer=17100 fwVerTi=397 deviceState=Failed Cal bBootCount=85 blank=33 captureDuration=22 winFlags=3 winBlank=33 winMargin=0 winClipped=0 calCommitSd=0 paramRecal=0 gain=26 upamp=3971 tnormStddev=0 tiWdReset=0 tiCmdTx=4 tiCmdAck=2 tiCmdRetry=0 tiCmdLost=0 tifota_lastFailedVer=0 tifota_bsl_err=0 tifota_bsl_passwd_err=0 tiBootCnt=3 -> 17100/397 but Failed Cal
+09/19 08:54:03 TRIAL A 79466379 POST 09/19 08:55:13 fwVer=17088 fwVerTi=391 deviceState=Calibrating bBootCount=30 blank=0 captureDuration=0 winFlags=- winBlank=- winMargin=- winClipped=- calCommitSd=- paramRecal=1 gain=40 upamp=0 tnormStddev=0 tiWdReset=224 tiCmdTx=- tiCmdAck=- tiCmdRetry=- tiCmdLost=- tifota_lastFailedVer=0 tifota_bsl_err=0 tifota_bsl_passwd_err=0 tiBootCnt=164 
+09/19 08:54:04 TRIAL C 72389347 POST 09/19 08:55:11 fwVer=17088 fwVerTi=0 deviceState=TI Silent bBootCount=2150 blank=0 captureDuration=0 winFlags=- winBlank=- winMargin=- winClipped=- calCommitSd=- paramRecal=0 gain=0 upamp=0 tnormStddev=0 tiWdReset=0 tiCmdTx=- tiCmdAck=- tiCmdRetry=- tiCmdLost=- tifota_lastFailedVer=391 tifota_bsl_err=0 tifota_bsl_passwd_err=0 tiBootCnt=0 
+09/19 08:59:05 TRIAL A 79466379 POST 09/19 08:59:59 fwVer=17100 fwVerTi=397 deviceState=Metering bBootCount=32 blank=32 captureDuration=19 winFlags=3 winBlank=32 winMargin=3.328 winClipped=0 calCommitSd=258 paramRecal=0 gain=35 upamp=828 tnormStddev=53 tiWdReset=0 tiCmdTx=4 tiCmdAck=2 tiCmdRetry=0 tiCmdLost=0 tifota_lastFailedVer=0 tifota_bsl_err=0 tifota_bsl_passwd_err=0 tiBootCnt=3 -> METERING on 17100/397 fixed 32/19 margin 3.328 clipped 0
+09/19 08:59:06 TRIAL C 72389347 POST 09/19 08:58:29 fwVer=17100 fwVerTi=0 deviceState=TI Silent bBootCount=2152 blank=0 captureDuration=0 winFlags=0 winBlank=0 winMargin=0 winClipped=0 calCommitSd=0 paramRecal=0 gain=0 upamp=0 tnormStddev=0 tiWdReset=0 tiCmdTx=0 tiCmdAck=0 tiCmdRetry=0 tiCmdLost=0 tifota_lastFailedVer=397 tifota_bsl_err=0 tifota_bsl_passwd_err=2 tiBootCnt=0 -> ST landed, TI still 0
+09/19 09:04:08 TRIAL C 75372530 POST 09/19 09:04:38 fwVer=17100 fwVerTi=397 deviceState=Metering bBootCount=133 blank=32 captureDuration=19 winFlags=3 winBlank=32 winMargin=4.006 winClipped=0 calCommitSd=262 paramRecal=0 gain=28 upamp=689 tnormStddev=79 tiWdReset=0 tiCmdTx=34 tiCmdAck=30 tiCmdRetry=2 tiCmdLost=0 tifota_lastFailedVer=0 tifota_bsl_err=0 tifota_bsl_passwd_err=3 tiBootCnt=2 -> METERING on 17100/397 fixed 32/19 margin 4.006 clipped 0
+09/19 09:10:55 PINS -> 17102/399 (Bruce 'pin bench and trial to 17102/399')
+09/19 09:10:55 bench 77058339 http 200 -> {'allowTiFotaVer': 399, 'gen2fw': 17102} OK
+09/19 09:10:55 bench 72714092 http 200 -> {'gen2fw': 17102, 'allowTiFotaVer': 399} OK
+09/19 09:10:55 bench 70262090 http 200 -> {'gen2fw': 17102, 'allowTiFotaVer': 399} OK
+09/19 09:10:56 bench 72378456 http 200 -> {'gen2fw': 17102, 'allowTiFotaVer': 399} OK
+09/19 09:10:56 bench 72390592 http 200 -> {'allowTiFotaVer': 399, 'gen2fw': 17102} OK
+09/19 09:10:56 bench 79454912 http 200 -> {'checkInPeriod': 480, 'gen2fw': 17102, 'allowTiFotaVer': 399} OK
+09/19 09:10:56 trial 77057596 http 200 -> {'checkInPeriod': 480, 'gen2fw': 17102, 'allowTiFotaVer': 399} OK
+09/19 09:10:57 trial 79466379 http 200 -> {'checkInPeriod': 480, 'allowTiFotaVer': 399, 'gen2fw': 17102} OK
+09/19 09:10:57 trial 70261894 http 200 -> {'checkInPeriod': 480, 'gen2fw': 17102, 'allowTiFotaVer': 399} OK
+09/19 09:10:57 trial 70266141 http 200 -> {'checkInPeriod': 480, 'allowTiFotaVer': 399, 'gen2fw': 17102} OK
+09/19 09:10:58 trial 77052258 http 200 -> {'checkInPeriod': 480, 'allowTiFotaVer': 399, 'gen2fw': 17102} OK
+09/19 09:10:58 trial 72720263 http 200 -> {'gen2fw': 17102, 'checkInPeriod': 480, 'allowTiFotaVer': 399} OK
+09/19 09:10:58 trial 72382805 http 200 -> {'checkInPeriod': 480, 'allowTiFotaVer': 399, 'gen2fw': 17102} OK
+09/19 09:10:58 trial 75372530 http 200 -> {'checkInPeriod': 480, 'allowTiFotaVer': 399, 'gen2fw': 17102} OK
+09/19 09:10:59 trial 72389347 http 200 -> {'checkInPeriod': 480, 'allowTiFotaVer': 399, 'gen2fw': 17102} OK
+09/19 09:10:59 trial 72715362 http 200 -> {'checkInPeriod': 480, 'allowTiFotaVer': 399, 'gen2fw': 17102} OK
+09/19 09:10:59 trial 72379827 http 200 -> {'gen2fw': 17102, 'allowTiFotaVer': 399, 'checkInPeriod': 480} OK
+09/19 09:11:00 trial 72382714 http 200 -> {'gen2fw': 17102, 'allowTiFotaVer': 399, 'checkInPeriod': 480} OK
+09/19 09:11:00 trial 72380700 http 200 -> {'allowTiFotaVer': 399, 'gen2fw': 17102, 'checkInPeriod': 480} OK
+09/19 09:11:00 done: 19 devices, mismatches 0
