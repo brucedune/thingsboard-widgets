@@ -2581,3 +2581,12 @@ FIX (ST 17091, spec): (1) wd reset path: after ti_update_and_start(), queue TIW_
 - Table check vs the 17098 rows: all rows cover their class's range; tighten in the next ST rev: M 1 capture
   17 -> 18 (47.0 + 12 = 59), X 1 capture 22 -> 24 (48.6 + 12 = 60.6). P 3/4 33/22 leaves the 35.0 unit 2 us of
   margin and the 45.7 unit 9 us of tail - the v397 clipped-onset detector is the guard for those few.
+
+### 9/18 18:43 — TI v397 + ST 17099 BUILT (Bruce "keep the fixed window, no adaptive blank - if it fails we address on the backend")
+- TI v397 (cal-reacq 7ddf25b, tag v397, msp397.bin 53,360 B, pack crc 5dd19936): the v396 no-signal fallback is
+  removed; dune_blank_lock_clear() is a no-op while FIXED (off-pipe / scan cannot drop the window); only 0xAE or
+  0xAF flags 0 release it. WinF_Fallback never set.
+- ST 17099 (stuck-event-fix, release 103,860 B -> st-prod G/17099; loud lean 109,140 B): status keys winMargin
+  (tofA - blank, us) + winClipped (fixed && margin < 1.5); first v396+ INFO from a not-metering TI without the
+  table window queues one override push (0xAF ahead of the install cal after a TI FOTA); table Cu M 1" 41/18,
+  PEX 1" 37/24. Bench roll to 17099/397 and the rig flash await Bruce's go / pump-off check.
