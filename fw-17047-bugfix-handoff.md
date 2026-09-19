@@ -2749,3 +2749,5 @@ runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is no
 - TB WRITE: rig allowTiFotaVer 397 -> 398 (ST stays 17101 loud lean; ATTN held through the ack wait -> the 25 ms idle
   flush path is what gets exercised). Pass = every post-session batch shows the four frames dispatched with ONE INFO and
   "ti ack A9 try 1"; the "ti seq N last X want A9" mismatch lines should disappear. Bench roll of 398 on Bruce's go.
+
+### 9/19 08:24 — TB WRITE (Bruce "pin the bench to 398"): bench six allowTiFotaVer 397 -> 398 (SHARED, read back); gen2fw stays 17100. Picks up at the next water event / check-in; the TI FOTA is a fresh install -> window re-pushed, one extra cal.
