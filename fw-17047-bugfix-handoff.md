@@ -2540,3 +2540,25 @@ FIX (ST 17091, spec): (1) wd reset path: after ti_update_and_start(), queue TIW_
   0.06 us (healthy fixed windows: 2.8-6.6 us here, rig 2). => TI v397: on a fixed window, (tofA_us - blank)
   < ~1.5 us => treat as a miss -> adaptive fallback + WinF_Fallback (+ report the margin in INFO).
 - 70262090 still M / 1 (flow constants wrong) - REVERT to P / 3/4 when Bruce says the test is done.
+
+### 9/18 18:40 — tofA "LATEST" IS A FOSSIL ON 52% OF GEN2 (Bruce: "the time series is the correct value")
+- Bruce flagged that the dashboard/latest tofA disagrees with the time series. Verified: on 77058339, 72378456,
+  72390592 and the rig the latest tofA/tofB/flowRate/tofNorm/temp_ext_c/temp_int_c row carries a timestamp in
+  the year 4811-4882 (e.g. 91631718460064). TB's latest-value store keeps the max-ts row, so those keys are
+  frozen at a stale value (35.8-36.1 us) while the real series reads 39.5-39.6 (bench) and 45.76 (rig).
+- ROOT CAUSE (verified arithmetically on 4,216 of 4,217 affected devices): ts = (unix_s * 1e6) mod 2^48 =
+  the pre-17035 QLTS "* 1000" bug (tiTime = unix_s*1e6, truncated to the 48-bit timeLS/timeMS record
+  header). Reconstructed record dates: 2026-02 55, 03 719, 04 1,391, 05 1,648, 06 398 (+4 in 2023-08).
+  Rev 17035 (2026-08-11) removed the cause; the fossils stay in ts_kv_latest forever. Fleet: 4,217 of 8,145
+  Gen2 with a tofA (52%). Range queries cannot see the rows (partition beyond the horizon) - only latest.
+- Separate smaller fossils: eventMeterDelta/eventDurationSeconds/eventAverageFlow/peakBinVal latest at
+  2044-2105 (ts 2.36e12-4.28e12) on 77058339 + rig = another pre-sync clock path (not the x1000). TBD.
+- CONSEQUENCES: (a) my 9/18 fleet tofA-by-class table used LATEST values -> the 35-37 "second cluster" on
+  PVC 3/4 and part of every tail are fossils -> bimodality claim RETRACTED pending the time-series sample
+  (tofa_series_sample.py, running); (b) bench "arrivals 35.8-36.1" were fossils -> real margins to blank 33
+  are ~6.5 us on all four PVC units; rig margin 45.76-41 = 4.8 us -> the M 1" row 41/17 stands (no 40/18);
+  (c) every dashboard reading of latest tofA/flowRate/tofNorm/temps on half the fleet is a spring-2026 value.
+- FIX PLAN (needs Bruce's go, TB writes): per affected device, DELETE timeseries range [ts-1, ts+1] for the
+  fossil keys with rewriteLatestIfDeleted=true so TB re-derives latest from real data; trial on 77058339 first,
+  then the 4,217 (sizing run fossil_latest_dryrun.py -> Claude Data/fossil_latest_dryrun_0918.csv). Plus a
+  rule-chain guard (reject ts > now + 1 d) so a bad device clock can never shadow latest again.
