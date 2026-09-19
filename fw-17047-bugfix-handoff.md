@@ -2617,3 +2617,5 @@ FIX (ST 17091, spec): (1) wd reset path: after ti_update_and_start(), queue TIW_
   reset 19:02:14. Expect: boot session takes TI 397, 0xAF 41/17 re-pushed after the fresh install, then post-session
   batches with the 15 ms gap must show "ti ack A9 try 1" (was try 2/3 on 5 ms). 79454912 deliberately left on
   17097/395 as the current-draw reference (Bruce asked; offered to move it).
+
+### 9/18 19:02 — TB WRITE (Bruce "new build"): 79454912 gen2fw 17097->17100, allowTiFotaVer 395->397 (SHARED, read back) for the current-draw measurement on the fixed window (Cu M 3/4 -> 34/21). checkInPeriod 480 untouched; picks up at its next session.
