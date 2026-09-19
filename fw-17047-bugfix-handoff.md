@@ -2515,3 +2515,12 @@ FIX (ST 17091, spec): (1) wd reset path: after ti_update_and_start(), queue TIW_
 - Open for this build: (a) 5 recalibrate cycles + a power cycle must return 33/22 with winFlags 3 (next);
   (b) fallback test with a wrong pipesize on one unit; (c) current draw on 79454912 (17097/395 today) with
   capture 22 vs 15 before any fleet decision; (d) rig 17098 loud lean flash still pending pump off.
+
+### 9/18 18:05 — RIG FLASHED 17098 LOUD LEAN (Bruce "pump off"); 70262090 -> M 1" for the fallback test
+- Rig INFO sd 64-94 ps (pump off confirmed by noise), TI already 396 (took the 17:45 pin in its 17:49/18:01
+  sessions). SWD write build_17098_lean_loud (109,292 B) 0x08004800 verified, reset 18:04:59; Bootloader 2.0 boot
+  18:05:00, RADIO INIT 18:05:06. Watcher watch_rig_17098.py -> Claude Data/rig_17098_0918.log (expects 41/17 w03).
+- TB WRITE (Bruce "mag resetting - will you set one to 1\" M"): 70262090 SHARED pipeType P->M, pipesize 3/4->1
+  (http 200, read back). Table row M 1" = 41/17 on a PVC 3/4 pipe (arrival ~39.6 us) => the fixed window
+  misses the signal => expected WinF_Fallback + adaptive blank. REVERT to P / 3/4 after the test (flow math
+  on that unit is wrong meanwhile). Other four expected back at 33/22 after the magnet resets.
