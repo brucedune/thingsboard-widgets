@@ -2718,3 +2718,21 @@ runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is no
   pinned last night; new pins on 72379827 (17037, last TI 344, offline since 9/02), 72382714 (17037, TI FOTA to 344 failed,
   blank pin 33 left), 72380700 (17040, bBootCount 5,867 + tiBoot 126 = crash-looper, last TI 354). All last-TI in BSL
   family B. 72382805 + 75372530 (pinned last night) are back: metering / No Water. Audit lines in field_trial_17100_0918.log.
+
+### 9/19 08:06 — FRAME-LOSS INVESTIGATION (rig loud log, 12 override batches since the 17101 flash)
+- Only 1 of 12 batches delivered all four frames (AB E0 8A A9) on the first pass. Drops by frame: AB 0/12, E0 6/12, 8A 6/12,
+  A9 3/12. P(drop | previous frame dispatched) 0.46 vs P(drop | previous dropped) 0.33. The ST's per-batch ack (armed on
+  the LAST frame only) declared 6 of 12 batches delivered on pass 1, and in 5 of those a MIDDLE frame (E0 piezo pair / 8A
+  offset) was missing = SILENT LOSS the counters never show.
+- ROOT CAUSE (self-inflicted, v395): INFO-on-dispatch. The TI answers every recorded command with a full INFO
+  (~110 B on the wire) at the link's 57,600 baud = ~19 ms of transmit, during which its RX is not serviced; the ST's next
+  frame arrives TC + 15 ms later -> collides ~half the time (5 ms gap: always). The first frame always lands because the
+  TI is idle after the ATTN wake. duneInfoSend() -> Comm_writePacket() is NOT gated by ATTN (blob transmits are).
+- SIDE FINDING: after a fresh install the CAL_HOLD loop (Rev 17077) repeats 0x96 + 0xA4 every 5 s while hciConfigState
+  != SUCCESS; "Config update: no response" is printed at every boot on v39x, so the loop runs the whole hold: 13 A4 at
+  19:34, 30 A4 at 22:30 (cmdSeq 8 -> 37). Pure traffic; should stop once the TI has answered (INFO seen / A4 acked).
+- FIX OPTIONS: (B, recommended) TI v398: while ATTN is held, record cmdSeq/lastCmd but DEFER the INFO until ATTN drops
+  (one INFO per batch; the batch's last-frame ack still works); ST 17102: compare the cmdSeq advance with the number
+  of frames sent and re-send the batch when short -> every drop becomes visible. (C, stopgap in 17102) gap 15 -> 30 ms.
+  (A) per-frame ack flow control on the ST = bigger change, not needed if B lands. Plus 17102: stop the 17077 repeat
+  once the TI has answered.
