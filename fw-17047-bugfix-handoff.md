@@ -2487,3 +2487,13 @@ FIX (ST 17091, spec): (1) wd reset path: after ti_update_and_start(), queue TIW_
   INFO +4 B (winFlags/winBlank/calCommitSd, payload cap 104); Default: retry pass never overwrites a lock.
 - TB WRITE: rig '3063 allowTiFotaVer 395 -> 396 (SHARED, http 200). Rig ST is 17097 (no 0xAF yet) so v396
   runs the Default path there until ST 17098 lands via SWD. Rig sessions are pump-event driven.
+
+### 9/18 17:50 — ST REV 17098 BUILT + UPLOADED (fixed-window table -> TI v396)
+- DuneFW_L5_2 stuck-event-fix 6c80aacc, pushed. Release build_17098 104,060 B (8,580 free) -> st-prod G/17098
+  (6 chunks); loud lean build_17098_lean_loud 109,292 B for the rig (SWD, pending pump off).
+- Content: windowTable[dia][type] (M 1/2 27/20, X 1/2 25/19, M 3/4 34/21, P 3/4 33/22, X+x 3/4 32/19, C 3/4
+  32/22, M 1 41/17, P 1 36/24, X+x 1 37/22; all other cells empty = Default), pushed as 0xAF to TI >= 396
+  only when the TI's INFO does not already show that fixed window, never after WINF_FALLBACK, released on a
+  blank/captureDuration pin or unset class. Status keys winFlags/winBlank/calCommitSd. Loud INFO line +w/wb/cs.
+- Rig plan: SWD loud lean 17098 (pump off, flow < 0.5) -> boot session takes TI 396 (pin set 17:45) -> 0xAF
+  41/17 (rig = M 1") -> 5 recals + 2 probe resets must hold 41/17; then bench (P 3/4 = 33/22) after Bruce's OK.
