@@ -2611,3 +2611,9 @@ FIX (ST 17091, spec): (1) wd reset path: after ti_update_and_start(), queue TIW_
   3 of 5 at 1). Fresh counters: retries 0, lost 0. 70262090 revert confirmed earlier (33/22, tofA back to 39.61).
 - Next: post-session pushes on the 15 ms gap - expect A9 acked on try 1 (rig log) and tiCmdRetry flat on the bench;
   overnight soak; rig flash 17100 loud lean + TI 397 when the pump is off; current draw on 79454912.
+
+### 9/18 19:02 — RIG FLASHED 17100 LOUD LEAN + PINNED TI 397 (Bruce "pump off"; INFO sd 132 ps before the flash)
+- TB WRITE: rig allowTiFotaVer 396 -> 397 (SHARED, http 200). SWD write build_17100_lean_loud (109,140 B) verified,
+  reset 19:02:14. Expect: boot session takes TI 397, 0xAF 41/17 re-pushed after the fresh install, then post-session
+  batches with the 15 ms gap must show "ti ack A9 try 1" (was try 2/3 on 5 ms). 79454912 deliberately left on
+  17097/395 as the current-draw reference (Bruce asked; offered to move it).
