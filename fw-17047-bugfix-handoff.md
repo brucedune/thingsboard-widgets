@@ -2562,3 +2562,11 @@ FIX (ST 17091, spec): (1) wd reset path: after ti_update_and_start(), queue TIW_
   fossil keys with rewriteLatestIfDeleted=true so TB re-derives latest from real data; trial on 77058339 first,
   then the 4,217 (sizing run fossil_latest_dryrun.py -> Claude Data/fossil_latest_dryrun_0918.csv). Plus a
   rule-chain guard (reject ts > now + 1 d) so a bad device clock can never shadow latest again.
+
+### 9/18 18:47 — FOSSIL-LATEST CLEANUP: trial OK on 77058339, FLEET RUN STARTED (Bruce "should be corrected fleet wide" + "go")
+- Trial 77058339: 4 DELETE range calls (tofNorm/tofA/flowRate/tofB @91631718460064; eventMeterDelta/
+  eventDurationSeconds/eventAverageFlow @2365118181000; peakBinVal @2365114330000; temp_ext_c/temp_int_c
+  @91631718443064), all http 200 with rewriteLatestIfDeleted=true -> latest re-derived to today's real rows
+  (tofA 39.65 @18:09:31, temps @18:11:21). No future-dated key left.
+- Fleet: fossil_fix_fleet.py over all 8,947 Gen2 (any key with latest ts > now + 1 d, grouped by ts, same
+  DELETE), detached; per-device audit lines in Claude Data/fossil_fix_fleet_0918.log.
