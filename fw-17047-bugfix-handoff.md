@@ -2762,3 +2762,13 @@ runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is no
 - Bruce's bus rule holds: ATTN high = TI listens/executes, transmits nothing; one INFO after the burst.
 - Still to build (ST 17102): cmdSeq-advance == frames-sent check with batch re-send; stop the 17077 0x96+A4 5 s repeat
   once the TI has answered; plus the SPI report-not-reboot + pin-mirror items pending Bruce's scope call.
+
+### 9/19 08:57 — v398 RESIDUAL RETRY = batch landing mid-blob; TI v399 BUILT + UPLOADED + RIG PINNED
+- Rig 08:45 and 08:54 (v398): "ovr push" coincided with the TI's blob (18 aggregate lines + INFO + EOT at the same
+  stamp); the first frame was parsed (INFO lAB), the other three sat in the 192 B RX ring until the NEXT blob's
+  pre-transmit listen 16 s later; the ST timed out at 8 s, re-sent, and both batches acked back to back (seq 29 lA9,
+  30 lAB, 31 l8A, 32 lA9). Also: after an LPM3 wait (ATTN low at decision time) v394-398 never parsed - only the LPM0
+  branch did. Bench third run: 2 of 10 pushes needed one retry = the same mechanism.
+- v399 (cal-reacq, tag v399, 53,500 B, pack crc 4c363fd9 -> msp399.bin): ATTN checked before every blob packet ->
+  dune_attn_listen() mid-blob; USSLibGUIApp_Delay parses after every wait when ATTN is up or RX bytes wait
+  (dune_rx_pending). TB WRITE: rig allowTiFotaVer 398 -> 399. Bench to 399 on Bruce's go.
