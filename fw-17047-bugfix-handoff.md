@@ -2736,3 +2736,10 @@ runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is no
   of frames sent and re-send the batch when short -> every drop becomes visible. (C, stopgap in 17102) gap 15 -> 30 ms.
   (A) per-frame ack flow control on the ST = bigger change, not needed if B lands. Plus 17102: stop the 17077 repeat
   once the TI has answered.
+
+### 9/19 08:17 — Bruce: "17100/397 pass current test" (79454912, fixed window Cu M 3/4 = 34/21, capture 21 vs 15 before).
+  => the wider capture is not a battery problem; current draw is no longer a gate on the fixed-window roll.
+- Bruce's bus rule (9/19): "TI operations should be held if the ST has the bus and is transferring; ST comms are
+  instructions to implement immediately." => TI v398: recorded command while ATTN held = INFO owed, not sent;
+  dune_attn_listen() (replaces both ATTN listen loops) flushes one INFO when ATTN drops or after 25 ms of bus idle with
+  ATTN still held (compatible with ST <= 17101 that holds ATTN through the ack wait). 0xA3 still answered at once.
