@@ -1,0 +1,210 @@
+
+== ('X', '3/4') n=2557 quiet(<150ps,N>=20)=0  TI ver top: [('344', 908), ('296', 350), ('209', 343), ('314', 299)]
+   23 us:    1   | quiet 0
+   24 us:    1   | quiet 0
+   28 us:    2   | quiet 0
+   29 us:   12   | quiet 0
+   30 us:    8   | quiet 0
+   31 us:    1   | quiet 0
+   32 us:   12   | quiet 0
+   33 us:    8   | quiet 0
+   34 us:   19   | quiet 0
+   35 us:  466 ###############  | quiet 0
+   36 us: 1553 ##################################################  | quiet 0
+   37 us:  324 ##########  | quiet 0
+   38 us:   45 #  | quiet 0
+   39 us:   33 #  | quiet 0
+   40 us:   43 #  | quiet 0
+   41 us:   17   | quiet 0
+   42 us:    5   | quiet 0
+   43 us:    4   | quiet 0
+   44 us:    1   | quiet 0
+   45 us:    1   | quiet 0
+   46 us:    1   | quiet 0
+   all: tofA p5 35.5 p25 36.1 med 36.4 p75 36.8 p95 38.3 | live blank med 33 | pinned blank [('33', 435), ('35', 7), ('34', 3)]
+
+== ('P', '3/4') n=1281 quiet(<150ps,N>=20)=5  TI ver top: [('314', 317), ('344', 260), ('209', 218), ('296', 157)]
+   25 us:    2   | quiet 0
+   26 us:    1   | quiet 0
+   28 us:    1   | quiet 0
+   29 us:    6   | quiet 0
+   34 us:    3   | quiet 0
+   35 us:   37 ###  | quiet 1
+   36 us:   83 ########  | quiet 2
+   37 us:   35 ###  | quiet 0
+   38 us:  179 #################  | quiet 0
+   39 us:  539 #####################################################  | quiet 2
+   40 us:  140 ##############  | quiet 0
+   41 us:  118 ###########  | quiet 0
+   42 us:   81 ########  | quiet 0
+   43 us:   19 #  | quiet 0
+   44 us:   14 #  | quiet 0
+   45 us:   19 #  | quiet 0
+   46 us:    4   | quiet 0
+   all: tofA p5 36.2 p25 39.0 med 39.4 p75 40.5 p95 42.8 | live blank med 35 | pinned blank [('35', 153), ('33', 40), ('38', 7)]
+   quiet: tofA p5 35.8 p25 36.1 med 36.1 p75 39.2 p95 39.6 | live blank med 33 | pinned blank []
+
+== ('X', '1/2') n=638 quiet(<150ps,N>=20)=0  TI ver top: [('344', 203), ('314', 97), ('209', 86), ('260', 86)]
+   24 us:    2   | quiet 0
+   25 us:    1   | quiet 0
+   27 us:    6   | quiet 0
+   28 us:   66 ########  | quiet 0
+   29 us:  425 #####################################################  | quiet 0
+   30 us:   94 ###########  | quiet 0
+   31 us:   15 #  | quiet 0
+   32 us:    5   | quiet 0
+   33 us:    7   | quiet 0
+   34 us:    3   | quiet 0
+   35 us:    5   | quiet 0
+   36 us:    4   | quiet 0
+   37 us:    2   | quiet 0
+   39 us:    1   | quiet 0
+   41 us:    1   | quiet 0
+   44 us:    1   | quiet 0
+   all: tofA p5 28.8 p25 29.3 med 29.5 p75 29.9 p95 31.7 | live blank med 26.0 | pinned blank [('25', 47), ('33', 6), ('32', 3)]
+
+== ('C', '3/4') n=390 quiet(<150ps,N>=20)=0  TI ver top: [('254', 137), ('314', 86), ('296', 50), ('344', 38)]
+   29 us:    1   | quiet 0
+   30 us:    3 #  | quiet 0
+   34 us:    1   | quiet 0
+   35 us:   26 #############  | quiet 0
+   36 us:  129 ################################################################  | quiet 0
+   37 us:  121 ############################################################  | quiet 0
+   38 us:   24 ############  | quiet 0
+   39 us:   39 ###################  | quiet 0
+   40 us:   18 #########  | quiet 0
+   41 us:   11 #####  | quiet 0
+   42 us:    9 ####  | quiet 0
+   43 us:    4 ##  | quiet 0
+   44 us:    2 #  | quiet 0
+   45 us:    1   | quiet 0
+   46 us:    1   | quiet 0
+   all: tofA p5 35.8 p25 36.7 med 37.1 p75 38.5 p95 41.8 | live blank med 30.0 | pinned blank [('33', 16), ('35', 2), ('32', 2)]
+
+== ('M', '3/4') n=212 quiet(<150ps,N>=20)=0  TI ver top: [('296', 83), ('344', 40), ('314', 33), ('260', 15)]
+   24 us:    1 #  | quiet 0
+   27 us:    1 #  | quiet 0
+   28 us:    2 ##  | quiet 0
+   29 us:    4 ####  | quiet 0
+   30 us:    3 ###  | quiet 0
+   31 us:    1 #  | quiet 0
+   32 us:    1 #  | quiet 0
+   33 us:    1 #  | quiet 0
+   34 us:    2 ##  | quiet 0
+   35 us:    4 ####  | quiet 0
+   36 us:   14 ##############  | quiet 0
+   37 us:   43 ###########################################  | quiet 0
+   38 us:   70 ######################################################################  | quiet 0
+   39 us:   36 ####################################  | quiet 0
+   40 us:   11 ###########  | quiet 0
+   41 us:    5 #####  | quiet 0
+   42 us:    4 ####  | quiet 0
+   43 us:    4 ####  | quiet 0
+   44 us:    4 ####  | quiet 0
+   46 us:    1 #  | quiet 0
+   all: tofA p5 30.8 p25 37.7 med 38.4 p75 39.3 p95 42.5 | live blank med 35.0 | pinned blank [('36', 9), ('35', 9), ('33', 9)]
+
+== ('', '') n=105 quiet(<150ps,N>=20)=0  TI ver top: [('102', 24), ('159', 19), ('131', 12), ('149', 6)]
+   24 us:    2 ##  | quiet 0
+   26 us:    2 ##  | quiet 0
+   28 us:    1 #  | quiet 0
+   29 us:    4 ####  | quiet 0
+   30 us:    2 ##  | quiet 0
+   31 us:    2 ##  | quiet 0
+   32 us:    2 ##  | quiet 0
+   33 us:    1 #  | quiet 0
+   34 us:    5 #####  | quiet 0
+   35 us:   24 ########################  | quiet 0
+   36 us:   17 #################  | quiet 0
+   37 us:    6 ######  | quiet 0
+   38 us:   14 ##############  | quiet 0
+   39 us:    5 #####  | quiet 0
+   40 us:    5 #####  | quiet 0
+   41 us:    4 ####  | quiet 0
+   42 us:    3 ###  | quiet 0
+   43 us:    1 #  | quiet 0
+   44 us:    2 ##  | quiet 0
+   45 us:    1 #  | quiet 0
+   46 us:    2 ##  | quiet 0
+   all: tofA p5 29.6 p25 35.3 med 36.3 p75 38.8 p95 43.9 | live blank med 25 | pinned blank []
+
+== ('P', '1/2') n=89 quiet(<150ps,N>=20)=0  TI ver top: [('344', 36), ('314', 21), ('209', 9), ('260', 6)]
+   27 us:    2 ##  | quiet 0
+   28 us:    2 ##  | quiet 0
+   29 us:    3 ###  | quiet 0
+   30 us:    6 ######  | quiet 0
+   31 us:    5 #####  | quiet 0
+   32 us:    5 #####  | quiet 0
+   33 us:    2 ##  | quiet 0
+   34 us:    7 #######  | quiet 0
+   35 us:   14 ##############  | quiet 0
+   36 us:   12 ############  | quiet 0
+   37 us:   20 ####################  | quiet 0
+   38 us:    2 ##  | quiet 0
+   39 us:    2 ##  | quiet 0
+   40 us:    1 #  | quiet 0
+   41 us:    3 ###  | quiet 0
+   42 us:    2 ##  | quiet 0
+   45 us:    1 #  | quiet 0
+   all: tofA p5 29.8 p25 33.0 med 36.0 p75 37.4 p95 41.6 | live blank med 31 | pinned blank [('33', 7), ('28', 3), ('30', 1)]
+
+== ('M', '1/2') n=82 quiet(<150ps,N>=20)=0  TI ver top: [('296', 26), ('209', 17), ('260', 17), ('344', 8)]
+   29 us:    1 #  | quiet 0
+   30 us:   19 ###################  | quiet 0
+   31 us:   30 ##############################  | quiet 0
+   32 us:   15 ###############  | quiet 0
+   33 us:    9 #########  | quiet 0
+   34 us:    3 ###  | quiet 0
+   35 us:    3 ###  | quiet 0
+   36 us:    1 #  | quiet 0
+   38 us:    1 #  | quiet 0
+   all: tofA p5 30.3 p25 31.0 med 31.7 p75 32.6 p95 35.1 | live blank med 25.0 | pinned blank [('25', 3), ('27', 1), ('22', 1)]
+
+== ('M', '1') n=51 quiet(<150ps,N>=20)=1  TI ver top: [('344', 22), ('296', 11), ('260', 6), ('343', 5)]
+   29 us:    1 #  | quiet 0
+   30 us:    1 #  | quiet 0
+   36 us:    1 #  | quiet 1
+   41 us:    1 #  | quiet 0
+   44 us:   12 ############  | quiet 0
+   45 us:   31 ###############################  | quiet 0
+   46 us:    3 ###  | quiet 0
+   47 us:    1 #  | quiet 0
+   all: tofA p5 36.1 p25 44.9 med 45.3 p75 45.7 p95 46.3 | live blank med 40 | pinned blank [('40', 14), ('42', 1)]
+   quiet: tofA p5 36.1 p25 36.1 med 36.1 p75 36.1 p95 36.1 | live blank med 43 | pinned blank []
+
+== ('L', '3/4') n=32 quiet(<150ps,N>=20)=0  TI ver top: [('344', 12), ('296', 6), ('260', 4), ('314', 2)]
+   34 us:    1 #  | quiet 0
+   36 us:    1 #  | quiet 0
+   37 us:    1 #  | quiet 0
+   38 us:    1 #  | quiet 0
+   40 us:    1 #  | quiet 0
+   41 us:    1 #  | quiet 0
+   42 us:    1 #  | quiet 0
+   43 us:    2 ##  | quiet 0
+   44 us:   14 ##############  | quiet 0
+   45 us:    8 ########  | quiet 0
+   46 us:    1 #  | quiet 0
+   all: tofA p5 36.3 p25 43.5 med 44.4 p75 45.4 p95 45.8 | live blank med 35.5 | pinned blank [('40', 4), ('38', 1), ('33', 1)]
+
+== ('X', '1') n=30 quiet(<150ps,N>=20)=0  TI ver top: [('314', 9), ('209', 8), ('344', 6), ('320', 3)]
+   39 us:    2 ##  | quiet 0
+   41 us:    2 ##  | quiet 0
+   42 us:   12 ############  | quiet 0
+   43 us:    6 ######  | quiet 0
+   44 us:    2 ##  | quiet 0
+   45 us:    3 ###  | quiet 0
+   46 us:    2 ##  | quiet 0
+   47 us:    1 #  | quiet 0
+   all: tofA p5 39.9 p25 42.4 med 43.0 p75 44.3 p95 47.0 | live blank med 39.0 | pinned blank [('40', 3)]
+
+== ('P', '1') n=24 quiet(<150ps,N>=20)=0  TI ver top: [('344', 6), ('314', 6), ('391', 6), ('159', 2)]
+   39 us:    4 ####  | quiet 0
+   40 us:    1 #  | quiet 0
+   41 us:    1 #  | quiet 0
+   42 us:    2 ##  | quiet 0
+   43 us:    1 #  | quiet 0
+   44 us:    1 #  | quiet 0
+   46 us:    7 #######  | quiet 0
+   47 us:    6 ######  | quiet 0
+   49 us:    1 #  | quiet 0
+   all: tofA p5 39.3 p25 42.6 med 46.4 p75 47.2 p95 48.0 | live blank med 40.0 | pinned blank [('40', 3), ('43', 1), ('42', 1)]
