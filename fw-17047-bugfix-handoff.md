@@ -2431,3 +2431,24 @@ FIX (ST 17091, spec): (1) wd reset path: after ti_update_and_start(), queue TIW_
   R1 fetch post -> delete key; next post = evidence (paramRecal +1, blank == pre -> LOCK HELD) and the
   absent-key re-arm fetch -> writes true again; R2 fetch -> delete; next post = RE-ARM VERIFIED / FAILED.
   Three water runs minimum; watcher deletes recalibrate after each fetch, nothing left pinned at the end.
+
+### 9/18 16:52 — ROUND 1 RESULT: recalibrate fired on all five; blank held on 3, noise gate moved 2
+- Evidence posts 16:52 (all Metering, paramRecal 0->1 on every unit, tiCmdLost 0): 77058339 blank 37->37,
+  72714092 36->36, 70262090 36->36 = LOCK HELD; 72378456 36->33 and 72390592 36->33 = exactly the v393
+  noise-gate step (CAL_COMMIT_NOISY_RETRY_US 3), not a lock failure.
+- Code path (Dune_FW_TI dune/cal.c): tighten applies the lock (blank = lock) -> grid commit; if best_sd >
+  300 ps the gate opens the window 3 us earlier and re-runs the grid; the second pass commits there and, if
+  its sd <= 300, dune_blank_lock_set() stores the NEW window (the "does not earn the lock" comment is only
+  true when the retry is also noisy). => the lock can walk -3 us per noisy recal. Design conflict with
+  Bruce's "lock the blank, it shouldn't wander"; options for v396: (a) retry pass never overwrites an
+  existing lock (minimal), (b) an existing lock suppresses the retry. Bruce to decide.
+- 72378456 tnormStddev 1779/2495 ps on the post-recal posts (was ~50) = the retry left it on a worse
+  window; 72390592 fine at 33 (sd 37/68). calBestStddev key is dead (always 0) so the commit sd is not
+  visible in TB; TI printf does not reach the ST log. Flow during the grids unknowable (synthetic record clock).
+- Retry counters during the ceremonies: 77058339 23/13/9/0, 72378456 18/10/7/0, 72390592 18/13/4/0,
+  72714092 14/11/2/0, 70262090 14/12/2/0 - frames to a TI mid-grid miss more than to a metering TI; all acked.
+- Round 2 (latch re-arm): recalibrate=true re-written on all five at 16:50:55-57 by the watcher (http 200);
+  round 2 also answers whether the two locks moved to 33 (stay 33) or keep walking (30).
+- Cross-check vs bench-regression-summary-0918.md (8c63606): its two strugglers 72714092 + 72378456.
+  72378456 = worst retrier today (3 of 7, then 7 during the ceremony) and one of the two noise-gate units;
+  72714092 = 0 retries in every counter window and lock held. One-of-two overlap, same as the cal-history read.
