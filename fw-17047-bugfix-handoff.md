@@ -2590,3 +2590,5 @@ FIX (ST 17091, spec): (1) wd reset path: after ti_update_and_start(), queue TIW_
   (tofA - blank, us) + winClipped (fixed && margin < 1.5); first v396+ INFO from a not-metering TI without the
   table window queues one override push (0xAF ahead of the install cal after a TI FOTA); table Cu M 1" 41/18,
   PEX 1" 37/24. Bench roll to 17099/397 and the rig flash await Bruce's go / pump-off check.
+
+### 9/18 18:44 — TB WRITE (Bruce "set bench device back to PVC 3/4"): 70262090 pipeType M->P, pipesize 1->3/4 (U+00BE, same as its siblings), http 200, read back. Next session: table row 33/22 replaces 41/17 (soft recal on the new window), winMargin back to ~6.5 us.
