@@ -2619,3 +2619,20 @@ FIX (ST 17091, spec): (1) wd reset path: after ti_update_and_start(), queue TIW_
   17097/395 as the current-draw reference (Bruce asked; offered to move it).
 
 ### 9/18 19:02 — TB WRITE (Bruce "new build"): 79454912 gen2fw 17097->17100, allowTiFotaVer 395->397 (SHARED, read back) for the current-draw measurement on the fixed window (Cu M 3/4 -> 34/21). checkInPeriod 480 untouched; picks up at its next session.
+
+### 9/18 19:19 — BENCH REFERENCE RUN on 17100/397: 10 min @ ~5 gpm, tank ~51 gal (Bruce)
+| unit | event gal | dur s | avg gpm | vs 51 | window | winMargin |
+| 77058339 | 51.26 | 591 | 5.20 | +0.5% | 33/22 | 6.87 |
+| 72714092 | 51.48 | 592 | 5.22 | +1.0% | 33/22 | 6.34 |
+| 70262090 | 51.16 | 591 | 5.19 | +0.3% | 33/22 | 6.27 |
+| 72378456 | 50.32 | 591 | 5.11 | -1.3% | 33/22 | 6.87 |
+| 72390592 | 51.71 | 591 | 5.25 | +1.4% | 33/22 | 6.95 |
+Spread 2.7 pp, all within +-1.5% of a ~51 gal tank reading (reference precision ~+-1 gal). First registration
+check on a fixed window. Post-run retry counters 1/0/0/1/1, lost 0 (15 ms gap: fewer retries than the 5 ms
+runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is not the whole story).
+- RIG SOFTWARE RESET 19:13:51 after the 19:12 session (boot flags PIN|SOFTWARE, reason NONE, crash 0,
+  bBootCount 2): not ST FOTA (no download, nvStfotaLatestDl 17091, SWITCH_APP would print), not a fault.
+  Prime suspect: 17036 sf-wedge heal reboot at radio-off (its DBG line may sit unflushed in the ring at reset).
+  Under investigation. Fixed window survived in TI FRAM; rig re-cal'd 41/18, Metering 19:15 commit 305.
+- Also seen: after a TI boot the ST pushes the dia floor as 0x80 = 38 because INFO reports blank 0 -> spurious
+  frame on a fixed-window unit (harmless: cal re-applies 41/18). 17101: skip the floor push when the table applies.
