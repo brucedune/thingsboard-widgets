@@ -2849,3 +2849,7 @@ runs but the rig still dropped 2 of 4 frames in its 19:08 batch -> spacing is no
   09:24 was the v399 crash (TI hung then WDT). On v400 the only latency is TI boot-time init: window pushed 10:02:59 at
   the TI's 2nd boot INFO (ua0 = not yet measuring) was parsed 10:03:11 with the re-push, then batch + gate acked in the
   same pass; 12 s, inside the 20 s ack window.
+- 11:03 Rig mid-flow sessions with the pump on (steady ~10.5 gpm) explained: 10:25 = LARGE EVENT alarm radio
+  (largeEventRadioCnt 1, _alarmCnt 1, hasAlarm 'LARGE EVENT'); 10:47 = event cap (2 x eventTimeout ~ 2,400 s) force-ended a
+  420.75 gal / 2,416 s event -> radioOnEventEnd session, new event opened under continuous flow; 10:58 = the new event
+  crossing the large-event chunk again (alarm override). Bruce called both mechanisms. Not a fault.
