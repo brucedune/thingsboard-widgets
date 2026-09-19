@@ -2473,3 +2473,9 @@ FIX (ST 17091, spec): (1) wd reset path: after ti_update_and_start(), queue TIW_
 - Proposed v396 (Bruce to decide): (1) make the commit sd + lock value visible (calBestStddev live, or
   lock/sd in INFO) BEFORE changing policy; (2) retry pass never overwrites an existing lock; optionally
   (3) an existing lock suppresses the noise-gate retry. Watcher log: Claude Data/bench_recal_lock_0918.log.
+
+### 9/18 17:22 — TB WRITE (Bruce "Set 79454912"): control unit joins 17097/395
+- 79454912 SHARED_SCOPE was gen2fw 17091 / allowTiFotaVer 393 / checkInPeriod 480 (SERVER_SCOPE empty).
+  Wrote gen2fw 17097 + allowTiFotaVer 395 (http 200, read back OK); checkInPeriod 480 untouched. Bruce uses
+  this unit for production-build current-consumption checks; picks up at its next 8 h session (last post 11:51).
+  No recalibrate on it. Bench six now all pinned 17097/395.
