@@ -55,3 +55,26 @@
 09/19 09:11:00 trial 72382714 http 200 -> {'gen2fw': 17102, 'allowTiFotaVer': 399, 'checkInPeriod': 480} OK
 09/19 09:11:00 trial 72380700 http 200 -> {'allowTiFotaVer': 399, 'gen2fw': 17102, 'checkInPeriod': 480} OK
 09/19 09:11:00 done: 19 devices, mismatches 0
+09/19 09:11:35 TRIAL watch start; baseline post times 77057596@09/18 08:14:39, 79466379@09/19 08:59:59, 70261894@09/18 13:03:32, 70266141@09/19 07:33:39, 77052258@09/19 07:09:28, 72720263@09/18 10:13:18, 72382805@09/19 07:33:16, 75372530@09/19 09:04:38, 72389347@09/19 08:58:29, 72715362@09/19 08:49:14, 72379827@09/02 08:11:33, 72382714@09/18 19:21:48, 72380700@09/19 07:14:40
+09/19 09:36:43 TRIAL A 77057596 POST 09/19 09:35:39 fwVer=17088 fwVerTi=391 deviceState=Metering bBootCount=56 blank=36 captureDuration=15 winFlags=- winBlank=- winMargin=- winClipped=- calCommitSd=- paramRecal=2 gain=48 upamp=637 tnormStddev=2022 tiWdReset=68 tiCmdTx=- tiCmdAck=- tiCmdRetry=- tiCmdLost=- tifota_lastFailedVer=0 tifota_bsl_err=0 tifota_bsl_passwd_err=3 tiBootCnt=134 
+09/19 09:41:38 PINS -> gen2fw 17103 (Bruce 'pin bench and trial to 17103'); allowTiFotaVer stays 399
+09/19 09:41:38 bench 77058339 http 200 -> {'allowTiFotaVer': 399, 'gen2fw': 17103} OK
+09/19 09:41:38 bench 72714092 http 200 -> {'gen2fw': 17103, 'allowTiFotaVer': 399} OK
+09/19 09:41:39 bench 70262090 http 200 -> {'gen2fw': 17103, 'allowTiFotaVer': 399} OK
+09/19 09:41:39 bench 72378456 http 200 -> {'gen2fw': 17103, 'allowTiFotaVer': 399} OK
+09/19 09:41:39 bench 72390592 http 200 -> {'allowTiFotaVer': 399, 'gen2fw': 17103} OK
+09/19 09:41:39 bench 79454912 http 200 -> {'gen2fw': 17103, 'allowTiFotaVer': 399} OK
+09/19 09:41:40 trial 77057596 http 200 -> {'gen2fw': 17103, 'allowTiFotaVer': 399} OK
+09/19 09:41:40 trial 79466379 http 200 -> {'allowTiFotaVer': 399, 'gen2fw': 17103} OK
+09/19 09:41:40 trial 70261894 http 200 -> {'gen2fw': 17103, 'allowTiFotaVer': 399} OK
+09/19 09:41:40 trial 70266141 http 200 -> {'allowTiFotaVer': 399, 'gen2fw': 17103} OK
+09/19 09:41:41 trial 77052258 http 200 -> {'allowTiFotaVer': 399, 'gen2fw': 17103} OK
+09/19 09:41:41 trial 72720263 http 200 -> {'gen2fw': 17103, 'allowTiFotaVer': 399} OK
+09/19 09:41:41 trial 72382805 http 200 -> {'allowTiFotaVer': 399, 'gen2fw': 17103} OK
+09/19 09:41:41 trial 75372530 http 200 -> {'allowTiFotaVer': 399, 'gen2fw': 17103} OK
+09/19 09:41:42 trial 72389347 http 200 -> {'allowTiFotaVer': 399, 'gen2fw': 17103} OK
+09/19 09:41:42 trial 72715362 http 200 -> {'allowTiFotaVer': 399, 'gen2fw': 17103} OK
+09/19 09:41:42 trial 72379827 http 200 -> {'gen2fw': 17103, 'allowTiFotaVer': 399} OK
+09/19 09:41:43 trial 72382714 http 200 -> {'gen2fw': 17103, 'allowTiFotaVer': 399} OK
+09/19 09:41:43 trial 72380700 http 200 -> {'allowTiFotaVer': 399, 'gen2fw': 17103} OK
+09/19 09:41:43 done: 19 devices, mismatches 0
