@@ -2503,3 +2503,15 @@ FIX (ST 17091, spec): (1) wd reset path: after ti_update_and_start(), queue TIW_
   72390592. 79454912 stays 17097/395 (Bruce's current-consumption unit). Bench class PVC 3/4 -> table 33/22.
 - Watcher watch_bench_17098.py -> Claude Data/bench_17098_pickup_0918.log: verdict per post (FIXED HELD =
   17098/396 Metering, blank 33, capture 22, winFlags bit1; FALLBACK = bit2). Rig flash still pending pump off.
+
+### 9/18 18:00 — BENCH FIVE ON 17098 / 396: FIXED WINDOW 33/22 HELD ON ALL FIVE
+- Pickup 17:54-17:59 (one water run): ST 17098 boot 17:56, TI 396 + fixed window in the boot session, all
+  five Metering by 17:58-18:00 with blank 33 / capture 22 / winFlags 3 (lock+fixed) / winBlank 33:
+  77058339 commitSd 156 tnorm sd 45; 72714092 330 / 89; 70262090 297 / 55; 72378456 226 / 51; 72390592 233 / 46.
+  tiCmdLost 0, retries 0 on the fresh counters. Two commits (330, 297) sat at the old 300 ps gate and were
+  NOT shifted - the fixed window did its job; both meter at 55-89 ps.
+- paramRecal 1 on three units: 0xAF arrived after their install cal had started -> soft restart on the fixed
+  window (one extra ~2 min ceremony at install). 72714092/70262090 got 0xAF before the cal -> 0.
+- Open for this build: (a) 5 recalibrate cycles + a power cycle must return 33/22 with winFlags 3 (next);
+  (b) fallback test with a wrong pipesize on one unit; (c) current draw on 79454912 (17097/395 today) with
+  capture 22 vs 15 before any fleet decision; (d) rig 17098 loud lean flash still pending pump off.
